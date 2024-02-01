@@ -19,7 +19,7 @@ import MyPage from "./pages/MyPage";
 
 function App() {
   return (
-    <>
+    <div className="App">
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signin" element={<SignUp />} />
@@ -42,7 +42,7 @@ function App() {
           <Route path="/productmanager" element={<ProductManager />} />
         </Route>
       </Routes>
-    </>
+    </div>
   );
 }
 export default App;
