@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Nav from "./components/common/Nav";
+import Nav from "./components/common/Header/Nav";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import SideNav from "./components/common/SideNav";
