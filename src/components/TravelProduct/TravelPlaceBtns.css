@@ -1,0 +1,7 @@
+.placeBtn:nth-child(5n) {
+  border-right: none;
+}
+
+.placeBtn:nth-child(n + 6) {
+  border-bottom: none;
+}
