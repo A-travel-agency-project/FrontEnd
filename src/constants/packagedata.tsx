@@ -75,3 +75,61 @@ export const packagedata = [
     ],
   },
 ];
+
+export const productListData = [
+  {
+    productId: "357",
+    start_date: "2023-10-12T07:51:01",
+    end_date: "2023-10-18T07:51:01",
+    remaining_quantity: 50,
+    airline: "대한항공12",
+    price: 50000000,
+    product_state: "RESERVATION_AVAILABLE",
+  },
+  {
+    productId: "135",
+    start_date: "2023-10-12T07:51:01",
+    end_date: "2023-10-18T07:51:01",
+    remaining_quantity: 50,
+    airline: "대한항공12",
+    price: 50000000,
+    product_state: "RESERVATION_AVAILABLE",
+  },
+  {
+    productId: "789",
+    start_date: "2023-10-12T07:51:01",
+    end_date: "2023-10-18T07:51:01",
+    remaining_quantity: 50,
+    airline: "대한항공12",
+    price: 50000000,
+    product_state: "RESERVATION_AVAILABLE",
+  },
+  {
+    productId: "456",
+    start_date: "2023-10-12T07:51:01",
+    end_date: "2023-10-18T07:51:01",
+    remaining_quantity: 50,
+    airline: "대한항공12",
+    price: 50000000,
+    product_state: "RESERVATION_AVAILABLE",
+  },
+  {
+    productId: "123",
+    start_date: "2023-10-12T07:51:01",
+    end_date: "2023-10-18T07:51:01",
+    remaining_quantity: 50,
+    airline: "대한항공12",
+    price: 50000000,
+    product_state: "RESERVATION_AVAILABLE",
+  },
+];
+
+export type ProductList = {
+  productId: string;
+  start_date: string;
+  end_date: string;
+  remaining_quantity: number;
+  airline: string;
+  price: number;
+  product_state: string;
+}[];

@@ -10,8 +10,8 @@ const TravelProduct = () => {
       <div className="flex flex-col justify-center grow max-w-[850px] mr-[12%] items-center">
         <TravelPlaceBtns />
         <div className="flex flex-col gap-[52px]">
-          {packagedata.map((data) => (
-            <PackageBox packageData={data} />
+          {packagedata.map((data, idx) => (
+            <PackageBox packageData={data} key={idx} />
           ))}
         </div>
       </div>

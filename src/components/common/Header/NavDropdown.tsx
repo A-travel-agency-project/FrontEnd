@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "./Nav.css";
 
 type NavDropdownProps = {
   handleMenuClose: () => void; // 함수 타입을 명시
@@ -32,7 +33,7 @@ const NavDropdown = ({ handleMenuClose }: NavDropdownProps) => {
   ];
 
   return (
-    <div className="absolute w-[826px] overflow-hidden bg-white z-10 top-full px-[35px] py-[24px] flex flex-row gap-[20px]">
+    <div className="absolute w-[826px] overflow-hidden bg-white z-10 top-full px-[35px] py-[24px] flex flex-row gap-[20px] shadow">
       {FULL_MENU_LIST.map((menu) => (
         <div key={menu.title} className="w-[82px]">
           <h2 className="text-main-color text-[14px] border-b-[1px] border-main-color mb-[10px]">

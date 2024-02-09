@@ -17,8 +17,9 @@ const TravelPlaceBtns = () => {
     <div className=" w-full max-w-[775px] overflow-hidden grid grid-cols-5 box-border border-[1px] border-main-color rounded-[25px] my-[33px]">
       {TRAVEL_PLACES.map((place) => (
         <button
+          key={place}
           type="button"
-          className=" placeBtn box-border bg-transparent p-[10px]
+          className=" placeBtn box-border bg-transparent p-[10px] text-sub-black
         cursor-pointer transition-colors duration-300 active:bg-main-color active:text-white
         hover:bg-main-color hover:text-white border-r-[1px] border-main-color border-b-[1px]"
         >
