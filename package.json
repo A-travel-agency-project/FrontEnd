@@ -13,6 +13,7 @@
     "@toast-ui/editor": "^3.2.2",
     "@toast-ui/editor-plugin-color-syntax": "^3.1.0",
     "@toast-ui/react-editor": "^3.2.3",
+    "@tanstack/react-table": "^8.11.8",
     "axios": "^1.6.7",
     "date-fns": "^3.3.1",
     "react": "^18.2.0",
@@ -21,7 +22,8 @@
     "react-js-pagination": "^3.0.3",
     "react-paginate": "^8.2.0",
     "react-router-dom": "^6.21.3",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "swiper": "^11.0.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
