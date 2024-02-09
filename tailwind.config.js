@@ -9,6 +9,7 @@ export default {
         "sub-black": "#3C3A36",
         "sub-red": "#FF0000",
         "sub-gray": "#707070",
+        "title-box": "#EAEAEA",
       },
     },
   },
