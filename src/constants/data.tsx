@@ -198,3 +198,14 @@ export const packageThumbnailTitle2 = ["썸네일4", "썸네일5", "썸네일6"]
 export const tagTitle = ["테마", "구성원", "비용", "시기"];
 export const packageTitle = ["호텔안내", "지역정보", "여행약관"];
 export const registSubTitle = ["숙소", "식사", "이동방법"];
+export const porductIcons = [
+  { title: "비행기 국적", labelFirst: "국내기", labelSecond: "해외기" },
+  { title: "인솔자 동행", labelFirst: "유", labelSecond: "무" },
+  { title: "쇼핑 유무", labelFirst: "유", labelSecond: "우" },
+  { title: "선택 관광 유무", labelFirst: "유", labelSecond: "무" },
+];
+export const productCost = [
+  { title1: "성인 총액", title2: "유류 할증료" },
+  { title1: "아동 총액", title2: "유류 할증료" },
+  { title1: "유아 총액", title2: "유류 할증료" },
+];

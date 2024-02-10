@@ -96,9 +96,11 @@ const ProductManager = () => {
           </div>
         </div>
       </div>
-      <button className="flex w-full justify-center items-center">
-        <span className="w-20 border mt-2 mb-5">검색하기</span>
-      </button>
+      <div className="flex w-full justify-center items-center">
+        <button className="w-20 border mt-2 mb-5">
+          <span>검색하기</span>
+        </button>
+      </div>
 
       <>
         <table className="table-auto w-full border-collapse border border-black">
