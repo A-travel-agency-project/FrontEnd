@@ -7,13 +7,13 @@ interface ProductCostProps {
 
 const ProductCost = ({ title1, title2 }: ProductCostProps) => {
   return (
-    <div className="flex border w-full">
-      <div className="flex">
-        <div className="whitespace-nowrap">{title1}</div>
+    <div className="flex border-b border-black w-full">
+      <div className="flex items-center">
+        <div className="whitespace-nowrap mx-5">{title1}</div>
         <input className="outline-none border" />
       </div>
-      <div className="flex ">
-        <div className="whitespace-nowrap">{title2}</div>
+      <div className="flex items-center">
+        <div className="whitespace-nowrap mx-5">{title2}</div>
         <input className="outline-none border" />
       </div>
     </div>

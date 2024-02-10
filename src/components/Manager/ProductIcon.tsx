@@ -9,13 +9,13 @@ interface ProductIconProps {
 const ProductIcon = ({ title, firstLabel, secondLabel }: ProductIconProps) => {
   return (
     <div className="flex border w-full">
-      <div className="ml-5 flex-grow">{title}</div>
-      <div className="flex-grow">
+      <div className="ml-5 w-40">{title}</div>
+      <div className="flex items-center">
         <input type="radio" name="check" value={firstLabel} />
-        {firstLabel}
+        <div className="w-20">{firstLabel}</div>
+        <input type="radio" name="check" value={secondLabel} />
+        <span>{secondLabel}</span>
       </div>
-      <input type="radio" name="check" value={secondLabel} />
-      {secondLabel}
     </div>
   );
 };
