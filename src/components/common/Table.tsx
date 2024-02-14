@@ -39,10 +39,10 @@ const Table = <T,>({
   return (
     <table className={tableStyle}>
       <thead className={theadStyle}>
-        {table.getHeaderGroups().map((headerGroup, idx) => (
-          <tr className={theadTrStyle} key={idx}>
-            {headerGroup.headers.map((header, idx) => (
-              <th key={idx} className={thStyle}>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <tr className={theadTrStyle} key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
+              <th key={header.id} className={thStyle}>
                 {header.isPlaceholder
                   ? null
                   : flexRender(
@@ -55,10 +55,10 @@ const Table = <T,>({
         ))}
       </thead>
       <tbody className={tbodyStyle}>
-        {table.getRowModel().rows.map((row, idx) => (
-          <tr key={idx} className={tbodyTrStyle}>
-            {row.getVisibleCells().map((cell, idx) => (
-              <td key={idx} className={tdStyle}>
+        {table.getRowModel().rows.map((row) => (
+          <tr key={row.id} className={tbodyTrStyle}>
+            {row.getVisibleCells().map((cell) => (
+              <td key={cell.id} className={tdStyle}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>
             ))}
