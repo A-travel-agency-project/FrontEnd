@@ -16,8 +16,7 @@ const SignUp = () => {
   const [phone, setPhone] = useState("");
   const [family, setFamily] = useState("");
   const [baby, setBaby] = useState("");
-  const [gender, setGender] = useState(""); // 남녀 라디오버튼
-
+  const [gender, setGender] = useState(""); 
   // debounce
   const debounceName = useDebounce(name, 300);
   const debounceBirth = useDebounce(birth, 300);

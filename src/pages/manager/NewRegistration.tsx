@@ -19,11 +19,11 @@ interface CountryData {
   value: string;
 }
 const NewRegistration = () => {
-  const [days, setDays] = useState([{ day: 1 }]);
+  const [days, setDays] = useState([{ day: 1, content:"" }]);
 
   const addDay = () => {
     const newDay = days.length + 1;
-    setDays([...days, { day: newDay }]);
+    setDays([...days, { day: newDay, content: "" }]);
   };
   const removeDay = () => {
     if (days.length > 1) {
@@ -31,6 +31,14 @@ const NewRegistration = () => {
       setDays(updatedDays);
     }
   };
+// 추가/삭제되는 에디터 onChange
+  const handleEditorChange = (index: number, content: string) => {
+    const updatedDays = [...days];
+    updatedDays[index].content = content;
+    setDays(updatedDays);
+  };
+
+
 
   return (
     <div className="w-full h-full">
@@ -137,7 +145,7 @@ const NewRegistration = () => {
                 <div className="bg-title-box px-5 whitespace-nowrap">제목</div>
                 <input className="w-full outline-none border" />
               </div>
-              <UiEditor />
+              <UiEditor onChange={(content)=>{ handleEditorChange(index,content)}}/>
               {registSubTitle.map((el) => {
                 return <RegistSubInput title={el} />;
               })}
@@ -147,7 +155,7 @@ const NewRegistration = () => {
       </div>
       <div>
         {packageTitle.map((el, index) => {
-          return <PackageEditorList key={index} title={el} />;
+          return <PackageEditorList key={index} title={el.name} label={el.label}/>;
         })}
       </div>
       <div className="flex flex-col justify-center items-center w-full">

@@ -196,7 +196,7 @@ export const productItems = [
 export const packageThumbnailTitle1 = ["썸네일1", "썸네일2", "썸네일3"];
 export const packageThumbnailTitle2 = ["썸네일4", "썸네일5", "썸네일6"];
 export const tagTitle = ["테마", "구성원", "비용", "시기"];
-export const packageTitle = ["호텔안내", "지역정보", "여행약관"];
+export const packageTitle = [{name:"호텔안내",label:"hotel_info"}, {name:"지역정보",label:"region_info"}, {name:"여행약관",label:"terms"}];
 export const registSubTitle = ["숙소", "식사", "이동방법"];
 export const porductIcons = [
   { title: "비행기 국적", labelFirst: "국내기", labelSecond: "해외기" },
