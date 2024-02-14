@@ -97,7 +97,7 @@ const SignUp = () => {
               placeholder="이름"
               onChange={handleInputChange}
             />
-            {isValidName ? <SignUpPopup /> : <div>x</div>}
+            {isValidName ? <SignUpPopup text="올바른 형식입니다." check="v"/> : <SignUpPopup text="잘못 된 형식입니다." check="x"/>}
           </div>
           <div className="flex justify-between items-center pl-16 w-full">
             <div>성별</div>

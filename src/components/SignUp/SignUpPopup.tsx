@@ -1,11 +1,16 @@
 import React from "react";
 import "./signUpPopup.css";
 
-const SignUpPopup = () => {
+interface PopupProps{
+  check:string;
+  text:string
+}
+
+const SignUpPopup = ({check,text}:PopupProps) => {
   return (
     <div className="flex justify-center items-center absolute -right-44">
-      <div>O</div>
-      <div className="balloon">잘못된형식입니다.</div>
+      <div>{check}</div>
+      <div className="balloon">{text}</div>
     </div>
   );
 };

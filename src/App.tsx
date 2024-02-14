@@ -17,6 +17,10 @@ import Intro from "./pages/Intro";
 import MyPage from "./pages/MyPage";
 import NewRegistration from "./pages/manager/NewRegistration";
 import ProductDetail from "./pages/manager/ProductDetail";
+import EasySignUp from "./pages/EasySignUp";
+import FindId from "./pages/\bFindId";
+import ForgotPassword from "./pages/ForgotPassword";
+import NewPassword from "./pages/NewPassword";
 
 function App() {
   return (
@@ -25,6 +29,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/findid" element={<FindId />} />
+        <Route path="/easysignup" element={<EasySignUp />} />
+        <Route path="/newpassword" element={<NewPassword />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
         {/* 본문 네비게이션바 */}
         <Route element={<Nav />}>
           <Route path="/" element={<Main />} />

@@ -1,12 +1,14 @@
 import React, { ChangeEvent } from "react";
 import { formatPhoneNum } from "../../hooks/formatPhoneNum";
+import "./signUpInput.css"
 
 interface SignUpInputProps {
   placeholder: string;
   title: string;
   name: string;
   value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  className?: string
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const SignUpInput = ({
@@ -15,10 +17,11 @@ const SignUpInput = ({
   onChange,
   name,
   value,
+  className
 }: SignUpInputProps) => {
   return (
-    <div className="flex justify-between w-full items-center pl-16 relative">
-      <div>{title}</div>
+    <div className={`w-full flex justify-between items-center pl-16 relative ${className}`}>
+      <div className="text-sm">{title}</div>
       <input
         placeholder={placeholder}
         value={name === "phone" ? formatPhoneNum(value) : value}
