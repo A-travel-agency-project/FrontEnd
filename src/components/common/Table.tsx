@@ -2,11 +2,12 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  ColumnDef,
 } from "@tanstack/react-table";
 
 type TableProps<T> = {
   data: T[];
-  columns;
+  columns: ColumnDef<T, any>[];
   tableStyle?: string;
   theadStyle?: string;
   theadTrStyle?: string; // thead 내의 tr 스타일
@@ -18,7 +19,7 @@ type TableProps<T> = {
 
 // components/TravelProduct/ProductListTable.tsx 참고
 
-const Table = ({
+const Table = <T,>({
   data,
   columns,
   tableStyle = "",
@@ -28,7 +29,7 @@ const Table = ({
   tbodyStyle = "",
   tbodyTrStyle = "",
   tdStyle = "",
-}: TableProps) => {
+}: TableProps<T>) => {
   const table = useReactTable({
     data,
     columns,
