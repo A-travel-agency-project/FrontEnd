@@ -6,12 +6,20 @@ interface MainManagerBtnProps {
 }
 
 const MainManagerBtn = ({ title, className }: MainManagerBtnProps) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  console.log(selectedFile?.name);
+  const [selectedFile, setSelectedFile] = useState<{
+    [key: string]: File | null;
+  }>({});
+  console.log(selectedFile);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    setSelectedFile(file || null);
+  const handleFileChange = (
+    title: string,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0] || null;
+    setSelectedFile((prevFile) => ({
+      ...prevFile,
+      [title]: file,
+    }));
   };
 
   return (
@@ -20,9 +28,9 @@ const MainManagerBtn = ({ title, className }: MainManagerBtnProps) => {
       <div className="flex justify-between w-full items-center">
         <input
           className="inline-block h-10 px-3 border w-3/4 text-[#999999] outline-none text-center"
-          value={selectedFile?.name || ""}
           placeholder="첨부파일"
           readOnly
+          value={selectedFile[title]?.name || ""}
         />
         <label
           htmlFor={`file-${title}`}
@@ -34,7 +42,7 @@ const MainManagerBtn = ({ title, className }: MainManagerBtnProps) => {
           className="absolute w-0 h-0 p-0 hidden border-0"
           type="file"
           id={`file-${title}`}
-          onChange={handleFileChange}
+          onChange={(e) => handleFileChange(title, e)}
         />
       </div>
     </div>

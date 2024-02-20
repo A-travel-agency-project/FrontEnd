@@ -1,4 +1,7 @@
-export const productSideData = [];
+export const myPageNavTitle = [
+  { title: "주문 정보", prams: "/mypageorderinfo" },
+  { title: "회원 정보 수정", prams: "/editmember" },
+];
 
 export const fileTitle = ["배너1", "배너2", "배너3"];
 
@@ -195,7 +198,12 @@ export const productItems = [
 
 export const packageThumbnailTitle1 = ["썸네일1", "썸네일2", "썸네일3"];
 export const packageThumbnailTitle2 = ["썸네일4", "썸네일5", "썸네일6"];
-export const tagTitle = ["테마", "구성원", "비용", "시기"];
+export const tagTitle = [
+  { title: "테마", category: "themeList" },
+  { title: "구성원", category: "familyList" },
+  { title: "비용", category: "priceList" },
+  { title: "시기", category: "seasonList" },
+];
 export const packageTitle = ["호텔안내", "지역정보", "여행약관"];
 export const registSubTitle = ["숙소", "식사", "이동방법"];
 export const porductIcons = [
@@ -208,4 +216,18 @@ export const productCost = [
   { title1: "성인 총액", title2: "유류 할증료" },
   { title1: "아동 총액", title2: "유류 할증료" },
   { title1: "유아 총액", title2: "유류 할증료" },
+];
+
+export const memberInfo = [
+  {
+    title: "이메일",
+    content: "test@test.com",
+  },
+  { title: "비밀번호" },
+  { title: "이름", content: "이름" },
+  { title: "성별", content: "남" },
+  { title: "생년월일", content: "1999.99.99" },
+  { title: "핸드폰번호", content: "010-1234-1234" },
+  { title: "가족인원" },
+  { title: "자녀대표이름" },
 ];

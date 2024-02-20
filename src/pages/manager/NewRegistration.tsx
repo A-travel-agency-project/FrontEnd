@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   country,
   packageThumbnailTitle1,
@@ -13,13 +13,13 @@ import MainManagerBtn from "../../components/Manager/MainManagerBtn";
 import TagInput from "../../components/Manager/TagInput";
 import PackageEditorList from "../../components/Manager/PackageEditorList";
 import RegistSubInput from "../../components/Manager/RegistSubInput";
-
 interface CountryData {
   key: string;
   value: string;
 }
 const NewRegistration = () => {
   const [days, setDays] = useState([{ day: 1 }]);
+  console.log(days);
 
   const addDay = () => {
     const newDay = days.length + 1;
@@ -94,7 +94,7 @@ const NewRegistration = () => {
           <ManagerTitleBox name="태그" className="h-10 mr-10" />
           <div className="flex flex-col w-full">
             {tagTitle.map((el, index) => {
-              return <TagInput title={el} key={index} />;
+              return <TagInput title={el.title} key={index} />;
             })}
           </div>
         </div>
@@ -104,58 +104,62 @@ const NewRegistration = () => {
         </div>
       </div>
       {/* 일정안내 */}
-      <div className="w-full">
-        <h2 className="font-bold text-xl mb-4">일정 안내</h2>
-        {days.map((day, index) => (
-          <div className="flex w-full mb-20" key={index}>
-            <div>
-              <ManagerTitleBox
-                name={`${day.day}일차`}
-                className="border border-black mr-4"
-              />
-              {index > 0 && (
-                <div>
+      <form>
+        <div className="w-full">
+          <h2 className="font-bold text-xl mb-4">일정 안내</h2>
+          {days.map((day, index) => (
+            <div className="flex w-full mb-20" key={index}>
+              <div>
+                <ManagerTitleBox
+                  name={`${day.day}일차`}
+                  className="border border-black mr-4"
+                />
+                {index > 0 && (
+                  <div>
+                    <button
+                      className="bg-title-box px-5 py-3 w-36 flex justify-center border border-black"
+                      onClick={removeDay}
+                    >
+                      삭제하기
+                    </button>
+                  </div>
+                )}
+                {index === days.length - 1 && (
                   <button
                     className="bg-title-box px-5 py-3 w-36 flex justify-center border border-black"
-                    onClick={removeDay}
+                    onClick={addDay}
                   >
-                    삭제하기
+                    +
                   </button>
-                </div>
-              )}
-              {index === days.length - 1 && (
-                <button
-                  className="bg-title-box px-5 py-3 w-36 flex justify-center border border-black"
-                  onClick={addDay}
-                >
-                  +
-                </button>
-              )}
-            </div>
-            <div className="flex flex-col w-full">
-              <div className="flex mb-4">
-                <div className="bg-title-box px-5 whitespace-nowrap">제목</div>
-                <input className="w-full outline-none border" />
+                )}
               </div>
-              <UiEditor />
-              {registSubTitle.map((el) => {
-                return <RegistSubInput title={el} />;
-              })}
+              <div className="flex flex-col w-full">
+                <div className="flex mb-4">
+                  <div className="bg-title-box px-5 whitespace-nowrap">
+                    제목
+                  </div>
+                  <input className="w-full outline-none border" required />
+                </div>
+                <UiEditor />
+                {registSubTitle.map((el) => {
+                  return <RegistSubInput title={el} />;
+                })}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-      <div>
-        {packageTitle.map((el, index) => {
-          return <PackageEditorList key={index} title={el} />;
-        })}
-      </div>
-      <div className="flex flex-col justify-center items-center w-full">
-        <div className="w-full h-[1px] my-16 bg-black" />
-        <button className="bg-title-box px-20 py-3 border border-black">
-          등록하기
-        </button>
-      </div>
+          ))}
+        </div>
+        <div>
+          {packageTitle.map((el, index) => {
+            return <PackageEditorList key={index} title={el} />;
+          })}
+        </div>
+        <div className="flex flex-col justify-center items-center w-full">
+          <div className="w-full h-[1px] my-16 bg-black" />
+          <button className="bg-title-box px-20 py-3 border border-black">
+            등록하기
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

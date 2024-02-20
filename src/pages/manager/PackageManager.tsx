@@ -4,7 +4,6 @@ import Pagination from "../../components/common/Pagination";
 import { useNavigate } from "react-router-dom";
 import ManagerTitle from "../../components/Manager/ManagerTitle";
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
-
 interface CountryData {
   key: string;
   value: string;

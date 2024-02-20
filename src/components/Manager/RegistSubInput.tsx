@@ -8,7 +8,7 @@ const RegistSubInput = ({ title }: RegistProps) => {
   return (
     <div className="flex mt-5">
       <div className="bg-title-box w-20 px-3 whitespace-nowrap">{title}</div>
-      <input className="border outline-none w-full" />
+      <input className="border outline-none w-full" required />
     </div>
   );
 };

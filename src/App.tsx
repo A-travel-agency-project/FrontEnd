@@ -17,14 +17,24 @@ import Intro from "./pages/Intro";
 import MyPage from "./pages/MyPage";
 import NewRegistration from "./pages/manager/NewRegistration";
 import ProductDetail from "./pages/manager/ProductDetail";
+import TagsManager from "./pages/manager/TagsManager";
+import MyPageNav from "./components/MyPage/MyPageNav";
+import EditMember from "./pages/EditMember";
+import MyPageOrderInfo from "./pages/MyPageOrderInfo";
+import { TopScroll } from "./hooks/TopScroll";
 
 function App() {
   return (
     <div className="App">
+      <TopScroll />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route element={<MyPageNav />}>
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/editmember" element={<EditMember />} />
+          <Route path="/mypageorderinfo" element={<MyPageOrderInfo />} />
+        </Route>
         {/* 본문 네비게이션바 */}
         <Route element={<Nav />}>
           <Route path="/" element={<Main />} />
@@ -42,6 +52,7 @@ function App() {
           <Route path="/ordermanager" element={<OrderManager />} />
           <Route path="/newregistration" element={<NewRegistration />} />
           <Route path="/productdetail" element={<ProductDetail />} />
+          <Route path="/tagsmanager" element={<TagsManager />} />
         </Route>
       </Routes>
     </div>
