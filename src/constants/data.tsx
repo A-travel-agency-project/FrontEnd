@@ -6,6 +6,7 @@ export const myPageNavTitle = [
 export const fileTitle = ["배너1", "배너2", "배너3"];
 
 export const country = [
+  { key: "all", value: "전체 여행지" },
   { key: "easternEurope", value: "동유럽" },
   { key: "switzerland", value: "프랑스위스" },
   { key: "spain", value: "스페인" },
@@ -20,20 +21,42 @@ export const country = [
 export const packageHeaders = [
   {
     key: 1,
+    text: "수정",
+    value: "edit",
+  },
+  {
+    key: 2,
+    text: "복사",
+    value: "copy",
+  },
+  {
+    key: 3,
     text: "패키지 이름",
     value: "package name",
   },
   {
-    key: 2,
+    key: 4,
 
     text: "여행지역",
     value: "travelarea",
   },
   {
-    key: 3,
+    key: 5,
 
     text: "패키지 기간",
     value: "packageperiod",
+  },
+  {
+    key: 6,
+
+    text: "저장",
+    value: "save",
+  },
+  {
+    key: 6,
+
+    text: "공개상태",
+    value: "openState",
   },
 ];
 
@@ -205,7 +228,11 @@ export const tagTitle = [
   { title: "시기", category: "seasonList" },
 ];
 export const packageTitle = ["호텔안내", "지역정보", "여행약관"];
-export const registSubTitle = ["숙소", "식사", "이동방법"];
+export const registSubTitle = [
+  { title: "숙소", name: "hotel" },
+  { title: "식사", name: "meal" },
+  { title: "이동방법", name: "vehicle" },
+];
 export const porductIcons = [
   { title: "비행기 국적", labelFirst: "국내기", labelSecond: "해외기" },
   { title: "인솔자 동행", labelFirst: "유", labelSecond: "무" },

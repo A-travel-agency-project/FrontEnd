@@ -1,25 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 
 interface MainManagerBtnProps {
   title: string;
-  className: string;
+  className?: string;
+  onFileChange: (title: string, file: File) => void;
+  selectedFiles: Record<string, File>;
 }
 
-const MainManagerBtn = ({ title, className }: MainManagerBtnProps) => {
-  const [selectedFile, setSelectedFile] = useState<{
-    [key: string]: File | null;
-  }>({});
-  console.log(selectedFile);
-
-  const handleFileChange = (
-    title: string,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0] || null;
-    setSelectedFile((prevFile) => ({
-      ...prevFile,
-      [title]: file,
-    }));
+const MainManagerBtn = ({
+  title,
+  className,
+  onFileChange,
+  selectedFiles,
+}: MainManagerBtnProps) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newFile = event.target.files?.[0];
+    if (newFile) {
+      onFileChange(title, newFile);
+    }
   };
 
   return (
@@ -30,7 +28,11 @@ const MainManagerBtn = ({ title, className }: MainManagerBtnProps) => {
           className="inline-block h-10 px-3 border w-3/4 text-[#999999] outline-none text-center"
           placeholder="첨부파일"
           readOnly
-          value={selectedFile[title]?.name || ""}
+          value={
+            Object.keys(selectedFiles).length > 0
+              ? selectedFiles[title]?.name || ""
+              : ""
+          }
         />
         <label
           htmlFor={`file-${title}`}
@@ -41,8 +43,9 @@ const MainManagerBtn = ({ title, className }: MainManagerBtnProps) => {
         <input
           className="absolute w-0 h-0 p-0 hidden border-0"
           type="file"
+          accept="image/*"
           id={`file-${title}`}
-          onChange={(e) => handleFileChange(title, e)}
+          onChange={(e) => handleFileChange(e)}
         />
       </div>
     </div>

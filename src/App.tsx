@@ -22,6 +22,7 @@ import MyPageNav from "./components/MyPage/MyPageNav";
 import EditMember from "./pages/EditMember";
 import MyPageOrderInfo from "./pages/MyPageOrderInfo";
 import { TopScroll } from "./hooks/TopScroll";
+import { CheckoutPage } from "./pages/payment/CheckoutPage";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/check" element={<CheckoutPage />} />
         <Route element={<MyPageNav />}>
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/editmember" element={<EditMember />} />
