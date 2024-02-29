@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { instance } from "./instance";
 import { tagTitle } from "../constants/data";
+import { useRecoilState } from "recoil";
+import { tagFetchState } from "../atom/atom";
 
 type UseGetProps = {
   params: string;
@@ -11,7 +13,7 @@ type TagItem = {
 };
 export const useGetTags = ({ params }: UseGetProps) => {
   const [tagsData, setTagsData] = useState<{ [key: string]: TagItem[] }>({});
-  const [fetchState, setFetchState] = useState(true);
+  const [fetchState, setFetchState] = useRecoilState(tagFetchState);
   const [tagLengths, setTagLengths] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {

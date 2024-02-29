@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const SideNav = () => {
   const navigation = useNavigate();
+  const [selectedButton, setSelectedButton] = useState<string>("/mainmanager");
   const managerNavOption = [
+    { title: "홈으로 가기", prams: "/" },
     { title: "메인 관리 페이지", prams: "/mainmanager" },
     { title: "패키지 관리 페이지", prams: "/packagemanager" },
     { title: "상품 관리 페이지", prams: "/productmanager" },
     { title: "주문 관리 페이지", prams: "/ordermanager" },
     { title: "태그 관리 페이지", prams: "/tagsmanager" },
   ];
-  const handleSideClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    const target = e.currentTarget as HTMLButtonElement;
-    navigation(target.name);
+  const handleSideClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { name } = e.currentTarget;
+    navigation(name);
+    setSelectedButton(name);
   };
   return (
     <div className="w-full flex h-full">
@@ -20,7 +23,9 @@ const SideNav = () => {
         {managerNavOption.map((el, index) => {
           return (
             <button
-              className="flex whitespace-nowrap p-7 border-b border-main-color border-dotted"
+              className={`flex whitespace-nowrap p-7 border-b border-main-color border-dotted hover:bg-main-color hover:text-white ${
+                selectedButton === el.prams ? "bg-main-color text-white" : ""
+              }`}
               key={index}
               name={el.prams}
               onClick={handleSideClick}

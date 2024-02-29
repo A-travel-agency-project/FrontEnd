@@ -28,7 +28,9 @@ const EditMember = () => {
                       비밀번호 변경
                     </button>
                   </td>
-                ) : el.title === "가족인원" || el.title === "자녀대표이름" ? (
+                ) : el.title === "가족인원" ||
+                  el.title === "자녀대표이름" ||
+                  el.title === "핸드폰번호" ? (
                   <td className="ml-4">
                     <input
                       className="border"
