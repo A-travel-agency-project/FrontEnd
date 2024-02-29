@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import NavMenu from "./NavMenu";
 import UserMenu from "./UserMenu";
+import AskBtn from "../AskBtn";
 
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,6 +35,7 @@ const Nav = () => {
         />
       </nav>
       <Outlet />
+      <AskBtn />
     </>
   );
 };
