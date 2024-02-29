@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { packageTitle, registSubTitle } from "../../constants/data";
 import UiEditor from "../../components/common/UiEditor";
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
@@ -10,7 +10,8 @@ import axios from "axios";
 import { useGetTags } from "../../api/useGetTags";
 import { Editor } from "@toast-ui/react-editor";
 import { useGetContries } from "../../api/useGetContries";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { instance } from "../../api/instance";
 
 interface DateProps {
   day: number;
@@ -22,7 +23,8 @@ interface DateProps {
   meal: string;
   vehicle: string;
 }
-const NewRegistration = () => {
+const NewRegistrationEdit = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const ref = useRef<Editor | null>(null);
   // 패키지 이름
@@ -67,6 +69,7 @@ const NewRegistration = () => {
   const [termMd, setTermsMd] = useState<string>("");
   const [termHtml, setTermsHtml] = useState<string>("");
   /* 태그 */
+  const [checkTagList, setCheckTagList] = useState<string[]>([]);
   // 테마 리스트
   const [themeList, setThemeList] = useState<string[]>([]);
   // 가족 리스트
@@ -75,6 +78,36 @@ const NewRegistration = () => {
   const [seasonList, setSeasonList] = useState<string[]>([]);
   // 비용 리스트
   const [priceList, setPriceList] = useState<string[]>([]);
+  console.log(days);
+  useEffect(() => {
+    instance.get(`http://13.124.147.192:8080/packages/${id}`).then((res) => {
+      console.log(res.data.data);
+      if (res.status === 200) {
+        const {
+          countryName,
+          hashTag,
+          period,
+          privacy,
+          summary,
+          packageName,
+          regionInfo,
+          terms,
+          hotelInfo,
+          checkedTagList,
+        } = res.data.data;
+        setPrivacy(privacy);
+        setSelectCountry(countryName);
+        setPackageName(packageName);
+        setPackageSummary(summary);
+        setPeriod(period);
+        setTaggedValue(hashTag);
+        setHotelInfoMd(hotelInfo);
+        setRegionInfoMd(regionInfo);
+        setTermsMd(terms);
+        setCheckTagList(checkedTagList);
+      }
+    });
+  }, []);
   // 태그 onChange함수
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name, checked } = e.target;
@@ -101,33 +134,6 @@ const NewRegistration = () => {
       }
     }
   };
-
-  /* 폼데이터 */
-  // const jsonData = {
-  //   packageName: packageName,
-  //   summary: packageSummary,
-  //   period: period,
-  //   privacy: privacy,
-  //   countryName: selectCountry,
-  //   themeList: themeList,
-  //   familyList: familyList,
-  //   priceList: priceList,
-  //   seasonList: seasonList,
-  //   hashTag: taggedValue,
-  //   hotelInfoMd: hotelInfoMd,
-  //   hotelInfoHtml: hotelInfoHtml,
-  //   regionInfoMd: regionInfoMd,
-  //   regionInfoHtml: regionInfoHtml,
-  //   termsMd: termMd,
-  //   termsHtml: termHtml,
-  //   scheduleList: days,
-  // };
-  // const formData = new FormData();
-  // formData.append(
-  //   "data",
-  //   new Blob([JSON.stringify(jsonData)], { type: "application/json" })
-  // );
-  console.log(days);
   /* 폼데이터 post요청 */
   const handleOnSubmit = () => {
     const jsonData = {
@@ -167,7 +173,7 @@ const NewRegistration = () => {
       privacy !== "" &&
       sendImg.length > 0 &&
       dayEmptyContent &&
-      days.some((el) => el.dayContent?.dayContentMd !== "") &&
+      days.every((el) => el.dayContent?.dayContentMd !== "") &&
       termMd !== "" &&
       hotelInfoMd !== "" &&
       regionInfoMd !== ""
@@ -250,10 +256,12 @@ const NewRegistration = () => {
     }
   };
 
+  console.log(checkTagList);
+  console.log(tagsData);
   return (
     <div className="w-full h-full">
       {/* 이름 요약 여행지 */}
-      <h2>패키지 신규/수정 등록</h2>
+      <h2>패키지 수정</h2>
       <div className="flex flex-col w-full">
         <div className="flex justify-center">
           <ManagerTitleBox
@@ -263,6 +271,7 @@ const NewRegistration = () => {
           <input
             name="패키지 이름"
             onChange={handlePackageChange}
+            value={packageName}
             className="border pl-5  border-black outline-none w-full flex items-center"
           ></input>
         </div>
@@ -273,6 +282,7 @@ const NewRegistration = () => {
           />
           <input
             name="패키지 요약"
+            value={packageSummary}
             onChange={handlePackageChange}
             className="pl-5 border-x border-b border-black outline-none w-full flex items-center"
           ></input>
@@ -284,6 +294,7 @@ const NewRegistration = () => {
           />
           <input
             onChange={handlePackageChange}
+            value={period}
             name="기간"
             type="number"
             className="pl-5 border-x border-y border-black outline-none w-full flex items-center"
@@ -295,6 +306,7 @@ const NewRegistration = () => {
           <select
             defaultValue="default"
             className="border border-black w-56"
+            value={selectCountry}
             onChange={(e) => setSelectCountry(e.target.value)}
           >
             <option disabled value="default" hidden>
@@ -312,6 +324,7 @@ const NewRegistration = () => {
             defaultValue="default"
             className="border border-black w-56"
             onChange={(e) => setPrivacy(e.target.value)}
+            value={privacy}
           >
             <option disabled value="default" hidden>
               공개여부
@@ -364,6 +377,9 @@ const NewRegistration = () => {
                       key={innerIndex}
                       category={category}
                       handleTagsChange={handleTagsChange}
+                      checked={checkTagList.some(
+                        (tag) => tag.tagId === value.tagId
+                      )}
                     />
                   ))}
                 </div>
@@ -460,6 +476,9 @@ const NewRegistration = () => {
                 setRegionInfoHtml={setRegionInfoHtml}
                 setTermsMd={setTermsMd}
                 setTermsHtml={setTermsHtml}
+                hotelInfo={hotelInfoMd}
+                regionInfo={regionInfoMd}
+                terms={termMd}
               />
             );
           })}
@@ -467,9 +486,6 @@ const NewRegistration = () => {
         <div className="flex flex-col justify-center items-center w-full">
           <div className="w-full h-[1px] my-16 bg-black" />
           <div className="flex mb-10">
-            <button className="bg-title-box mr-3 px-20 py-3 border border-black">
-              임시저장
-            </button>
             <button
               onClick={handleOnSubmit}
               className="bg-title-box px-20 py-3 border border-black"
@@ -483,4 +499,4 @@ const NewRegistration = () => {
   );
 };
 
-export default NewRegistration;
+export default NewRegistrationEdit;

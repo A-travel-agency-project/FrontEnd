@@ -3,47 +3,67 @@ import UiEditor from "../../common/UiEditor";
 
 interface PackageEditorProps {
   title: string;
-  setHotelInfo?: React.Dispatch<React.SetStateAction<string>>;
-  setRegionInfo?: React.Dispatch<React.SetStateAction<string>>;
-  setTerms?: React.Dispatch<React.SetStateAction<string>>;
+  setHotelInfoMd: React.Dispatch<React.SetStateAction<string>>;
+  setRegionInfoMd: React.Dispatch<React.SetStateAction<string>>;
+  setTermsMd: React.Dispatch<React.SetStateAction<string>>;
+  setHotelInfoHtml: React.Dispatch<React.SetStateAction<string>>;
+  setRegionInfoHtml: React.Dispatch<React.SetStateAction<string>>;
+  setTermsHtml: React.Dispatch<React.SetStateAction<string>>;
+  hotelInfo?: string;
+  regionInfo?: string;
+  terms?: string;
 }
 
 const PackageEditorList = ({
   title,
-  setHotelInfo,
-  setRegionInfo,
-  setTerms,
+  setHotelInfoMd,
+  setRegionInfoMd,
+  setTermsMd,
+  setHotelInfoHtml,
+  setRegionInfoHtml,
+  setTermsHtml,
+  hotelInfo,
+  regionInfo,
+  terms,
 }: PackageEditorProps) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = useRef<any | null>(null);
   const handleEditorChange = () => {
     const htmlContent = ref.current?.getInstance().getHTML();
+    const markdownContent = ref.current?.getInstance().getMarkdown();
 
-    if (setHotelInfo) {
-      setHotelInfo(htmlContent);
-    }
-    if (setRegionInfo) {
-      setRegionInfo(htmlContent);
-    }
-    if (setTerms) {
-      setTerms(htmlContent);
+    if (title === "호텔안내") {
+      setHotelInfoHtml(htmlContent);
+      setHotelInfoMd(markdownContent);
+    } else if (title === "지역정보") {
+      setRegionInfoHtml(htmlContent);
+      setRegionInfoMd(markdownContent);
+    } else if (title === "여행약관") {
+      setTermsHtml(htmlContent);
+      setTermsMd(markdownContent);
     }
   };
+  console.log(hotelInfo);
   return (
-    <div className="w-full flex">
+    <div className="w-full flex mb-10">
       <h2 className="font-bold text-xl mb-4 whitespace-nowrap mr-20">
         {title}
       </h2>
       <div className="flex w-full">
         <div className="flex flex-col w-full">
-          <div className="flex mb-4">
-            <div className="bg-title-box px-5 whitespace-nowrap">제목</div>
-            <input className="w-full outline-none border" required />
-          </div>
           <UiEditor
             editorRef={ref}
             title={title}
             onChange={handleEditorChange}
+            initialValue={
+              title === "호텔안내"
+                ? hotelInfo
+                : title === "지역정보"
+                ? regionInfo
+                : title === "여행약관"
+                ? terms
+                : ""
+            }
           />
         </div>
       </div>

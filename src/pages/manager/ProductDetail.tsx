@@ -3,7 +3,7 @@ import ManagerTitle from "../../components/Manager/ManagerTitle";
 import ProductTitle from "../../components/Manager/ProductTitle";
 import ProductIcon from "../../components/Manager/ProductIcon";
 import { porductIcons, productCost } from "../../constants/data";
-import ProductCost from "./ProductCost";
+import ProductCost from "../../components/Manager/ProductCost";
 import ProductDate from "../../components/Manager/ProductDate";
 
 const ProductDetail = () => {

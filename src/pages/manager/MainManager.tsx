@@ -1,69 +1,59 @@
 import React, { useState } from "react";
 import MainManagerBtn from "../../components/Manager/MainManagerBtn";
-import { fileTitle } from "../../constants/data";
 import MainTitle from "../../components/Manager/ManagerTitle";
 import axios from "axios";
+import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
 
 const MainManager = () => {
-  const [selectedFiles, setSelectedFiles] = useState<Record<string, File>>({});
+  const [myImage, setMyImage] = useState<string[]>([]);
+  const [sendImg, setSendImg] = useState<File[]>([]);
+  console.log(sendImg);
 
-  const handleFileChange = (title: string, file: File) => {
-    setSelectedFiles((prevFiles) => ({
-      ...prevFiles,
-      [title]: file,
-    }));
-  };
-  const handleBannerClick = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleImgSendClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
     const formData = new FormData();
-    console.log(formData);
-
-    for (const title in selectedFiles) {
-      if (
-        Object.hasOwnProperty.call(selectedFiles, title) &&
-        selectedFiles[title]
-      ) {
-        formData.append(title, selectedFiles[title] as File);
-      }
-    }
-
-    try {
-      const response = await axios.post(
-        "http://13.124.147.192:8080/images/banners",
-        formData,
-        {
+    sendImg.forEach((file) => {
+      formData.append(`files`, file);
+    });
+    if (sendImg.length !== 0) {
+      axios
+        .post("http://13.124.147.192:8080/images/banners", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
-      );
-
-      console.log(response);
-    } catch (error) {
-      console.error(error);
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            alert("업로드가 완료 되었습니다.");
+            setSendImg([]);
+            setMyImage([]);
+          }
+        })
+        .catch((error) => console.error(error));
+    } else {
+      alert("이미지를 한개 이상 올려주세요");
     }
   };
+
   return (
     <div className="flex flex-col items-center pl-36 h-full">
       <MainTitle title={"메인관리-배너수정"} />
-      <form onSubmit={handleBannerClick}>
-        <div className="border p-2 w-[600px]">
-          {fileTitle.map((el, index) => {
-            return (
-              <MainManagerBtn
-                title={el}
-                key={index}
-                onFileChange={handleFileChange}
-                selectedFiles={selectedFiles}
-              />
-            );
-          })}
+      <ManagerTitleBox name="배너 등록" className="mb-2" />
+
+      <form>
+        <div className="flex justify-center items-center border p-2 w-[600px] ">
+          <MainManagerBtn
+            limitLength={3}
+            myImage={myImage}
+            setMyImage={setMyImage}
+            sendImg={sendImg}
+            setSendImg={setSendImg}
+          />
         </div>
         <div className="w-full flex justify-center">
           <button
-            disabled={Object.keys(selectedFiles).length === 3 ? false : true}
-            className="flex items-center justify-center border w-[32px] whitespace-nowrap px-10 py-1 mt-2 disabled:bg-gray-200 disabled:text-gray-500 hover:bg-main-color hover:text-white"
+            onClick={handleImgSendClick}
+            className="flex items-center justify-center border w-[32px] whitespace-nowrap px-10 py-1 mt-2  hover:bg-main-color hover:text-white"
           >
             <span>확인</span>
           </button>

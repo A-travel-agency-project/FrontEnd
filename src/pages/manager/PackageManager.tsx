@@ -58,7 +58,7 @@ const PackageManager = () => {
   const { packageList } = usePostPackage({
     data: {
       countryName: countrySelect === "전체 여행지" ? null : countrySelect,
-      privacy: privacy === "공개 변경" ? null : privacy,
+      privacy: privacy === "공개 상태" ? null : privacy,
       saveState: save === "저장 상태" ? null : save,
       countryOrder: arrowState.travelarea ? 0 : 1,
       periodOrder: arrowState.packageperiod ? 0 : 1,
@@ -84,9 +84,6 @@ const PackageManager = () => {
       alert("삭제 할 패키지를 체크해주세요");
     }
   };
-  // 공개 변경
-
-  console.log(changeActive);
 
   // 기간
   const handlePackageToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -213,7 +210,14 @@ const PackageManager = () => {
                 />
               </td>
               <td className="border  border-black p-2">
-                {el.countryName && <button>수정</button>}
+                {el.countryName && (
+                  <button
+                    value={el.packageId}
+                    onClick={(e) => navagation(`${e.currentTarget.value}`)}
+                  >
+                    수정
+                  </button>
+                )}
               </td>
               <td className="border border-black p-2">
                 {el.countryName && <button>복사</button>}

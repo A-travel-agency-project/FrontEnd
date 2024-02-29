@@ -254,7 +254,7 @@ export const memberInfo = [
   { title: "이름", content: "이름" },
   { title: "성별", content: "남" },
   { title: "생년월일", content: "1999.99.99" },
-  { title: "핸드폰번호", content: "010-1234-1234" },
+  { title: "핸드폰번호" },
   { title: "가족인원" },
   { title: "자녀대표이름" },
 ];

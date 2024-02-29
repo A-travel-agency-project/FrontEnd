@@ -23,6 +23,8 @@ import EditMember from "./pages/EditMember";
 import MyPageOrderInfo from "./pages/MyPageOrderInfo";
 import { TopScroll } from "./hooks/TopScroll";
 import { CheckoutPage } from "./pages/payment/CheckoutPage";
+import AuthenticationPage from "./pages/AuthenticationPage";
+import NewRegistrationEdit from "./pages/manager/NewRegistrationEdit";
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/check" element={<CheckoutPage />} />
+        <Route path="/test" element={<AuthenticationPage />} />
         <Route element={<MyPageNav />}>
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/editmember" element={<EditMember />} />
@@ -53,6 +56,7 @@ function App() {
           <Route path="/productmanager" element={<ProductManager />} />
           <Route path="/ordermanager" element={<OrderManager />} />
           <Route path="/newregistration" element={<NewRegistration />} />
+          <Route path="/packagemanager/:id" element={<NewRegistrationEdit />} />
           <Route path="/productdetail" element={<ProductDetail />} />
           <Route path="/tagsmanager" element={<TagsManager />} />
         </Route>

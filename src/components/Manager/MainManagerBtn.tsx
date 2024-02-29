@@ -1,52 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
+import "../../App.css";
 
-interface MainManagerBtnProps {
-  title: string;
-  className?: string;
-  onFileChange: (title: string, file: File) => void;
-  selectedFiles: Record<string, File>;
+interface BannerProps {
+  myImage: string[];
+  sendImg: File[];
+  limitLength: number;
+  setMyImage: React.Dispatch<React.SetStateAction<string[]>>;
+  setSendImg: React.Dispatch<React.SetStateAction<File[]>>;
 }
 
 const MainManagerBtn = ({
-  title,
-  className,
-  onFileChange,
-  selectedFiles,
-}: MainManagerBtnProps) => {
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newFile = event.target.files?.[0];
-    if (newFile) {
-      onFileChange(title, newFile);
+  myImage,
+  sendImg,
+  setMyImage,
+  setSendImg,
+  limitLength,
+}: BannerProps) => {
+  const addImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nowSelectImageList = e.target.files;
+
+    const nowImgURLList = [...myImage];
+    const nowFilesList = [...sendImg];
+
+    if (nowSelectImageList && myImage.length < limitLength) {
+      for (let i = 0; i < nowSelectImageList.length; i++) {
+        nowFilesList.push(nowSelectImageList[i]);
+        const nowImageUrl = URL.createObjectURL(nowSelectImageList[i]);
+        nowImgURLList.push(nowImageUrl);
+      }
+      setSendImg(nowFilesList);
+      setMyImage(nowImgURLList);
+    } else {
+      alert(`이미지는 ${limitLength}개까지만 업로드 가능합니다.`);
     }
+  };
+  const handleDeleteImage = (idx: number) => {
+    setMyImage((prevMyImage) => prevMyImage.filter((_, i) => i !== idx));
+    setSendImg((prevMyImage) => prevMyImage.filter((_, i) => i !== idx));
   };
 
   return (
-    <div className="flex items-center justify-between w-full m-1">
-      <div className={`w-16 ${className} whitespace-nowrap`}>{title}</div>
-      <div className="flex justify-between w-full items-center">
+    <div className="flex flex-col items-center w-full m-1">
+      <div className="w-full">
         <input
-          className="inline-block h-10 px-3 border w-3/4 text-[#999999] outline-none text-center"
-          placeholder="첨부파일"
-          readOnly
-          value={
-            Object.keys(selectedFiles).length > 0
-              ? selectedFiles[title]?.name || ""
-              : ""
-          }
+          id="banner"
+          type="file"
+          multiple={true}
+          accept=".jpg,.jpeg,.png"
+          className="hidden"
+          onChange={addImage}
         />
         <label
-          htmlFor={`file-${title}`}
-          className="border px-3 py-2 cursor-pointer"
+          htmlFor="banner"
+          className="w-full flex justify-center items-center"
         >
-          파일찾기
+          <input
+            readOnly
+            className="border w-full outline-none mr-2 text-center p-2"
+            placeholder={
+              (sendImg.length !== 0
+                ? sendImg.map((el) => el.name)
+                : "이미지 형식만 가능합니다.") as string | undefined
+            }
+          />
+          <span className="border p-2 cursor-pointer whitespace-nowrap">
+            업로드
+          </span>
         </label>
-        <input
-          className="absolute w-0 h-0 p-0 hidden border-0"
-          type="file"
-          accept="image/*"
-          id={`file-${title}`}
-          onChange={(e) => handleFileChange(e)}
-        />
+      </div>
+      <div className="flex w-full">
+        {myImage &&
+          myImage.map((src, idx) => {
+            return (
+              <div key={idx} className="relative">
+                {idx === myImage.length - 1 && (
+                  <button
+                    className="absolute top-2 right-2 text-main-color"
+                    onClick={() => handleDeleteImage(idx)}
+                  >
+                    삭제
+                  </button>
+                )}
+                <img src={src} className="h-48 w-96 object-cover" />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

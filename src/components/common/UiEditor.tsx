@@ -4,7 +4,8 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,27 +19,35 @@ interface Props {
     index: number
   ) => void;
   name?: string;
-  onUploadImage?: (url: string, text: string) => void;
+  initialValue?: string;
 }
+type HookCallback = (url: string, text?: string) => void;
+
 const UiEditor = ({
   editorRef,
   onChange,
   handleDayInputChange,
   name,
   index,
-  onUploadImage,
+  initialValue,
 }: Props) => {
   const toolbarItems = [
     ["heading", "bold", "italic"],
     ["hr"],
-    ["ul", "ol", "task"],
+    ["ul", "ol"],
     ["link"],
     ["image"],
     ["code"],
-    ["scrollSync"],
     ["codeblock"],
   ];
-
+  useEffect(() => {
+    if (initialValue) {
+      const editorInstance = editorRef?.current.getInstance();
+      if (editorInstance) {
+        editorInstance.setMarkdown(initialValue);
+      }
+    }
+  }, [initialValue, editorRef]);
   const handleChange =
     onChange ||
     (() => {
@@ -57,7 +66,7 @@ const UiEditor = ({
   return (
     <>
       <Editor
-        initialValue=""
+        initialValue={initialValue}
         previewStyle="vertical"
         initialEditType="markdown"
         useCommandShortcut={false}
@@ -69,7 +78,31 @@ const UiEditor = ({
         onChange={handleChange}
         hideModeSwitch
         hooks={{
-          addImageBlobHook: onUploadImage,
+          addImageBlobHook: async (blob: Blob, callback: HookCallback) => {
+            try {
+              const formData = new FormData();
+              console.log(blob);
+              formData.append("file", blob);
+
+              const response = await axios.post(
+                "http://13.124.147.192:8080/images",
+                formData,
+                {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                }
+              );
+
+              console.log(response);
+
+              if (callback) {
+                callback(response.data.data.imageUrl);
+              }
+            } catch (error) {
+              console.error(error);
+            }
+          },
         }}
         customHTMLRenderer={{
           htmlBlock: {
