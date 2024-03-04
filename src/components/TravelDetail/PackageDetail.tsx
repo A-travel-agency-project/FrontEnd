@@ -1,24 +1,20 @@
-import { PackageInfoData } from "../../constants/productdata";
+import { Package } from "../../types/package";
 import PackageInfo from "../common/PackageInfo";
 import PackageIcon from "./PackageIcon";
 import Thumnails from "./Thumnails";
 
-type PackageDetailProps = {
-  info: PackageInfoData;
-};
-
-const PackageDetail = ({ info }: PackageDetailProps) => {
+const PackageDetail = ({ info }: { info: Package }) => {
   return (
     <>
       <div className="w-[750px] flex gap-[33px] mt-[38px]  border-b-[1px] border-main-color pb-[12px]">
-        <Thumnails list={info.thumbnail_list} />
+        <Thumnails list={info.thumbnailList ?? []} />
         <div className="flex flex-col mt-[8px]">
           <PackageInfo
-            country={info.country}
-            name={info.package_name}
+            country={info.country ?? info.countryName ?? ""}
+            name={info.packageName}
             summary={info.summary}
             price={info.price}
-            hashTag={info.hash_tag}
+            hashTag={info.hashTag}
             page="traveldetail"
           />
           <PackageIcon />

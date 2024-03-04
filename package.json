@@ -10,10 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.22.2",
+    "@tanstack/react-table": "^8.11.8",
     "@toast-ui/editor": "^3.2.2",
     "@toast-ui/editor-plugin-color-syntax": "^3.1.0",
     "@toast-ui/react-editor": "^3.2.3",
-    "@tanstack/react-table": "^8.11.8",
     "axios": "^1.6.7",
     "date-fns": "^3.3.1",
     "react": "^18.2.0",

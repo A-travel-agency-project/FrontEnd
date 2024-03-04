@@ -17,34 +17,40 @@ import Intro from "./pages/Intro";
 import MyPage from "./pages/MyPage";
 import NewRegistration from "./pages/manager/NewRegistration";
 import ProductDetail from "./pages/manager/ProductDetail";
+import OrderDetail from "./pages/manager/OrderDetail";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./queries/common/quertClient";
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/mypage" element={<MyPage />} />
-        {/* 본문 네비게이션바 */}
-        <Route element={<Nav />}>
-          <Route path="/" element={<Main />} />
-          <Route path="/intro" element={<Intro />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/traveldetail" element={<TravelDetail />} />
-          <Route path="/travelproduct" element={<TravelProduct />} />
-          <Route path="/reservation" element={<Reservation />} />
-        </Route>
-        {/* 관리자 네비게이션바 */}
-        <Route element={<SideNav />}>
-          <Route path="/mainmanager" element={<MainManager />} />
-          <Route path="/packagemanager" element={<PackageManager />} />
-          <Route path="/productmanager" element={<ProductManager />} />
-          <Route path="/ordermanager" element={<OrderManager />} />
-          <Route path="/newregistration" element={<NewRegistration />} />
-          <Route path="/productdetail" element={<ProductDetail />} />
-        </Route>
-      </Routes>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="App">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/mypage" element={<MyPage />} />
+          {/* 본문 네비게이션바 */}
+          <Route element={<Nav />}>
+            <Route path="/" element={<Main />} />
+            <Route path="/intro" element={<Intro />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/traveldetail" element={<TravelDetail />} />
+            <Route path="/travelproduct" element={<TravelProduct />} />
+            <Route path="/reservation" element={<Reservation />} />
+          </Route>
+          {/* 관리자 네비게이션바 */}
+          <Route element={<SideNav />}>
+            <Route path="/mainmanager" element={<MainManager />} />
+            <Route path="/packagemanager" element={<PackageManager />} />
+            <Route path="/productmanager" element={<ProductManager />} />
+            <Route path="/ordermanager" element={<OrderManager />} />
+            <Route path="/orderdetail" element={<OrderDetail />} />
+            <Route path="/newregistration" element={<NewRegistration />} />
+            <Route path="/productdetail" element={<ProductDetail />} />
+          </Route>
+        </Routes>
+      </div>
+    </QueryClientProvider>
   );
 }
 export default App;

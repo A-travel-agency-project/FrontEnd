@@ -1,5 +1,5 @@
 type SchdeuleInfo = {
-  info: string;
+  info: string | HTMLElement;
 };
 const ScheduleInfo = ({ info }: SchdeuleInfo) => {
   return (

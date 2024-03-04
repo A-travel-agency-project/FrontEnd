@@ -1,15 +1,16 @@
 import { useState } from "react";
 
 type CountBtnProps = {
-  age: string;
+  age: "성인" | "아동" | "유아";
   price: number;
-  onCountChange: (age: string, newCount: number) => void;
+  onCountChange: (age: "성인" | "아동" | "유아", newCount: number) => void;
 };
 
 const CountBtn = ({ age, price, onCountChange }: CountBtnProps) => {
   const [count, setCount] = useState(0);
 
   const handleDecrease = () => {
+    if (count === 0) return;
     const newCount = Math.max(0, count - 1);
     setCount(newCount);
     onCountChange(age, newCount);

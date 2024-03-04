@@ -1,12 +1,8 @@
 import { useState } from "react";
-import { ThumbnailListData } from "../../constants/productdata";
+import { Img } from "../../types/img";
 
-type ThumnailsProps = {
-  list: ThumbnailListData;
-};
-
-const Thumnails = ({ list }: ThumnailsProps) => {
-  const [showImg, setShowImg] = useState(list[0].image_url);
+const Thumnails = ({ list }: { list: Img[] }) => {
+  const [showImg, setShowImg] = useState(list[0].imageUrl);
   const handleImg = (url: string) => {
     setShowImg(() => url);
   };
@@ -22,10 +18,10 @@ const Thumnails = ({ list }: ThumnailsProps) => {
           {list.map((item, idx) => (
             <button key={idx}>
               <img
-                src={item.image_url}
+                src={item.imageUrl}
                 alt="여행지 이미지"
                 className="w-[80px] h-[54px] rounded-[13px] object-cover"
-                onClick={() => handleImg(item.image_url)}
+                onClick={() => handleImg(item.imageUrl)}
               />
             </button>
           ))}

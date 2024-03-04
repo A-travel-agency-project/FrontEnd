@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { country, packageHeaders, packageItems } from "../../constants/data";
 import Pagination from "../../components/common/Pagination";
 import { useNavigate } from "react-router-dom";

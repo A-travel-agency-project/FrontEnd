@@ -2,6 +2,6 @@
   border-right: none;
 }
 
-.placeBtn:nth-child(n + 6) {
+.placeBtn:nth-last-child(-n + 5) {
   border-bottom: none;
 }

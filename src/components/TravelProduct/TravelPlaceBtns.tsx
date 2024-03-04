@@ -1,29 +1,57 @@
+import useGetCountries from "../../queries/countries/useGetCountries";
 import "./TravelPlaceBtns.css";
 
-const TravelPlaceBtns = () => {
-  const TRAVEL_PLACES = [
-    "동유럽",
-    "프랑스위스",
-    "스페인",
-    "이탈리아",
-    "호주",
-    "뉴질랜드",
-    "대만",
-    "일본",
-    "동남아",
-  ];
+const TravelPlaceBtns = ({
+  handleCountry,
+  countryClick,
+}: {
+  handleCountry: (e: MouseEvent, country: string) => void;
+  countryClick: string;
+}) => {
+  const { data, isPending, isError, error } = useGetCountries();
+  const fillEmptySpace = (data: string[]) => {
+    // grid 빈자리 채우기용 요소 추가
+    if (data && Array.isArray(data)) {
+      while (data.length % 5 !== 0) {
+        data.push("");
+      }
+    }
+    return data;
+  };
 
+  if (isPending) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (isError) {
+    return <div>에러 발생: {error?.message}</div>;
+  }
+  if (!data) {
+    return <div>데이터가 없습니다.</div>;
+  }
   return (
-    <div className=" w-full max-w-[775px] overflow-hidden grid grid-cols-5 box-border border-[1px] border-main-color rounded-[25px] my-[33px]">
-      {TRAVEL_PLACES.map((place) => (
+    <div
+      className=" w-full overflow-hidden grid grid-cols-5
+    box-border border-[1px] border-main-color rounded-[25px] my-[33px]"
+    >
+      {fillEmptySpace(data).map((item, idx) => (
         <button
-          key={place}
+          key={item || idx}
           type="button"
-          className=" placeBtn box-border bg-transparent p-[10px] text-sub-black
-        cursor-pointer transition-colors duration-300 active:bg-main-color active:text-white
-        hover:bg-main-color hover:text-white border-r-[1px] border-main-color border-b-[1px]"
+          className={`placeBtn p-[10px] text-sub-black cursor-pointer 
+          transition-colors duration-300 border-r-[1px] border-main-color 
+          border-b-[1px] box-border
+          ${
+            item
+              ? countryClick === item
+                ? "bg-main-color text-white"
+                : "bg-white hover:text-main-color"
+              : "bg-transparent text-gray-500 pointer-events-none"
+          }`}
+          disabled={!item}
+          onClick={(e) => handleCountry(e, item)}
         >
-          {place}
+          {item}
         </button>
       ))}
     </div>

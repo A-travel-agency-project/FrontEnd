@@ -2,14 +2,22 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
-import { Link } from "react-router-dom";
+import useGetBanners from "../../queries/imgs/useGetBanners";
 
 const Banner = () => {
-  const BannerImg = [
-    { imgUrl: 1, url: "" },
-    { imgUrl: 2, url: "" },
-    { imgUrl: 3, url: "" },
-  ];
+  const { data, isPending, isError, error } = useGetBanners();
+  console.log(data);
+
+  if (isPending) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (isError) {
+    return <div>에러 발생: {error?.message}</div>;
+  }
+  if (!data) {
+    return <div>데이터가 없습니다.</div>;
+  }
   return (
     <div className="w-full max-w-[1280px] h-[400px]">
       <Swiper
@@ -28,11 +36,14 @@ const Banner = () => {
         // }}
         // tailwind에서는 사용 불가, css로 사용가능
       >
-        {BannerImg.map((item) => (
-          <SwiperSlide className="border-sub-black border-[1px] overflow-hiddenw w-full h-[400px]">
-            <Link to={item.url}>
-              <div>{item.imgUrl}</div>
-            </Link>
+        {data.map((item) => (
+          <SwiperSlide
+            className={`overflow-hiddenw w-full h-[400px] bg-cover bg-no-repeat`}
+            key={item.imageUrl}
+            data-imageurl={item.imageUrl}
+            style={{ backgroundImage: `url(${item.imageUrl})` }}
+          >
+            {/* <img src={item.imageUrl} alt="bannerImg" /> */}
           </SwiperSlide>
         ))}
       </Swiper>

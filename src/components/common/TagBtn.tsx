@@ -1,28 +1,29 @@
-type listProp = {
-  id: string;
-  dropdown: string;
-  checkbox: string;
-};
+import { TagBtnProps } from "../../types/tag";
 
-type TagBtnProps = {
-  list: listProp[];
-  tagStyle?: string;
-};
-
-const TagBtn = ({ list, tagStyle = "" }: TagBtnProps) => {
+const TagBtn = ({
+  list = [],
+  tagStyle = "",
+  tagFor = "",
+  handleCheck,
+  checkList = [],
+}: TagBtnProps) => {
   return (
     <div
       className={`flex text-sub-black text-[14px] justify-center gap-[7px] font-light ${tagStyle}`}
     >
       {list.map((item) => (
-        <div className="flex" key={item.id}>
+        <div className="flex" key={item.tagContent}>
           <input
             type="checkbox"
-            id={item.dropdown}
+            id={item.tagContent}
             className="mb-[2px] ml-[2px]"
+            onChange={(e) =>
+              handleCheck && handleCheck(e.target.checked, tagFor, item.tagId)
+            }
+            checked={checkList.includes(item.tagId)}
           />
-          <label htmlFor={item.dropdown} className="px-[4px]">
-            {item.checkbox}
+          <label htmlFor={item.tagContent} className="px-[4px]">
+            {item.tagContent}
           </label>
         </div>
       ))}
