@@ -1,70 +1,134 @@
-import { USER_INFO_CATEGORIES } from "../../constants/userdata";
+import { useEffect, useState } from "react";
+import { PriceInfoData, travelerInfo } from "../../types/reservation";
 import SectionTitle from "./SectionTitle";
+import TravelerInfoForm from "./TravelerInfoForm";
 
-const TravelerInfo = () => {
+const TravelerInfo = ({
+  priceInfo,
+  handleInfoValid,
+  handleCheck,
+}: {
+  priceInfo: PriceInfoData;
+  handleInfoValid: (list: travelerInfo[]) => void;
+  handleCheck: (id: string) => void;
+}) => {
+  const [travelerInfoList, setTravelerInfoList] = useState<travelerInfo[]>([]);
+  const [infoCount, setInfoCount] = useState(0);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const travelerForms = [
+    ...Array.from(
+      { length: priceInfo["성인"].count - 1 },
+      (_, i) => `성인 ${i + 1}`
+    ),
+    ...Array.from(
+      { length: priceInfo["아동"].count },
+      (_, i) => `아동 ${i + 1}`
+    ),
+    ...Array.from(
+      { length: priceInfo["유아"].count },
+      (_, i) => `유아 ${i + 1}`
+    ),
+  ];
+
+  const handleTravelerInfo = (index: number, info: travelerInfo) => {
+    setTravelerInfoList((prev) => {
+      const newList = [...prev];
+      if (!newList[index]) {
+        setInfoCount((prev) => prev + 1);
+      }
+      newList[index] = info;
+      return newList;
+    });
+  };
+
+  const handleChecked = (checked: boolean, id: string) => {
+    console.log(checked);
+    const requiredData = [
+      "travelerName",
+      "enFirstName",
+      "enLastName",
+      "gender",
+      "birth",
+    ];
+
+    // 기본적인 필수 정보 존재 여부 확인
+    const isAllValid = travelerInfoList.every((info) => {
+      return requiredData.every(
+        (field) => info[field as keyof travelerInfo] !== ""
+      );
+    });
+
+    // 대표 1인의 핸드폰 번호 존재 여부 확인
+    const isRepresenterValid =
+      !travelerInfoList[0] || travelerInfoList[0].phoneNumber !== "";
+    console.log(isAllValid);
+    console.log(isRepresenterValid);
+    console.log(priceInfo.totalCount);
+    console.log(priceInfo.totalCount === infoCount);
+
+    if (checked) {
+      if (
+        priceInfo.totalCount === infoCount &&
+        isAllValid &&
+        isRepresenterValid
+      ) {
+        handleInfoValid(travelerInfoList);
+        setIsChecked(true);
+        handleCheck(id);
+      } else if (
+        priceInfo.totalCount !== infoCount ||
+        !isAllValid ||
+        !isRepresenterValid
+      ) {
+        alert("필수 여행자정보를 모두 기입해주세요.");
+        setIsChecked(false);
+      }
+    }
+    if (!checked) {
+      setIsChecked(!isChecked);
+      handleCheck(id);
+    }
+  };
+
+  useEffect(() => {
+    console.log(travelerInfoList);
+  }, [travelerInfoList]);
+
   return (
-    <div>
-      <SectionTitle title="여행자 정보" />
-      <div className="w-[664px] flex flex-col flex-wrap gap-y-[16px] p-[22px] border-[1px] border-sub-black">
-        {USER_INFO_CATEGORIES.map((item) =>
-          item.id === "userName" || item.id === "phoneNumber" ? (
-            <div className="flex text-sub-black text-[14px]" key={item.id}>
-              <label htmlFor={item.id}>
-                <span>*</span>
-                {item.name}
-              </label>
-              <input
-                type={"text"}
-                id={item.id}
-                placeholder={
-                  typeof item.description === "string" ? item.description : ""
-                }
-              />
-            </div>
-          ) : item.id === "enFirstName" ? (
-            <div className="flex text-sub-black text-[14px]" key={item.id}>
-              <label htmlFor={item.id}>{item.name[0]}</label>
-              <label htmlFor={item.id}>{item.name[1]}</label>
-              <input
-                id={item.id}
-                placeholder={item.description ? item.description[0] : ""}
-              />
-              <label htmlFor="enLastName">{item.name[2]}</label>
-              <input
-                id="enLastName"
-                placeholder={item.description ? item.description[1] : ""}
-              />
-            </div>
-          ) : item.id === "gender" ? (
-            <div className="flex text-sub-black text-[14px]" key={item.id}>
-              <label>{item.name}</label>
-              <input type="radio" name={item.id} />
-
-              <input type="radio" name={item.id} />
-            </div>
-          ) : (
-            item.id === "birth" && (
-              <div className="flex text-sub-black text-[14px]" key={item.id}>
-                <label id={item.id}>{item.name}</label>
-                <input type="text" name={item.id} />
-                {item.description && (
-                  <label id={item.id}>{item.description[0]}</label>
-                )}
-                <input type="text" name={item.id} />
-                {item.description && (
-                  <label id={item.id}>{item.description[1]}</label>
-                )}
-                <input type="text" name={item.id} />
-                {item.description && (
-                  <label id={item.id}>{item.description[2]}</label>
-                )}
-              </div>
-            )
-          )
-        )}
+    <section className="flex flex-col w-[664px]">
+      <div className="flex justify-between">
+        <SectionTitle title="여행자 정보" />
+        <div className="flex item-center">
+          <input
+            type="checkbox"
+            id="travelerInfo"
+            checked={isChecked}
+            onChange={(e) => handleChecked(e.target.checked, e.target.id)}
+          />
+          <label htmlFor="travelerInfo" className="text-[14px] pl-[4px]">
+            여행자 정보와 일치합니다.
+          </label>
+        </div>
       </div>
-    </div>
+      <div className="p-[16px] flex flex-col gap-[40px]">
+        <TravelerInfoForm
+          role="대표1인"
+          isRepresentative={true}
+          handleTravelerInfo={handleTravelerInfo}
+          listIndex={0}
+        />
+        {travelerForms.map((age, index) => (
+          <TravelerInfoForm
+            key={`${age}`}
+            role={`${age}`}
+            isRepresentative={false}
+            handleTravelerInfo={handleTravelerInfo}
+            listIndex={index + 1}
+          />
+        ))}
+      </div>
+    </section>
   );
 };
-
 export default TravelerInfo;

@@ -20,6 +20,7 @@ import ProductDetail from "./pages/manager/ProductDetail";
 import OrderDetail from "./pages/manager/OrderDetail";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./queries/common/quertClient";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route path="/traveldetail" element={<TravelDetail />} />
             <Route path="/travelproduct" element={<TravelProduct />} />
             <Route path="/reservation" element={<Reservation />} />
+            <Route path="/reservation/success" element={<PaymentSuccess />} />
           </Route>
           {/* 관리자 네비게이션바 */}
           <Route element={<SideNav />}>

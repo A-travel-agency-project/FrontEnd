@@ -1,11 +1,11 @@
 import { USER_INFO_CATEGORIES } from "../../constants/userdata";
-import useGetUserInfo from "../../queries/users/useGetUserInfo";
+// import useGetUserInfo from "../../queries/users/useGetUserInfo";
 import { User } from "../../types/user";
 import { commonDate } from "../../utils/commonDate";
 import SectionTitle from "./SectionTitle";
 
 const UserInfo = () => {
-  const { data, isPending, isError, error } = useGetUserInfo();
+  // const { data, isPending, isError, error } = useGetUserInfo();
 
   const userdata = {
     email: "hahyuning@naver.com",
@@ -19,7 +19,7 @@ const UserInfo = () => {
     childName: "정우리",
   };
   return (
-    <div>
+    <section>
       <SectionTitle title="예약자 정보" />
       <div className="w-[664px] flex flex-wrap gap-y-[16px] p-[22px] border-[1px] border-sub-black">
         {USER_INFO_CATEGORIES.map((item) =>
@@ -30,7 +30,8 @@ const UserInfo = () => {
             >
               <span>{item.name}</span>
               <span>
-                {item.id === "birth"
+                {item.id === "birth" &&
+                typeof userdata[item.id as keyof User] === "string"
                   ? commonDate(userdata[item.id as keyof User])
                   : userdata[item.id as keyof User]}
               </span>
@@ -47,7 +48,7 @@ const UserInfo = () => {
           )
         )}
       </div>
-    </div>
+    </section>
   );
 };
 export default UserInfo;

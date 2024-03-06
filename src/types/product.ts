@@ -112,6 +112,16 @@ export type Schedule = {
   meal: string;
   vehicle: string;
 };
+
+export type ScheduleListProps = {
+  scheduleListData: Schedule[];
+};
+
+export type ScheduleItemProps = {
+  title?: string;
+  content: string | HTMLElement;
+};
+
 export type Prices = {
   age: string;
   price: number;
@@ -124,4 +134,5 @@ export type ReservationInfo = {
   startDate: string;
   endDate: string;
   airline: string;
+  productId: number;
 };

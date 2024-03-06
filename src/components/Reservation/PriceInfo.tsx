@@ -1,7 +1,15 @@
-import { PriceInfoData } from "../../types/reservation";
+import { PriceInfoData, TermsState } from "../../types/reservation";
 import SectionTitle from "./SectionTitle";
 
-const PriceInfo = ({ priceInfo }: { priceInfo: PriceInfoData }) => {
+const PriceInfo = ({
+  priceInfo,
+  handlePayment,
+  payable,
+}: {
+  priceInfo: PriceInfoData;
+  handlePayment: () => void;
+  payable: boolean;
+}) => {
   const priceFormat = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -47,7 +55,12 @@ const PriceInfo = ({ priceInfo }: { priceInfo: PriceInfoData }) => {
             {priceFormat(priceInfo.totalPay / 10)}
             <span className="text-[12px] flex self-end pb-[3px]">원</span>
           </span>
-          <button className="bg-main-color w-[150px] h-[34px] rounded-[9px] text-white ">
+          <button
+            className="bg-main-color w-[150px] h-[34px] rounded-[9px] text-white 
+            disabled:bg-sub-black disabled:bg-opacity-[0.3]"
+            onClick={handlePayment}
+            disabled={!payable}
+          >
             예약금 결제하기
           </button>
         </div>

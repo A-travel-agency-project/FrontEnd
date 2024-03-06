@@ -1,5 +1,5 @@
-export const commonDate = (date: string): string => {
-  const dateArr = date.split("-");
+export const commonDate = (date: string | number): string => {
+  const dateArr = date.toString().split("-");
   const dateFormat = ["년", "월", "일", "시", "분"];
   let result = "";
 

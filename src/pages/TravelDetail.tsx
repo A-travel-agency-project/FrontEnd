@@ -151,6 +151,7 @@ const TravelDetail = () => {
         startDate: commonDate(data?.productInfo?.startDate),
         endDate: commonDate(data?.productInfo?.endDate),
         airline: data?.productInfo?.airline,
+        productId: data?.productInfo?.productId,
       }
     : {
         packageName: "",
@@ -158,6 +159,7 @@ const TravelDetail = () => {
         startDate: "",
         endDate: "",
         airline: "",
+        productId: 0,
       };
 
   // if (isPending) {

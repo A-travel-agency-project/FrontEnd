@@ -2,6 +2,7 @@ import { ProductListData } from "../constants/packagedata";
 import { BlogPost } from "../types/community";
 import { Img } from "../types/img";
 import { Package } from "../types/package";
+import { PaymentData } from "../types/payment";
 import { ProductDetialInfo, ProductListRequest } from "../types/product";
 import { TagCheckList, TagData } from "../types/tag";
 import { User } from "../types/user";
@@ -52,3 +53,7 @@ export const GetCountryPackages = (country: string): Promise<Package[]> =>
 /* 유저 정보 조회 */
 export const GetUserInfo = (): Promise<User> =>
   baseInstance.get(`users/mypage`).then((res) => res.data.data);
+
+/* 예약금 결제하기 */
+export const PostDeposit = (req: PaymentData) =>
+  baseInstance.post(`/payments/confirm`, req).then((res) => console.log(res));
