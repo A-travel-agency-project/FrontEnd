@@ -3,7 +3,7 @@ import NavMenu from "./NavMenu";
 import UserMenu from "./UserMenu";
 import AskBtn from "../AskBtn";
 
-const Nav = () => {
+const Header = () => {
   return (
     <>
       <nav className="absolute flex-col w-full min-w-[823px] bg-white items-center">
@@ -22,4 +22,4 @@ const Nav = () => {
     </>
   );
 };
-export default Nav;
+export default Header;

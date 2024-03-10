@@ -1,4 +1,4 @@
-import { PriceInfoData, TermsState } from "../../types/reservation";
+import { PriceInfoData } from "../../types/reservation";
 import SectionTitle from "./SectionTitle";
 
 const PriceInfo = ({

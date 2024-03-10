@@ -9,6 +9,7 @@ const TagBtnGroup = ({
   handleCheck,
   handleSubmit,
   tagCheckList,
+  handelResetTags,
 }: TagBtnGroupProps) => {
   const { data, isPending, isError, error } = useGetTags();
 
@@ -43,13 +44,23 @@ const TagBtnGroup = ({
             />
           </div>
         ))}
-      <button
-        type="submit"
-        className="rounded-[15px] bg-main-color text-white text-[10px] text-center py-[4px] px-[20px] self-center"
-        aria-label="태그 검색하기"
-      >
-        검색하기
-      </button>
+      <div className="flex gap-[10px]">
+        <button
+          type="button"
+          className="rounded-[15px] border-main-color border-[1px] text-sub-black text-[10px] text-center py-[4px] px-[20px] self-center"
+          aria-label="초기화"
+          onClick={handelResetTags}
+        >
+          초기화
+        </button>
+        <button
+          type="submit"
+          className="rounded-[15px] bg-main-color text-white text-[10px] text-center py-[4px] px-[20px] self-center"
+          aria-label="태그 검색하기"
+        >
+          검색하기
+        </button>
+      </div>
     </form>
   );
 };

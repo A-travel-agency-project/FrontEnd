@@ -39,7 +39,7 @@ const PackageBox = ({ packageData }: { packageData: Package }) => {
           showSchedule={showSchedule}
           handleScheduleBtn={handleScheduleBtn}
         />
-        {showSchedule && <ProductInfoList id={packageData.packageId} />}
+        {showSchedule && <ProductInfoList packageId={packageData.packageId} />}
       </div>
     </section>
   );

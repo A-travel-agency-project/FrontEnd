@@ -5,11 +5,18 @@ export type TagData = {
   tagContent: string;
 };
 
+export interface TagDatas {
+  priceList: TagData[];
+  familyList: TagData[];
+  themeList: TagData[];
+  seasonList: TagData[];
+}
+
 export type TagCheckList = {
-  ["priceList"]: number[];
-  ["familyList"]: number[];
-  ["themeList"]: number[];
-  ["seasonList"]: number[];
+  priceList: number[];
+  familyList: number[];
+  themeList: number[];
+  seasonList: number[];
 };
 
 export interface DropdownProps {
@@ -30,10 +37,5 @@ export interface TagBtnGroupProps {
   handleCheck: (checked: boolean, tagFor: string, tagId: number) => void;
   handleSubmit: (e: FormEvent) => void;
   tagCheckList: TagCheckList;
+  handelResetTags: () => void;
 }
-
-export type FilterDropdownProps = {
-  list: TagData[];
-  id: string;
-  handleClick: (value: string, id: string) => void;
-};

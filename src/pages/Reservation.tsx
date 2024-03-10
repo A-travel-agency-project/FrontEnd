@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import ProductInfo from "../components/Reservation/ProductInfo";
 import { daysAndNightFormat } from "../utils/daysAndNightFormat";
-import { commonDate } from "../utils/commonDate";
 import UserInfo from "../components/Reservation/UserInfo";
 import TravelerInfo from "../components/Reservation/TravelerInfo";
 import PriceInfo from "../components/Reservation/PriceInfo";
@@ -9,6 +8,7 @@ import { useState } from "react";
 import Payment from "../components/Reservation/Payment";
 import { PayableState, TermsState, travelerInfo } from "../types/reservation";
 import Terms from "../components/Reservation/Terms";
+import { dateFormat } from "../utils/dateFormat";
 
 const Reservation = () => {
   const location = useLocation();
@@ -63,8 +63,8 @@ const Reservation = () => {
     : {
         packageName: "프랑스위스 6박 7일",
         period: daysAndNightFormat(6),
-        startDate: commonDate("2023-10-12T07:51:01"),
-        endDate: commonDate("2023-10-12T07:51:01"),
+        startDate: dateFormat("2023-10-12T07:51:01"),
+        endDate: dateFormat("2023-10-12T07:51:01"),
         airline: "아시아나항공",
         productId: 1,
       };

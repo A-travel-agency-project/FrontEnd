@@ -11,12 +11,17 @@ const AfterPayment = () => {
     ? JSON.parse(decodeURIComponent(paymentData))
     : {};
 
+  console.log(reqData);
+
   const req = paymentKey &&
     amount && {
       ...reqData,
       paymentKey: paymentKey,
       amount: amount,
     };
+
+  console.log(req);
+
   const { mutate, data, isPending, isError, error } = usePostDeposit(req);
 
   useEffect(() => {

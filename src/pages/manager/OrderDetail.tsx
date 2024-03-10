@@ -1,94 +1,90 @@
+import { useEffect } from "react";
 import ManagerTitle from "../../components/Manager/ManagerTitle";
 import VerticalTable from "../../components/Manager/VerticalTable";
+import axios from "axios";
 
 const OrderDetail = () => {
   const data = {
-    order_id: 1, //주문번호
-    created_date: "2023-02-02", //주문일자
-    user_name: "예약자",
-    package_name: "영국 여행",
-    product_id: "2",
-    start_date: "2023-05-05",
-    end_date: "2023-05-10",
-    total_count: 4,
-    deposit: 123000,
-    difference: 9900000, //차액
-    userResponseDto: [
+    imomOrderId: "아이맘주문아이디",
+    orderDate: "2024-02-28 14:06:18",
+    reserveUser: "김우리",
+    packageName: "공개 패키지",
+    productCode: "1번상품",
+    startDate: "2024-10-11 11:11:11",
+    endDate: "2024-10-20 11:11:11",
+    adultCount: 1,
+    childCount: 2,
+    infantCount: 0,
+    totalCount: 3,
+    payedPrice: 12340,
+    balance: 111116,
+    orderNumberList: [
+      "주문번호1",
+      "주문번호2", // 토스 결제 정보 요청용
+    ],
+    travelerInfos: [
       {
-        user_name: "user1",
-        user_sex: "여",
-        birth: "2001-01-02",
-        phone_number: "010-1234-1234",
+        travelerName: "여행자1",
+        enFirstName: "Kim",
+        enLastName: "Mina",
+        gender: "남",
+        birth: null,
+        phoneNumber: "010-2222-2222",
+        isRepresentative: true,
       },
       {
-        user_name: "user2",
-        user_sex: "여",
-        birth: "2001-01-02",
-        phone_number: "010-1234-1234",
+        travelerName: "여행자2",
+        enFirstName: "Kim",
+        enLastName: "Minaaa",
+        gender: "여",
+        birth: null,
+        phoneNumber: null,
+        isRepresentative: false,
+      },
+      {
+        travelerName: "여행자3",
+        enFirstName: "Kim",
+        enLastName: "Minaaaaa",
+        gender: "여",
+        birth: null,
+        phoneNumber: "010-2010-3333",
+        isRepresentative: false,
       },
     ],
   };
+  useEffect(() => {
+    axios
+      .get(
+        "https://api.tosspayments.com/v1/payments/orders/IMOM_PI1_DT1709804457218",
+        {
+          headers: {
+            Authorization: `Basic ${btoa(
+              "test_sk_Gv6LjeKD8aEOjvM4vgye8wYxAdXy:"
+            )}`,
+          },
+        }
+      )
+      .then((res) => console.log(res));
+  });
 
-  type OrderDataHeader = {
-    order_id: string;
-    created_date: string;
-    user_name: string;
-    package_name: string;
-    product_id: string;
-    start_date: string;
-    end_date: string;
-    total_count: string;
-  };
-
-  const orderDataHeader: OrderDataHeader = {
-    order_id: "주문번호",
-    created_date: "주문일시",
-    user_name: "예약자 정보",
-    package_name: "패키지이름",
-    product_id: "상품번호",
-    start_date: "출발일시",
-    end_date: "도착일시",
-    total_count: "총인원",
-  };
-
-  const userDataHeader = {
-    user_name: "예약자 이름",
-    user_birth: "생년월일",
-    user_sex: "성별",
-    phone_number: "휴대폰",
-    email: "이메일",
-  };
-
-  const travelerDataHeader = {
-    user_name: "예약자명",
-    user_sex: "성별",
-    birth: "나이/법정 생년월일",
-    phone_number: "휴대폰 번호",
-  };
-
-  const paymentDataHeader = {
-    deposit: "예약금액/잔금",
-  };
+  console.log(btoa("test_sk_Gv6LjeKD8aEOjvM4vgye8wYxAdXy:"));
 
   return (
     <div className="flex flex-col gap-10 w-full">
       <div>
         <ManagerTitle title="주문확인" />
-        <VerticalTable headers={orderDataHeader} data={data} />
       </div>
       <div>
         <ManagerTitle title="예약자정보" />
-        <VerticalTable headers={userDataHeader} data={data} />
       </div>
       <div>
         <ManagerTitle title="결제확인" />
-        <VerticalTable headers={paymentDataHeader} data={data} />
       </div>
       <div className="">
         <ManagerTitle title="여행자정보" />
-        {data.userResponseDto.map((data) => (
+        {/* {data.userResponseDto.map((data) => (
           <VerticalTable headers={travelerDataHeader} data={data} />
-        ))}
+        ))} */}
       </div>
     </div>
   );

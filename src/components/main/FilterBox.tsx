@@ -1,4 +1,4 @@
-import FilterDropdown from "./FilterDropdown";
+import TagDropdown from "./TagDropdown";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useGetTags from "../../queries/tags/useGetTags";
@@ -62,7 +62,7 @@ const FilterBox = ({ name = "우리" }) => {
           <div className="flex flex-col gap-[24px]">
             <div className="flex flex-row gap-[24px]">
               <span>{name}는</span>
-              <FilterDropdown
+              <TagDropdown
                 list={data.familyList}
                 id={"familyList"}
                 handleClick={handleClick}
@@ -71,7 +71,7 @@ const FilterBox = ({ name = "우리" }) => {
             </div>
             <div className="flex flex-row gap-[24px]">
               <span>아이들은</span>
-              <FilterDropdown
+              <TagDropdown
                 list={data.priceList}
                 id={"priceList"}
                 handleClick={handleClick}
@@ -80,7 +80,7 @@ const FilterBox = ({ name = "우리" }) => {
             </div>
             <div className="flex flex-row gap-[24px]">
               <span>특별히</span>
-              <FilterDropdown
+              <TagDropdown
                 list={data.seasonList}
                 id={"seasonList"}
                 handleClick={handleClick}
@@ -88,7 +88,7 @@ const FilterBox = ({ name = "우리" }) => {
               <span>으로</span>
             </div>
             <div className="flex flex-row gap-[24px]">
-              <FilterDropdown
+              <TagDropdown
                 list={data.themeList}
                 id={"themeList"}
                 handleClick={handleClick}

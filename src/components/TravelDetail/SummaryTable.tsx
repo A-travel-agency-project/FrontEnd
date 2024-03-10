@@ -2,6 +2,7 @@ import { useState } from "react";
 import Table from "../common/Table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { SummaryTableInfo, SummaryTableProps } from "../../types/product";
+import { dateFormat } from "../../utils/dateFormat";
 
 const SummaryTable = ({
   productId,
@@ -13,8 +14,8 @@ const SummaryTable = ({
   const [data] = useState([
     {
       id: productId,
-      startDate: startDate,
-      endDate: endDate,
+      startDate: dateFormat(startDate),
+      endDate: dateFormat(endDate),
       airline: airline,
       minCount: minCount,
     },

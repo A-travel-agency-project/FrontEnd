@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import "./Nav.css";
+import "./NavDropdown.css";
 
 type NavDropdownProps = {
   handleMenuClose: () => void;
@@ -30,9 +30,8 @@ const NavDropdown = ({ handleMenuClose }: NavDropdownProps) => {
       title: "커뮤니티",
       list: {
         여행이야기: "/community",
-        자주묻는질문: "",
+        자주묻는질문: "/community",
         공지사항: "/community",
-        문의게시판: "",
       },
     },
   ];

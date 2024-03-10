@@ -1,10 +1,15 @@
-import { ProductListData } from "../constants/packagedata";
 import { BlogPost } from "../types/community";
 import { Img } from "../types/img";
+import { OrderData, OrderRequest } from "../types/manager";
 import { Package } from "../types/package";
 import { PaymentData } from "../types/payment";
-import { ProductDetialInfo, ProductListRequest } from "../types/product";
-import { TagCheckList, TagData } from "../types/tag";
+import {
+  ProductDates,
+  ProductDetialInfo,
+  ProductListRequest,
+  Products,
+} from "../types/product";
+import { TagCheckList, TagDatas } from "../types/tag";
 import { User } from "../types/user";
 import { baseInstance } from "./instance";
 
@@ -13,7 +18,7 @@ export const GetBanner = (): Promise<Img[]> =>
   baseInstance.get("/images/banners").then((res) => res.data.data);
 
 /* 태그 목록 가져오기 */
-export const GetTags = (): Promise<TagData[]> =>
+export const GetTags = (): Promise<TagDatas> =>
   baseInstance.get("/tags").then((res) => res.data.data);
 
 /* 메인 커뮤니티 포스트 가져오기 */
@@ -37,14 +42,16 @@ export const GetProduct = (id: number): Promise<ProductDetialInfo> =>
   baseInstance.get(`/products/${id}`).then((res) => res.data.data);
 
 /* 상품 목록 가져오기*/
-export const GetProducts = (
-  req: ProductListRequest
-): Promise<ProductListData> =>
-  baseInstance.post("/procuts/search", req).then((res) => res.data.data);
+export const GetProducts = (req: ProductListRequest): Promise<Products> =>
+  baseInstance.post("/products/search", req).then((res) => res.data.data);
+
+/* 상품 일자 가져오기 */
+export const GetProductDates = (id: number): Promise<ProductDates[]> =>
+  baseInstance.get(`/products/search/${id}`).then((res) => res.data.data);
 
 /* 태그 검색 */
 export const GetTagPackages = (req: TagCheckList): Promise<Package[]> =>
-  baseInstance.post("/packages", req).then((res) => res.data.data);
+  baseInstance.post("/packages/tags", req).then((res) => res.data.data);
 
 /* 나라 검색 */
 export const GetCountryPackages = (country: string): Promise<Package[]> =>
@@ -56,4 +63,10 @@ export const GetUserInfo = (): Promise<User> =>
 
 /* 예약금 결제하기 */
 export const PostDeposit = (req: PaymentData) =>
-  baseInstance.post(`/payments/confirm`, req).then((res) => console.log(res));
+  baseInstance
+    .post(`/payments/confirm`, req)
+    .then((res) => console.log(res.data.data));
+
+/* 관리자 주문 목록 조회 */
+export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>
+  baseInstance.post(`/orders`, req).then((res) => res.data.data);

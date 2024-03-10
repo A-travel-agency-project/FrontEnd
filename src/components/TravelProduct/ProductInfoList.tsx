@@ -1,132 +1,27 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ProductList, productListData } from "../../constants/packagedata";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Table from "../common/Table";
 import usePostProducts from "../../queries/products/usePostProducts";
-import { ProductListInfo, ProductListRequest } from "../../types/product";
-import Pagination from "../common/Pagination";
-import { productTableDate } from "../../utils/productTableDate";
-import ReactDatePicker from "react-datepicker";
-import { addMonths } from "date-fns";
+import {
+  ProductList,
+  ProductListInfo,
+  ProductListRequest,
+} from "../../types/product";
+import { dateFormat } from "../../utils/dateFormat";
 import "./ProductLists.css";
+import ProductCalendar from "./ProductCalendar";
+import CustomPagination from "../common/CustomPagination";
 
-const ProductInfoList = ({ id }: { id: number }) => {
-  const navigate = useNavigate();
-  const [offset, setOffset] = useState<number>(0);
+const ProductInfoList = ({ packageId }: { packageId: number }) => {
   const [request, setRequest] = useState<ProductListRequest>({
-    packageId: id | 0,
+    packageId: packageId | 0,
     offset: 0,
     limit: 5,
   });
-
-  const listdata = [
-    {
-      productId: 11,
-      productCode: "EW12402211711AA",
-      startDate: "2024-03-02T07:51:01",
-      endDate: "2023-10-18T07:51:01",
-      maxCount: 50,
-      nowCount: 0,
-      airline: "아메리칸항공",
-      price: 50000000,
-      productState: "예약 가능",
-    },
-    {
-      productId: 12,
-      productCode: "EW12402211712AA",
-      startDate: "2024-03-18T07:51:01",
-      endDate: "2023-10-18T07:51:01",
-      maxCount: 50,
-      nowCount: 0,
-      airline: "아메리칸항공",
-      price: 50000000,
-      productState: "예약 가능",
-    },
-    {
-      productId: 13,
-      productCode: "EW12402211713AA",
-      startDate: "2024-03-20T07:51:01",
-      endDate: "2023-10-18T07:51:01",
-      maxCount: 50,
-      nowCount: 0,
-      airline: "아메리칸항공",
-      price: 50000000,
-      productState: "예약 가능",
-    },
-    {
-      productId: 14,
-      productCode: "EW12402211714AA",
-      startDate: "2024-04-12T07:51:01",
-      endDate: "2023-10-18T07:51:01",
-      maxCount: 50,
-      nowCount: 0,
-      airline: "아메리칸항공",
-      price: 50000000,
-      productState: "예약 가능",
-    },
-    {
-      productId: 15,
-      productCode: "EW12402211715AA",
-      startDate: "2024-04-18T07:51:01",
-      endDate: "2023-10-18T07:51:01",
-      maxCount: 50,
-      nowCount: 0,
-      airline: "아메리칸항공",
-      price: 50000000,
-      productState: "예약 가능",
-    },
-  ];
-  const [listData, setListData] = useState<ProductList[] | []>(listdata);
-
-  // const { mutate, data, isPending, isError, error } = usePostProducts(request);
-  const [tableData] = useState(
-    listData &&
-      listData.map((item) => ({
-        ...item,
-        startDate: productTableDate(item.startDate),
-        endDate: productTableDate(item.endDate),
-        id: item.productId,
-        detail: (
-          <button type="button">
-            <Link to={"/traveldetail"} state={item.productId}>
-              자세히
-            </Link>
-          </button>
-        ),
-      }))
-  );
-
-  const handleCalender = (e: [Date | null, Date | null]) => {
-    console.log(e);
-  };
-
-  const highlightDates = useMemo(() => {
-    return listData.map((item) => new Date(item.startDate));
-  }, [listData]);
-
-  const filterDate = (date: Date) => {
-    return highlightDates.some(
-      (highlightDate) =>
-        date.getDate() === highlightDate.getDate() &&
-        date.getMonth() === highlightDate.getMonth() &&
-        date.getFullYear() === highlightDate.getFullYear()
-    );
-  };
-
-  useEffect(() => {
-    setRequest((prevRequest) => ({
-      ...prevRequest,
-      offset: offset,
-    }));
-    console.log(request);
-  }, [offset]);
-
-  // useEffect(() => {
-  //   mutate();
-  //   if (data) setListData(data.content);
-  //   else setListData(productListData.content);
-  // }, [data, mutate]);
+  const { mutate, data, isPending, isError, error } = usePostProducts(request);
+  const [tableData, setTableData] = useState<ProductListInfo[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   const columnHelper = createColumnHelper<ProductListInfo>();
   const columns = [
@@ -142,31 +37,46 @@ const ProductInfoList = ({ id }: { id: number }) => {
     }),
   ];
 
-  // if (isPending) {
-  //   return <div>로딩 중...</div>;
-  // }
+  const handlePageClick = (selected: number) => {
+    setRequest((prevRequest) => ({
+      ...prevRequest,
+      offset: selected,
+    }));
+  };
 
-  // if (isError) {
-  //   return <div>에러 발생: {error?.message}</div>;
-  // }
-  // if (!data) {
-  //   return <div>데이터가 없습니다.</div>;
-  // }
+  useEffect(() => {
+    mutate();
+  }, [request, mutate]);
+
+  useEffect(() => {
+    if (data) {
+      setTableData(() => {
+        const newTableData = data.content.map((item: ProductList) => ({
+          ...item,
+          startDate: dateFormat(item.startDate),
+          endDate: dateFormat(item.endDate),
+          id: item.productId,
+          detail: (
+            <button type="button">
+              <Link to={`/traveldetail/${item.productId}`}>자세히</Link>
+            </button>
+          ),
+        }));
+        return newTableData;
+      });
+      setTotalPages(data.totalPages);
+    }
+  }, [data]);
+
+  if (isPending) {
+    <div></div>;
+  }
+  if (isError) {
+    return <div>에러 발생: {error?.message}</div>;
+  }
   return (
     <>
-      <ReactDatePicker
-        selected={null}
-        onChange={(e) => handleCalender(e)}
-        minDate={new Date()}
-        maxDate={addMonths(new Date(), 2)}
-        monthsShown={2}
-        selectsRange
-        inline
-        showDisabledMonthNavigation
-        highlightDates={highlightDates}
-        filterDate={filterDate}
-      />
-
+      <ProductCalendar packageId={packageId} />
       <Table
         data={tableData}
         columns={columns}
@@ -181,7 +91,10 @@ const ProductInfoList = ({ id }: { id: number }) => {
         tbodyTrStyle={"border-t-[0.5px] border-dashed border-main-color"}
         tdStyle={"py-[14px]"}
       />
-      <Pagination />
+      <CustomPagination
+        totalPage={totalPages}
+        handlePageClick={handlePageClick}
+      />
     </>
   );
 };

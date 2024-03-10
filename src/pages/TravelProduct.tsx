@@ -25,13 +25,20 @@ const TravelProduct = () => {
     }
   }, [location.state]);
 
+  useEffect(() => {
+    console.log(tagCheckList);
+  }, [tagCheckList]);
+
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault();
     setTagSubmit(true);
     setCountryClick("");
   };
 
-  const handleCountry = (e: MouseEvent, country: string): void => {
+  const handleCountry = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    country: string
+  ): void => {
     if (countryClick !== country) {
       e.preventDefault();
       setCountryClick(() => country);
@@ -42,6 +49,16 @@ const TravelProduct = () => {
         seasonList: [],
       });
     }
+  };
+
+  const handelResetTags = () => {
+    setTagSubmit(true);
+    setTagCheckList({
+      priceList: [],
+      familyList: [],
+      themeList: [],
+      seasonList: [],
+    });
   };
 
   const handelCheck = (checked: boolean, type: string, id: number): void => {
@@ -63,6 +80,7 @@ const TravelProduct = () => {
         handleCheck={handelCheck}
         handleSubmit={handleSubmit}
         tagCheckList={tagCheckList}
+        handelResetTags={handelResetTags}
       />
       <div className="flex flex-col grow max-w-[850px] mr-[12%] items-center">
         <TravelPlaceBtns

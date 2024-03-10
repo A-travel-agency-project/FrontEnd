@@ -69,6 +69,7 @@ const ReservationBox = ({
           key={item.age}
           age={item.age}
           price={item.price}
+          remainCount={maxCount - nowCount - counts.totalCount}
           onCountChange={handleCountChange}
         />
       ))}
@@ -87,8 +88,13 @@ const ReservationBox = ({
       >
         예약하기
       </button>
+      {counts["성인"].count < 1 && (
+        <span className="text-red-700 text-[10px]">
+          성인1인 이상 포함필수입니다.
+        </span>
+      )}
       <div>
-        현재 재고 {nowCount}/{maxCount}
+        현재 재고 {maxCount - nowCount - counts.totalCount}/{maxCount}
       </div>
     </div>
   );

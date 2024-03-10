@@ -1,7 +1,6 @@
 import { USER_INFO_CATEGORIES } from "../../constants/userdata";
 // import useGetUserInfo from "../../queries/users/useGetUserInfo";
 import { User } from "../../types/user";
-import { commonDate } from "../../utils/commonDate";
 import SectionTitle from "./SectionTitle";
 
 const UserInfo = () => {
@@ -29,12 +28,7 @@ const UserInfo = () => {
               key={item.id}
             >
               <span>{item.name}</span>
-              <span>
-                {item.id === "birth" &&
-                typeof userdata[item.id as keyof User] === "string"
-                  ? commonDate(userdata[item.id as keyof User])
-                  : userdata[item.id as keyof User]}
-              </span>
+              <span>{userdata[item.id as keyof User]}</span>
             </div>
           ) : (
             <div

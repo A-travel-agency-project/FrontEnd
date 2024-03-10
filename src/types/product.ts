@@ -1,4 +1,5 @@
 import { Package } from "./package";
+import { Pageable } from "./pageable";
 
 export type Product = {
   productId: number;
@@ -33,7 +34,7 @@ export type ProductDetialInfo = {
   productInfo: Product;
 };
 
-export type ProductList = {
+export interface ProductList {
   productId: number;
   productCode: string;
   startDate: string;
@@ -43,33 +44,11 @@ export type ProductList = {
   airline: string;
   price: number;
   productState: string;
-};
+}
 
-export type Products = {
+export interface Products extends Pageable {
   content: ProductList[];
-  pageable: {
-    pageNumber: number;
-    pageSize: number;
-    sort: {
-      empty: boolean;
-      sorted: boolean;
-      unsorted: boolean;
-    };
-    offset: number;
-    unpaged: boolean;
-    paged: boolean;
-  };
-  last: boolean;
-  totalPages: number;
-  totalElements: number;
-  size: number;
-  number: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-};
+}
 
 export type ProductListRequest = {
   ["packageId"]: number;
@@ -96,11 +75,10 @@ export type SummaryTableProps = {
 };
 
 export type SummaryTableInfo = {
-  id: string;
+  id: number;
   startDate: string;
   endDate: string;
   airline: string;
-  price: number;
   minCount: number;
 };
 
@@ -114,7 +92,7 @@ export type Schedule = {
 };
 
 export type ScheduleListProps = {
-  scheduleListData: Schedule[];
+  scheduleListData: Schedule[] | null;
 };
 
 export type ScheduleItemProps = {
@@ -123,9 +101,16 @@ export type ScheduleItemProps = {
 };
 
 export type Prices = {
-  age: string;
+  age: "성인" | "아동" | "유아";
   price: number;
   surcharge: number;
+};
+
+export type CountBtnProps = {
+  age: "성인" | "아동" | "유아";
+  price: number;
+  onCountChange: (age: "성인" | "아동" | "유아", newCount: number) => void;
+  remainCount: number;
 };
 
 export type ReservationInfo = {
@@ -136,3 +121,12 @@ export type ReservationInfo = {
   airline: string;
   productId: number;
 };
+
+export interface ProductDates {
+  productId: number;
+  startDate: string;
+}
+
+export interface CalendarProductDates {
+  [key: number]: Date;
+}

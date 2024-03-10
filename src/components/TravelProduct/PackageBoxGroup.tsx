@@ -48,17 +48,15 @@ const PackageBoxGroup = ({
   }, [countryData, countryClick]);
 
   useEffect(() => {
-    const fetchTagPackage = async () => {
-      mutate();
-      setTagSubmit(false);
-    };
     if (tagSubmit === true) {
       if (Object.values(tagCheckList).every((list) => list.length === 0)) {
         setPackageData(() => countryData || []);
       } else {
-        fetchTagPackage();
+        mutate();
+        setTagSubmit(false);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tagSubmit, mutate, setTagSubmit]);
 
   if (isTagPending || isCountryPending) {
@@ -69,6 +67,9 @@ const PackageBoxGroup = ({
   }
   if (!packageData) {
     return <div>데이터가 없습니다.</div>;
+  }
+  if (packageData.length < 1) {
+    return <div>해당 상품이 없습니다.</div>;
   }
   return (
     <div className="flex flex-col gap-[52px]">

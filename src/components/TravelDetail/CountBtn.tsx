@@ -1,22 +1,23 @@
 import { useState } from "react";
+import { CountBtnProps } from "../../types/product";
 
-type CountBtnProps = {
-  age: "성인" | "아동" | "유아";
-  price: number;
-  onCountChange: (age: "성인" | "아동" | "유아", newCount: number) => void;
-};
-
-const CountBtn = ({ age, price, onCountChange }: CountBtnProps) => {
+const CountBtn = ({
+  age,
+  price,
+  onCountChange,
+  remainCount,
+}: CountBtnProps) => {
   const [count, setCount] = useState(0);
 
   const handleDecrease = () => {
-    if (count === 0) return;
+    if (count === 0 || remainCount === 0) return;
     const newCount = Math.max(0, count - 1);
     setCount(newCount);
     onCountChange(age, newCount);
   };
 
   const handleIncrease = () => {
+    if (remainCount === 0) return;
     const newCount = count + 1;
     setCount(newCount);
     onCountChange(age, newCount);

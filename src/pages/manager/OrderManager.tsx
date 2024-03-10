@@ -1,174 +1,259 @@
-import Pagination from "../../components/common/Pagination";
-import { useNavigate } from "react-router-dom";
 import ManagerTitle from "../../components/Manager/ManagerTitle";
-import { ChangeEvent, useState } from "react";
-import CustomDatePicker from "../../components/common/CustomDatePicker";
+import { ORDER_EMPTYDATA, ORDER_STATES } from "../../constants/managerdata";
+import CustomPagination from "../../components/common/CustomPagination";
+import { dateFormat } from "../../utils/dateFormat";
+import ManagerDateBtns from "../../components/Manager/ManagerDateBtns";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import usePostMangerOrders from "../../queries/orders/usePostOrderList";
+import { ManagerColumns, OrderList, OrderRequest } from "../../types/manager";
+import { fillData } from "../../utils/fillData";
+import ManagerTable from "../../components/Manager/ManagerTable";
+import useGetCountries from "../../queries/countries/useGetCountries";
+import FilterDropdown from "../../components/common/FilterDropdown";
 
 const OrderManager = () => {
-  const navagation = useNavigate();
-  const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
+  const [orderList, setOrderList] = useState<OrderList[]>([]);
+  const [orderReq, setOrderReq] = useState<OrderRequest>({
+    orderDateMin: null,
+    orderDateMax: null,
+    packageId: null,
+    country: null,
+    orderState: null,
+    userNameOrder: null,
+    order: 0, // 주문일시 오름차순 : 0 , 내림차순 : 1
+    start: 0, // 출발일 오름차순 : 0 , 내림차순 : 1
+    offset: 0,
+  });
+  const [sortState, setSortSate] = useState<{ [key: string]: number | null }>({
+    startDate: null,
+    orderDate: null,
+  });
 
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(() => e.target.value);
+  const [totalPages, setTotalPages] = useState<number>(0);
+
+  const [countries, setCountries] = useState<string[]>([]);
+
+  const [search, setSearch] = useState<{
+    [key: string]: number | string | null;
+  }>({});
+
+  const { mutate, data, isPending, isError, error } =
+    usePostMangerOrders(orderReq);
+
+  const {
+    data: countryData,
+    isPending: countryIsPending,
+    isError: countryIsError,
+    error: countryError,
+  } = useGetCountries();
+
+  useEffect(() => {
+    console.log(orderReq);
+    if (
+      (orderReq.orderDateMin && orderReq.orderDateMax) ||
+      (!orderReq.orderDateMin && !orderReq.orderDateMax)
+    )
+      mutate();
+  }, [orderReq, mutate]);
+
+  useEffect(() => {
+    if (data) {
+      setOrderList(() => fillData(data.content, 10, ORDER_EMPTYDATA));
+      setTotalPages(data.totalPages);
+      console.log(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (countryData) {
+      setCountries(() => ["전체", ...countryData]);
+    }
+  }, [countryData]);
+
+  // table header의 주문일시, 출발일 정렬
+  const handleSortOrder = (category: string) => {
+    setSortSate((prev) => ({
+      ...prev,
+      [category]:
+        !prev[category as keyof OrderRequest] ||
+        prev[category as keyof OrderRequest] === 0
+          ? 1
+          : 0,
+    }));
+    const reqCategory = category.replace("Date", ""); // "start" || "order"
+    setOrderReq((prev) => ({
+      ...prev,
+      [reqCategory]: prev[reqCategory as keyof OrderRequest] === 0 ? 1 : 0,
+    }));
   };
 
-  const itemList = [
-    {
-      order_id: 1, //주문번호
-      product_id: 2,
-      user_name: "김우리",
-      package_name: "패키지 이름",
-      created_date: "2023-02-02", //주문일자
-      start_date: "2023-05-05",
-      phone_number: "010-1234-5678", //사용자 폰번호
-      email: "uriel@naver.com",
-      total_count: 4, //총인원
-      deposit: "123000", //예약금
-      difference: "900000",
-    },
-    {
-      order_id: 2, //주문번호
-      product_id: 3,
-      user_name: "김리우",
-      package_name: "패키지 이름",
-      created_date: "2023-02-02", //주문일자
-      start_date: "2023-05-05",
-      phone_number: "010-1234-5678", //사용자 폰번호
-      email: "uriel@naver.com",
-      total_count: 4, //총인원
-      deposit: "123000", //예약금
-      difference: "900000",
-    },
-  ];
-
-  const orderManagerHeader = [
-    "주문번호",
-    "상품번호",
-    "예약자명",
-    "주문일시",
-    "패키지이름",
-    "출발일",
-    "핸드폰",
-    "이메일",
-    "총인원(어른/아동/유아)",
-    "예약금금액",
-    "남은결제금액",
-  ];
-
-  const searchOption = {
-    order_id: "주문번호",
-    product_id: "상품번호",
-    user_name: "예약자명",
-    phone_number: "핸드폰",
-    email: "이메일",
+  const handlePageClick = (selected: number) => {
+    setOrderReq((prev) => ({
+      ...prev,
+      offset: selected,
+    }));
   };
 
-  const emptyData = Array.from({ length: 10 - itemList.length }).map(
-    (_, index) => ({
-      order_id: itemList.length + index + 1,
-      product_id: 0,
-      user_name: "",
-      package_name: "",
-      created_date: "", //주문일자
-      start_date: "",
-      phone_number: "", //사용자 폰번호
-      email: "",
-      total_count: 0, //총인원
-      deposit: "", //예약금
-      difference: "",
-    })
-  );
+  const handleTableRow = (orderId: string) => {
+    if (orderId) {
+      navigate(`/orderdetail/${orderId}`);
+    }
+    return;
+  };
 
-  const displayData = [...itemList, ...emptyData];
+  const handleDateBtns = (dates: { [key: string]: string | null }) => {
+    setOrderReq((prev) => ({
+      ...prev,
+      orderDateMin: dates.dateMin ? dates.dateMin : null,
+      orderDateMax: dates.dateMax ? dates.dateMax : null,
+    }));
+  };
+
+  const handleDropdown = (value: string | number, id: string) => {
+    setOrderReq((prev) => ({
+      ...prev,
+      [id]: value === "전체" ? null : value,
+    }));
+  };
+
+  const handleSearchDropdown = (value: string, id: string) => {
+    console.log(value, id);
+  };
+
+  const columns: ManagerColumns<OrderList> = [
+    {
+      key: "imomOrderId",
+      label: "주문번호",
+      sortable: false,
+    },
+    {
+      key: "reserveUser",
+      label: "예약자명",
+      sortable: false,
+    },
+    {
+      key: "productCode",
+      label: "상품번호",
+      sortable: false,
+    },
+    {
+      key: "orderDate",
+      label: "주문일시",
+      sortable: true,
+      render: (value) => (value ? dateFormat(`${value}`) : ""),
+      onClick: () => handleSortOrder("orderDate"),
+    },
+    {
+      key: "packageName",
+      label: "패키지명",
+      sortable: false,
+    },
+    {
+      key: "startDate",
+      label: "출발일",
+      sortable: true,
+      render: (value) => (value ? dateFormat(`${value}`) : ""),
+      onClick: () => handleSortOrder("startDate"),
+    },
+    {
+      key: "email",
+      label: "이메일(ID)",
+      sortable: false,
+    },
+    {
+      key: "phoneNumber",
+      label: "핸드폰",
+      sortable: false,
+    },
+    {
+      key: "totalCount",
+      label: "총인원",
+      sortable: false,
+    },
+    {
+      key: "orderState",
+      label: "결제상태",
+      sortable: false,
+    },
+  ];
 
   return (
-    <div className="w-full">
-      <ManagerTitle title="주문 목록" />
-      <div className="h-20 w-full flex items-center border-y border-black">
-        <div className="w-40 bg-gray-200 flex justify-center items-center border-r border-black h-full">
-          출시 일시
-        </div>
-        <div className="w-full">
-          <div className="border-b w-full flex items-center py-3">
-            {["하루", "일주일", "1달이내"].map((el) => {
-              return (
-                <button className="border border-black px-5 ml-5" key={el}>
-                  {el}
-                </button>
-              );
-            })}
+    <div className="w-full flex flex-col gap-[27px] mr-20 items-center min-w-[1290px]">
+      <ManagerTitle title="주문목록" />
+      <section className="w-full">
+        <ManagerDateBtns title="주문 일시" handleDateBtns={handleDateBtns} />
+        <div className="h-20 w-full flex items-center border-b border-black">
+          <div className="w-40 bg-gray-200 flex justify-center items-center border-r border-black h-full flex-shrink-0">
+            주문 필터
           </div>
-          <div className="flex">
-            <CustomDatePicker className="mx-5" />
-            <span>~</span>
-            <CustomDatePicker className="ml-5" />
-          </div>
-        </div>
-      </div>
-
-      <>
-        <table className="table-auto w-full border-collapse border border-black">
-          <thead className="bg-[rgba(0,0,0,0.1)] h-[45px] 2sm:h-[50px]">
-            <tr>
-              {orderManagerHeader.map((el) => (
-                <th key={el} className="p-2 border border-black">
-                  {el}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {displayData.map((el) => (
-              <tr
-                className="h-[45px] text-center whitespace-nowrap cursor-pointer"
-                key={el.order_id}
-                onClick={() => {
-                  navagation("/orderdetail");
-                }}
+          <div className="flex flex-row gap-5 px-5 h-[24px] items-center flex-shrink-0">
+            <FilterDropdown
+              label="결제 상태 :"
+              list={ORDER_STATES}
+              id={"orderState"}
+              handleClick={handleDropdown}
+              divStyle="flex p-[3px] gap-3"
+              selectStyle="border border-sub-black"
+            />
+            {countryIsPending ? (
+              <div>로딩중</div>
+            ) : countryIsError ? (
+              <div>{countryError?.message}</div>
+            ) : (
+              <FilterDropdown
+                label="지역 :"
+                list={countries}
+                id={"country"}
+                handleClick={handleDropdown}
+                divStyle="flex p-[3px] gap-3"
+                selectStyle="border border-sub-black"
+              />
+            )}
+            <form className="flex flex-row items-center h-[24px] flex-shrink-0">
+              <FilterDropdown
+                label="주문 검색 :"
+                list={["예약자명", "핸드폰", "이메일", "주문번호", "상품번호"]}
+                id={"search"}
+                handleClick={handleSearchDropdown}
+                divStyle="flex p-[3px] gap-3 "
+                selectStyle="border border-sub-black h-[24px]"
+              />
+              <input
+                type="text"
+                className="border border-sub-black h-[24px] text-center"
+                placeholder="검색어를 입력하세요"
+              />
+              <button
+                type="submit"
+                className="ml-1 border-sub-black border px-2 h-full bg-gray-200 active:bg-gray-400"
               >
-                <td className="border  border-black p-2">
-                  {el.product_id ? el.order_id : ""}
-                </td>
-                <td className="border  border-black p-2">
-                  {el.product_id ? el.product_id : ""}
-                </td>
-                <td className="border border-black p-2">{el.user_name}</td>
-                <td className="border border-black p-2">{el.package_name}</td>
-                <td className="border border-black p-2">{el.created_date}</td>
-                <td className="border border-black p-2">{el.start_date}</td>
-                <td className="border border-black p-2">{el.phone_number}</td>
-                <td className="border border-black p-2">{el.email}</td>
-                <td className="border border-black p-2">
-                  {el.total_count ? el.total_count : ""}
-                </td>
-                <td className="border border-black p-2">{el.deposit}</td>
-                <td className="border border-black p-2">{el.difference}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="flex justify-center mt-[20px]">
-          <Pagination items={10} count={10} />
+                검색
+              </button>
+            </form>
+          </div>
         </div>
-        <div className="flex gap-[20px] h-[28px] mt-[20px]">
-          <select defaultValue="default">
-            {Object.entries(searchOption).map(([key, value]) => {
-              return (
-                <option id={key} key={key}>
-                  {value}
-                </option>
-              );
-            })}
-          </select>
-          <input
-            className="border-[1px] border-sub-black"
-            onChange={handleSearch}
-            type="text"
-            value={searchValue}
+      </section>
+      {isPending ? (
+        <div>로딩중</div>
+      ) : isError ? (
+        <div>{error?.message}</div>
+      ) : (
+        <section className="w-full items-center gap-5 flex flex-col">
+          <ManagerTable
+            data={orderList}
+            columns={columns}
+            navigateId={"imomOrderId"}
+            handleTableRow={handleTableRow}
+            sortState={sortState}
           />
-          <button>검색</button>
-        </div>
-      </>
+          <CustomPagination
+            totalPage={totalPages}
+            handlePageClick={handlePageClick}
+          />
+        </section>
+      )}
     </div>
   );
 };

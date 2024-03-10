@@ -42,9 +42,7 @@ const Banner = () => {
             key={item.imageUrl}
             data-imageurl={item.imageUrl}
             style={{ backgroundImage: `url(${item.imageUrl})` }}
-          >
-            {/* <img src={item.imageUrl} alt="bannerImg" /> */}
-          </SwiperSlide>
+          ></SwiperSlide>
         ))}
       </Swiper>
     </div>

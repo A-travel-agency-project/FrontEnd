@@ -5,7 +5,10 @@ const TravelPlaceBtns = ({
   handleCountry,
   countryClick,
 }: {
-  handleCountry: (e: MouseEvent, country: string) => void;
+  handleCountry: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    country: string
+  ) => void;
   countryClick: string;
 }) => {
   const { data, isPending, isError, error } = useGetCountries();

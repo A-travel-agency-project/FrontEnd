@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Nav from "./components/common/Header/Nav";
+import Header from "./components/common/Header/Header";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import SideNav from "./components/common/SideNav";
@@ -31,11 +31,11 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/mypage" element={<MyPage />} />
           {/* 본문 네비게이션바 */}
-          <Route element={<Nav />}>
+          <Route element={<Header />}>
             <Route path="/" element={<Main />} />
             <Route path="/intro" element={<Intro />} />
             <Route path="/community" element={<Community />} />
-            <Route path="/traveldetail" element={<TravelDetail />} />
+            <Route path="/traveldetail/:id" element={<TravelDetail />} />
             <Route path="/travelproduct" element={<TravelProduct />} />
             <Route path="/reservation" element={<Reservation />} />
             <Route path="/reservation/success" element={<PaymentSuccess />} />
@@ -46,7 +46,7 @@ function App() {
             <Route path="/packagemanager" element={<PackageManager />} />
             <Route path="/productmanager" element={<ProductManager />} />
             <Route path="/ordermanager" element={<OrderManager />} />
-            <Route path="/orderdetail" element={<OrderDetail />} />
+            <Route path="/orderdetail/:id" element={<OrderDetail />} />
             <Route path="/newregistration" element={<NewRegistration />} />
             <Route path="/productdetail" element={<ProductDetail />} />
           </Route>
