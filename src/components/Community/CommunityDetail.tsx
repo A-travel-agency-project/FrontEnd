@@ -1,6 +1,6 @@
 import React, { SetStateAction, useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { instance } from "../../api/instance";
+import { baseInstance } from "../../api/instance";
 import { Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import UiViewer from "../common/Editor/UiViewer";
@@ -19,7 +19,7 @@ const CommunityDetail = ({ setEditorActive }: DetailState) => {
   const { postId } = useParams();
   const [detailData, setDetailData] = useState<DetailData>();
   useEffect(() => {
-    instance
+    baseInstance
       .get(`/posts/${postId}`)
       .then((el) => {
         setDetailData(el.data.data);

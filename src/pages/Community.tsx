@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import SectionTitle from "../components/main/SectionTitle";
 import Table from "../components/common/Table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Pagination from "../components/common/Pagination";
 import "../App.css";
-import { instance } from "../api/instance";
+import { baseInstance } from "../api/instance";
 import CommunityEditor from "../components/Community/CommunityEditor";
 import CommunityDetail from "../components/Community/CommunityDetail";
+import SectionTitle from "../components/Main/SectionTitle";
 
 type CommunityCloum = {
   title: string | JSX.Element;
@@ -58,7 +58,7 @@ const Community = () => {
     columnHelper.accessor("createdDate", { header: "작성일자" }),
   ];
   useEffect(() => {
-    instance
+    baseInstance
       .get(`/posts/${active}/${0}`)
       .then((res) => {
         setTableData(res.data.data);
@@ -165,7 +165,7 @@ const Community = () => {
       confirm("삭제하시겠습니까?")
     ) {
       try {
-        const res = await instance.post(`/posts/batch-delete`, {
+        const res = await baseInstance.post(`/posts/batch-delete`, {
           operation: "",
           ids: selectCommunity,
         });

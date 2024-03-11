@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { instance } from "./instance";
+import { baseInstance } from "./instance";
 
 type UsePostPackageProps = {
   data?: {
@@ -43,10 +43,7 @@ export const usePostPackage = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await instance.post(
-          `http://13.124.147.192:8080/packages`,
-          data
-        );
+        const response = await baseInstance.post(`/packages`, data);
 
         setPackageList(response.data.data.content);
         setCopyActive(false);

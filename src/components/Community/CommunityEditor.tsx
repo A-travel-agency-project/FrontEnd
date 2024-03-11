@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import UiEditor from "../common/UiEditor";
 import { Editor } from "@toast-ui/react-editor";
-import { instance } from "../../api/instance";
+import { baseInstance } from "../../api/instance";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type CommunityDataType = {
@@ -27,7 +27,7 @@ const CommunityEditor = () => {
 
   useEffect(() => {
     if (state) {
-      instance.get(`/posts/update/${state}`).then((res) => {
+      baseInstance.get(`/posts/update/${state}`).then((res) => {
         setEditData(res.data.data);
       });
     }
@@ -65,7 +65,7 @@ const CommunityEditor = () => {
   // 등록하기 클릭
   const handleRegisterClick = () => {
     if (selectCategory !== "" && title !== "" && communityHtml !== "") {
-      instance
+      baseInstance
         .post("/posts", {
           type: selectCategory,
           title: title,
@@ -88,7 +88,7 @@ const CommunityEditor = () => {
   // 수정하기 클릭
   const handleEditClick = () => {
     if (selectCategory !== "" && title !== "" && communityHtml !== "") {
-      instance
+      baseInstance
         .put(`/posts/${state}`, {
           type: selectCategory,
           title: title,

@@ -4,7 +4,7 @@ import ProductTitle from "../../components/Manager/ProductTitle";
 import ProductIcon from "../../components/Manager/ProductIcon";
 import { porductIcons, productCost } from "../../constants/data";
 import ProductCost from "../../components/Manager/ProductCost";
-import { instance } from "../../api/instance";
+import { baseInstance } from "../../api/instance";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetPackage } from "../../api/useGetPackage";
 import { useGetAirlines } from "../../api/useGetAirlines";
@@ -161,7 +161,7 @@ const ProductDetail = () => {
   const [productCode, setProductCode] = useState();
   useEffect(() => {
     if (edit) {
-      instance.get(`/products/${edit}`).then((res) => {
+      baseInstance.get(`/products/${edit}`).then((res) => {
         const { productInfo } = res.data.data;
         const { packageInfo } = res.data.data;
         setProductCode(productInfo.productCode);
@@ -203,7 +203,7 @@ const ProductDetail = () => {
       minCount !== 0 &&
       maxCount !== 0
     ) {
-      instance({
+      baseInstance({
         method: edit ? "put" : "post",
         url: edit ? `/products/${edit}` : "/products/create",
         data: {
@@ -247,7 +247,7 @@ const ProductDetail = () => {
   //! 임시저장 버튼
   const handleTemporarySaveClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    instance({
+    baseInstance({
       method: edit ? "put" : "post",
       url: edit ? `/products/save/${edit}` : "/products/temp-create",
       data: {

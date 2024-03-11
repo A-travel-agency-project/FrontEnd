@@ -11,7 +11,7 @@ import { useGetTags } from "../../api/useGetTags";
 import { Editor } from "@toast-ui/react-editor";
 import { useGetContries } from "../../api/useGetContries";
 import { useNavigate } from "react-router-dom";
-import { instance } from "../../api/instance";
+import { baseInstance } from "../../api/instance";
 
 interface DateProps {
   day: number;
@@ -256,7 +256,7 @@ const NewRegistration = () => {
     });
     const dayEmptyContent = days.some((el) => el.dayContent);
     if (selectCountry !== "" && privacy !== "" && dayEmptyContent) {
-      instance
+      baseInstance
         .post("/packages/temp-create", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })

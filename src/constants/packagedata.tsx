@@ -1,5 +1,5 @@
-import flagCarrierExist from "../../public/vite.svg";
-import flagCarrierNotExist from "../../public/icon_cancel.svg";
+import flagCarrierExist from "../../public/문의하기.svg";
+import flagCarrierNotExist from "../../public/문의하기.svg";
 
 export const PACKAGE_ICON_CATEGORIES = {
   flagCarrier: {

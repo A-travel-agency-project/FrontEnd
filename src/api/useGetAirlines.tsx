@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { instance } from "./instance";
+import { baseInstance } from "./instance";
 
 export const useGetAirlines = () => {
   const [airlines, setAirlines] = useState<string[]>([]);
   useEffect(() => {
-    instance
+    baseInstance
       .get("airlines")
       .then((res) => setAirlines(res.data.data))
       .catch((err) => console.log(err));
