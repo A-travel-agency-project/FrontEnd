@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 
 const SideNav = () => {
   const navigation = useNavigate();
-  const [selectedButton, setSelectedButton] = useState<string>("/mainmanager");
+  const location = useLocation();
+  const [selectedButton, setSelectedButton] = useState<string>(
+    location.pathname
+  );
   const managerNavOption = [
     { title: "홈으로 가기", prams: "/" },
     { title: "메인 관리 페이지", prams: "/mainmanager" },

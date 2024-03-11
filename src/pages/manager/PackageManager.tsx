@@ -8,6 +8,7 @@ import { usePostPackage } from "../../api/usePostPackage";
 import { useDeletePackage } from "../../api/useDeletePackage";
 import PackageSelect from "../../components/Manager/package/PackageSelect";
 import { useChangePackage } from "../../api/useChangePackage";
+import { instance } from "../../api/instance";
 interface CountryData {
   key: string;
   value: string;
@@ -19,12 +20,8 @@ const PackageManager = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   console.log(selectedItems);
   /* 필터링 */
-  const [arrowState, setArrowState] = useState<{ [key: string]: boolean }>({
-    packageperiod: false,
-    travelarea: false,
-    save: false,
-    openState: false,
-  });
+
+  const [packagePeriod, setPackagePeriod] = useState<boolean>(false);
   /* 필터링 */
   // 여행지 selectBox
   const [countrySelect, setConuntrySelect] = useState<string | null>(null);
@@ -38,6 +35,8 @@ const PackageManager = () => {
   const [deleteActive, setDeleteActive] = useState<boolean>(false);
   // 공개 비공개 active
   const [changeActive, setChangeActive] = useState<boolean>(false);
+  // 복사 active
+  const [copyActive, setCopyActive] = useState<boolean>(false);
 
   console.log(privacyState);
   // 공개 변경
@@ -46,6 +45,7 @@ const PackageManager = () => {
     ids: selectedItems,
     setChangeActive,
     changeActive,
+    params: "packages",
   });
   // 패키지 삭제
   const { packageDelete } = useDeletePackage({
@@ -60,19 +60,18 @@ const PackageManager = () => {
       countryName: countrySelect === "전체 여행지" ? null : countrySelect,
       privacy: privacy === "공개 상태" ? null : privacy,
       saveState: save === "저장 상태" ? null : save,
-      countryOrder: arrowState.travelarea ? 0 : 1,
-      periodOrder: arrowState.packageperiod ? 0 : 1,
-      saveOrder: arrowState.save ? 0 : 1,
-      privacyOrder: arrowState.openState ? 0 : 1,
+      periodOrder: packagePeriod ? 0 : 1,
       offset: 0,
       limit: 10,
     },
     countrySelect,
     privacy,
     deleteActive,
-    arrowState,
     save,
     changeActive,
+    copyActive,
+    setCopyActive,
+    packagePeriod,
   });
 
   // 체크 삭제
@@ -86,23 +85,8 @@ const PackageManager = () => {
   };
 
   // 기간
-  const handlePackageToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const packageValue = e.currentTarget.dataset
-      .package as keyof typeof arrowState;
-
-    setArrowState((prevState) => ({
-      ...prevState,
-      [packageValue]: !prevState[packageValue],
-    }));
-    if (packageValue === "packageperiod") {
-      console.log("Clicked packageperiod");
-    } else if (packageValue === "travelarea") {
-      console.log("Clicked travelarea");
-    } else if (packageValue === "save") {
-      console.log("Clicked save");
-    } else if (packageValue === "openState") {
-      console.log("Clicked openState");
-    }
+  const handlePackageToggle = () => {
+    setPackagePeriod(!packagePeriod);
   };
   // 전체 체크
   const handleToggleAll = () => {
@@ -119,6 +103,19 @@ const PackageManager = () => {
     } else {
       setSelectedItems([...selectedItems, key]);
     }
+  };
+  // 복사
+  const handleCopyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { value } = e.currentTarget;
+    instance
+      .get(`/packages/duplicate/${value}`)
+      .then((res) => {
+        if (res.status === 200) {
+          alert("복사완료!");
+          setCopyActive(true);
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -154,7 +151,7 @@ const PackageManager = () => {
             options={["공개", "비공개"]}
             value={privacyState}
             onChange={setPrivacyState}
-            disabledOption="공개 상태"
+            disabledOption="공개 변경"
             setChangeActive={setChangeActive}
           />
         </div>
@@ -163,6 +160,7 @@ const PackageManager = () => {
             options={["공개 상태", "공개", "비공개"]}
             value={privacy}
             onChange={setPrivacy}
+            className="mr-2"
           />
 
           <PackageSelect
@@ -185,11 +183,9 @@ const PackageManager = () => {
             {packageHeaders.map((el, index) => (
               <th key={index} className="p-2 border border-black">
                 {el.text}
-                {["packageperiod", "travelarea", "save", "openState"].includes(
-                  el.value
-                ) && (
-                  <button onClick={handlePackageToggle} data-package={el.value}>
-                    {arrowState[el.value] ? "↑" : "↓"}
+                {el.value === "packageperiod" && (
+                  <button onClick={handlePackageToggle}>
+                    {packagePeriod ? "↑" : "↓"}
                   </button>
                 )}
               </th>
@@ -210,17 +206,17 @@ const PackageManager = () => {
                 />
               </td>
               <td className="border  border-black p-2">
-                {el.countryName && (
-                  <button
-                    value={el.packageId}
-                    onClick={(e) => navagation(`${e.currentTarget.value}`)}
-                  >
-                    수정
-                  </button>
-                )}
+                <button
+                  value={el.packageId}
+                  onClick={(e) => navagation(`${e.currentTarget.value}`)}
+                >
+                  수정
+                </button>
               </td>
               <td className="border border-black p-2">
-                {el.countryName && <button>복사</button>}
+                <button value={el.packageId} onClick={handleCopyClick}>
+                  복사
+                </button>
               </td>
               <td className="border border-black p-2">{el.packageName}</td>
               <td className="border border-black p-2">{el.countryName}</td>

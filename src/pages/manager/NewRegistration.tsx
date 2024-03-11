@@ -11,6 +11,7 @@ import { useGetTags } from "../../api/useGetTags";
 import { Editor } from "@toast-ui/react-editor";
 import { useGetContries } from "../../api/useGetContries";
 import { useNavigate } from "react-router-dom";
+import { instance } from "../../api/instance";
 
 interface DateProps {
   day: number;
@@ -103,31 +104,6 @@ const NewRegistration = () => {
   };
 
   /* 폼데이터 */
-  // const jsonData = {
-  //   packageName: packageName,
-  //   summary: packageSummary,
-  //   period: period,
-  //   privacy: privacy,
-  //   countryName: selectCountry,
-  //   themeList: themeList,
-  //   familyList: familyList,
-  //   priceList: priceList,
-  //   seasonList: seasonList,
-  //   hashTag: taggedValue,
-  //   hotelInfoMd: hotelInfoMd,
-  //   hotelInfoHtml: hotelInfoHtml,
-  //   regionInfoMd: regionInfoMd,
-  //   regionInfoHtml: regionInfoHtml,
-  //   termsMd: termMd,
-  //   termsHtml: termHtml,
-  //   scheduleList: days,
-  // };
-  // const formData = new FormData();
-  // formData.append(
-  //   "data",
-  //   new Blob([JSON.stringify(jsonData)], { type: "application/json" })
-  // );
-  console.log(days);
   /* 폼데이터 post요청 */
   const handleOnSubmit = () => {
     const jsonData = {
@@ -247,6 +223,51 @@ const NewRegistration = () => {
       setPackageSummary(value);
     } else if (name === "기간") {
       setPeriod(Number(value));
+    }
+  };
+  // 임시저장 함수
+  const handleTemporarySaveClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const jsonData = {
+      packageName: packageName === "" ? "임시저장패키지" : packageName,
+      summary: packageSummary,
+      period: period,
+      privacy: privacy,
+      countryName: selectCountry,
+      themeList: themeList,
+      familyList: familyList,
+      priceList: priceList,
+      seasonList: seasonList,
+      hashTag: taggedValue,
+      hotelInfoMd: hotelInfoMd,
+      hotelInfoHtml: hotelInfoHtml,
+      regionInfoMd: regionInfoMd,
+      regionInfoHtml: regionInfoHtml,
+      termsMd: termMd,
+      termsHtml: termHtml,
+      scheduleList: days,
+    };
+    const formData = new FormData();
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(jsonData)], { type: "application/json" })
+    );
+    sendImg.forEach((file) => {
+      formData.append("files", file);
+    });
+    const dayEmptyContent = days.some((el) => el.dayContent);
+    if (selectCountry !== "" && privacy !== "" && dayEmptyContent) {
+      instance
+        .post("/packages/temp-create", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            alert("임시저장 완료!");
+            navigate("/packagemanager");
+          }
+        });
+    } else {
+      alert("여행지,공개여부,일정안내를 포함한 필수 값을 입력해주세요");
     }
   };
 
@@ -441,6 +462,7 @@ const NewRegistration = () => {
                       handleDayInputChange={handleDayInputChange}
                       index={index}
                       name={el.name}
+                      day={index}
                     />
                   );
                 })}
@@ -467,7 +489,10 @@ const NewRegistration = () => {
         <div className="flex flex-col justify-center items-center w-full">
           <div className="w-full h-[1px] my-16 bg-black" />
           <div className="flex mb-10">
-            <button className="bg-title-box mr-3 px-20 py-3 border border-black">
+            <button
+              onClick={handleTemporarySaveClick}
+              className="bg-title-box mr-3 px-20 py-3 border border-black"
+            >
               임시저장
             </button>
             <button

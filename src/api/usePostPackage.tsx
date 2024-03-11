@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { instance } from "./instance";
 
 type UsePostPackageProps = {
@@ -6,55 +6,20 @@ type UsePostPackageProps = {
     countryName: string | null;
     privacy: string | null;
     saveState: string | null;
-    countryOrder: number | null;
     periodOrder: number | null;
-    saveOrder: number | null;
-    privacyOrder: number | null;
     offset: number;
     limit: number;
   };
   countrySelect: string | null;
   privacy: string | null;
   deleteActive: boolean;
-  arrowState: { [key: string]: boolean };
   save: string | null;
   changeActive: boolean;
+  copyActive: boolean;
+  packagePeriod: boolean;
+  setCopyActive: Dispatch<SetStateAction<boolean>>;
 };
-// type Response = {
-//   code: number;
-//   data: {
-//     content: {
-//       packageId: number;
-//       packageName: string;
-//       countryName: string;
-//       period: number;
-//       privacy: string;
-//       saveState: string;
-//     }[];
-//     empty: boolean;
-//     first: boolean;
-//     last: boolean;
-//     number: 0;
-//     numberOfElements: number;
-//     pageable: {
-//       offset: number;
-//       pageNumber: number;
-//       pageSize: number;
-//       paged: boolean;
-//       sort: {
-//         empty: boolean;
-//         sorted: boolean;
-//         unsorted: boolean;
-//       };
-//       unpaged: boolean;
-//     }[];
-//     size: number;
-//     sort: { empty: boolean; sorted: boolean; unsorted: boolean };
-//     totalElements: number;
-//     totalPages: number;
-//   };
-//   message: string;
-// };
+
 type ResponseContent = {
   packageId: number;
   packageName: string;
@@ -68,9 +33,11 @@ export const usePostPackage = ({
   countrySelect,
   privacy,
   deleteActive,
-  arrowState,
   save,
   changeActive,
+  copyActive,
+  setCopyActive,
+  packagePeriod,
 }: UsePostPackageProps) => {
   const [packageList, setPackageList] = useState<ResponseContent[]>([]);
   useEffect(() => {
@@ -82,12 +49,21 @@ export const usePostPackage = ({
         );
 
         setPackageList(response.data.data.content);
+        setCopyActive(false);
       } catch (error) {
         console.error("에러 발생:", error);
       }
     };
 
     fetchData();
-  }, [countrySelect, privacy, deleteActive, arrowState, save, changeActive]);
+  }, [
+    countrySelect,
+    privacy,
+    deleteActive,
+    save,
+    changeActive,
+    copyActive,
+    packagePeriod,
+  ]);
   return { packageList, privacy };
 };

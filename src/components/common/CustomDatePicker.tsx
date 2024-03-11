@@ -1,24 +1,42 @@
+import { ko } from "date-fns/locale";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface DatePickerProps {
-  className: string;
+  className?: string;
+  startDate: Date | null;
+  setEndDate: React.Dispatch<React.SetStateAction<Date | null>>;
+  endDate: Date | null;
+  endQuarterDate?: Date | null;
+  setStartDate: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
-const CustomDatePicker = ({ className }: DatePickerProps) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-
+const CustomDatePicker = ({
+  setStartDate,
+  startDate,
+  setEndDate,
+  endDate,
+  endQuarterDate,
+}: DatePickerProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onChange = (dates: any) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+  };
   return (
-    <div>
+    <div className="flex items-center ml-5">
       <DatePicker
-        dateFormat="yyyy.MM.dd"
-        shouldCloseOnSelect
-        minDate={new Date()}
-        // maxDate={new Date()}
-        selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
-        className={`outline-none border text-center border-black ${className}`}
+        className="border border-black w-80 outline-none"
+        dateFormat="yyyy년 MM월 dd일"
+        selected={startDate}
+        onChange={onChange}
+        startDate={startDate}
+        endDate={endDate}
+        locale={ko}
+        selectsRange
+        disabled={endQuarterDate ? true : false}
       />
     </div>
   );

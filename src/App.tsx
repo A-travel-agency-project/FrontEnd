@@ -22,7 +22,6 @@ import MyPageNav from "./components/MyPage/MyPageNav";
 import EditMember from "./pages/EditMember";
 import MyPageOrderInfo from "./pages/MyPageOrderInfo";
 import { TopScroll } from "./hooks/TopScroll";
-import { CheckoutPage } from "./pages/payment/CheckoutPage";
 import AuthenticationPage from "./pages/AuthenticationPage";
 import NewRegistrationEdit from "./pages/manager/NewRegistrationEdit";
 
@@ -33,7 +32,6 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/check" element={<CheckoutPage />} />
         <Route path="/test" element={<AuthenticationPage />} />
         <Route element={<MyPageNav />}>
           <Route path="/mypage" element={<MyPage />} />
@@ -45,6 +43,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/intro" element={<Intro />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/community/:postId" element={<Community />} />
           <Route path="/traveldetail" element={<TravelDetail />} />
           <Route path="/travelproduct" element={<TravelProduct />} />
           <Route path="/reservation" element={<Reservation />} />
@@ -58,6 +57,7 @@ function App() {
           <Route path="/newregistration" element={<NewRegistration />} />
           <Route path="/packagemanager/:id" element={<NewRegistrationEdit />} />
           <Route path="/productdetail" element={<ProductDetail />} />
+          <Route path="/productdetail/:edit" element={<ProductDetail />} />
           <Route path="/tagsmanager" element={<TagsManager />} />
         </Route>
       </Routes>

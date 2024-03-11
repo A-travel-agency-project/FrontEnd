@@ -33,6 +33,7 @@ const NavMenu = ({
     },
     {
       name: "자주묻는질문",
+      path: "/community",
     },
   ];
 
@@ -56,7 +57,13 @@ const NavMenu = ({
       </li>
       {MENU_LIST.map((menu) => (
         <li key={menu.name}>
-          {menu.path ? <Link to={menu.path}>{menu.name}</Link> : menu.name}
+          {menu.path ? (
+            <Link to={menu.path} state={menu.name}>
+              {menu.name}
+            </Link>
+          ) : (
+            menu.name
+          )}
         </li>
       ))}
     </ul>
