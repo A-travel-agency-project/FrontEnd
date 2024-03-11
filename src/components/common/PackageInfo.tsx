@@ -1,11 +1,4 @@
-type PackageInfoProps = {
-  name: string;
-  summary: string;
-  price: number;
-  hashTag: string;
-  page: string;
-  country: string;
-};
+import { PackageInfoProps } from "../../types/package";
 
 const PackageInfo = ({
   country,
@@ -41,11 +34,12 @@ const PackageInfo = ({
         </div>
       </div>
       <div className="flex gap-[10px] text-[13px] font-light">
-        {hashTag.split(" ").map((tag) => (
-          <span key={tag} className="font-">
-            #{tag}
-          </span>
-        ))}
+        {hashTag
+          .replace("#", "")
+          .split("#")
+          .map((tag) => (
+            <span key={tag}>#{tag}</span>
+          ))}
       </div>
     </div>
   );

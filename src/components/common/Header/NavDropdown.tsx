@@ -1,13 +1,18 @@
 import { Link } from "react-router-dom";
 
-import "./Nav.css";
+import "./NavDropdown.css";
 
 type NavDropdownProps = {
-  handleMenuClose: () => void; // 함수 타입을 명시
+  handleMenuClose: () => void;
 };
 const NavDropdown = ({ handleMenuClose }: NavDropdownProps) => {
   const FULL_MENU_LIST = [
-    { title: "우리엘소개" },
+    {
+      title: "아이맘투어소개",
+      list: {
+        아이맘투어소개: "/intro",
+      },
+    },
     {
       title: "여행상품보기",
       list: {
@@ -19,31 +24,29 @@ const NavDropdown = ({ handleMenuClose }: NavDropdownProps) => {
         뉴질랜드: "/travelproduct",
         대만: "/travelproduct",
         일본: "/travelproduct",
-        동남아: "/travelproduct",
       },
     },
     {
       title: "커뮤니티",
       list: {
         여행이야기: "/community",
-        자주묻는질문: "",
+        자주묻는질문: "/community",
         공지사항: "/community",
-        문의게시판: "",
       },
     },
   ];
 
   return (
-    <div className="absolute w-[826px] overflow-hidden bg-white z-10 top-full px-[35px] py-[24px] flex flex-row gap-[20px] shadow">
+    <div className="absolute w-fit overflow-hidden bg-white z-10 top-full px-[35px] py-[24px] flex flex-row gap-[20px] shadow">
       {FULL_MENU_LIST.map((menu) => (
-        <div key={menu.title} className="w-1/6">
+        <div key={menu.title} className="w-fit">
           <h2 className="text-main-color text-[14px] border-b-[1px] border-main-color mb-[10px]">
             {menu.title}
           </h2>
           {menu.list && (
-            <ul className="text-sub-black text-[10px] flex gap-[6px] font-thin flex-col">
+            <ul className="text-sub-black text-[10px] flex gap-y-[6px] first-letter:font-thin flex-col h-[140px] flex-wrap w-fit">
               {Object.entries(menu.list).map(([key, value]) => (
-                <li key={key} onClick={handleMenuClose}>
+                <li key={key} onClick={handleMenuClose} className="mr-[30px]">
                   <Link to={value}>{key}</Link>
                 </li>
               ))}
