@@ -12,6 +12,11 @@ export type PackageInfoProps = {
   country: string;
 };
 
+export interface PackageName {
+  packageId: number | null;
+  packageName: string;
+}
+
 export interface Package {
   packageId: number;
   packageName: string;

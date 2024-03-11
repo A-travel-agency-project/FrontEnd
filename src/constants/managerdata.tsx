@@ -26,8 +26,10 @@ export const ORDER_EMPTYDATA = {
 
 export const ORDER_STATES = [
   "전체",
+  "결제 대기",
   "예약금 완료",
-  "잔금완료",
+  "잔금 완료",
+  "추가 결제 필요",
+  "환불 필요",
   "취소",
-  "환불필요",
 ];

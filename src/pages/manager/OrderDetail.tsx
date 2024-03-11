@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import ManagerTitle from "../../components/Manager/ManagerTitle";
-import VerticalTable from "../../components/Manager/VerticalTable";
 import axios from "axios";
 
 const OrderDetail = () => {

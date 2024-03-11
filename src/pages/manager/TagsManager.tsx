@@ -86,11 +86,11 @@ const TagsManager = () => {
                   <div className="max-w-full overflow-hidden">
                     {item.tagContent}
                   </div>
-                  <MdOutlineCancel
+                  {/* <MdOutlineCancel
                     className="cursor-pointer hover:text-red-400"
                     key={item.tagId}
                     onClick={() => handleDeleteClick({ itemId: item.tagId })}
-                  />
+                  /> */}
                 </div>
               ))}
           </div>
