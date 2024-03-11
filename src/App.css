@@ -6,3 +6,7 @@
   height: 100vh;
   flex-direction: column;
 }
+.communitySelect {
+  appearance: none;
+  background: url("/하단세모.svg") no-repeat right 24px center;
+}

@@ -1,6 +1,7 @@
 import LoginInput from "../components/Login/LoginInput";
 import LoginSignUpBtn from "../components/common/LoginSignUpBtn";
 import Button from "../components/common/Button";
+import KakaoLogin from "../components/Login/KakaoLogin";
 
 const Login = () => {
   return (
@@ -19,7 +20,7 @@ const Login = () => {
         </div>
         <div className="bg-main-color w-full h-[1px]" />
         <div className="flex justify-end w-full">
-          <button>카카오</button>
+          <KakaoLogin />
           <button>네이버</button>
         </div>
       </div>

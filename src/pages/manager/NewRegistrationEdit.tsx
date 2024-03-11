@@ -15,14 +15,21 @@ import { instance } from "../../api/instance";
 
 interface DateProps {
   day: number;
-  dayContent?: {
-    dayContentMd?: string;
-    dayContentHtml?: string;
-  };
+  scheduleId?: number;
+  dayContent?:
+    | {
+        dayContentMd?: string;
+        dayContentHtml?: string;
+      }
+    | string;
   hotel: string;
   meal: string;
   vehicle: string;
 }
+type TagType = {
+  tagId: number;
+  tagContent: string;
+};
 const NewRegistrationEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -45,17 +52,9 @@ const NewRegistrationEdit = () => {
   // 썸네일 이미지
   const [myImage, setMyImage] = useState<string[]>([]);
   const [sendImg, setSendImg] = useState<File[]>([]);
-  console.log(sendImg);
   // 에디터 및 input 형식
-  const [days, setDays] = useState<DateProps[]>([
-    {
-      day: 1,
-      dayContent: {},
-      hotel: "",
-      meal: "",
-      vehicle: "",
-    },
-  ]);
+  const [days, setDays] = useState<DateProps[]>([]);
+
   const { tagsData } = useGetTags({
     params: "tags",
   });
@@ -69,7 +68,7 @@ const NewRegistrationEdit = () => {
   const [termMd, setTermsMd] = useState<string>("");
   const [termHtml, setTermsHtml] = useState<string>("");
   /* 태그 */
-  const [checkTagList, setCheckTagList] = useState<string[]>([]);
+  const [checkTagList, setCheckTagList] = useState<TagType[]>([]);
   // 테마 리스트
   const [themeList, setThemeList] = useState<string[]>([]);
   // 가족 리스트
@@ -78,7 +77,6 @@ const NewRegistrationEdit = () => {
   const [seasonList, setSeasonList] = useState<string[]>([]);
   // 비용 리스트
   const [priceList, setPriceList] = useState<string[]>([]);
-  console.log(days);
   useEffect(() => {
     instance.get(`http://13.124.147.192:8080/packages/${id}`).then((res) => {
       console.log(res.data.data);
@@ -94,6 +92,7 @@ const NewRegistrationEdit = () => {
           terms,
           hotelInfo,
           checkedTagList,
+          scheduleList,
         } = res.data.data;
         setPrivacy(privacy);
         setSelectCountry(countryName);
@@ -105,9 +104,11 @@ const NewRegistrationEdit = () => {
         setRegionInfoMd(regionInfo);
         setTermsMd(terms);
         setCheckTagList(checkedTagList);
+        setDays(scheduleList);
       }
     });
   }, []);
+
   // 태그 onChange함수
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name, checked } = e.target;
@@ -173,7 +174,6 @@ const NewRegistrationEdit = () => {
       privacy !== "" &&
       sendImg.length > 0 &&
       dayEmptyContent &&
-      days.every((el) => el.dayContent?.dayContentMd !== "") &&
       termMd !== "" &&
       hotelInfoMd !== "" &&
       regionInfoMd !== ""
@@ -183,13 +183,16 @@ const NewRegistrationEdit = () => {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
-          navigate("/packagemanager");
-          alert("등록이 완료됐습니다");
+          if (res.status === 200) {
+            navigate("/packagemanager");
+            alert("등록이 완료됐습니다");
+          }
         });
     } else {
       alert("값을 전부 채워주세요");
     }
   };
+  console.log(days);
   // 날짜추가
   const addDay = () => {
     const newDay = days.length + 1;
@@ -197,13 +200,14 @@ const NewRegistrationEdit = () => {
       ...days,
       {
         day: newDay,
-        dayContent: {},
+        dayContent: "",
         hotel: "",
         meal: "",
         vehicle: "",
       },
     ]);
   };
+  console.log(days);
   // 날짜 삭제
   const removeDay = () => {
     if (days.length > 1) {
@@ -218,6 +222,9 @@ const NewRegistrationEdit = () => {
     index: number
   ) => {
     const updatedDays = [...days];
+    if (typeof value === "object") {
+      value = value.dayContentMd;
+    }
     updatedDays[index] = { ...updatedDays[index], [name]: value };
     setDays(updatedDays);
   };
@@ -256,8 +263,6 @@ const NewRegistrationEdit = () => {
     }
   };
 
-  console.log(checkTagList);
-  console.log(tagsData);
   return (
     <div className="w-full h-full">
       {/* 이름 요약 여행지 */}
@@ -420,7 +425,7 @@ const NewRegistrationEdit = () => {
             <div className="flex w-full mb-20" key={index}>
               <div>
                 <ManagerTitleBox
-                  name={`${day.day}일차`}
+                  name={`${index + 1}일차`}
                   className="border border-black mr-4"
                 />
                 {index > 0 && index === days.length - 1 && (
@@ -445,9 +450,10 @@ const NewRegistrationEdit = () => {
               <div className=" w-full">
                 <UiEditor
                   editorRef={ref}
-                  name={Object.keys(day)[1]}
+                  name={Object.keys(day)[2]}
                   index={index}
                   handleDayInputChange={handleDayInputChange}
+                  initialValue={day.dayContent}
                 />
                 {registSubTitle.map((el, idx) => {
                   return (
@@ -456,6 +462,8 @@ const NewRegistrationEdit = () => {
                       title={el.title}
                       handleDayInputChange={handleDayInputChange}
                       index={index}
+                      days={days}
+                      day={index}
                       name={el.name}
                     />
                   );

@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import UiEditor from "../../common/UiEditor";
+import { Editor } from "@toast-ui/react-editor";
 
 interface PackageEditorProps {
   title: string;
@@ -27,7 +28,7 @@ const PackageEditorList = ({
   terms,
 }: PackageEditorProps) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const ref = useRef<any | null>(null);
+  const ref = useRef<Editor | null>(null);
   const handleEditorChange = () => {
     const htmlContent = ref.current?.getInstance().getHTML();
     const markdownContent = ref.current?.getInstance().getMarkdown();
@@ -43,7 +44,6 @@ const PackageEditorList = ({
       setTermsMd(markdownContent);
     }
   };
-  console.log(hotelInfo);
   return (
     <div className="w-full flex mb-10">
       <h2 className="font-bold text-xl mb-4 whitespace-nowrap mr-20">

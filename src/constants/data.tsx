@@ -53,7 +53,7 @@ export const packageHeaders = [
     value: "save",
   },
   {
-    key: 6,
+    key: 7,
 
     text: "공개상태",
     value: "openState",
@@ -135,46 +135,61 @@ export const packageItems = [
 export const productHeaders = [
   {
     key: 1,
+    text: "수정",
+    value: "edit",
+  },
+  {
+    key: 2,
+    text: "복사",
+    value: "copy",
+  },
+  {
+    key: 3,
     text: "패키지명",
     value: "packageName",
   },
   {
-    key: 2,
+    key: 4,
     text: "상품코드",
     value: "productCode",
   },
   {
-    key: 3,
+    key: 5,
     text: "출발일시",
     value: "departureTime",
   },
   {
-    key: 4,
+    key: 6,
     text: "도착일시",
     value: "arrivalTime",
   },
   {
-    key: 5,
+    key: 7,
     text: "최소인원",
     value: "minParticipants",
   },
   {
-    key: 6,
+    key: 8,
     text: "예약인원",
     value: "reservedParticipants",
   },
   {
-    key: 7,
+    key: 9,
     text: "최대인원",
     value: "maxParticipants",
   },
   {
-    key: 8,
+    key: 10,
     text: "상품상태",
     value: "productStatus",
   },
   {
-    key: 9,
+    key: 11,
+    text: "저장",
+    value: "saveState",
+  },
+  {
+    key: 12,
     text: "공개상태",
     value: "publicStatus",
   },
@@ -192,6 +207,7 @@ export const productItems = [
     maximumPeople: 30,
     productStatus: "출발확정",
     openStatus: "공개",
+    saveState: "저장",
   },
   {
     key: 2,
@@ -204,6 +220,7 @@ export const productItems = [
     maximumPeople: 30,
     productStatus: "출발확정",
     openStatus: "공개",
+    saveState: "저장",
   },
   {
     key: 3,
@@ -216,6 +233,7 @@ export const productItems = [
     maximumPeople: 30,
     productStatus: "출발확정",
     openStatus: "공개",
+    saveState: "임시저장",
   },
 ];
 
@@ -240,9 +258,9 @@ export const porductIcons = [
   { title: "선택 관광 유무", labelFirst: "유", labelSecond: "무" },
 ];
 export const productCost = [
-  { title1: "성인 총액", title2: "유류 할증료" },
-  { title1: "아동 총액", title2: "유류 할증료" },
-  { title1: "유아 총액", title2: "유류 할증료" },
+  { title1: "성인 총액", title2: "성인 유류 할증료" },
+  { title1: "아동 총액", title2: "아동 유류 할증료" },
+  { title1: "유아 총액", title2: "유아 유류 할증료" },
 ];
 
 export const memberInfo = [

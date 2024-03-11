@@ -19,7 +19,7 @@ interface Props {
     index: number
   ) => void;
   name?: string;
-  initialValue?: string;
+  initialValue?: string | { dayContentMd?: string; dayContentHtml?: string };
 }
 type HookCallback = (url: string, text?: string) => void;
 
@@ -35,19 +35,19 @@ const UiEditor = ({
     ["heading", "bold", "italic"],
     ["hr"],
     ["ul", "ol"],
-    ["link"],
+    ["table", "link"],
     ["image"],
     ["code"],
     ["codeblock"],
   ];
   useEffect(() => {
-    if (initialValue) {
+    if (initialValue !== undefined) {
       const editorInstance = editorRef?.current.getInstance();
       if (editorInstance) {
         editorInstance.setMarkdown(initialValue);
       }
     }
-  }, [initialValue, editorRef]);
+  }, [initialValue]);
   const handleChange =
     onChange ||
     (() => {
@@ -64,7 +64,7 @@ const UiEditor = ({
     });
 
   return (
-    <>
+    <div className="w-full">
       <Editor
         initialValue={initialValue}
         previewStyle="vertical"
@@ -81,7 +81,6 @@ const UiEditor = ({
           addImageBlobHook: async (blob: Blob, callback: HookCallback) => {
             try {
               const formData = new FormData();
-              console.log(blob);
               formData.append("file", blob);
 
               const response = await axios.post(
@@ -93,8 +92,6 @@ const UiEditor = ({
                   },
                 }
               );
-
-              console.log(response);
 
               if (callback) {
                 callback(response.data.data.imageUrl);
@@ -122,7 +119,7 @@ const UiEditor = ({
           },
         }}
       />
-    </>
+    </div>
   );
 };
 export default UiEditor;

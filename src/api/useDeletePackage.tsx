@@ -18,13 +18,10 @@ export const useDeletePackage = ({
   if (deleteActive && ids.length !== 0) {
     const fetchData = async () => {
       try {
-        const response = await instance.post(
-          `http://13.124.147.192:8080/packages/batch-delete`,
-          {
-            operation: operation,
-            ids: ids,
-          }
-        );
+        const response = await instance.post(`/packages/batch-delete`, {
+          operation: operation,
+          ids: ids,
+        });
         console.log(response);
         setPackageDelete(response.data.code);
         setDeleteActive(false);

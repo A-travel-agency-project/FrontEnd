@@ -5,7 +5,7 @@ const UserMenu = () => {
   const [isLogin] = useState(true);
   return (
     <>
-      {!isLogin ? (
+      {isLogin ? (
         <div className="flex gap-[12px] justify-between text-[10px] mb-[18px] text-sub-black">
           <Link to={"/login"}>
             <button type="button">로그인</button>

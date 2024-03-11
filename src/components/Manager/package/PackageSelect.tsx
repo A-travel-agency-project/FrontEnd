@@ -7,6 +7,7 @@ interface SelectComponentProps {
   disabledOption?: string;
   handlePrivacyClick?: () => void;
   setChangeActive?: React.Dispatch<React.SetStateAction<boolean>>;
+  className?: string;
 }
 
 const PackageSelect = ({
@@ -15,11 +16,12 @@ const PackageSelect = ({
   value,
   disabledOption,
   setChangeActive,
+  className,
 }: SelectComponentProps) => {
   return (
     <>
       <select
-        className="border  border-black px-4 outline-none"
+        className={`border  border-black px-4 outline-none ${className}`}
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
           onChange(e.target.value);
           setChangeActive && setChangeActive(true);
