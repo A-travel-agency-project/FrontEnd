@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { instance } from "./instance";
+import { baseInstance } from "./instance";
 import { tagTitle } from "../constants/data";
 import { useRecoilState } from "recoil";
 import { tagFetchState } from "../atom/atom";
@@ -19,7 +19,7 @@ export const useGetTags = ({ params }: UseGetProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await instance.get(
+        const response = await baseInstance.get(
           `http://13.124.147.192:8080/${params}`
         );
         setTagsData(response.data.data);

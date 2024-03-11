@@ -47,7 +47,9 @@ const NavDropdown = ({ handleMenuClose }: NavDropdownProps) => {
             <ul className="text-sub-black text-[10px] flex gap-y-[6px] first-letter:font-thin flex-col h-[140px] flex-wrap w-fit">
               {Object.entries(menu.list).map(([key, value]) => (
                 <li key={key} onClick={handleMenuClose} className="mr-[30px]">
-                  <Link to={value}>{key}</Link>
+                  <Link to={value} state={key}>
+                    {key}
+                  </Link>
                 </li>
               ))}
             </ul>

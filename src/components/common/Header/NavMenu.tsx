@@ -37,12 +37,12 @@ const NavMenu = () => {
       </li>
       {MENU_LIST.map((menu) => (
         <li key={menu.name}>
-          {menu.state ? (
-            <Link to={menu.path} state={menu.state}>
+          {menu.path ? (
+            <Link to={menu.path} state={menu.name}>
               {menu.name}
             </Link>
           ) : (
-            <Link to={menu.path}>{menu.name}</Link>
+            menu.name
           )}
         </li>
       ))}

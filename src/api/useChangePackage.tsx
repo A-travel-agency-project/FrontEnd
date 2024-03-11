@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { instance } from "./instance";
+import { baseInstance } from "./instance";
 
 type UsePostPackageProps = {
   operation: string | null;
   ids: number[];
   changeActive: boolean;
   setChangeActive: React.Dispatch<React.SetStateAction<boolean>>;
+  params: string;
 };
 
 export const useChangePackage = ({
@@ -13,13 +14,14 @@ export const useChangePackage = ({
   ids,
   changeActive,
   setChangeActive,
+  params,
 }: UsePostPackageProps) => {
   const [packageUpdate, setPackageUpdate] = useState<number | null>(null);
   if (changeActive && ids.length !== 0) {
     const fetchData = async () => {
       try {
-        const response = await instance.post(
-          `http://13.124.147.192:8080/packages/batch-update`,
+        const response = await baseInstance.post(
+          `http://13.124.147.192:8080/${params}/batch-update`,
           {
             operation: operation,
             ids: ids,
