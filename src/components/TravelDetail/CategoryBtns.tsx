@@ -1,12 +1,4 @@
-import { INFO_CATEGORIES } from "../../constants/productdata";
-
-type CategoryBtnsProps = {
-  category: INFO_CATEGORIES;
-  handleClick: (id: string) => void;
-  active: string;
-};
-
-const CategoryBtns = ({ category, handleClick, active }: CategoryBtnsProps) => {
+const CategoryBtns = ({ category, handleClick, active }) => {
   return (
     <div
       className="flex justify-between border-main-color border-[1px] rounded-[20px] 

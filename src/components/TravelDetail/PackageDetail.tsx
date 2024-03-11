@@ -1,38 +1,49 @@
-import { PackageInfoData } from "../../constants/productdata";
+import { Package } from "../../types/package";
+import { Product } from "../../types/product";
 import PackageInfo from "../common/PackageInfo";
 import PackageIcon from "./PackageIcon";
 import Thumnails from "./Thumnails";
 
-type PackageDetailProps = {
-  info: PackageInfoData;
-};
-
-const PackageDetail = ({ info }: PackageDetailProps) => {
+const PackageDetail = ({
+  packageInfo,
+  productInfo,
+}: {
+  packageInfo: Package;
+  productInfo: Product;
+}) => {
   return (
     <>
       <div className="w-[750px] flex gap-[33px] mt-[38px]  border-b-[1px] border-main-color pb-[12px]">
-        <Thumnails list={info.thumbnail_list} />
+        <Thumnails list={packageInfo.thumbnailList ?? []} />
         <div className="flex flex-col mt-[8px]">
           <PackageInfo
-            country={info.country}
-            name={info.package_name}
-            summary={info.summary}
-            price={info.price}
-            hashTag={info.hash_tag}
+            country={packageInfo.country ?? packageInfo.countryName ?? ""}
+            name={packageInfo.packageName}
+            summary={packageInfo.summary}
+            price={packageInfo.price}
+            hashTag={packageInfo.hashTag}
             page="traveldetail"
           />
-          <PackageIcon />
+          <PackageIcon productInfo={productInfo} />
           <div className="flex gap-[7px] text-center">
-            <span className="w-[68px] py-[6px] text-[12px] bg-main-color rounded-[12px] ">
-              출발확정
-            </span>
-            <span className="w-[68px] py-[6px] text-[12px] bg-main-color rounded-[12px] ">
-              투어확정
-            </span>
-            <span className="w-[68px] py-[6px] text-[12px] bg-main-color rounded-[12px] ">
+            <span
+              className={`w-[68px] py-[6px] text-[12px] rounded-[12px] 
+            ${
+              productInfo.productState === "예약 가능"
+                ? "bg-main-color text-white"
+                : "border-main-color border-[1px] text-sub-black opacity-[39%]"
+            } `}
+            >
               예약가능
             </span>
-            <span className="w-[68px] py-[6px] text-[12px] bg-main-color rounded-[12px] ">
+            <span
+              className={`w-[68px] py-[6px] text-[12px] rounded-[12px] 
+            ${
+              productInfo.productState === "예약 마감"
+                ? "bg-main-color text-white"
+                : "border-main-color border-[1px] text-sub-black opacity-[39%]"
+            } `}
+            >
               예약마감
             </span>
           </div>

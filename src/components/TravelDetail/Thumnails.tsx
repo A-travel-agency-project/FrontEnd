@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { ThumbnailListData } from "../../constants/productdata";
+import { Img } from "../../types/img";
 
-type ThumnailsProps = {
-  list: ThumbnailListData;
-};
-
-const Thumnails = ({ list }: ThumnailsProps) => {
-  const [showImg, setShowImg] = useState(list[0].image_url);
+const Thumnails = ({ list }: { list: Img[] }) => {
+  // const [showImg, setShowImg] = useState(list[0].imageUrl);
+  const [showImg, setShowImg] = useState(
+    "https://newsimg-hams.hankookilbo.com/2022/10/19/7576de8e-e4f6-4827-9f17-cfefe4be052f.jpg"
+  );
   const handleImg = (url: string) => {
     setShowImg(() => url);
   };
@@ -22,10 +21,20 @@ const Thumnails = ({ list }: ThumnailsProps) => {
           {list.map((item, idx) => (
             <button key={idx}>
               <img
-                src={item.image_url}
+                src={
+                  item.imageUrl
+                    ? item.imageUrl
+                    : "https://newsimg-hams.hankookilbo.com/2022/10/19/7576de8e-e4f6-4827-9f17-cfefe4be052f.jpg"
+                }
                 alt="여행지 이미지"
                 className="w-[80px] h-[54px] rounded-[13px] object-cover"
-                onClick={() => handleImg(item.image_url)}
+                onClick={() =>
+                  handleImg(
+                    item.imageUrl
+                      ? item.imageUrl
+                      : "https://newsimg-hams.hankookilbo.com/2022/10/19/7576de8e-e4f6-4827-9f17-cfefe4be052f.jpg"
+                  )
+                }
               />
             </button>
           ))}

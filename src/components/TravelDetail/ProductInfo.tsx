@@ -1,6 +1,6 @@
 type ProductInfoProps = {
-  info1: string;
-  info2?: string;
+  info1: string | number;
+  info2?: string | number;
 };
 
 const ProductInfo = ({ info1, info2 }: ProductInfoProps) => {

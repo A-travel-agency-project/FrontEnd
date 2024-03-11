@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
+import { MENU_LIST } from "../../../constants/menudata";
 import NavDropdown from "./NavDropdown";
-import { useRef } from "react";
 import { useOutsideClick } from "../../../hooks/useOutsideClick";
+import { useRef, useState } from "react";
+
 
 type NavMenuProps = {
   handleFullMenu: () => void;
@@ -37,15 +39,28 @@ const NavMenu = ({
     },
   ];
 
+
   const dropdownRef = useRef(null);
+
   const closeDropdown = () => {
     handleMenuClose();
   };
+
   useOutsideClick(dropdownRef, closeDropdown);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleFullMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const handleMenuClose = () => {
+    if (isMenuOpen) setIsMenuOpen((prev) => !prev);
+  };
 
   return (
     <ul
-      className="flex border-y-[1px] border-main-color h-[37px] pr-[240px]
+      className="flex border-y-[1px] border-main-color h-[37px]
     items-center justify-center gap-[33px] text-[14px] w-full text-sub-black"
     >
       <li ref={dropdownRef}>
@@ -63,6 +78,7 @@ const NavMenu = ({
             </Link>
           ) : (
             menu.name
+
           )}
         </li>
       ))}
