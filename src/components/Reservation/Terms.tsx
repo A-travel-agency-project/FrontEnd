@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SectionTitle from "./SectionTitle";
-import PrivacyStatement from "../../constants/terms/PrivacyStatement";
+import PrivacyStatement from "../terms/PrivacyStatement";
+import OverseasTravelAgreement from "../terms/OverseasTravelAgreement";
 import { PayableState, TermsState } from "../../types/reservation";
 
 const Terms = ({
@@ -72,7 +73,7 @@ const Terms = ({
         </div>
         {details.travel && (
           <div className="my-[10px]">
-            <PrivacyStatement />
+            <OverseasTravelAgreement />
           </div>
         )}
         <div className="flex justify-between">

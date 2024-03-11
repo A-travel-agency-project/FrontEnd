@@ -85,7 +85,7 @@ const SignUp = () => {
   };
   return (
     <>
-      <div className="flex flex-col items-center lg:w-[500px]">
+      <div className="flex flex-col h-full justify-center items-center lg:w-[500px]">
         <div className="w-[170px] h-[50px] bg-main-color mb-[24px]" />
         <div className="w-full">
           <h2>필수항목입력</h2>
