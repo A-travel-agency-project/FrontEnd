@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { instance } from "./instance";
+import { baseInstance } from "./instance";
 
 type UsePostPackageProps = {
   operation: string | null;
@@ -20,7 +20,7 @@ export const useChangePackage = ({
   if (changeActive && ids.length !== 0) {
     const fetchData = async () => {
       try {
-        const response = await instance.post(
+        const response = await baseInstance.post(
           `http://13.124.147.192:8080/${params}/batch-update`,
           {
             operation: operation,

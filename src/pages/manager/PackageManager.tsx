@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { country, packageHeaders, packageItems } from "../../constants/data";
 import Pagination from "../../components/common/Pagination";
@@ -9,7 +8,7 @@ import { usePostPackage } from "../../api/usePostPackage";
 import { useDeletePackage } from "../../api/useDeletePackage";
 import PackageSelect from "../../components/Manager/package/PackageSelect";
 import { useChangePackage } from "../../api/useChangePackage";
-import { instance } from "../../api/instance";
+import { baseInstance } from "../../api/instance";
 interface CountryData {
   key: string;
   value: string;
@@ -108,7 +107,7 @@ const PackageManager = () => {
   // 복사
   const handleCopyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.currentTarget;
-    instance
+    baseInstance
       .get(`/packages/duplicate/${value}`)
       .then((res) => {
         if (res.status === 200) {

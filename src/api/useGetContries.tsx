@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import { instance } from "./instance";
-import { tagTitle } from "../constants/data";
-import { useRecoilState } from "recoil";
-import { tagFetchState } from "../atom/atom";
+import { baseInstance } from "./instance";
 
 type UseGetProps = {
   params: string;
@@ -17,7 +14,7 @@ export const useGetContries = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await instance.get(
+        const response = await baseInstance.get(
           `http://13.124.147.192:8080/countries`
         );
         setCountrys(response.data.data);

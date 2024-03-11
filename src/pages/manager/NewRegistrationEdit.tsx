@@ -11,7 +11,7 @@ import { useGetTags } from "../../api/useGetTags";
 import { Editor } from "@toast-ui/react-editor";
 import { useGetContries } from "../../api/useGetContries";
 import { useNavigate, useParams } from "react-router-dom";
-import { instance } from "../../api/instance";
+import { baseInstance } from "../../api/instance";
 
 interface DateProps {
   day: number;
@@ -78,35 +78,37 @@ const NewRegistrationEdit = () => {
   // 비용 리스트
   const [priceList, setPriceList] = useState<string[]>([]);
   useEffect(() => {
-    instance.get(`http://13.124.147.192:8080/packages/${id}`).then((res) => {
-      console.log(res.data.data);
-      if (res.status === 200) {
-        const {
-          countryName,
-          hashTag,
-          period,
-          privacy,
-          summary,
-          packageName,
-          regionInfo,
-          terms,
-          hotelInfo,
-          checkedTagList,
-          scheduleList,
-        } = res.data.data;
-        setPrivacy(privacy);
-        setSelectCountry(countryName);
-        setPackageName(packageName);
-        setPackageSummary(summary);
-        setPeriod(period);
-        setTaggedValue(hashTag);
-        setHotelInfoMd(hotelInfo);
-        setRegionInfoMd(regionInfo);
-        setTermsMd(terms);
-        setCheckTagList(checkedTagList);
-        setDays(scheduleList);
-      }
-    });
+    baseInstance
+      .get(`http://13.124.147.192:8080/packages/${id}`)
+      .then((res) => {
+        console.log(res.data.data);
+        if (res.status === 200) {
+          const {
+            countryName,
+            hashTag,
+            period,
+            privacy,
+            summary,
+            packageName,
+            regionInfo,
+            terms,
+            hotelInfo,
+            checkedTagList,
+            scheduleList,
+          } = res.data.data;
+          setPrivacy(privacy);
+          setSelectCountry(countryName);
+          setPackageName(packageName);
+          setPackageSummary(summary);
+          setPeriod(period);
+          setTaggedValue(hashTag);
+          setHotelInfoMd(hotelInfo);
+          setRegionInfoMd(regionInfo);
+          setTermsMd(terms);
+          setCheckTagList(checkedTagList);
+          setDays(scheduleList);
+        }
+      });
   }, []);
 
   // 태그 onChange함수
