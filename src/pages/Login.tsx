@@ -5,7 +5,7 @@ import Button from "../components/common/Button";
 const Login = () => {
   return (
     <>
-      <div className="flex flex-col items-center lg:w-[500px]">
+      <div className="flex flex-col justify-center h-full items-center lg:w-[500px]">
         <div className="w-[170px] h-[50px] bg-main-color mb-[24px]" />
         <LoginInput placeholder={"아이디 (이메일 계정)"} />
         <LoginInput placeholder={"비밀번호"} />

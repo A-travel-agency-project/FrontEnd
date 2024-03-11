@@ -21,15 +21,30 @@ import OrderDetail from "./pages/manager/OrderDetail";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./queries/common/quertClient";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import TagsManager from "./pages/manager/TagsManager";
+import MyPageNav from "./components/MyPage/MyPageNav";
+import EditMember from "./pages/EditMember";
+import MyPageOrderInfo from "./pages/MyPageOrderInfo";
+import { TopScroll } from "./hooks/TopScroll";
+import { CheckoutPage } from "./pages/payment/CheckoutPage";
+import AuthenticationPage from "./pages/AuthenticationPage";
+import NewRegistrationEdit from "./pages/manager/NewRegistrationEdit";
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+      <TopScroll />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/check" element={<CheckoutPage />} />
+        <Route path="/test" element={<AuthenticationPage />} />
+        <Route element={<MyPageNav />}>
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/editmember" element={<EditMember />} />
+          <Route path="/mypageorderinfo" element={<MyPageOrderInfo />} />
+        </Route>
           {/* 본문 네비게이션바 */}
           <Route element={<Header />}>
             <Route path="/" element={<Main />} />
@@ -48,7 +63,9 @@ function App() {
             <Route path="/ordermanager" element={<OrderManager />} />
             <Route path="/orderdetail/:id" element={<OrderDetail />} />
             <Route path="/newregistration" element={<NewRegistration />} />
+            <Route path="/packagemanager/:id" element={<NewRegistrationEdit />} />
             <Route path="/productdetail" element={<ProductDetail />} />
+            <Route path="/tagsmanager" element={<TagsManager />} />
           </Route>
         </Routes>
       </div>
