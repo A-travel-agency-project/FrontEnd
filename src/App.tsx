@@ -44,6 +44,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/editmember" element={<EditMember />} />
           <Route path="/mypageorderinfo" element={<MyPageOrderInfo />} />
+
         </Route>
           {/* 본문 네비게이션바 */}
           <Route element={<Header />}>
