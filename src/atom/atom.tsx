@@ -1,6 +1,11 @@
 import { atom } from "recoil";
 
-export const test = atom({
-  key: "test",
+export const tagFetchState = atom({
+  key: "tagFetchState",
+  default: false,
+});
+
+export const saveState = atom({
+  key: "saveState",
   default: "",
 });
