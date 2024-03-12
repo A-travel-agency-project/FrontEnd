@@ -16,16 +16,15 @@ import { baseInstance } from "../../api/instance";
 interface DateProps {
   day: number;
   scheduleId?: number;
-  dayContent?:
-    | {
-        dayContentMd?: string;
-        dayContentHtml?: string;
-      }
-    | string;
+  dayContent: {
+    dayContentMd: string;
+    dayContentHtml?: string;
+  };
   hotel: string;
   meal: string;
   vehicle: string;
 }
+
 type TagType = {
   tagId: number;
   tagContent: string;
@@ -95,7 +94,22 @@ const NewRegistrationEdit = () => {
             hotelInfo,
             checkedTagList,
             scheduleList,
+            thumbnailList,
           } = res.data.data;
+          const transformedScheduleList = scheduleList.map(
+            (item: DateProps) => {
+              return {
+                day: item.day,
+                dayContent: {
+                  dayContentMd: item.dayContent,
+                  dayContentHtml: "",
+                },
+                hotel: item.hotel,
+                meal: item.meal,
+                vehicle: item.vehicle,
+              };
+            }
+          );
           setPrivacy(privacy);
           setSelectCountry(countryName);
           setPackageName(packageName);
@@ -106,11 +120,37 @@ const NewRegistrationEdit = () => {
           setRegionInfoMd(regionInfo);
           setTermsMd(terms);
           setCheckTagList(checkedTagList);
-          setDays(scheduleList);
+          setDays(transformedScheduleList);
+          setSendImg(
+            thumbnailList.map(
+              (thumbnail: {
+                imagePath: string;
+                uploadImageName: string;
+                originalImageName: string;
+              }) => {
+                const { imagePath, uploadImageName, originalImageName } =
+                  thumbnail;
+                const imageUrl = `https://uriel-be.s3.ap-northeast-2.amazonaws.com/${imagePath}/${uploadImageName}`;
+                return new File([imageUrl], originalImageName);
+              }
+            )
+          );
+          setMyImage(
+            thumbnailList.map(
+              (thumbnail: {
+                imagePath: string;
+                uploadImageName: string;
+                originalImageName: string;
+              }) => {
+                const { imagePath, uploadImageName } = thumbnail;
+                const imageUrl = `https://uriel-be.s3.ap-northeast-2.amazonaws.com/${imagePath}/${uploadImageName}`;
+                return imageUrl;
+              }
+            )
+          );
         }
       });
-  }, []);
-
+  }, [id]);
   // 태그 onChange함수
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name, checked } = e.target;
@@ -202,7 +242,7 @@ const NewRegistrationEdit = () => {
       ...days,
       {
         day: newDay,
-        dayContent: "",
+        dayContent: { dayContentMd: "", dayContentHtml: "" },
         hotel: "",
         meal: "",
         vehicle: "",
@@ -424,7 +464,7 @@ const NewRegistrationEdit = () => {
         <div className="w-full">
           <h2 className="font-bold text-xl mb-4">일정 안내</h2>
           {days.map((day, index) => (
-            <div className="flex w-full mb-20" key={index}>
+            <div className="flex w-full mb-20" key={`day-${index}`}>
               <div>
                 <ManagerTitleBox
                   name={`${index + 1}일차`}
@@ -452,10 +492,10 @@ const NewRegistrationEdit = () => {
               <div className=" w-full">
                 <UiEditor
                   editorRef={ref}
-                  name={Object.keys(day)[2]}
+                  name="dayContentMd"
                   index={index}
                   handleDayInputChange={handleDayInputChange}
-                  initialValue={day.dayContent}
+                  initialValue={day.dayContent.dayContentMd}
                 />
                 {registSubTitle.map((el, idx) => {
                   return (

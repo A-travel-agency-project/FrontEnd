@@ -160,6 +160,7 @@ const NewRegistration = () => {
       alert("값을 전부 채워주세요");
     }
   };
+  console.log(days);
   // 날짜추가
   const addDay = () => {
     const newDay = days.length + 1;
@@ -228,7 +229,7 @@ const NewRegistration = () => {
   // 임시저장 함수
   const handleTemporarySaveClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const jsonData = {
-      packageName: packageName === "" ? "임시저장패키지" : packageName,
+      packageName: packageName,
       summary: packageSummary,
       period: period,
       privacy: privacy,
@@ -255,7 +256,12 @@ const NewRegistration = () => {
       formData.append("files", file);
     });
     const dayEmptyContent = days.some((el) => el.dayContent);
-    if (selectCountry !== "" && privacy !== "" && dayEmptyContent) {
+    if (
+      selectCountry !== "" &&
+      privacy !== "" &&
+      dayEmptyContent &&
+      days.some((el) => el.dayContent?.dayContentMd !== "")
+    ) {
       baseInstance
         .post("/packages/temp-create", formData, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -267,7 +273,7 @@ const NewRegistration = () => {
           }
         });
     } else {
-      alert("여행지,공개여부,일정안내를 포함한 필수 값을 입력해주세요");
+      alert("여행지,공개여부,일정안내는 필수 입력값 입니다.");
     }
   };
 
