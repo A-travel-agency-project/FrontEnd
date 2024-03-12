@@ -1,31 +1,79 @@
 import { useLocation } from "react-router-dom";
 import ProductInfo from "../components/Reservation/ProductInfo";
-import { daysAndNightFormat } from "../utils/daysAndNightFormat";
 import UserInfo from "../components/Reservation/UserInfo";
 import TravelerInfo from "../components/Reservation/TravelerInfo";
 import PriceInfo from "../components/Reservation/PriceInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Payment from "../components/Reservation/Payment";
-import { PayableState, TermsState, travelerInfo } from "../types/reservation";
+import { PriceInfoData, TermsState, travelerInfo } from "../types/reservation";
 import Terms from "../components/Reservation/Terms";
-import { dateFormat } from "../utils/dateFormat";
 
 const Reservation = () => {
   const location = useLocation();
   const { productInfo, priceInfo } = location.state || {};
   const [travelerInfoList, setTravelerInfoList] = useState<travelerInfo[]>([]);
-
-  const [checkList, setCheckList] = useState<PayableState>({
+  const [infoCount, setInfoCount] = useState(0);
+  const [showPayment, setShowPayment] = useState(false);
+  const [checkList, setCheckList] = useState<TermsState>({
     travel: false,
     refund: false,
     privacy: false,
     identification: false,
     thirdperson: false,
     marketing: false,
-    travelerInfo: false,
   });
 
+  const [finalPriceInfo, setFinalPriceInfo] = useState<PriceInfoData>({
+    성인: {
+      count: 0,
+      price: 0,
+      totalPrice: 0,
+    },
+    아동: {
+      count: 0,
+      price: 0,
+      totalPrice: 0,
+    },
+    유아: {
+      count: 0,
+      price: 0,
+      totalPrice: 0,
+    },
+    totalPay: 0,
+    totalCount: 0,
+  });
+
+  useEffect(() => {
+    if (priceInfo) {
+      setFinalPriceInfo(() => ({ ...priceInfo }));
+    }
+  }, [priceInfo]);
+
+  const userdata = {
+    email: "hahyuning@naver.com",
+    userName: "김우리",
+    enFirstName: "kim",
+    enLastName: "wooriiiiiiii",
+    gender: "남",
+    birth: "2000-11-11",
+    phoneNumber: "010-1234-5678",
+    headCount: 3,
+    childName: "정우리",
+  };
+
+  const handleTravelerInfo = (index: number, info: travelerInfo) => {
+    setTravelerInfoList((prev) => {
+      const newList = [...prev];
+      if (!newList[index]) {
+        setInfoCount((prev) => prev + 1);
+      }
+      newList[index] = info;
+      return newList;
+    });
+  };
+
   const handleCheck = (id: string) => {
+    // 약관 동의
     setCheckList((prev) => ({
       ...prev,
       [id]: !prev[id as keyof TermsState],
@@ -38,56 +86,118 @@ const Reservation = () => {
       const newCheckList = { ...prev };
       Object.keys(newCheckList).forEach((key) => {
         if (key !== "travelerInfo" && checked) {
-          newCheckList[key as keyof PayableState] = true;
+          newCheckList[key as keyof typeof checkList] = true;
         } else if (key !== "travelerInfo" && !checked) {
-          newCheckList[key as keyof PayableState] = false;
+          newCheckList[key as keyof typeof checkList] = false;
         }
       });
       return newCheckList;
     });
   };
 
-  const [showPayment, setShowPayment] = useState(false);
+  const handleChangeAge = (pickedAge: string, realAge: string) => {
+    setFinalPriceInfo((prev) => {
+      const newPriceInfo = structuredClone(prev);
+      return {
+        ...newPriceInfo,
+        [pickedAge]: {
+          ...newPriceInfo[pickedAge as "성인" | "아동" | "유아"],
+          count: newPriceInfo[pickedAge as "성인" | "아동" | "유아"].count - 1,
+          totalPrice:
+            newPriceInfo[pickedAge as "성인" | "아동" | "유아"].totalPrice -
+            newPriceInfo[pickedAge as "성인" | "아동" | "유아"].price,
+        },
+        [realAge]: {
+          ...newPriceInfo[realAge as "성인" | "아동" | "유아"],
+          count: newPriceInfo[realAge as "성인" | "아동" | "유아"].count + 1,
+          totalPrice:
+            newPriceInfo[realAge as "성인" | "아동" | "유아"].totalPrice +
+            newPriceInfo[realAge as "성인" | "아동" | "유아"].price,
+        },
+        totalPay:
+          newPriceInfo.totalPay -
+          newPriceInfo[pickedAge as "성인" | "아동" | "유아"].price +
+          newPriceInfo[realAge as "성인" | "아동" | "유아"].price,
+      };
+    });
+  };
 
   const handlePayment = () => {
-    setShowPayment(true);
+    // 기본적인 필수 여행자 정보
+    const requiredData = [
+      "travelerName",
+      "enFirstName",
+      "enLastName",
+      "gender",
+      "birth",
+    ];
+
+    // 기본적인 필수 정보 존재 여부 확인
+    const isAllValid = travelerInfoList.every((info) => {
+      return requiredData.every(
+        (field) => info[field as keyof travelerInfo] !== ""
+      );
+    });
+
+    // 대표 1인의 핸드폰 번호 존재 여부 확인
+    const isRepresenterValid =
+      !travelerInfoList[0] || travelerInfoList[0].phoneNumber !== "";
+
+    // 필수 약관 동의 여부 확인
+    const isRequriedChecked = Object.keys(checkList)
+      .filter((key) => key !== "marketing")
+      .every((key) => checkList[key as keyof typeof checkList]);
+
+    if (
+      priceInfo.totalCount === infoCount &&
+      isAllValid &&
+      isRepresenterValid &&
+      isRequriedChecked
+    ) {
+      setShowPayment(true);
+    } else if (
+      priceInfo.totalCount !== infoCount ||
+      !isAllValid ||
+      !isRepresenterValid
+    ) {
+      alert("필수 여행자정보를 모두 기입해주세요.");
+      return;
+    } else if (!isRequriedChecked) {
+      alert("필수 약관에 모두 동의해주세요.");
+      return;
+    }
   };
 
-  const handleInfoValid = (list: travelerInfo[]) => {
-    setTravelerInfoList(list);
-  };
+  useEffect(() => {
+    console.log(travelerInfoList);
+  }, [travelerInfoList]);
 
-  console.log(productInfo, priceInfo);
-  const info = productInfo
-    ? productInfo
-    : {
-        packageName: "프랑스위스 6박 7일",
-        period: daysAndNightFormat(6),
-        startDate: dateFormat("2023-10-12T07:51:01"),
-        endDate: dateFormat("2023-10-12T07:51:01"),
-        airline: "아시아나항공",
-        productId: 1,
-      };
+  useEffect(() => {
+    console.log(finalPriceInfo);
+  }, [finalPriceInfo]);
 
   return (
     <div className="flex flex-col items-center gap-[80px] py-[216px] ">
       {showPayment ? (
         <Payment
           travelerInfoList={travelerInfoList}
-          priceInfo={priceInfo}
+          priceInfo={finalPriceInfo}
           productId={productInfo.productId}
+          marketing={checkList.marketing}
         />
       ) : (
         <>
           <h1 className="text-main-color text-[20px] font-bold mt-[38px]">
             예약하기
           </h1>
-          <ProductInfo info={info} />
+          <ProductInfo info={productInfo} />
           <UserInfo />
           <TravelerInfo
-            priceInfo={priceInfo}
-            handleInfoValid={handleInfoValid}
-            handleCheck={handleCheck}
+            priceInfo={finalPriceInfo}
+            handleTravelerInfo={handleTravelerInfo}
+            userInfo={userdata}
+            startDate={productInfo.startDate}
+            handleChangeAge={handleChangeAge}
           />
           <Terms
             handleCheck={handleCheck}
@@ -95,11 +205,8 @@ const Reservation = () => {
             checkList={checkList}
           />
           <PriceInfo
-            priceInfo={priceInfo}
-            handlePayment={handlePayment}
-            payable={Object.keys(checkList)
-              .filter((key) => key !== "marketing")
-              .every((key) => checkList[key as keyof PayableState])} // 선택약관을 제외한 모든 체크박스 체크
+            finalPriceInfo={finalPriceInfo}
+            handlePayment={handlePayment} // 선택약관을 제외한 모든 체크박스 체크
           />
         </>
       )}

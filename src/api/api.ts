@@ -69,7 +69,7 @@ export const GetUserInfo = (): Promise<User> =>
 export const PostDeposit = (req: PaymentData) =>
   baseInstance
     .post(`/payments/confirm`, req)
-    .then((res) => console.log(res.data.data));
+    .then((res) => console.log(res.data));
 
 /* 관리자 주문 목록 조회 */
 export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>

@@ -20,27 +20,29 @@ const UserInfo = () => {
   return (
     <section>
       <SectionTitle title="예약자 정보" />
-      <div className="w-[664px] flex flex-wrap gap-y-[16px] p-[22px] border-[1px] border-sub-black">
-        {USER_INFO_CATEGORIES.map((item) =>
-          item.id !== "enFirstName" ? (
-            <div
-              className="min-w-[300px] gap-[26px] flex text-sub-black text-[14px]"
-              key={item.id}
-            >
-              <span>{item.name}</span>
-              <span>{userdata[item.id as keyof User]}</span>
-            </div>
-          ) : (
-            <div
-              className="min-w-[300px] gap-[26px] flex text-sub-black text-[14px]"
-              key={item.id}
-            >
-              <span>{item.name[0]}</span>
-              <span>{userdata[item.id]}</span>
-              <span>{userdata.enLastName}</span>
-            </div>
-          )
-        )}
+      <div className="w-[664px] p-[16px]">
+        <div className="flex flex-wrap gap-y-[16px] p-[22px] border-[1px] border-sub-black">
+          {USER_INFO_CATEGORIES.map((item) =>
+            item.id !== "enFirstName" ? (
+              <div
+                className="min-w-[280px] gap-[26px] flex text-sub-black text-[14px]"
+                key={item.id}
+              >
+                <span>{item.name}</span>
+                <span>{userdata[item.id as keyof User]}</span>
+              </div>
+            ) : (
+              <div
+                className="min-w-[280px] gap-[26px] flex text-sub-black text-[14px]"
+                key={item.id}
+              >
+                <span>{item.name[0]}</span>
+                <span>{userdata[item.id]}</span>
+                <span>{userdata.enLastName}</span>
+              </div>
+            )
+          )}
+        </div>
       </div>
     </section>
   );

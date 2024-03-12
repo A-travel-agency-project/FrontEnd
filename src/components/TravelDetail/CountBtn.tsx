@@ -6,6 +6,7 @@ const CountBtn = ({
   price,
   onCountChange,
   remainCount,
+  productState,
 }: CountBtnProps) => {
   const [count, setCount] = useState(0);
 
@@ -18,6 +19,10 @@ const CountBtn = ({
 
   const handleIncrease = () => {
     if (remainCount === 0) return;
+    if (productState === "예약 마감") {
+      alert("예약 마감된 상품입니다.");
+      return;
+    }
     const newCount = count + 1;
     setCount(newCount);
     onCountChange(age, newCount);

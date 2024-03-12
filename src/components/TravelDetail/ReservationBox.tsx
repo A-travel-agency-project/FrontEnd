@@ -8,20 +8,24 @@ const ReservationBox = ({
   maxCount,
   nowCount,
   info,
+  productState,
 }: ReservationBoxProps) => {
   const navigate = useNavigate();
   const [counts, setCounts] = useState({
     성인: {
       count: 0,
       totalPrice: 0,
+      price: prices[0].price + prices[0].surcharge ?? 0,
     },
     아동: {
       count: 0,
       totalPrice: 0,
+      price: prices[1].price + prices[1].surcharge ?? 0,
     },
     유아: {
       count: 0,
       totalPrice: 0,
+      price: prices[2].price + prices[2].surcharge ?? 0,
     },
     totalPay: 0,
     totalCount: 0,
@@ -71,6 +75,7 @@ const ReservationBox = ({
           price={item.price}
           remainCount={maxCount - nowCount - counts.totalCount}
           onCountChange={handleCountChange}
+          productState={productState}
         />
       ))}
       <div
@@ -86,7 +91,7 @@ const ReservationBox = ({
         disabled={counts["성인"].count < 1}
         onClick={handleReserve}
       >
-        예약하기
+        {productState === "예약가능" ? "예약하기" : productState}
       </button>
       {counts["성인"].count < 1 && (
         <span className="text-red-700 text-[10px]">

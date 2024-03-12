@@ -111,6 +111,7 @@ export type CountBtnProps = {
   price: number;
   onCountChange: (age: "성인" | "아동" | "유아", newCount: number) => void;
   remainCount: number;
+  productState: string;
 };
 
 export type ReservationInfo = {

@@ -30,7 +30,12 @@ const PackageDropdown = ({
       ]);
     }
   }, [data]);
-
+  if (isPending) {
+    <div>로딩중</div>;
+  }
+  if (isError) {
+    <div>{error?.message}</div>;
+  }
   return (
     <div className={`${divStyle ? divStyle : ""}`}>
       {label && <label htmlFor={"packageId"}>{label}</label>}
