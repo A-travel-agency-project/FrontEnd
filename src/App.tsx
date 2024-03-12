@@ -33,24 +33,22 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
-      <TopScroll />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/test" element={<AuthenticationPage />} />
-        <Route element={<MyPageNav />}>
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/editmember" element={<EditMember />} />
-          <Route path="/mypageorderinfo" element={<MyPageOrderInfo />} />
-
-        </Route>
-
+        <TopScroll />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/test" element={<AuthenticationPage />} />
+          <Route element={<MyPageNav />}>
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/editmember" element={<EditMember />} />
+            <Route path="/mypageorderinfo" element={<MyPageOrderInfo />} />
+          </Route>
           {/* 본문 네비게이션바 */}
           <Route element={<Header />}>
             <Route path="/" element={<Main />} />
             <Route path="/intro" element={<Intro />} />
             <Route path="/community" element={<Community />} />
-          <Route path="/community/:postId" element={<Community />} />
+            <Route path="/community/:postId" element={<Community />} />
             <Route path="/traveldetail/:id" element={<TravelDetail />} />
             <Route path="/travelproduct" element={<TravelProduct />} />
             <Route path="/reservation" element={<Reservation />} />
@@ -62,17 +60,25 @@ function App() {
             <Route path="/packagemanager" element={<PackageManager />} />
             <Route path="/productmanager" element={<ProductManager />} />
             <Route path="/ordermanager" element={<OrderManager />} />
+            {/* 임시: 페이지 띄우기*/}
+            <Route path="/orderdetail" element={<OrderDetail />} />
             <Route path="/orderdetail/:id" element={<OrderDetail />} />
             <Route path="/newregistration" element={<NewRegistration />} />
-            <Route path="/packagemanager/:id" element={<NewRegistrationEdit />} />
-          <Route path="/productdetail/:edit" element={<ProductDetail />} />
+            <Route
+              path="/packagemanager/:id"
+              element={<NewRegistrationEdit />}
+            />
+            <Route path="/productdetail/:edit" element={<ProductDetail />} />
+            <Route
+              path="/packagemanager/:id"
+              element={<NewRegistrationEdit />}
+            />
             <Route path="/productdetail" element={<ProductDetail />} />
             <Route path="/tagsmanager" element={<TagsManager />} />
           </Route>
         </Routes>
       </div>
     </QueryClientProvider>
-
   );
 }
 export default App;

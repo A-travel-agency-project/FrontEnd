@@ -50,6 +50,7 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       setTableData(() => {
         const newTableData = data.content.map((item: ProductList) => ({
           ...item,

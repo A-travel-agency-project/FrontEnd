@@ -10,17 +10,18 @@ const Payment = ({
   priceInfo,
   productId,
   orderId,
+  marketing,
 }: // price,
 {
   travelerInfoList?: travelerInfo[];
   priceInfo: PriceInfoData;
   productId: number;
   orderId?: string;
+  marketing?: boolean;
   // price?: number;
 }) => {
-  const clientKey = "test_ck_AQ92ymxN34LzN9zXbDKv3ajRKXvd"; // 브라우저에서 결제창 연동을 위한 키 env파일에 넣어둘것
-  const secretKey = "test_sk_Gv6LjeKD8aEOjvM4vgye8wYxAdXy"; // 토스 페이먼츠 API 에 사용되는 키  ** 브라우저 노출 주의 요망 env파일에 넣어둘것
-  const customerKey = "Gv6LjeKD8aEOjvM4vgye8wYxAdXy"; // 고유번호로 만들것
+  const clientKey = import.meta.env.VITE_TOSS_CLIENTKEY; // 브라우저에서 결제창 연동을 위한 키 env파일에 넣어둘것
+  const customerKey = `IMON_USER_${new Date().getTime()}`; // 고유번호로 만들것
 
   const depositPaymentData = {
     orderId: orderId
@@ -34,6 +35,7 @@ const Payment = ({
     totalPrice: priceInfo && priceInfo.totalPay,
     travelerInfoList: travelerInfoList,
     amount: priceInfo && priceInfo.totalPay / 10,
+    marketing: marketing && marketing,
   };
   console.log(depositPaymentData);
 

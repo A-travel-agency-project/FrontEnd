@@ -13,7 +13,6 @@ import {
   PRODUCT_INFO_CATEGORIES,
   SCHEDULE_INFO_CATEGORIES,
 } from "../constants/productdata";
-import { dateFormat } from "../utils/dateFormat";
 import { useParams } from "react-router-dom";
 
 const TravelDetail = () => {
@@ -81,8 +80,8 @@ const TravelDetail = () => {
     ? {
         packageName: detailData?.packageInfo?.packageName,
         period: daysAndNightFormat(detailData?.packageInfo?.period),
-        startDate: dateFormat(detailData?.productInfo?.startDate),
-        endDate: dateFormat(detailData?.productInfo?.endDate),
+        startDate: detailData?.productInfo?.startDate,
+        endDate: detailData?.productInfo?.endDate,
         airline: detailData?.productInfo?.airline,
         productId: detailData?.productInfo?.productId,
       }
@@ -121,6 +120,7 @@ const TravelDetail = () => {
           maxCount={detailData.productInfo.maxCount}
           nowCount={detailData.productInfo.nowCount}
           info={reservationInfo}
+          productState={detailData.productInfo.productState}
         />
       </div>
       <section className="flex flex-col items-center gap-[16px]">

@@ -1,7 +1,7 @@
 import { BlogPost } from "../types/community";
 import { Img } from "../types/img";
 import { OrderData, OrderRequest } from "../types/manager";
-import { Package } from "../types/package";
+import { Package, PackageName } from "../types/package";
 import { PaymentData } from "../types/payment";
 import {
   ProductDates,
@@ -28,6 +28,10 @@ export const GetMainPosts = (): Promise<BlogPost[]> =>
 /* 여행지 가져오기 */
 export const GetCountries = (): Promise<string[]> =>
   baseInstance.get("/countries").then((res) => res.data.data);
+
+/* 패키지명 가져오기 */
+export const GetPackageNames = (): Promise<PackageName[]> =>
+  baseInstance.get("/packages/simple").then((res) => res.data.data);
 
 /* 패키지 목록 가져오기 */
 export const GetPackages = async (country?: string): Promise<Package[]> => {
@@ -65,7 +69,7 @@ export const GetUserInfo = (): Promise<User> =>
 export const PostDeposit = (req: PaymentData) =>
   baseInstance
     .post(`/payments/confirm`, req)
-    .then((res) => console.log(res.data.data));
+    .then((res) => console.log(res.data));
 
 /* 관리자 주문 목록 조회 */
 export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>

@@ -9,6 +9,8 @@ export interface OrderRequest {
   userNameOrder: number | null;
   order: number | null;
   start: number | null;
+  type: string;
+  target: string;
   offset: number;
 }
 
