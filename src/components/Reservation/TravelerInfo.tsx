@@ -2,6 +2,7 @@ import { PriceInfoData, travelerInfo } from "../../types/reservation";
 import SectionTitle from "./SectionTitle";
 import TravelerInfoForm from "./TravelerInfoForm";
 import { User } from "../../types/user";
+import { useEffect, useState } from "react";
 
 const TravelerInfo = ({
   priceInfo,
@@ -11,16 +12,68 @@ const TravelerInfo = ({
   handleChangeAge,
 }: {
   priceInfo: PriceInfoData;
-  handleTravelerInfo: (index: number, info: travelerInfo) => void;
+  handleTravelerInfo: (
+    travelerId: string,
+    info: travelerInfo | string,
+    category?: keyof travelerInfo
+  ) => void;
   userInfo: User;
   startDate: string;
   handleChangeAge: (pickedAge: string, realAge: string) => void;
 }) => {
-  const travelerForms = [
-    ...Array.from({ length: priceInfo["성인"].count - 1 }, (_, i) => `성인`),
-    ...Array.from({ length: priceInfo["아동"].count }, (_, i) => `아동`),
-    ...Array.from({ length: priceInfo["유아"].count }, (_, i) => `유아`),
-  ];
+  const [travelers, setTravelers] = useState<
+    { id: string; category: string }[] | []
+  >([]);
+
+  useEffect(() => {
+    setTravelers(() => {
+      const initialTravelers = [
+        ...Array.from({ length: priceInfo["성인"].count - 1 }, (_, index) => {
+          return {
+            id: `성인${index}`,
+            category: "성인",
+          };
+        }),
+        ...Array.from({ length: priceInfo["아동"].count }, (_, index) => {
+          return {
+            id: `아동${index}`,
+            category: "아동",
+          };
+        }),
+        ...Array.from({ length: priceInfo["유아"].count }, (_, index) => {
+          return {
+            id: `유아${index}`,
+            category: "유아",
+          };
+        }),
+      ];
+
+      return initialTravelers;
+    });
+  }, [priceInfo]);
+
+  const handleChangeSort = (
+    id: string,
+    newCategory: string,
+    currentCategory: string
+  ) => {
+    // 카테고리 업데이트
+    const updatedTravelers = travelers.map((traveler) =>
+      traveler.id === id ? { ...traveler, category: newCategory } : traveler
+    );
+
+    // 카테고리 순으로 재정렬: 성인, 아동, 유아
+    const sortedTravelers = updatedTravelers.sort((a, b) => {
+      const order = { 성인: 1, 아동: 2, 유아: 3 };
+      return (
+        order[a.category as keyof typeof order] -
+        order[b.category as keyof typeof order]
+      );
+    });
+
+    handleChangeAge(currentCategory, newCategory);
+    setTravelers(sortedTravelers);
+  };
 
   return (
     <section className="flex flex-col w-[664px]">
@@ -30,22 +83,22 @@ const TravelerInfo = ({
       <div className="p-[16px] flex flex-col gap-[40px]">
         <TravelerInfoForm
           role="대표1인"
+          travelerId={"대표1인"}
           isRepresentative={true}
           handleTravelerInfo={handleTravelerInfo}
-          listIndex={0}
           userInfo={userInfo}
           startDate={startDate}
-          handleChangeAge={handleChangeAge}
+          handleChangeSort={handleChangeSort}
         />
-        {travelerForms.map((age, index) => (
+        {travelers.map((item) => (
           <TravelerInfoForm
-            key={`${age}${index}`}
-            role={`${age}`}
+            key={item.id}
+            travelerId={item.id}
+            role={item.category}
             isRepresentative={false}
             handleTravelerInfo={handleTravelerInfo}
-            listIndex={index + 1}
             startDate={startDate}
-            handleChangeAge={handleChangeAge}
+            handleChangeSort={handleChangeSort}
           />
         ))}
       </div>
