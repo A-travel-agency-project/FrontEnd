@@ -2,6 +2,7 @@ import { useState } from "react";
 import { travelerInfo } from "../../types/reservation";
 import { User } from "../../types/user";
 import {
+  birthFormat,
   calculateAge,
   checkValidDate,
   onlyEnglish,
@@ -9,23 +10,33 @@ import {
   phoneNumberFormat,
 } from "../../utils/validationUtils";
 import CustomRadioBtn from "./CustomRadionbtn";
+import { WRONG_AGE_MESSAGES } from "../../constants/travelerdata";
+import "./TravelerInfoForm.css";
 
 const TravelerInfoForm = ({
   role,
+  travelerId,
   isRepresentative,
   handleTravelerInfo,
-  listIndex,
   userInfo,
   startDate,
-  handleChangeAge,
+  handleChangeSort,
 }: {
   role: string;
+  travelerId: string;
   isRepresentative: boolean;
-  handleTravelerInfo: (index: number, info: travelerInfo) => void;
-  listIndex: number;
+  handleTravelerInfo: (
+    travelerId: string,
+    info: travelerInfo | string,
+    category?: keyof travelerInfo
+  ) => void;
   startDate: string;
   userInfo?: User;
-  handleChangeAge: (pickedAge: string, realAge: string) => void;
+  handleChangeSort: (
+    id: string,
+    newCategory: string,
+    currentCategory: string
+  ) => void;
 }) => {
   const [info, setInfo] = useState({
     travelerName: "",
@@ -41,7 +52,7 @@ const TravelerInfoForm = ({
 
   const [sameAsUserInfo, setSameAsUserInfo] = useState<boolean>(false);
 
-  const [currentRole, setCurrentRole] = useState(role);
+  const [animationTrigger, setAnimationTrigger] = useState(false);
 
   const handleSameAsUser = (checked: boolean) => {
     if (checked && userInfo) {
@@ -59,7 +70,10 @@ const TravelerInfoForm = ({
         };
         setInfo(newInfo);
         setInputBirth(userInfo.birth);
-        handleTravelerInfo(listIndex, newInfo);
+        handleTravelerInfo(travelerId, newInfo);
+        setAnimationTrigger(true);
+        const timeoutId = setTimeout(() => setAnimationTrigger(false), 1000);
+        return () => clearTimeout(timeoutId);
       }
       if (calculateAge(userInfo.birth, startDate) !== "성인") {
         alert(WRONG_AGE_MESSAGES[role as keyof typeof WRONG_AGE_MESSAGES]);
@@ -68,32 +82,29 @@ const TravelerInfoForm = ({
     }
     if (!checked) {
       setSameAsUserInfo(false);
-      setInfo(() => {
-        const newInfo = {
-          travelerName: "",
-          enFirstName: "",
-          enLastName: "",
-          gender: "남",
-          birth: "",
-          phoneNumber: "",
-          isRepresentative: isRepresentative,
-        };
-        return newInfo;
-      });
+      const newInfo = {
+        travelerName: "",
+        enFirstName: "",
+        enLastName: "",
+        gender: "남",
+        birth: "",
+        phoneNumber: "",
+        isRepresentative: isRepresentative,
+      };
+      setInfo(() => ({ ...newInfo }));
+      handleTravelerInfo(travelerId, newInfo);
     }
   };
 
-  const handleInput = (id: string, value: string) => {
+  const handleInput = (id: keyof travelerInfo, value: string) => {
     console.log(value);
-    setInfo((prev) => {
-      const updatedInfo = { ...prev, [id]: value };
-      return updatedInfo;
-    });
-    handleTravelerInfo(listIndex, { ...info, [id]: value });
+    const updatedInfo = { ...info, [id]: value };
+    setInfo(() => updatedInfo);
+    handleTravelerInfo(travelerId, updatedInfo);
   };
 
-  const handleBirth = (id: string, date: string) => {
-    const pickedRole = currentRole === "대표1인" ? "성인" : currentRole;
+  const handleBirth = (id: keyof travelerInfo, date: string) => {
+    const pickedRole = role === "대표1인" ? "성인" : role;
     setInputBirth(date);
     if (date.length < 10) return;
     if (checkValidDate(date)) {
@@ -105,8 +116,18 @@ const TravelerInfoForm = ({
         } else {
           const changeAge = confirm(WRONG_AGE_MESSAGES[realRole]);
           if (changeAge) {
-            handleChangeAge(role, realRole);
-            setCurrentRole(realRole);
+            handleChangeSort(travelerId, realRole, role);
+            setInfo((prev) => {
+              const updatedInfo = { ...prev, [id]: date };
+              return updatedInfo;
+            });
+            handleTravelerInfo(travelerId, date, id);
+            setAnimationTrigger(true);
+            const timeoutId = setTimeout(
+              () => setAnimationTrigger(false),
+              1000
+            );
+            return () => clearTimeout(timeoutId);
           } else {
             setInputBirth("");
           }
@@ -116,7 +137,7 @@ const TravelerInfoForm = ({
           const updatedInfo = { ...prev, [id]: date };
           return updatedInfo;
         });
-        handleTravelerInfo(listIndex, { ...info, [id]: date });
+        handleTravelerInfo(travelerId, date, id);
       }
     }
     if (!checkValidDate(date)) {
@@ -125,9 +146,11 @@ const TravelerInfoForm = ({
   };
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <h3 className="pb-[8px]">{currentRole}</h3>
+    <div
+      className={`${animationTrigger && role !== "대표1인" ? "animate" : ""}`}
+    >
+      <div className={`flex items-center justify-between`}>
+        <h3 className="pb-[8px]">{role}</h3>
         {role === "대표1인" && (
           <div className="flex items-center">
             <input
@@ -142,20 +165,27 @@ const TravelerInfoForm = ({
           </div>
         )}
       </div>
-      <div className="flex flex-col flex-wrap gap-y-[16px] p-[22px] border-[1px] border-sub-black">
+      <div
+        className={`flex flex-col flex-wrap gap-y-[16px] p-[22px] border-[1px] border-sub-black`}
+      >
         <div className="flex text-sub-black text-[14px] gap-[20px] shrink-0">
           <label htmlFor="travelerName">
             <span className="text-red-700">*</span>
             이름
           </label>
           <input
-            className={`flex disabled:bg-transparent`}
+            className={`flex disabled:bg-transparent ${
+              animationTrigger && role === "대표1인" ? "animate" : ""
+            }`}
             type="text"
             id="travelerName"
             placeholder="이름을 입력하세요"
             value={info.travelerName}
             onChange={(e) =>
-              handleInput(e.target.id, onlyKorean(e.target.value))
+              handleInput(
+                e.target.id as keyof travelerInfo,
+                onlyKorean(e.target.value)
+              )
             }
             disabled={sameAsUserInfo}
           />
@@ -167,12 +197,17 @@ const TravelerInfoForm = ({
           <div className="shrink-0 gap-[10px] flex">
             <label htmlFor="enFirstName">성:</label>
             <input
-              className="disabled:bg-transparent"
+              className={`disabled:bg-transparent ${
+                animationTrigger && role === "대표1인" ? "animate" : ""
+              }`}
               id="enFirstName"
               placeholder="영문 성을 입력하세요"
               value={info.enFirstName}
               onChange={(e) =>
-                handleInput(e.target.id, onlyEnglish(e.target.value))
+                handleInput(
+                  e.target.id as keyof travelerInfo,
+                  onlyEnglish(e.target.value)
+                )
               }
               disabled={sameAsUserInfo}
             />
@@ -180,12 +215,17 @@ const TravelerInfoForm = ({
           <div className="shrink-0 gap-[10px] flex">
             <label htmlFor="enLastName">이름:</label>
             <input
-              className="disabled:bg-transparent"
+              className={`disabled:bg-transparent ${
+                animationTrigger && role === "대표1인" ? "animate" : ""
+              }`}
               id="enLastName"
               placeholder="영문 이름을 입력하세요"
               value={info.enLastName}
               onChange={(e) =>
-                handleInput(e.target.id, onlyEnglish(e.target.value))
+                handleInput(
+                  e.target.id as keyof travelerInfo,
+                  onlyEnglish(e.target.value)
+                )
               }
               disabled={sameAsUserInfo}
             />
@@ -201,6 +241,8 @@ const TravelerInfoForm = ({
             checked={info.gender === "남"}
             handleInput={handleInput}
             disabled={sameAsUserInfo}
+            animation={animationTrigger}
+            role={role}
           />
           <CustomRadioBtn
             label="여"
@@ -208,6 +250,8 @@ const TravelerInfoForm = ({
             checked={info.gender === "여"}
             handleInput={handleInput}
             disabled={sameAsUserInfo}
+            animation={animationTrigger}
+            role={role}
           />
         </div>
         <div className="flex text-sub-black text-[14px] gap-[20px]">
@@ -219,9 +263,16 @@ const TravelerInfoForm = ({
             type="text"
             id="birth"
             placeholder="생년월일을 입력하세요"
-            className="disabled:bg-transparent"
+            className={`disabled:bg-transparent ${
+              animationTrigger && role === "대표1인" ? "animate" : ""
+            }`}
             value={inputBirth}
-            onChange={(e) => handleBirth(e.target.id, e.target.value)}
+            onChange={(e) =>
+              handleBirth(
+                e.target.id as keyof travelerInfo,
+                birthFormat(e.target.value)
+              )
+            }
             disabled={sameAsUserInfo}
           />
         </div>
@@ -232,14 +283,19 @@ const TravelerInfoForm = ({
             휴대폰번호
           </label>
           <input
-            className="disabled:bg-transparent"
+            className={`disabled:bg-transparent ${
+              animationTrigger && role === "대표1인" ? "animate" : ""
+            }`}
             type="tell"
             id="phoneNumber"
             maxLength={13}
             placeholder="휴대폰번호를 입력하세요"
             value={info.phoneNumber}
             onChange={(e) =>
-              handleInput(e.target.id, phoneNumberFormat(e.currentTarget.value))
+              handleInput(
+                e.target.id as keyof travelerInfo,
+                phoneNumberFormat(e.currentTarget.value)
+              )
             }
             disabled={sameAsUserInfo}
           />

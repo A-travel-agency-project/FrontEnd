@@ -11,7 +11,9 @@ import Terms from "../components/Reservation/Terms";
 const Reservation = () => {
   const location = useLocation();
   const { productInfo, priceInfo } = location.state || {};
-  const [travelerInfoList, setTravelerInfoList] = useState<travelerInfo[]>([]);
+  const [travelerInfoList, setTravelerInfoList] = useState<{
+    [key: string]: travelerInfo;
+  }>({});
   const [infoCount, setInfoCount] = useState(0);
   const [showPayment, setShowPayment] = useState(false);
   const [checkList, setCheckList] = useState<TermsState>({
@@ -61,13 +63,27 @@ const Reservation = () => {
     childName: "정우리",
   };
 
-  const handleTravelerInfo = (index: number, info: travelerInfo) => {
+  const handleTravelerInfo = (
+    travelerId: string,
+    info: travelerInfo | string,
+    category?: keyof travelerInfo
+  ) => {
     setTravelerInfoList((prev) => {
-      const newList = [...prev];
-      if (!newList[index]) {
-        setInfoCount((prev) => prev + 1);
+      const newList = { ...prev };
+      if (!prev[travelerId]) {
+        setInfoCount((prevCount) => prevCount + 1);
       }
-      newList[index] = info;
+      if (category && typeof info === "string") {
+        return {
+          ...newList,
+          [travelerId]: {
+            ...newList[travelerId],
+            [category]: info,
+          },
+        };
+      } else if (typeof info !== "string") {
+        return { ...newList, [travelerId]: info };
+      }
       return newList;
     });
   };
@@ -133,7 +149,7 @@ const Reservation = () => {
     ];
 
     // 기본적인 필수 정보 존재 여부 확인
-    const isAllValid = travelerInfoList.every((info) => {
+    const isAllValid = Object.values(travelerInfoList).every((info) => {
       return requiredData.every(
         (field) => info[field as keyof travelerInfo] !== ""
       );
@@ -172,15 +188,11 @@ const Reservation = () => {
     console.log(travelerInfoList);
   }, [travelerInfoList]);
 
-  useEffect(() => {
-    console.log(finalPriceInfo);
-  }, [finalPriceInfo]);
-
   return (
     <div className="flex flex-col items-center gap-[80px] py-[216px] ">
       {showPayment ? (
         <Payment
-          travelerInfoList={travelerInfoList}
+          travelerInfoList={Object.values(travelerInfoList)}
           priceInfo={finalPriceInfo}
           productId={productInfo.productId}
           marketing={checkList.marketing}
@@ -193,7 +205,7 @@ const Reservation = () => {
           <ProductInfo info={productInfo} />
           <UserInfo />
           <TravelerInfo
-            priceInfo={finalPriceInfo}
+            priceInfo={priceInfo}
             handleTravelerInfo={handleTravelerInfo}
             userInfo={userdata}
             startDate={productInfo.startDate}
