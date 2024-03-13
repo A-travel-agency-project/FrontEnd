@@ -12,18 +12,25 @@ export const onlyEnglish = (name: string) => {
 };
 
 export const phoneNumberFormat = (num: string) => {
-  if (num && !/^[0-9]*$/.test(num)) {
+  if (num && !/^[0-9-]*$/.test(num)) {
     alert("숫자로 입력해주세요.");
   }
-  return num.replace(/[^0-9]/g, "");
-  // .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
-  // .replace(/(-{1,2})$/g, "");
-};
-
-export const birthFormat = (num: string) => {
   return num
     .replace(/[^0-9]/g, "")
     .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3")
+    .replace(/(-{1,2})$/g, "");
+};
+
+export const birthFormat = (num: string): string => {
+  if (num && !/^[0-9-]*$/.test(num)) {
+    alert("숫자로 입력해주세요.");
+  }
+  if (num.length >= 11) {
+    num = num.slice(0, 10);
+  }
+  return num
+    .replace(/[^0-9]/g, "")
+    .replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, "$1-$2-$3")
     .replace(/(-{1,2})$/g, "");
 };
 
