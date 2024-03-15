@@ -1,6 +1,12 @@
+import axios from "axios";
 import { BlogPost } from "../types/community";
 import { Img } from "../types/img";
-import { OrderData, OrderRequest } from "../types/manager";
+import {
+  OrderData,
+  OrderRequest,
+  SpecialAmountData,
+  UpdateTravelerReq,
+} from "../types/manager";
 import { Package, PackageName } from "../types/package";
 import { PaymentData } from "../types/payment";
 import {
@@ -74,3 +80,28 @@ export const PostDeposit = (req: PaymentData) =>
 /* 관리자 주문 목록 조회 */
 export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>
   baseInstance.post(`/orders`, req).then((res) => res.data.data);
+
+/* 관리자 주문 정보 조회 */
+export const GetOrderDetail = (orderId: string) =>
+  baseInstance.get(`orders/detail/${orderId}`).then((res) => res.data.data);
+
+/* 관리자 결제 정보 조회 */
+export const GetPaymentInfo = (orderId: string) => {
+  axios
+    .get(`https://api.tosspayments.com/v1/payments/orders/${orderId}`, {
+      headers: {
+        Authorization: `Basic ${btoa(
+          `${import.meta.env.VITE_TOSS_SECRETKEY}:`
+        )}`,
+      },
+    })
+    .then((res) => console.log(res));
+};
+
+/* 관리자 추가금 변경 */
+export const PostSpecialAmount = (req: SpecialAmountData) =>
+  baseInstance.post("/orders/update/price", req).then((res) => res.data);
+
+/* 관리자 여행자 정보 변경 */
+export const PostTravelerInfo = (req: UpdateTravelerReq) =>
+  baseInstance.post("/orders/update/travelers", req).then((res) => res.data);

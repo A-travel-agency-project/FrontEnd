@@ -1,4 +1,14 @@
-const CategoryBtns = ({ category, handleClick, active }) => {
+import { CategoryBtn } from "../../types/category";
+
+const CategoryBtns = ({
+  category,
+  handleClick,
+  active,
+}: {
+  category: CategoryBtn[];
+  handleClick: (id: string) => void;
+  active: string;
+}) => {
   return (
     <div
       className="flex justify-between border-main-color border-[1px] rounded-[20px] 

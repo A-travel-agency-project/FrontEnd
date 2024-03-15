@@ -3,7 +3,6 @@ import { travelerInfo } from "../../types/reservation";
 import { User } from "../../types/user";
 import {
   birthFormat,
-  calculateAge,
   checkValidDate,
   onlyEnglish,
   onlyKorean,
@@ -12,6 +11,7 @@ import {
 import CustomRadioBtn from "./CustomRadionbtn";
 import { WRONG_AGE_MESSAGES } from "../../constants/travelerdata";
 import "./TravelerInfoForm.css";
+import { calculateAge } from "../../utils/calculateAge";
 
 const TravelerInfoForm = ({
   role,
@@ -45,7 +45,7 @@ const TravelerInfoForm = ({
     gender: "남",
     birth: "",
     phoneNumber: "",
-    isRepresentative: isRepresentative,
+    representative: isRepresentative,
   });
 
   const [inputBirth, setInputBirth] = useState("");
@@ -66,7 +66,7 @@ const TravelerInfoForm = ({
           gender: userInfo.gender,
           birth: userInfo.birth,
           phoneNumber: userInfo.phoneNumber,
-          isRepresentative: isRepresentative,
+          representative: isRepresentative,
         };
         setInfo(newInfo);
         setInputBirth(userInfo.birth);
@@ -89,7 +89,7 @@ const TravelerInfoForm = ({
         gender: "남",
         birth: "",
         phoneNumber: "",
-        isRepresentative: isRepresentative,
+        representative: isRepresentative,
       };
       setInfo(() => ({ ...newInfo }));
       handleTravelerInfo(travelerId, newInfo);

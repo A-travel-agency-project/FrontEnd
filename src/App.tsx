@@ -18,8 +18,7 @@ import MyPage from "./pages/MyPage";
 import NewRegistration from "./pages/manager/NewRegistration";
 import ProductDetail from "./pages/manager/ProductDetail";
 import OrderDetail from "./pages/manager/OrderDetail";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./queries/common/quertClient";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import TagsManager from "./pages/manager/TagsManager";
 import MyPageNav from "./components/MyPage/MyPageNav";
@@ -30,6 +29,7 @@ import AuthenticationPage from "./pages/AuthenticationPage";
 import NewRegistrationEdit from "./pages/manager/NewRegistrationEdit";
 
 function App() {
+  const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
