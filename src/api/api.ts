@@ -105,3 +105,7 @@ export const PostSpecialAmount = (req: SpecialAmountData) =>
 /* 관리자 여행자 정보 변경 */
 export const PostTravelerInfo = (req: UpdateTravelerReq) =>
   baseInstance.post("/orders/update/travelers", req).then((res) => res.data);
+
+/* 관리자 주문 취소 */
+export const GetOrderCancel = (id: string) =>
+  baseInstance.get(`/orders/cancel/${id}`).then((res) => res.data);

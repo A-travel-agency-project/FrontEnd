@@ -48,6 +48,7 @@ export const ORDER_DETAIL_CATEGORIES = [
 export const ORDER_INFO_CATEGORIES = [
   { category: "주문번호", content: "imomOrderId" },
   { category: "주문일시", content: "orderDate" },
+  { category: "주문상태", content: "orderState" },
   { category: "여행대표자", content: "travelerInfos" },
   { category: "패키지이름", content: "packageName" },
   { category: "상품번호", content: "productCode" },

@@ -14,8 +14,7 @@ import OrderDetailBtn from "./OrderDetailBtn";
 import { amountFormat } from "../../../utils/amountFormat";
 import SpecialAmount from "./SpecialAmount";
 import usePostTravelerInfo from "../../../queries/orders/usePostTravelerInfo";
-import { REQUIRED_TRAVELER_DATA } from "../../../constants/travelerdata";
-import { travelerInfo } from "../../../types/reservation";
+import useGetOrderCancel from "../../../queries/orders/useGetOrderCancel";
 
 const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
   const [travelerInfoList, setTravelerInfoList] = useState<TravelerInfoData[]>(
@@ -32,10 +31,18 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
 
   const [mutateTraveler, setMutateTraveler] = useState(false);
 
+  const [isCancel, setIsCancel] = useState(false);
+
   const { mutate, isError, error } = usePostTravelerInfo({
     ...travelerCount,
     travelerInfos: travelerInfoList,
   });
+
+  const {
+    data: cancelData,
+    isError: cancelIsError,
+    error: cancelError,
+  } = useGetOrderCancel(data.imomOrderId, isCancel);
 
   const handleDeleteTraveler = (id: number, name: string, role: string) => {
     const check = confirm(`${name}님의 정보를 삭제하시겠습니까?`);
@@ -102,6 +109,28 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
     });
     setMutateTraveler(true);
   };
+
+  const handleOrderCancel = () => {
+    const check = confirm(`${data.reserveUser}님의 주문을 취소하시겠습니까?`);
+    if (check) {
+      setIsCancel(true);
+    }
+  };
+
+  useEffect(() => {
+    if (isError && error) {
+      alert("여행자 정보 수정에 실패하였습니다.");
+    }
+  }, [isError, error]);
+
+  useEffect(() => {
+    if (cancelError && cancelError) {
+      alert("주문취소에 실패하였습니다.");
+    }
+    if (cancelData) {
+      setIsCancel(false);
+    }
+  }, [cancelError, cancelIsError, cancelData]);
 
   useEffect(() => {
     console.log(travelerInfoList);
@@ -178,14 +207,14 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
                 />
               </div>
             ) : item.category === "여행대표자" &&
-              Array.isArray(data[item.content as keyof typeof data]) ? (
+              Array.isArray(data.travelerInfos) ? (
               <div
                 className="flex border-b border-sub-black min-w-fit"
                 key={item.category}
               >
                 <TableHeader
                   header={true}
-                  category={`여행대표자`}
+                  category={item.category}
                   cellStyle="h-auto"
                 />
                 <OrderedTravelerInfo
@@ -197,6 +226,17 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
                   representative={true}
                 />
               </div>
+            ) : item.category === "주문상태" ? (
+              <div
+                className={`flex w-full items-center border-b border-sub-black`}
+              >
+                <TableHeader category={"주문상태"} header={true} />
+                <div className="px-[24px] flex shrink-0">{data.orderState}</div>
+                <OrderDetailBtn
+                  label="주문취소"
+                  handleClick={handleOrderCancel}
+                />
+              </div>
             ) : (
               <TableRow
                 key={item.category}
@@ -204,10 +244,8 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
                 header={true}
                 content={
                   item.category === "주문일시"
-                    ? orderDateFormat(
-                        data[item.content as keyof typeof data] as string
-                      )
-                    : (data[item.content as keyof typeof data] as string)
+                    ? orderDateFormat(data.orderDate)
+                    : `${data[item.content as keyof typeof data]}`
                 }
                 rowStyle={"border-b border-sub-black"}
               />
