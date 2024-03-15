@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import usePostDeposit from "../../queries/orders/usePostDeposit";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const AfterPayment = () => {
   const [searchParams] = useSearchParams();
@@ -24,7 +24,6 @@ const AfterPayment = () => {
     // reqData가 준비되었는지 확인 후 mutate 함수 호출
     if (paymentKey && amount) {
       console.log(paymentKey);
-      console.log(reqData);
       mutate();
     }
   }, [mutate, paymentKey, amount]);

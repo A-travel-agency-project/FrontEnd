@@ -30,10 +30,10 @@ const TravelDetail = () => {
     }
   }, [data]);
 
-  const handleScheduleInfo = (
-    id: "hotelInfo" | "scheduleList" | "regionInfo" | "terms"
-  ) => {
-    setShowScheduleInfo(id);
+  const handleScheduleInfo = (id: string) => {
+    setShowScheduleInfo(
+      id as "hotelInfo" | "scheduleList" | "regionInfo" | "terms"
+    );
   };
 
   const handleProductInfo = (id: string) => {

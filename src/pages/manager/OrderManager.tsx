@@ -96,6 +96,7 @@ const OrderManager = () => {
     const sortCategories = ["startDate", "orderDate", "userNameOrder"];
     const otherCategories = sortCategories.filter((el) => el !== category);
     setSortState((prev) => ({
+      // 정렬 하려는 카테고리 이외에는 null값으로 전환
       [category]: !prev[category as keyof OrderRequest] ? 1 : null,
       [otherCategories[0]]: null,
       [otherCategories[1]]: null,
@@ -127,7 +128,7 @@ const OrderManager = () => {
   };
 
   const handleTableRow = (orderId: string) => {
-    if (orderId) {
+    if (orderId !== "null") {
       navigate(`/orderdetail/${orderId}`);
     }
     return;

@@ -42,3 +42,48 @@ export type ManagerColumns<T> = {
   render?: (value: T[keyof T] | null) => string | null;
   onClick?: () => void;
 }[];
+
+export interface OrdeInfoData extends UpdateTravelerReq {
+  additionalPrice: number;
+  memo: string;
+  balance: number;
+  birth: string;
+  email: string;
+  endDate: string;
+  gender: string;
+  orderDate: string;
+  orderNumberList: string[];
+  orderState: string;
+  packageName: string;
+  payedPrice: number;
+  phoneNumber: string;
+  productCode: string;
+  reserveUser: string;
+  startDate: string;
+  totalPrice: number;
+}
+
+export interface TravelerInfoData {
+  travelerName: string;
+  enFirstName: string;
+  enLastName: string;
+  gender: string;
+  birth: string;
+  phoneNumber: string | null;
+  representative: boolean;
+}
+
+export interface SpecialAmountData {
+  imomOrderId: string;
+  additionalPrice: number;
+  memo: string;
+}
+
+export interface UpdateTravelerReq {
+  imomOrderId: string;
+  adultCount: number;
+  childCount: number;
+  infantCount: number;
+  totalCount: number;
+  travelerInfos: TravelerInfoData[];
+}
