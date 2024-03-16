@@ -1,48 +1,49 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import SignUpInput from "../components/SignUp/SignUpInput";
 import Button from "../components/common/Button";
 import LoginSignUpBtn from "../components/common/LoginSignUpBtn";
 import { useDebounce } from "../hooks/useDebounce";
 import { baseInstance } from "../api/instance";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { kakaoData } from "../atom/atom";
 import SignUpTerms from "../components/SignUp/\bSignUpTerms";
 
-const SignUp = () => {
+const EasySignUp = () => {
   const navigation = useNavigate();
+  const userData = useRecoilValue(kakaoData);
   // 입력정보
   const [name, setName] = useState("");
   const [englishName, setEnglishName] = useState("");
   const [englishLastName, setEnglishLastName] = useState("");
   const [birth, setBirth] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [phone, setPhone] = useState("");
   const [family, setFamily] = useState(0);
   const [baby, setBaby] = useState("");
-  const [gender, setGender] = useState(""); // 남녀 라디오버튼
   const [marketCheck, setMarketCheck] = useState<number>(0);
 
   // debounce
-  const debounceName = useDebounce(name, 300);
+  const debounceName = useDebounce(
+    userData?.userName ? userData.userName : name,
+    300
+  );
   const debounceEngilshName = useDebounce(englishName, 300);
   const debounceEnglishLastName = useDebounce(englishLastName, 300);
-  const debounceBirth = useDebounce(birth, 300);
-  const debounceEmail = useDebounce(email, 300);
-  const debouncePassword = useDebounce(password, 300);
-  const debouncePasswordConfirm = useDebounce(passwordConfirm, 300);
-  const debouncePhone = useDebounce(phone, 300);
-  console.log(englishLastName, englishName);
+  const debounceBirth = useDebounce(
+    userData?.birth ? userData.birth : birth,
+    300
+  );
+  const debouncePhone = useDebounce(
+    userData?.phoneNumber ? userData.phoneNumber : phone,
+    300
+  );
 
   // 정규식
   const nameRegex = /^[가-힣]/;
   const englishNameRegex = /^[a-zA-Z]+$/;
-
   const birthRegex = /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
 
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  const passwordRegex = /^(?=.*[A-Z]).{6,}$/;
   const phoneNumberRegex = /^010-\d{4}-\d{3,4}$/;
 
   // 유효성검사
@@ -51,12 +52,6 @@ const SignUp = () => {
   const isValidEnglishLastName = englishNameRegex.test(debounceEnglishLastName);
   const isValidBirth = birthRegex.test(debounceBirth);
   const isValidPhone = phoneNumberRegex.test(debouncePhone);
-  const isValidEmail = emailRegex.test(debounceEmail);
-  const isValidPassword = passwordRegex.test(debouncePassword);
-  const isValidPasswordConfirm =
-    isValidPassword && debouncePasswordConfirm === debouncePassword
-      ? true
-      : false;
 
   // 입력값 change함수
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,15 +87,6 @@ const SignUp = () => {
           );
         }
         break;
-      case "email":
-        setEmail(value);
-        break;
-      case "password":
-        setPassword(value);
-        break;
-      case "passwordconfirm":
-        setPasswordConfirm(value);
-        break;
       case "phone":
         phoneValue = value.replace(/\D/g, "");
         if (phoneValue.length <= 3) {
@@ -129,43 +115,35 @@ const SignUp = () => {
     }
   };
 
-  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGender(e.target.value);
-  };
-
   // 회원가입 버튼
   const handleSignUpClick = () => {
     if (
       isValidName &&
       isValidEnglishName &&
       isValidEnglishLastName &&
-      gender !== "" &&
       isValidBirth &&
-      isValidEmail &&
-      isValidPassword &&
-      isValidPasswordConfirm &&
       isValidPhone &&
       marketCheck >= 2
     ) {
       baseInstance
-        .post("/auth/signup", {
-          userName: name,
-          enFirstName: englishLastName,
-          enLastName: englishName,
-          gender: gender,
-          birth: birth,
-          email: email,
-          password: passwordConfirm,
-          phoneNumber: phone,
-          headCount: family > 0 ? family : 0,
+        .post("/oauth/update/info", {
+          userName: userData?.userName ? userData.userName : name,
+          enFirstName: englishName,
+          enLastName: englishLastName,
+          gender: userData?.gender,
+          birth: userData?.birth ? userData.birth : birth,
+          email: userData?.email,
+          phoneNumber: userData?.phoneNumber ? userData.phoneNumber : phone,
+          headCount: family,
           childName: baby,
+          socialType: userData?.socialType,
           marketing: marketCheck === 3 ? "동의" : "비동의",
         })
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
-            navigation("/login");
-            alert("회원가입 완료!");
+            navigation("/");
+            alert("로그인 완료!");
           }
         });
     } else {
@@ -173,13 +151,38 @@ const SignUp = () => {
     }
   };
   return (
-    <>
+    <div className="flex flex-col w-full justify-center items-center">
+      <div className="flex justify-between items-center w-1/3 mb-10">
+        <div className="flex items-center mt-10 justify-center opacity-40 ">
+          <div className="border-[5px] mr-5  border-main-color flex text-main-color px-3 text-2xl font-bold">
+            1
+          </div>
+          <div className="text-2xl text-main-color font-bold">소셜로그인</div>
+          <div className="text-main-color ml-2">►►►</div>
+        </div>
+        <div className="flex items-center mt-10 justify-center ">
+          <div className="border-[5px] mr-5  border-main-color flex text-main-color px-3 text-2xl font-bold">
+            2
+          </div>
+          <div className="text-2xl text-main-color font-bold">추가정보입력</div>
+          <div className="text-main-color ml-2">►►►</div>
+        </div>
+        <div className="flex items-center mt-10 justify-center opacity-40 ">
+          <div className="border-[5px] mr-5  border-main-color flex text-main-color px-3 text-2xl font-bold">
+            3
+          </div>
+          <div className="text-2xl text-main-color font-bold">
+            소셜로그인 완료
+          </div>
+        </div>
+      </div>
+
       <div className="flex flex-col h-full justify-center items-center lg:w-[500px]">
         <div className="w-[170px] h-[50px] bg-main-color mb-[24px]" />
         <div className="w-full">
           <h2>필수항목입력</h2>
           <SignUpInput
-            value={name}
+            value={userData?.userName ? userData.userName : name}
             name="name"
             title="이름"
             placeholder="이름"
@@ -187,6 +190,8 @@ const SignUp = () => {
             isValid={isValidName}
             length={name.length}
             type="text"
+            readonly={userData?.userName ? true : false}
+            inputClass={userData?.userName ? "bg-main-color text-white" : ""}
           />
           <SignUpInput
             value={englishName}
@@ -211,14 +216,13 @@ const SignUp = () => {
           />
           <div className="flex justify-between items-center pl-16 w-full">
             <div>성별</div>
-            <div className="flex justify-between w-3/4 border border-main-color rounded-full py-3 pl-7 pr-16 mb-[5px]">
+            <div className="flex justify-between w-3/4 border border-main-color bg-main-color text-white rounded-full py-3 pl-7 pr-16 mb-[5px]">
               {["남", "여"].map((option) => (
                 <label key={option}>
                   <input
                     type="radio"
                     name="gender"
-                    value={option}
-                    onChange={handleRadioChange}
+                    checked={option === userData?.gender}
                   />
                   {option}
                 </label>
@@ -226,7 +230,7 @@ const SignUp = () => {
             </div>
           </div>
           <SignUpInput
-            value={birth}
+            value={userData?.birth ? userData.birth : birth}
             name="birth"
             title="생년월일"
             placeholder="YYYY-MM-DD"
@@ -234,40 +238,22 @@ const SignUp = () => {
             isValid={isValidBirth}
             length={birth.length}
             type="text"
+            readonly={userData?.birth ? true : false}
+            inputClass={userData?.birth ? "bg-main-color text-white" : ""}
           />
           <SignUpInput
-            value={email}
+            value={userData?.email}
             name="email"
             title="이메일"
             placeholder="uriel@naver.com"
             onChange={handleInputChange}
-            isValid={isValidEmail}
-            length={email.length}
             type="email"
+            readonly={true}
+            inputClass="bg-main-color text-white"
           />
+
           <SignUpInput
-            value={password}
-            name="password"
-            title="비밀번호"
-            placeholder="6자리이상 대문자 1개이상 포함"
-            onChange={handleInputChange}
-            isValid={isValidPassword}
-            length={password.length}
-            type="password"
-          />
-          <SignUpInput
-            value={passwordConfirm}
-            name="passwordconfirm"
-            title="비밀번호확인"
-            placeholder="비밀번호 확인"
-            onChange={handleInputChange}
-            isValid={isValidPasswordConfirm}
-            length={passwordConfirm.length}
-            type="password"
-            message="비밀번호 불일치"
-          />
-          <SignUpInput
-            value={phone}
+            value={userData?.phoneNumber ? userData.phoneNumber : phone}
             name="phone"
             title="핸드폰번호"
             placeholder="010-1234-5678"
@@ -275,6 +261,8 @@ const SignUp = () => {
             isValid={isValidPhone}
             length={phone.length}
             type="text"
+            readonly={userData?.phoneNumber ? true : false}
+            inputClass={userData?.phoneNumber ? "bg-main-color text-white" : ""}
           />
         </div>
         <div className="w-full mt-10">
@@ -303,8 +291,8 @@ const SignUp = () => {
         <LoginSignUpBtn label="회원가입" onClick={handleSignUpClick} />
       </div>
       <Button loc="login" label="로그인" />
-    </>
+    </div>
   );
 };
 
-export default SignUp;
+export default EasySignUp;

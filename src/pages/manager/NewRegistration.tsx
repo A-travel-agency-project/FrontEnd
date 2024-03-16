@@ -148,8 +148,8 @@ const NewRegistration = () => {
       hotelInfoMd !== "" &&
       regionInfoMd !== ""
     ) {
-      axios
-        .post("http://13.124.147.192:8080/packages/create", formData, {
+      baseInstance
+        .post("/packages/create", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {

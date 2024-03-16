@@ -18,6 +18,7 @@ const MainManagerBtn = ({
 }: BannerProps) => {
   const addImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nowSelectImageList = e.target.files;
+    console.log(nowSelectImageList);
 
     const nowImgURLList = [...myImage];
     const nowFilesList = [...sendImg];
@@ -30,6 +31,8 @@ const MainManagerBtn = ({
       }
       setSendImg(nowFilesList);
       setMyImage(nowImgURLList);
+
+      e.target.value = "";
     } else {
       alert(`이미지는 ${limitLength}개까지만 업로드 가능합니다.`);
     }

@@ -77,79 +77,75 @@ const NewRegistrationEdit = () => {
   // 비용 리스트
   const [priceList, setPriceList] = useState<string[]>([]);
   useEffect(() => {
-    baseInstance
-      .get(`http://13.124.147.192:8080/packages/${id}`)
-      .then((res) => {
-        console.log(res.data.data);
-        if (res.status === 200) {
-          const {
-            countryName,
-            hashTag,
-            period,
-            privacy,
-            summary,
-            packageName,
-            regionInfo,
-            terms,
-            hotelInfo,
-            checkedTagList,
-            scheduleList,
-            thumbnailList,
-          } = res.data.data;
-          const transformedScheduleList = scheduleList.map(
-            (item: DateProps) => {
-              return {
-                day: item.day,
-                dayContent: {
-                  dayContentMd: item.dayContent,
-                  dayContentHtml: "",
-                },
-                hotel: item.hotel,
-                meal: item.meal,
-                vehicle: item.vehicle,
-              };
+    baseInstance.get(`/packages/${id}`).then((res) => {
+      console.log(res.data.data);
+      if (res.status === 200) {
+        const {
+          countryName,
+          hashTag,
+          period,
+          privacy,
+          summary,
+          packageName,
+          regionInfo,
+          terms,
+          hotelInfo,
+          checkedTagList,
+          scheduleList,
+          thumbnailList,
+        } = res.data.data;
+        const transformedScheduleList = scheduleList.map((item: DateProps) => {
+          return {
+            day: item.day,
+            dayContent: {
+              dayContentMd: item.dayContent,
+              dayContentHtml: "",
+            },
+            hotel: item.hotel,
+            meal: item.meal,
+            vehicle: item.vehicle,
+          };
+        });
+        setPrivacy(privacy);
+        setSelectCountry(countryName);
+        setPackageName(packageName);
+        setPackageSummary(summary);
+        setPeriod(period);
+        setTaggedValue(hashTag);
+        setHotelInfoMd(hotelInfo);
+        setRegionInfoMd(regionInfo);
+        setTermsMd(terms);
+        setCheckTagList(checkedTagList);
+        setDays(transformedScheduleList);
+        setSendImg(
+          thumbnailList.map(
+            (thumbnail: {
+              imagePath: string;
+              uploadImageName: string;
+              originalImageName: string;
+            }) => {
+              const { imagePath, uploadImageName, originalImageName } =
+                thumbnail;
+              const imageUrl = `https://uriel-be.s3.ap-northeast-2.amazonaws.com/${imagePath}/${uploadImageName}`;
+              return new File([imageUrl], originalImageName);
             }
-          );
-          setPrivacy(privacy);
-          setSelectCountry(countryName);
-          setPackageName(packageName);
-          setPackageSummary(summary);
-          setPeriod(period);
-          setTaggedValue(hashTag);
-          setHotelInfoMd(hotelInfo);
-          setRegionInfoMd(regionInfo);
-          setTermsMd(terms);
-          setCheckTagList(checkedTagList);
-          setDays(transformedScheduleList);
-          setSendImg(
-            thumbnailList.map(
-              (thumbnail: {
-                imagePath: string;
-                uploadImageName: string;
-                originalImageName: string;
-              }) => {
-                const { imagePath, uploadImageName, originalImageName } =
-                  thumbnail;
-                const imageUrl = `https://uriel-be.s3.ap-northeast-2.amazonaws.com/${imagePath}/${uploadImageName}`;
-                return new File([imageUrl], originalImageName);
-              }
-            )
-          );
-          setMyImage(
-            thumbnailList.map(
-              (thumbnail: {
-                imagePath: string;
-                uploadImageName: string;
-                originalImageName: string;
-              }) => {
-                const { imagePath, uploadImageName } = thumbnail;
-                const imageUrl = `https://uriel-be.s3.ap-northeast-2.amazonaws.com/${imagePath}/${uploadImageName}`;
-                return imageUrl;
-              }
-            )
-          );
-        }
-      });
+          )
+        );
+        setMyImage(
+          thumbnailList.map(
+            (thumbnail: {
+              imagePath: string;
+              uploadImageName: string;
+              originalImageName: string;
+            }) => {
+              const { imagePath, uploadImageName } = thumbnail;
+              const imageUrl = `https://uriel-be.s3.ap-northeast-2.amazonaws.com/${imagePath}/${uploadImageName}`;
+              return imageUrl;
+            }
+          )
+        );
+      }
+    });
   }, [id]);
   // 태그 onChange함수
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -220,8 +216,8 @@ const NewRegistrationEdit = () => {
       hotelInfoMd !== "" &&
       regionInfoMd !== ""
     ) {
-      axios
-        .post("http://13.124.147.192:8080/packages/create", formData, {
+      baseInstance
+        .post("/packages/create", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
