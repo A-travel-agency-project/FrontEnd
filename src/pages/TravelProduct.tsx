@@ -23,6 +23,9 @@ const TravelProduct = () => {
       setTagCheckList(location.state.tagCheckList);
       setTagSubmit(true);
     }
+    if (location.state && !location.state.tagCheckList) {
+      setCountryClick(location.state);
+    }
   }, [location.state]);
 
   useEffect(() => {
