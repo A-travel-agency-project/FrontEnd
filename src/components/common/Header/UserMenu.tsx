@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import IconUser from "/public/icon_user.svg";
 
 const UserMenu = () => {
-  const [isLogin] = useState(true);
+  const [isLogin] = useState(false);
   return (
     <>
       {isLogin ? (
@@ -18,9 +19,9 @@ const UserMenu = () => {
         <div className="flex text-[10px] text-sub-black">
           <Link
             to={"/mypage"}
-            className="flex justify-center flex-col items-center"
+            className="flex justify-center flex-col items-center gap-[4px]"
           >
-            <div>icon</div>
+            <img src={IconUser} />
             마이페이지
           </Link>
         </div>

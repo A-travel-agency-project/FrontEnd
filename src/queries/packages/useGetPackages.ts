@@ -5,7 +5,7 @@ const useGetPackages = (tagSubmit: boolean, country?: string) => {
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["getPackage", country],
     queryFn: () => GetPackages(country ? country : ""),
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     retry: false,
     enabled: !tagSubmit,
   });

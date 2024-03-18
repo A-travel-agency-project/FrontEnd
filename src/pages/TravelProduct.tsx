@@ -24,7 +24,9 @@ const TravelProduct = () => {
       setTagSubmit(true);
     }
     if (location.state && !location.state.tagCheckList) {
-      setCountryClick(location.state);
+      location.state !== "여행상품"
+        ? setCountryClick(location.state)
+        : setCountryClick("");
     }
   }, [location.state]);
 
