@@ -48,6 +48,7 @@ const SpecialAmount = ({
             additionalPrice: additionalPrice,
             memo: memo,
           });
+      setAmountType(additionalPrice >= 0 ? "추가금" : "할인금");
     }
     setEditAmount(!editAmount);
   };

@@ -8,7 +8,7 @@ import {
   UpdateTravelerReq,
 } from "../types/manager";
 import { Package, PackageName } from "../types/package";
-import { PaymentData } from "../types/payment";
+import { OrderedPaymentData, PaymentData } from "../types/payment";
 import {
   ProductDates,
   ProductDetialInfo,
@@ -86,16 +86,25 @@ export const GetOrderDetail = (orderId: string) =>
   baseInstance.get(`orders/detail/${orderId}`).then((res) => res.data.data);
 
 /* 관리자 결제 정보 조회 */
-export const GetPaymentInfo = (orderId: string) => {
-  axios
-    .get(`https://api.tosspayments.com/v1/payments/orders/${orderId}`, {
-      headers: {
-        Authorization: `Basic ${btoa(
-          `${import.meta.env.VITE_TOSS_SECRETKEY}:`
-        )}`,
-      },
-    })
-    .then((res) => console.log(res));
+export const GetPaymentInfo = async (
+  orderId: string
+): Promise<OrderedPaymentData> => {
+  try {
+    const response = await axios.get(
+      `https://api.tosspayments.com/v1/payments/orders/${orderId}`,
+      {
+        headers: {
+          Authorization: `Basic ${btoa(
+            `${import.meta.env.VITE_TOSS_SECRETKEY}:`
+          )}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 /* 관리자 추가금 변경 */

@@ -7,6 +7,7 @@ const useGetOrderDetail = (orderId: string) => {
     queryFn: () => GetOrderDetail(orderId),
     refetchOnWindowFocus: false,
     retry: false,
+    enabled: orderId !== "",
   });
   return { data, isPending, isError, error };
 };
