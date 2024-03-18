@@ -19,9 +19,10 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
     offset: 0,
     limit: 5,
   });
-  const { mutate, data, isPending, isError, error } = usePostProducts(request);
+  const { mutate, data, isError, error } = usePostProducts(request);
   const [tableData, setTableData] = useState<ProductListInfo[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
+  const [hasSchedule, setHasSchedule] = useState(false);
 
   const columnHelper = createColumnHelper<ProductListInfo>();
   const columns = [
@@ -49,8 +50,8 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
   }, [request, mutate]);
 
   useEffect(() => {
-    if (data) {
-      console.log(data);
+    if (data && data.content.length > 0) {
+      setHasSchedule(true);
       setTableData(() => {
         const newTableData = data.content.map((item: ProductList) => ({
           ...item,
@@ -66,14 +67,17 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
         return newTableData;
       });
       setTotalPages(data.totalPages);
+    } else if (data && data.content.length === 0) {
+      setHasSchedule(false);
     }
   }, [data]);
 
-  if (isPending) {
-    <div></div>;
-  }
   if (isError) {
     return <div>에러 발생: {error?.message}</div>;
+  }
+  if (!data) return;
+  if (!hasSchedule) {
+    return <div>추후 일정 업데이트 예정입니다.</div>;
   }
   return (
     <>

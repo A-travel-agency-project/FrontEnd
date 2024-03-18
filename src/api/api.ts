@@ -43,7 +43,6 @@ export const GetPackageNames = (): Promise<PackageName[]> =>
 /* 패키지 목록 가져오기 */
 export const GetPackages = async (country?: string): Promise<Package[]> => {
   const url = country ? `/packages/countries/${country}` : "/packages";
-  console.log(url);
   const res = await baseInstance.get(url);
   return res.data.data;
 };

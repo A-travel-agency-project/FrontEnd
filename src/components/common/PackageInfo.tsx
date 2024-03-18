@@ -33,12 +33,18 @@ const PackageInfo = ({
           <span className="text-[20px]">{price}원~</span>
         </div>
       </div>
-      <div className="flex gap-[10px] text-[13px] font-light">
+      <div
+        className={`flex gap-[10px] text-[13px] font-light flex-wrap h-fit ${
+          page === "traveldetail" ? "justify-start" : "justify-end"
+        } `}
+      >
         {hashTag
           .replace("#", "")
           .split("#")
           .map((tag) => (
-            <span key={tag}>#{tag}</span>
+            <span key={tag} className="flex flex-shrink-0 h-fit">
+              #{tag}
+            </span>
           ))}
       </div>
     </div>

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FilterDropdownProps } from "../../types/dropdown";
 import { TagData } from "../../types/tag";
 import IconDown from "../../../public/icon_down.svg";
 import IconCheck from "../../../public/icon_check.svg";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 const TagDropdown = ({
   list,
@@ -10,6 +11,7 @@ const TagDropdown = ({
   handleClick,
   label,
 }: FilterDropdownProps<TagData>) => {
+  const dropdownRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const [selected, setSeleted] = useState(label);
@@ -18,16 +20,23 @@ const TagDropdown = ({
     setIsOpen(!isOpen);
   };
 
-  const handleTagClick = (tagId: number, tagContent: string) => {
+  const closeDropdown = () => {
     setIsOpen(false);
+  };
+
+  const handleTagClick = (tagId: number, tagContent: string) => {
+    closeDropdown();
     handleClick(`${tagId}`, id);
     setSeleted(tagContent);
   };
+
+  useOutsideClick(dropdownRef, closeDropdown);
 
   return (
     <>
       <div
         className={`border-b-[2px] border-main-color px-[30px] inline-flex justify-center text-main-color`}
+        ref={dropdownRef}
       >
         <button
           onClick={toggleDropdown}

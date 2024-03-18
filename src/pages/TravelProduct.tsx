@@ -92,6 +92,7 @@ const TravelProduct = () => {
           tagSubmit={tagSubmit}
           countryClick={countryClick}
           tagCheckList={tagCheckList}
+          setCountryClick={setCountryClick}
         />
       </div>
     </div>
