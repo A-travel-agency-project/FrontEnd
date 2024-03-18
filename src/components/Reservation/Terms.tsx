@@ -1,12 +1,12 @@
 import { useState } from "react";
 import SectionTitle from "./SectionTitle";
-import PrivacyStatement from "../terms/PrivacyStatement";
-import OverseasTravelAgreement from "../terms/OverseasTravelAgreement";
+import PrivacyStatement from "../common/Terms/PrivacyStatement";
+import OverseasTravelAgreement from "../common/Terms/OverseasTravelAgreement";
 import { TermsState } from "../../types/reservation";
-import CancellationAndRefund from "../terms/CancellationAndRefund";
-import IdentificationInfo from "../terms/IdentificationInfo";
-import ProvisionOfPersonalInfo from "../terms/ProvisionOfPersonalInfo";
-import MarketingConsent from "../terms/MarketingConsent";
+import CancellationAndRefund from "../common/Terms/CancellationAndRefund";
+import IdentificationInfo from "../common/Terms/IdentificationInfo";
+import ProvisionOfPersonalInfo from "../common/Terms/ProvisionOfPersonalInfo";
+import MarketingConsent from "../common/Terms/MarketingConsent";
 
 const Terms = ({
   handleCheck,
