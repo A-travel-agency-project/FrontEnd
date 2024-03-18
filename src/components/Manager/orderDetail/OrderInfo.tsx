@@ -83,8 +83,8 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
   const handleEditTraveler = (
     id: number,
     info: TravelerInfoData,
-    orderedRole?: string, // 유저가 주문한 인원 카테고리
-    changedRole?: string // 변경될 인원 카테고리
+    changedRole?: string, // 변경될 인원 카테고리
+    orderedRole?: string // 유저가 주문한 인원 카테고리
   ) => {
     if (changedRole && orderedRole) {
       // 추가될 인원 카테고리
@@ -101,6 +101,16 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
         [plusCategory]: +prev[plusCategory as keyof typeof travelerCount] + 1,
         [minusCategory]: +prev[minusCategory as keyof typeof travelerCount] - 1,
       }));
+    } else if (changedRole) {
+      // 추가될 인원 카테고리
+      const plusCategory =
+        COUNT_CATEGORIES[changedRole as keyof typeof COUNT_CATEGORIES];
+
+      // 인원 변경
+      setTravelerCount((prev) => ({
+        ...prev,
+        [plusCategory]: +prev[plusCategory as keyof typeof travelerCount] + 1,
+      }));
     }
     setTravelerInfoList((prev) => {
       const newList = [...prev];
@@ -111,7 +121,9 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
   };
 
   const handleOrderCancel = () => {
-    const check = confirm(`${data.reserveUser}님의 주문을 취소하시겠습니까?`);
+    const check = confirm(
+      `여행자 ${data.reserveUser}님의 주문을 취소하시겠습니까?`
+    );
     if (check) {
       setIsCancel(true);
     }
@@ -128,6 +140,7 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
       alert("주문취소에 실패하였습니다.");
     }
     if (cancelData) {
+      alert("주문이 취소되었습니다.");
       setIsCancel(false);
     }
   }, [cancelError, cancelIsError, cancelData]);
@@ -228,14 +241,17 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
               </div>
             ) : item.category === "주문상태" ? (
               <div
+                key={item.category}
                 className={`flex w-full items-center border-b border-sub-black`}
               >
                 <TableHeader category={"주문상태"} header={true} />
                 <div className="px-[24px] flex shrink-0">{data.orderState}</div>
-                <OrderDetailBtn
-                  label="주문취소"
-                  handleClick={handleOrderCancel}
-                />
+                {data.orderState !== "취소" && (
+                  <OrderDetailBtn
+                    label="주문취소"
+                    handleClick={handleOrderCancel}
+                  />
+                )}
               </div>
             ) : (
               <TableRow

@@ -27,8 +27,8 @@ const OrderedTravelerInfo = ({
   handleEdit?: (
     id: number,
     info: TravelerInfoData,
-    orderdRole?: string,
-    changedRole?: string
+    changedRole?: string,
+    orderdRole?: string
   ) => void;
 }) => {
   const [travelerInfo, setTravlerInfo] = useState<TravelerInfoData>({
@@ -50,19 +50,19 @@ const OrderedTravelerInfo = ({
 
   const handleEditable = (role?: string) => {
     if (editable) {
-      if (role === "cancle") {
+      if (role === "cancel") {
         setTravlerInfo(() => ({ ...data }));
       } else if (role === "submit" && id && handleEdit && startDate) {
-        handleEdit(
-          id,
-          travelerInfo,
-          calculateAge(data.birth, startDate),
-          calculateAge(birth, startDate)
-        );
-        console.log(
-          calculateAge(data.birth, startDate),
-          calculateAge(birth, startDate)
-        );
+        if (data.birth !== "")
+          handleEdit(
+            id,
+            travelerInfo,
+            calculateAge(birth, startDate),
+            calculateAge(data.birth, startDate)
+          );
+        else {
+          handleEdit(id, travelerInfo, calculateAge(birth, startDate));
+        }
       }
     }
     setEditable(!editable);
