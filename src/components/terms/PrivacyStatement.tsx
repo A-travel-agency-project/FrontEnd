@@ -1,9 +1,9 @@
-import "./PrivacyStatement.css";
+import "./terms.css";
 
 const PrivacyStatement = () => {
   return (
     <div className="h-[300px] overflow-y-scroll p-[12px] text-[12px] text-sub-black border-sub-black border-[1px]">
-      <h2 className="text-center">개인정보 취급방침</h2>
+      <h2 className="title">개인정보 취급방침</h2>
       <br />
       (주)우리엘는 고객의 개인정보보호와 정보주체자의 권익보장을 위해 최선의
       노력을 다하고 있습니다. 회사는 『개인정보보호법』 관련조항과 『정보통신망
