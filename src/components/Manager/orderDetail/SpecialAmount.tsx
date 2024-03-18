@@ -23,6 +23,8 @@ const SpecialAmount = ({
     memo: "",
   });
 
+  console.log(orderId);
+
   const { mutate } = usePostSpecialAmount(amount);
 
   useEffect(() => {
@@ -30,12 +32,15 @@ const SpecialAmount = ({
   }, [amount]);
 
   useEffect(() => {
-    if (orderId && additionalPrice && memo) {
+    if (orderId || additionalPrice || memo) {
       setAmount({
         imomOrderId: orderId,
         additionalPrice: additionalPrice,
         memo: memo,
       });
+    }
+    if (additionalPrice < 0) {
+      setAmountType("할인금");
     }
   }, [orderId, additionalPrice, memo]);
 
@@ -60,6 +65,7 @@ const SpecialAmount = ({
     } else {
       setAmount((prev) => ({ ...prev, [id]: value }));
     }
+    console.log(id, value);
   };
 
   const handleAmountType = (id: string, value: string) => {

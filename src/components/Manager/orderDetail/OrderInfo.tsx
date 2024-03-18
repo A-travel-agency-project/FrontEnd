@@ -14,9 +14,14 @@ import OrderDetailBtn from "./OrderDetailBtn";
 import { amountFormat } from "../../../utils/amountFormat";
 import SpecialAmount from "./SpecialAmount";
 import usePostTravelerInfo from "../../../queries/orders/usePostTravelerInfo";
-import useGetOrderCancel from "../../../queries/orders/useGetOrderCancel";
 
-const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
+const OrderInfo = ({
+  data,
+  handleCancel,
+}: {
+  data: OrdeInfoData;
+  handleCancel: () => void;
+}) => {
   const [travelerInfoList, setTravelerInfoList] = useState<TravelerInfoData[]>(
     data.travelerInfos
   );
@@ -29,20 +34,12 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
     totalCount: 0,
   });
 
-  const [mutateTraveler, setMutateTraveler] = useState(false);
-
-  const [isCancel, setIsCancel] = useState(false);
+  // const [mutateTraveler, setMutateTraveler] = useState(false);
 
   const { mutate, isError, error } = usePostTravelerInfo({
     ...travelerCount,
     travelerInfos: travelerInfoList,
   });
-
-  const {
-    data: cancelData,
-    isError: cancelIsError,
-    error: cancelError,
-  } = useGetOrderCancel(data.imomOrderId, isCancel);
 
   const handleDeleteTraveler = (id: number, name: string, role: string) => {
     const check = confirm(`${name}님의 정보를 삭제하시겠습니까?`);
@@ -56,6 +53,7 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
       }));
       // 리스트에서 정보 제거
       setTravelerInfoList((prev) => prev.filter((_, index) => index !== id));
+      mutate();
     } else {
       return;
     }
@@ -117,16 +115,7 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
       newList[id] = info;
       return newList;
     });
-    setMutateTraveler(true);
-  };
-
-  const handleOrderCancel = () => {
-    const check = confirm(
-      `여행자 ${data.reserveUser}님의 주문을 취소하시겠습니까?`
-    );
-    if (check) {
-      setIsCancel(true);
-    }
+    mutate();
   };
 
   useEffect(() => {
@@ -134,16 +123,6 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
       alert("여행자 정보 수정에 실패하였습니다.");
     }
   }, [isError, error]);
-
-  useEffect(() => {
-    if (cancelError && cancelError) {
-      alert("주문취소에 실패하였습니다.");
-    }
-    if (cancelData) {
-      alert("주문이 취소되었습니다.");
-      setIsCancel(false);
-    }
-  }, [cancelError, cancelIsError, cancelData]);
 
   useEffect(() => {
     console.log(travelerInfoList);
@@ -160,13 +139,13 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
     });
   }, [data]);
 
-  useEffect(() => {
-    if (mutateTraveler) {
-      mutate();
-      setMutateTraveler(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mutateTraveler]);
+  // useEffect(() => {
+  //   if (mutateTraveler) {
+  //     mutate();
+  //     setMutateTraveler(false);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [mutateTraveler]);
 
   return (
     <div className="text-sub-black flex flex-col gap-[32px] text-[14px]">
@@ -247,10 +226,7 @@ const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
                 <TableHeader category={"주문상태"} header={true} />
                 <div className="px-[24px] flex shrink-0">{data.orderState}</div>
                 {data.orderState !== "취소" && (
-                  <OrderDetailBtn
-                    label="주문취소"
-                    handleClick={handleOrderCancel}
-                  />
+                  <OrderDetailBtn label="주문취소" handleClick={handleCancel} />
                 )}
               </div>
             ) : (

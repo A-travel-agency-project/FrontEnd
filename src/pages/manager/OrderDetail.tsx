@@ -5,11 +5,23 @@ import { ORDER_DETAIL_CATEGORIES } from "../../constants/managerdata";
 import { useEffect, useState } from "react";
 import OrderInfo from "../../components/Manager/orderDetail/OrderInfo";
 import PaymentInfo from "../../components/Manager/orderDetail/PaymentInfo";
+import useGetOrderCancel from "../../queries/orders/useGetOrderCancel";
+import { useQueryClient } from "@tanstack/react-query";
 
 const OrderDetail = () => {
   const { id } = useParams();
 
+  const queryClient = useQueryClient();
+
   const { data, isError, error } = useGetOrderDetail(id ?? "");
+
+  const [isCancel, setIsCancel] = useState(false);
+
+  const {
+    data: cancelData,
+    isError: cancelIsError,
+    error: cancelError,
+  } = useGetOrderCancel(data?.imomOrderId ?? "", isCancel);
 
   const [showInfo, setShowInfo] = useState("orderInfo");
 
@@ -19,12 +31,33 @@ const OrderDetail = () => {
     setShowInfo(id);
   };
 
+  const handleOrderCancel = () => {
+    const check = confirm(
+      `여행자 ${data?.reserveUser}님의 주문을 취소하시겠습니까?`
+    );
+    if (check) {
+      setIsCancel(true);
+    }
+  };
+
   useEffect(() => {
     if (data) {
       console.log(data);
       setIdList(data.orderNumberList);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (cancelError && cancelError) {
+      alert("주문취소에 실패하였습니다.");
+    }
+    if (cancelData) {
+      setIsCancel(false);
+      alert("주문이 취소되었습니다.");
+      queryClient.invalidateQueries({ queryKey: ["getOrderDetail"] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cancelError, cancelIsError, cancelData]);
 
   if (isError) console.log(error?.message);
   return (
@@ -36,7 +69,7 @@ const OrderDetail = () => {
         divStyle="!justify-start gap-[40px] w-full"
       />
       {showInfo === "orderInfo" && data ? (
-        <OrderInfo data={data} />
+        <OrderInfo data={data} handleCancel={handleOrderCancel} />
       ) : (
         <PaymentInfo idList={idList} />
       )}
