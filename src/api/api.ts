@@ -2,6 +2,7 @@ import axios from "axios";
 import { BlogPost } from "../types/community";
 import { Img } from "../types/img";
 import {
+  OrdeInfoData,
   OrderData,
   OrderRequest,
   SpecialAmountData,
@@ -73,16 +74,14 @@ export const GetUserInfo = (): Promise<User> =>
 
 /* 예약금 결제하기 */
 export const PostDeposit = (req: PaymentData) =>
-  baseInstance
-    .post(`/payments/confirm`, req)
-    .then((res) => console.log(res.data));
+  baseInstance.post(`/payments/confirm`, req).then((res) => res.data);
 
 /* 관리자 주문 목록 조회 */
 export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>
   baseInstance.post(`/orders`, req).then((res) => res.data.data);
 
 /* 관리자 주문 정보 조회 */
-export const GetOrderDetail = (orderId: string) =>
+export const GetOrderDetail = (orderId: string): Promise<OrdeInfoData> =>
   baseInstance.get(`orders/detail/${orderId}`).then((res) => res.data.data);
 
 /* 관리자 결제 정보 조회 */
