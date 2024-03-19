@@ -14,9 +14,7 @@ export const useGetContries = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await baseInstance.get(
-          `http://13.124.147.192:8080/countries`
-        );
+        const response = await baseInstance.get(`/countries`);
         setCountrys(response.data.data);
       } catch (error) {
         console.error("에러 발생:", error);

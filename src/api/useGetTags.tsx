@@ -19,9 +19,7 @@ export const useGetTags = ({ params }: UseGetProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await baseInstance.get(
-          `http://13.124.147.192:8080/${params}`
-        );
+        const response = await baseInstance.get(`/${params}`);
         setTagsData(response.data.data);
         const lengths: { [key: string]: boolean } = {};
         tagTitle.forEach((el) => {

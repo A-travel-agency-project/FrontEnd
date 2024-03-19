@@ -6,34 +6,35 @@ import MainManagerBtn from "../../components/Manager/MainManagerBtn";
 import TagInput from "../../components/Manager/TagInput";
 import PackageEditorList from "../../components/Manager/package/PackageEditorList";
 import RegistSubInput from "../../components/Manager/RegistSubInput";
-import axios from "axios";
 import { useGetTags } from "../../api/useGetTags";
-import { Editor } from "@toast-ui/react-editor";
 import { useGetContries } from "../../api/useGetContries";
 import { useNavigate, useParams } from "react-router-dom";
 import { baseInstance } from "../../api/instance";
 
+interface DayContent {
+  dayContentMd: string;
+  dayContentHtml: string;
+}
+
 interface DateProps {
   day: number;
   scheduleId?: number;
-  dayContent?:
-    | {
-        dayContentMd?: string;
-        dayContentHtml?: string;
-      }
-    | string;
+  dayContent: {
+    dayContentMd: string;
+    dayContentHtml?: string;
+  };
   hotel: string;
   meal: string;
   vehicle: string;
 }
-type TagType = {
-  tagId: number;
-  tagContent: string;
-};
+
+interface ListsType {
+  [key: string]: string[];
+}
 const NewRegistrationEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const ref = useRef<Editor | null>(null);
+  // const ref = useRef<Editor[] | null>(null);
   // 패키지 이름
   const [packageName, setPackageName] = useState<string>("");
   // 패키지 요약
@@ -58,6 +59,7 @@ const NewRegistrationEdit = () => {
   const { tagsData } = useGetTags({
     params: "tags",
   });
+  console.log(tagsData);
   // 호텔안내
   const [hotelInfoMd, setHotelInfoMd] = useState<string>("");
   const [hotelInfoHtml, setHotelInfoHtml] = useState<string>("");
@@ -68,75 +70,121 @@ const NewRegistrationEdit = () => {
   const [termMd, setTermsMd] = useState<string>("");
   const [termHtml, setTermsHtml] = useState<string>("");
   /* 태그 */
-  const [checkTagList, setCheckTagList] = useState<TagType[]>([]);
-  // 테마 리스트
-  const [themeList, setThemeList] = useState<string[]>([]);
-  // 가족 리스트
-  const [familyList, setFamilyList] = useState<string[]>([]);
-  // 시기 리스트
-  const [seasonList, setSeasonList] = useState<string[]>([]);
-  // 비용 리스트
-  const [priceList, setPriceList] = useState<string[]>([]);
-  useEffect(() => {
-    baseInstance
-      .get(`http://13.124.147.192:8080/packages/${id}`)
-      .then((res) => {
-        console.log(res.data.data);
-        if (res.status === 200) {
-          const {
-            countryName,
-            hashTag,
-            period,
-            privacy,
-            summary,
-            packageName,
-            regionInfo,
-            terms,
-            hotelInfo,
-            checkedTagList,
-            scheduleList,
-          } = res.data.data;
-          setPrivacy(privacy);
-          setSelectCountry(countryName);
-          setPackageName(packageName);
-          setPackageSummary(summary);
-          setPeriod(period);
-          setTaggedValue(hashTag);
-          setHotelInfoMd(hotelInfo);
-          setRegionInfoMd(regionInfo);
-          setTermsMd(terms);
-          setCheckTagList(checkedTagList);
-          setDays(scheduleList);
-        }
-      });
-  }, []);
+  const [lists, setLists] = useState<ListsType>({
+    themeList: [],
+    familyList: [],
+    seasonList: [],
+    priceList: [],
+  });
 
-  // 태그 onChange함수
+  console.log("[LIST]", lists);
+  useEffect(() => {
+    baseInstance.get(`/packages/${id}`).then((res) => {
+      if (res.status === 200) {
+        console.log(res.data.data);
+        const {
+          countryName,
+          hashTag,
+          period,
+          privacy,
+          summary,
+          packageName,
+          regionInfo,
+          terms,
+          hotelInfo,
+          checkedTagList,
+          scheduleList,
+          thumbnailList,
+        } = res.data.data;
+        const transformedScheduleList = scheduleList.map((item: DateProps) => {
+          return {
+            day: item.day,
+            dayContent: {
+              dayContentMd: item.dayContent,
+              dayContentHtml: "",
+            },
+            hotel: item.hotel,
+            meal: item.meal,
+            vehicle: item.vehicle,
+          };
+        });
+        setPrivacy(privacy);
+        setSelectCountry(countryName);
+        setPackageName(packageName);
+        setPackageSummary(summary);
+        setPeriod(period);
+        setTaggedValue(hashTag);
+        setHotelInfoMd(hotelInfo);
+        setRegionInfoMd(regionInfo);
+        setTermsMd(terms);
+        setDays(transformedScheduleList);
+        setLists((prevLists) => {
+          const newLists = { ...prevLists };
+          checkedTagList.forEach(
+            (item: { tagContent: string; tagType: string }) => {
+              const { tagContent, tagType } = item;
+              switch (tagType) {
+                case "테마":
+                  newLists.themeList = [...newLists.themeList, tagContent];
+                  break;
+                case "구성원":
+                  newLists.familyList = [...newLists.familyList, tagContent];
+                  break;
+                case "시기":
+                  newLists.seasonList = [...newLists.seasonList, tagContent];
+                  break;
+                case "비용":
+                  newLists.priceList = [...newLists.priceList, tagContent];
+                  break;
+                default:
+                  break;
+              }
+            }
+          );
+          return newLists;
+        });
+        console.log(thumbnailList);
+        setSendImg(
+          thumbnailList.map(
+            (thumbnail: { imageUrl: string; originalImageName: string }) => {
+              const { imageUrl, originalImageName } = thumbnail;
+              return new File([imageUrl], originalImageName);
+            }
+          )
+        );
+        setMyImage(
+          thumbnailList.map((thumbnail: { imageUrl: string }) => {
+            const { imageUrl } = thumbnail;
+            return imageUrl;
+          })
+        );
+      }
+    });
+  }, [id]);
+
+  // 핸들
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name, checked } = e.target;
+    console.log(name);
 
     if (checked) {
-      if (name === "themeList") {
-        setThemeList((prev) => [...prev, value]);
-      } else if (name === "familyList") {
-        setFamilyList((prev) => [...prev, value]);
-      } else if (name === "seasonList") {
-        setSeasonList((prev) => [...prev, value]);
-      } else if (name === "priceList") {
-        setPriceList((prev) => [...prev, value]);
+      // 새로운 태그가 추가되는 경우
+      if (!lists[name].includes(value)) {
+        // 해당하는 리스트에 값 추가
+        setLists((prevLists) => ({
+          ...prevLists,
+          [name]: [...prevLists[name], value],
+        }));
       }
     } else {
-      if (name === "themeList") {
-        setThemeList((prev) => prev.filter((item) => item !== value));
-      } else if (name === "familyList") {
-        setFamilyList((prev) => prev.filter((item) => item !== value));
-      } else if (name === "seasonList") {
-        setSeasonList((prev) => prev.filter((item) => item !== value));
-      } else if (name === "priceList") {
-        setPriceList((prev) => prev.filter((item) => item !== value));
-      }
+      // 기존에 체크된 태그가 해제되는 경우
+      setLists((prevLists) => ({
+        ...prevLists,
+        [name]: prevLists[name].filter((item) => item !== value),
+      }));
     }
   };
+
   /* 폼데이터 post요청 */
   const handleOnSubmit = () => {
     const jsonData = {
@@ -145,10 +193,56 @@ const NewRegistrationEdit = () => {
       period: period,
       privacy: privacy,
       countryName: selectCountry,
-      themeList: themeList,
-      familyList: familyList,
-      priceList: priceList,
-      seasonList: seasonList,
+      themeList: lists.themeList,
+      familyList: lists.familyList,
+      priceList: lists.priceList,
+      seasonList: lists.seasonList,
+      hashTag: taggedValue,
+      hotelInfoMd: hotelInfoMd,
+      hotelInfoHtml: hotelInfoHtml,
+      regionInfoMd: regionInfoMd,
+      regionInfoHtml: regionInfoHtml,
+      termsMd: termMd,
+      termsHtml: termHtml,
+      scheduleList: days,
+    };
+    const formData = new FormData();
+    formData.append(
+      "data",
+      new Blob([JSON.stringify(jsonData)], { type: "application/json" })
+    );
+    sendImg.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const dayEmptyContent = days.some((el) => el.dayContent);
+    if (packageName !== "" && dayEmptyContent) {
+      baseInstance
+        .put(`/packages/${id}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            navigate("/packagemanager");
+            alert("수정이 완료됐습니다");
+          }
+        });
+    } else {
+      alert("일차,패키지이름은 필수 값 입니다.");
+    }
+  };
+  // 임시저장
+  const handleTemporarySave = () => {
+    const jsonData = {
+      packageName: packageName,
+      summary: packageSummary,
+      period: period,
+      privacy: privacy,
+      countryName: selectCountry,
+      themeList: lists.themeList,
+      familyList: lists.familyList,
+      priceList: lists.priceList,
+      seasonList: lists.seasonList,
       hashTag: taggedValue,
       hotelInfoMd: hotelInfoMd,
       hotelInfoHtml: hotelInfoHtml,
@@ -180,21 +274,20 @@ const NewRegistrationEdit = () => {
       hotelInfoMd !== "" &&
       regionInfoMd !== ""
     ) {
-      axios
-        .post("http://13.124.147.192:8080/packages/create", formData, {
+      baseInstance
+        .put(`/packages/save/${id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
           if (res.status === 200) {
             navigate("/packagemanager");
-            alert("등록이 완료됐습니다");
+            alert("저장이 완료됐습니다");
           }
         });
     } else {
       alert("값을 전부 채워주세요");
     }
   };
-  console.log(days);
   // 날짜추가
   const addDay = () => {
     const newDay = days.length + 1;
@@ -202,14 +295,13 @@ const NewRegistrationEdit = () => {
       ...days,
       {
         day: newDay,
-        dayContent: "",
+        dayContent: { dayContentMd: "", dayContentHtml: "" },
         hotel: "",
         meal: "",
         vehicle: "",
       },
     ]);
   };
-  console.log(days);
   // 날짜 삭제
   const removeDay = () => {
     if (days.length > 1) {
@@ -217,18 +309,38 @@ const NewRegistrationEdit = () => {
       setDays(updatedDays);
     }
   };
+
   // 에디터  + input 데이터 배열에 넣기
   const handleDayInputChange = (
-    value: string | { dayContentMd: string; dayContentHtml: string },
+    value: string | DayContent,
     name: string,
     index: number
   ) => {
     const updatedDays = [...days];
-    if (typeof value === "object") {
-      value = value.dayContentMd;
-    }
-    updatedDays[index] = { ...updatedDays[index], [name]: value };
-    setDays(updatedDays);
+    const newDays = updatedDays.map((_item, _index) => {
+      if (_index === index) {
+        if (name === "dayContent") {
+          const updatedDayContent: DayContent =
+            typeof value === "string"
+              ? { dayContentMd: value, dayContentHtml: "" }
+              : value;
+
+          return {
+            ..._item,
+            dayContent: updatedDayContent,
+          };
+        } else {
+          return {
+            ..._item,
+            [name]: value,
+          };
+        }
+      } else {
+        return { ..._item };
+      }
+    });
+
+    setDays(newDays);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -261,7 +373,7 @@ const NewRegistrationEdit = () => {
     } else if (name === "패키지 요약") {
       setPackageSummary(value);
     } else if (name === "기간") {
-      setPeriod(Number(value));
+      setPeriod(parseInt(value, 10));
     }
   };
 
@@ -320,8 +432,12 @@ const NewRegistrationEdit = () => {
               전체 여행지
             </option>
 
-            {countrys.map((el) => {
-              return <option value={el}>{el}</option>;
+            {countrys.map((el, idx) => {
+              return (
+                <option key={`countrys-option-${idx}`} value={el}>
+                  {el}
+                </option>
+              );
             })}
           </select>
         </div>
@@ -337,8 +453,12 @@ const NewRegistrationEdit = () => {
               공개여부
             </option>
 
-            {["공개", "비공개"].map((el) => {
-              return <option value={el}>{el}</option>;
+            {["공개", "비공개"].map((el, idx) => {
+              return (
+                <option key={`privacy-option-${idx}`} value={el}>
+                  {el}
+                </option>
+              );
             })}
           </select>
         </div>
@@ -361,7 +481,6 @@ const NewRegistrationEdit = () => {
       <div className="flex flex-col w-full mb-36">
         <div className="flex w-full mb-9">
           <ManagerTitleBox name="태그" className="h-10 mr-10" />
-
           <div className="flex flex-col w-full">
             {Object.keys(tagsData).map((category, outerIndex) => {
               let customTitle = "";
@@ -384,9 +503,7 @@ const NewRegistrationEdit = () => {
                       key={innerIndex}
                       category={category}
                       handleTagsChange={handleTagsChange}
-                      checked={checkTagList.some(
-                        (tag) => tag.tagId === value.tagId
-                      )}
+                      checked={lists[category].includes(value.tagContent)}
                     />
                   ))}
                 </div>
@@ -424,7 +541,7 @@ const NewRegistrationEdit = () => {
         <div className="w-full">
           <h2 className="font-bold text-xl mb-4">일정 안내</h2>
           {days.map((day, index) => (
-            <div className="flex w-full mb-20" key={index}>
+            <div className="flex w-full mb-20" key={`day-${index}`}>
               <div>
                 <ManagerTitleBox
                   name={`${index + 1}일차`}
@@ -451,11 +568,10 @@ const NewRegistrationEdit = () => {
               </div>
               <div className=" w-full">
                 <UiEditor
-                  editorRef={ref}
-                  name={Object.keys(day)[2]}
+                  name="dayContent"
                   index={index}
                   handleDayInputChange={handleDayInputChange}
-                  initialValue={day.dayContent}
+                  initialValue={day.dayContent.dayContentMd}
                 />
                 {registSubTitle.map((el, idx) => {
                   return (
@@ -497,10 +613,16 @@ const NewRegistrationEdit = () => {
           <div className="w-full h-[1px] my-16 bg-black" />
           <div className="flex mb-10">
             <button
+              onClick={handleTemporarySave}
+              className="bg-title-box px-20 py-3 mr-2 border border-black"
+            >
+              저장하기
+            </button>
+            <button
               onClick={handleOnSubmit}
               className="bg-title-box px-20 py-3 border border-black"
             >
-              등록하기
+              수정하기
             </button>
           </div>
         </div>
