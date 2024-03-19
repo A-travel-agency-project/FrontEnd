@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import IconUser from "/public/icon_user.svg";
+
+const UserMenu = () => {
 import { useRecoilValue } from "recoil";
 import { loginCheck } from "../../../atom/atom";
 
@@ -22,7 +25,7 @@ const UserMenu = () => {
             to={"/editmember"}
             className="flex justify-center flex-col items-center"
           >
-            <div>icon</div>
+            <img src={IconUser} />
             마이페이지
           </Link>
         </div>

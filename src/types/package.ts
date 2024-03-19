@@ -12,6 +12,11 @@ export type PackageInfoProps = {
   country: string;
 };
 
+export interface PackageName {
+  packageId: number | null;
+  packageName: string;
+}
+
 export interface Package {
   packageId: number;
   packageName: string;
@@ -22,9 +27,9 @@ export interface Package {
   country?: string;
   price: number;
   hashTag: string;
-  hotelInfo: HTMLElement | string;
-  regionInfo: HTMLElement | string;
-  terms: HTMLElement | string;
+  hotelInfo: string;
+  regionInfo: string;
+  terms: string;
   thumbnailList: Img[] | null;
   scheduleList?: Schedule[] | null;
   checkedTagList?: number[] | null;
@@ -35,4 +40,5 @@ export type PackageBoxGroupProps = {
   tagSubmit: boolean;
   countryClick: string;
   tagCheckList: TagCheckList;
+  setCountryClick: Dispatch<SetStateAction<string>>;
 };

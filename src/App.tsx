@@ -17,8 +17,11 @@ import Intro from "./pages/Intro";
 import NewRegistration from "./pages/manager/NewRegistration";
 import ProductDetail from "./pages/manager/ProductDetail";
 import OrderDetail from "./pages/manager/OrderDetail";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./queries/common/quertClient";
+import {
+  QueryClientProvider,
+  QueryClient,
+  QueryCache,
+} from "@tanstack/react-query";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import TagsManager from "./pages/manager/TagsManager";
 import MyPageNav from "./components/MyPage/MyPageNav";
@@ -35,8 +38,15 @@ import NaverOAuthCallback from "./components/Login/NaverOAuthCallback";
 import OrderConfirm from "./pages/OrderConfirm";
 
 function App() {
+
+  const queryClient = new QueryClient({
+    queryCache: new QueryCache({
+      onError: (error) => console.log(`Something went wrong: ${error.message}`),
+    }),
+  });
   const token = window.localStorage.getItem("token");
   const refreshToken = window.localStorage.getItem("refreshToken");
+
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
@@ -63,7 +73,6 @@ function App() {
             />
             <Route path="/orderconfirm/:orderId" element={<OrderConfirm />} />
           </Route>
-
           {/* 본문 네비게이션바 */}
           <Route element={<Header />}>
             <Route path="/" element={<Main />} />
@@ -81,6 +90,8 @@ function App() {
             <Route path="/packagemanager" element={<PackageManager />} />
             <Route path="/productmanager" element={<ProductManager />} />
             <Route path="/ordermanager" element={<OrderManager />} />
+            {/* 임시: 페이지 띄우기*/}
+            <Route path="/orderdetail" element={<OrderDetail />} />
             <Route path="/orderdetail/:id" element={<OrderDetail />} />
             <Route path="/newregistration" element={<NewRegistration />} />
             <Route

@@ -13,7 +13,6 @@ import {
   PRODUCT_INFO_CATEGORIES,
   SCHEDULE_INFO_CATEGORIES,
 } from "../constants/productdata";
-import { dateFormat } from "../utils/dateFormat";
 import { useParams } from "react-router-dom";
 
 const TravelDetail = () => {
@@ -25,20 +24,34 @@ const TravelDetail = () => {
   const [detailData, setDetailData] = useState<ProductDetialInfo>();
   const { data, isPending, isError, error } = useGetProduct(id ? +id : 0);
 
+  const [scheduleInfo, setScheuleInfo] = useState<string>("");
+
   useEffect(() => {
     if (data) {
       setDetailData(data);
     }
+    console.log(data);
   }, [data]);
 
-  const handleScheduleInfo = (
-    id: "hotelInfo" | "scheduleList" | "regionInfo" | "terms"
-  ) => {
-    setShowScheduleInfo(id);
+  const handleScheduleInfo = (id: string) => {
+    console.log(id);
+    if (detailData) {
+      setShowScheduleInfo(
+        () => id as "hotelInfo" | "scheduleList" | "regionInfo" | "terms"
+      );
+      if (id !== "scheduleList")
+        setScheuleInfo(() =>
+          typeof detailData.packageInfo[
+            id as "hotelInfo" | "regionInfo" | "terms"
+          ] === "string"
+            ? detailData.packageInfo[id as "hotelInfo" | "regionInfo" | "terms"]
+            : ""
+        );
+    }
   };
 
   const handleProductInfo = (id: string) => {
-    setShowProductInfo(id);
+    setShowProductInfo(() => id);
   };
 
   const prices: Prices[] = detailData
@@ -81,8 +94,8 @@ const TravelDetail = () => {
     ? {
         packageName: detailData?.packageInfo?.packageName,
         period: daysAndNightFormat(detailData?.packageInfo?.period),
-        startDate: dateFormat(detailData?.productInfo?.startDate),
-        endDate: dateFormat(detailData?.productInfo?.endDate),
+        startDate: detailData?.productInfo?.startDate,
+        endDate: detailData?.productInfo?.endDate,
         airline: detailData?.productInfo?.airline,
         productId: detailData?.productInfo?.productId,
       }
@@ -121,6 +134,7 @@ const TravelDetail = () => {
           maxCount={detailData.productInfo.maxCount}
           nowCount={detailData.productInfo.nowCount}
           info={reservationInfo}
+          productState={detailData.productInfo.productState}
         />
       </div>
       <section className="flex flex-col items-center gap-[16px]">
@@ -156,7 +170,7 @@ const TravelDetail = () => {
               }
             />
           ) : (
-            <ScheduleInfo info={detailData.packageInfo[showScheduleInfo]} />
+            <ScheduleInfo info={scheduleInfo} key={showScheduleInfo} />
           )}
         </div>
       </section>

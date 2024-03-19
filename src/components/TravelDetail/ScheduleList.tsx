@@ -3,11 +3,15 @@ import {
   ScheduleItemProps,
   ScheduleListProps,
 } from "../../types/product";
+import UiViewer from "../common/Editor/UiViewer";
 
 const ScheduleItem = ({ title, content }: ScheduleItemProps) => {
   return (
-    <div className="flex gap-[56px] text-[14px]">
-      {title && <span className="text-main-color w-[60px]">{title}</span>}
+    <div className={`flex gap-[28px] text-[14px] items-baseline`}>
+      {title && (
+        <span className="text-main-color w-[60px] flex-shrink-0">{title}</span>
+      )}
+      <UiViewer content={content} />
     </div>
   );
 };

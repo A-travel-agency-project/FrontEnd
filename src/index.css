@@ -7,6 +7,9 @@
     font-family: "GmarketSans";
     height: 100%;
   }
+  #root {
+    height: 100%;
+  }
 }
 
 @font-face {

@@ -11,8 +11,6 @@ const AfterPayment = () => {
     ? JSON.parse(decodeURIComponent(paymentData))
     : {};
 
-  console.log(reqData);
-
   const req = paymentKey &&
     amount && {
       ...reqData,
@@ -20,14 +18,12 @@ const AfterPayment = () => {
       amount: amount,
     };
 
-  console.log(req);
-
   const { mutate, data, isPending, isError, error } = usePostDeposit(req);
 
   useEffect(() => {
     // reqData가 준비되었는지 확인 후 mutate 함수 호출
     if (paymentKey && amount) {
-      console.log(reqData);
+      console.log(paymentKey);
       mutate();
     }
   }, [mutate, paymentKey, amount]);

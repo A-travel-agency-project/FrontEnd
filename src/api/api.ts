@@ -1,8 +1,15 @@
+import axios from "axios";
 import { BlogPost } from "../types/community";
 import { Img } from "../types/img";
-import { OrderData, OrderRequest } from "../types/manager";
-import { Package } from "../types/package";
-import { PaymentData } from "../types/payment";
+import {
+  OrdeInfoData,
+  OrderData,
+  OrderRequest,
+  SpecialAmountData,
+  UpdateTravelerReq,
+} from "../types/manager";
+import { Package, PackageName } from "../types/package";
+import { OrderedPaymentData, PaymentData } from "../types/payment";
 import {
   ProductDates,
   ProductDetialInfo,
@@ -29,10 +36,13 @@ export const GetMainPosts = (): Promise<BlogPost[]> =>
 export const GetCountries = (): Promise<string[]> =>
   baseInstance.get("/countries").then((res) => res.data.data);
 
+/* 패키지명 가져오기 */
+export const GetPackageNames = (): Promise<PackageName[]> =>
+  baseInstance.get("/packages/simple").then((res) => res.data.data);
+
 /* 패키지 목록 가져오기 */
 export const GetPackages = async (country?: string): Promise<Package[]> => {
   const url = country ? `/packages/countries/${country}` : "/packages";
-  console.log(url);
   const res = await baseInstance.get(url);
   return res.data.data;
 };
@@ -63,10 +73,50 @@ export const GetUserInfo = (): Promise<User> =>
 
 /* 예약금 결제하기 */
 export const PostDeposit = (req: PaymentData) =>
-  baseInstance
-    .post(`/payments/confirm`, req)
-    .then((res) => console.log(res.data.data));
+  baseInstance.post(`/payments/confirm`, req).then((res) => res.data);
 
 /* 관리자 주문 목록 조회 */
 export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>
   baseInstance.post(`/orders`, req).then((res) => res.data.data);
+
+/* 관리자 주문 전체 조회 (엑셀용) */
+export const GetManagerOrders = (): Promise<OrdeInfoData[]> =>
+  baseInstance.get(`/orders/excel`).then((res) => res.data.data);
+
+/* 관리자 주문 정보 조회 */
+export const GetOrderDetail = (orderId: string): Promise<OrdeInfoData> =>
+  baseInstance.get(`orders/detail/${orderId}`).then((res) => res.data.data);
+
+/* 관리자 결제 정보 조회 */
+export const GetPaymentInfo = async (
+  orderId: string
+): Promise<OrderedPaymentData> => {
+  try {
+    const response = await axios.get(
+      `https://api.tosspayments.com/v1/payments/orders/${orderId}`,
+      {
+        headers: {
+          Authorization: `Basic ${btoa(
+            `${import.meta.env.VITE_TOSS_SECRETKEY}:`
+          )}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+/* 관리자 추가금 변경 */
+export const PostSpecialAmount = (req: SpecialAmountData) =>
+  baseInstance.post("/orders/update/price", req).then((res) => res.data);
+
+/* 관리자 여행자 정보 변경 */
+export const PostTravelerInfo = (req: UpdateTravelerReq) =>
+  baseInstance.post("/orders/update/travelers", req).then((res) => res.data);
+
+/* 관리자 주문 취소 */
+export const GetOrderCancel = (id: string) =>
+  baseInstance.get(`/orders/cancel/${id}`).then((res) => res.data);

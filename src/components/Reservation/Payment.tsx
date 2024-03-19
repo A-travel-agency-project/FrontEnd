@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   loadPaymentWidget,
   PaymentWidgetInstance,
@@ -10,17 +10,22 @@ const Payment = ({
   priceInfo,
   productId,
   orderId,
+  marketing,
 }: // price,
 {
   travelerInfoList?: travelerInfo[];
   priceInfo: PriceInfoData;
   productId: number;
   orderId?: string;
+  marketing?: boolean;
   // price?: number;
 }) => {
-  const clientKey = "test_ck_AQ92ymxN34LzN9zXbDKv3ajRKXvd"; // 브라우저에서 결제창 연동을 위한 키 env파일에 넣어둘것
-  const secretKey = "test_sk_Gv6LjeKD8aEOjvM4vgye8wYxAdXy"; // 토스 페이먼츠 API 에 사용되는 키  ** 브라우저 노출 주의 요망 env파일에 넣어둘것
-  const customerKey = "Gv6LjeKD8aEOjvM4vgye8wYxAdXy"; // 고유번호로 만들것
+  const [paymentWidgetLoaded, setPaymentWidgetLoaded] = useState(false);
+
+  const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
+
+  const clientKey = import.meta.env.VITE_TOSS_CLIENTKEY; // 브라우저에서 결제창 연동을 위한 키 env파일에 넣어둘것
+  const customerKey = `IMON_USER_${new Date().getTime()}`; // 고유번호로 만들것
 
   const depositPaymentData = {
     orderId: orderId
@@ -34,14 +39,16 @@ const Payment = ({
     totalPrice: priceInfo && priceInfo.totalPay,
     travelerInfoList: travelerInfoList,
     amount: priceInfo && priceInfo.totalPay / 10,
+    marketing: marketing && marketing,
   };
   console.log(depositPaymentData);
 
-  const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
-
   useEffect(() => {
     (async () => {
-      const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
+      const paymentWidget = await loadPaymentWidget(
+        import.meta.env.VITE_TOSS_CLIENTKEY,
+        `IMON_USER_${new Date().getTime()}`
+      );
 
       paymentWidget.renderPaymentMethods(
         "#payment-widget",
@@ -49,8 +56,10 @@ const Payment = ({
       );
 
       paymentWidgetRef.current = paymentWidget;
+      setPaymentWidgetLoaded(true);
     })();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clientKey, customerKey, priceInfo]);
 
   return (
     <div className="w-[650px] h-full py-[100px] flex flex-col justify-center text-sub-black">
@@ -58,29 +67,30 @@ const Payment = ({
         결제 금액 {depositPaymentData.amount}원
       </h1>
       <div id="payment-widget" />
-      <button
-        onClick={async () => {
-          const paymentWidget = paymentWidgetRef.current;
-
-          try {
-            await paymentWidget?.requestPayment({
-              orderId: depositPaymentData.orderId,
-              orderName: "토스 티셔츠 외 2건",
-              customerName: "김토스",
-              customerEmail: "customer123@gmail.com",
-              successUrl: `http://localhost:3000/reservation/success?orderId=${orderId}&paymentData=${encodeURIComponent(
-                JSON.stringify(depositPaymentData)
-              )}`,
-              failUrl: `${window.location.origin}/fail`,
-            });
-          } catch (err) {
-            console.log(err);
-          }
-        }}
-        className="px-[50px] py-[10px] bg-main-color rounded-[9px] text-white flex self-center"
-      >
-        결제하기
-      </button>
+      {paymentWidgetLoaded && (
+        <button
+          onClick={async () => {
+            const paymentWidget = paymentWidgetRef.current;
+            try {
+              await paymentWidget?.requestPayment({
+                orderId: depositPaymentData.orderId,
+                orderName: "토스 티셔츠 외 2건",
+                customerName: "김토스",
+                customerEmail: "customer123@gmail.com",
+                successUrl: `http://localhost:3000/reservation/success?orderId=${orderId}&paymentData=${encodeURIComponent(
+                  JSON.stringify(depositPaymentData)
+                )}`,
+                failUrl: `${window.location.origin}/fail`,
+              });
+            } catch (err) {
+              console.log(err);
+            }
+          }}
+          className="px-[50px] py-[10px] bg-main-color rounded-[9px] text-white flex self-center"
+        >
+          결제하기
+        </button>
+      )}
     </div>
   );
 };

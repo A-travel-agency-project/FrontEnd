@@ -11,33 +11,42 @@ import { fillData } from "../../utils/fillData";
 import ManagerTable from "../../components/Manager/ManagerTable";
 import useGetCountries from "../../queries/countries/useGetCountries";
 import FilterDropdown from "../../components/common/FilterDropdown";
+import PackageDropdown from "../../components/Manager/order/PackageDropdown";
+import useGetOrderList from "../../queries/orders/useGetOrderList";
+import ExcelDownload from "../../components/Manager/ExcelDownload";
+import { ORDER_EXCEL_HEADER } from "../../constants/managerdata";
 
 const OrderManager = () => {
   const navigate = useNavigate();
+  const { data: excelData } = useGetOrderList();
   const [orderList, setOrderList] = useState<OrderList[]>([]);
   const [orderReq, setOrderReq] = useState<OrderRequest>({
     orderDateMin: null,
     orderDateMax: null,
-    packageId: null,
+    packageId: null, // 패키지명 드롭다운
     country: null,
     orderState: null,
-    userNameOrder: null,
-    order: 0, // 주문일시 오름차순 : 0 , 내림차순 : 1
-    start: 0, // 출발일 오름차순 : 0 , 내림차순 : 1
+    userNameOrder: null, //
+    order: null, // 주문일시 오름차순 : 0 , 내림차순 : 1
+    start: null, // 출발일 오름차순 : 0 , 내림차순 : 1
+    type: "", // 검색어 타입
+    target: "", // 검색어
     offset: 0,
   });
-  const [sortState, setSortSate] = useState<{ [key: string]: number | null }>({
+  const [sortState, setSortState] = useState<{ [key: string]: number | null }>({
     startDate: null,
     orderDate: null,
+    reserveUser: null,
   });
 
   const [totalPages, setTotalPages] = useState<number>(0);
 
-  const [countries, setCountries] = useState<string[]>([]);
+  const [countries, setCountries] = useState<string[]>(["전체"]);
+  const [selectedPackage, setSelectedPackage] = useState("전체");
 
   const [search, setSearch] = useState<{
-    [key: string]: number | string | null;
-  }>({});
+    [key: string]: string | number | boolean | null;
+  }>({ type: "예약자명", target: "", state: false });
 
   const { mutate, data, isPending, isError, error } =
     usePostMangerOrders(orderReq);
@@ -50,12 +59,13 @@ const OrderManager = () => {
   } = useGetCountries();
 
   useEffect(() => {
-    console.log(orderReq);
     if (
       (orderReq.orderDateMin && orderReq.orderDateMax) ||
       (!orderReq.orderDateMin && !orderReq.orderDateMax)
-    )
+    ) {
+      console.log(orderReq);
       mutate();
+    }
   }, [orderReq, mutate]);
 
   useEffect(() => {
@@ -64,7 +74,22 @@ const OrderManager = () => {
       setTotalPages(data.totalPages);
       console.log(data);
     }
+    return;
   }, [data]);
+
+  useEffect(() => {
+    if (search.state === true) {
+      setOrderReq((prev) => ({
+        ...prev,
+        type: search.type as string,
+        target: search.target as string,
+      }));
+      setSearch((prev) => ({
+        ...prev,
+        state: false,
+      }));
+    }
+  }, [search]);
 
   useEffect(() => {
     if (countryData) {
@@ -74,18 +99,30 @@ const OrderManager = () => {
 
   // table header의 주문일시, 출발일 정렬
   const handleSortOrder = (category: string) => {
-    setSortSate((prev) => ({
-      ...prev,
-      [category]:
-        !prev[category as keyof OrderRequest] ||
-        prev[category as keyof OrderRequest] === 0
-          ? 1
-          : 0,
+    const sortCategories = ["startDate", "orderDate", "userNameOrder"];
+    const otherCategories = sortCategories.filter((el) => el !== category);
+    setSortState((prev) => ({
+      // 정렬 하려는 카테고리 이외에는 null값으로 전환
+      [category]: !prev[category as keyof OrderRequest] ? 1 : null,
+      [otherCategories[0]]: null,
+      [otherCategories[1]]: null,
     }));
-    const reqCategory = category.replace("Date", ""); // "start" || "order"
+    const reqCategory =
+      category !== "reserveUser"
+        ? category.replace("Date", "") // "start" || "order"
+        : "userNameOrder";
+    const otherCategoriesReqName = otherCategories.map((el) => {
+      if (el === "userNameOrder") {
+        return "reserveUser";
+      }
+      return el.replace("Date", "");
+    });
+    console.log(otherCategoriesReqName);
     setOrderReq((prev) => ({
       ...prev,
       [reqCategory]: prev[reqCategory as keyof OrderRequest] === 0 ? 1 : 0,
+      [otherCategoriesReqName[0]]: null,
+      [otherCategoriesReqName[1]]: null,
     }));
   };
 
@@ -97,7 +134,7 @@ const OrderManager = () => {
   };
 
   const handleTableRow = (orderId: string) => {
-    if (orderId) {
+    if (orderId !== "null") {
       navigate(`/orderdetail/${orderId}`);
     }
     return;
@@ -111,15 +148,50 @@ const OrderManager = () => {
     }));
   };
 
-  const handleDropdown = (value: string | number, id: string) => {
+  const handleDropdown = (
+    value: string | number,
+    id: string,
+    packageName?: string
+  ) => {
+    if (packageName) setSelectedPackage(packageName);
+    console.log(packageName);
     setOrderReq((prev) => ({
       ...prev,
       [id]: value === "전체" ? null : value,
     }));
   };
 
-  const handleSearchDropdown = (value: string, id: string) => {
-    console.log(value, id);
+  const handleSearch = (value: string, id: string) => {
+    const searchKey = id === "searchType" ? "type" : "target";
+    setSearch((prev) => ({ ...prev, [searchKey]: value }));
+  };
+
+  const handleSearchBtn = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setSearch((prev) => ({ ...prev, state: true }));
+  };
+
+  const handleResetBtn = () => {
+    setSearch({ type: "예약자명", target: "", state: false });
+    setSortState({
+      startDate: null,
+      orderDate: null,
+      reserveUser: null,
+    });
+    setOrderReq({
+      orderDateMin: null,
+      orderDateMax: null,
+      packageId: null, // 패키지명 드롭다운
+      country: null,
+      orderState: null,
+      userNameOrder: null, //
+      order: null, // 주문일시 오름차순 : 0 , 내림차순 : 1
+      start: null, // 출발일 오름차순 : 0 , 내림차순 : 1
+      type: "", // 검색어 타입
+      target: "", // 검색어
+      offset: 0,
+    });
+    setSelectedPackage("전체");
   };
 
   const columns: ManagerColumns<OrderList> = [
@@ -131,11 +203,12 @@ const OrderManager = () => {
     {
       key: "reserveUser",
       label: "예약자명",
-      sortable: false,
+      sortable: true,
+      onClick: () => handleSortOrder("reserveUser"),
     },
     {
       key: "productCode",
-      label: "상품번호",
+      label: "상품코드",
       sortable: false,
     },
     {
@@ -148,6 +221,11 @@ const OrderManager = () => {
     {
       key: "packageName",
       label: "패키지명",
+      sortable: false,
+    },
+    {
+      key: "country",
+      label: "지역",
       sortable: false,
     },
     {
@@ -180,8 +258,13 @@ const OrderManager = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col gap-[27px] mr-20 items-center min-w-[1290px]">
-      <ManagerTitle title="주문목록" />
+    <div className="w-full flex flex-col gap-[27px] mr-20 items-center min-w-fit">
+      <div className="flex self-start w-fit gap-[30px] ">
+        <ManagerTitle title="주문목록" />
+        {excelData && excelData.length > 0 && (
+          <ExcelDownload data={excelData} headers={ORDER_EXCEL_HEADER} />
+        )}
+      </div>
       <section className="w-full">
         <ManagerDateBtns title="주문 일시" handleDateBtns={handleDateBtns} />
         <div className="h-20 w-full flex items-center border-b border-black">
@@ -196,6 +279,7 @@ const OrderManager = () => {
               handleClick={handleDropdown}
               divStyle="flex p-[3px] gap-3"
               selectStyle="border border-sub-black"
+              selected={orderReq.orderState}
             />
             {countryIsPending ? (
               <div>로딩중</div>
@@ -209,29 +293,45 @@ const OrderManager = () => {
                 handleClick={handleDropdown}
                 divStyle="flex p-[3px] gap-3"
                 selectStyle="border border-sub-black"
+                selected={orderReq.country}
               />
             )}
-            <form className="flex flex-row items-center h-[24px] flex-shrink-0">
-              <FilterDropdown
-                label="주문 검색 :"
-                list={["예약자명", "핸드폰", "이메일", "주문번호", "상품번호"]}
-                id={"search"}
-                handleClick={handleSearchDropdown}
-                divStyle="flex p-[3px] gap-3 "
-                selectStyle="border border-sub-black h-[24px]"
-              />
-              <input
-                type="text"
-                className="border border-sub-black h-[24px] text-center"
-                placeholder="검색어를 입력하세요"
-              />
-              <button
-                type="submit"
-                className="ml-1 border-sub-black border px-2 h-full bg-gray-200 active:bg-gray-400"
-              >
-                검색
-              </button>
-            </form>
+            <PackageDropdown
+              handleClick={handleDropdown}
+              divStyle="flex p-[3px] gap-3"
+              selectStyle="border border-sub-black"
+              label="패키지 검색 :"
+              selected={selectedPackage}
+            />
+            <FilterDropdown
+              label="주문 검색 :"
+              list={["예약자명", "핸드폰", "이메일", "주문번호", "상품코드"]}
+              id={"searchType"}
+              handleClick={handleSearch}
+              divStyle="flex p-[3px] gap-3 "
+              selectStyle="border border-sub-black h-[24px]"
+              selected={search.type as typeof orderReq.target}
+            />
+            <input
+              type="text"
+              className="border border-sub-black h-[24px] text-center"
+              placeholder="검색어를 입력하세요"
+              id={"searchTarget"}
+              value={search.target ? (search.target as string) : ""}
+              onChange={(e) => handleSearch(e.target.value, e.target.id)}
+            />
+            <button
+              className="ml-1 border-sub-black border px-2 h-full bg-gray-200 active:bg-gray-400"
+              onClick={(e) => handleSearchBtn(e)}
+            >
+              검색
+            </button>
+            <button
+              className="ml-1 border-sub-black border px-2 h-full bg-gray-200 active:bg-gray-400"
+              onClick={handleResetBtn}
+            >
+              필터초기화
+            </button>
           </div>
         </div>
       </section>

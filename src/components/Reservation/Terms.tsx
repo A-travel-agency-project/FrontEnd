@@ -1,8 +1,12 @@
 import { useState } from "react";
 import SectionTitle from "./SectionTitle";
-import PrivacyStatement from "../terms/PrivacyStatement";
-import OverseasTravelAgreement from "../terms/OverseasTravelAgreement";
-import { PayableState, TermsState } from "../../types/reservation";
+import PrivacyStatement from "../common/Terms/PrivacyStatement";
+import OverseasTravelAgreement from "../common/Terms/OverseasTravelAgreement";
+import { TermsState } from "../../types/reservation";
+import CancellationAndRefund from "../common/Terms/CancellationAndRefund";
+import IdentificationInfo from "../common/Terms/IdentificationInfo";
+import ProvisionOfPersonalInfo from "../common/Terms/ProvisionOfPersonalInfo";
+import MarketingConsent from "../common/Terms/MarketingConsent";
 
 const Terms = ({
   handleCheck,
@@ -11,7 +15,7 @@ const Terms = ({
 }: {
   handleCheck: (id: string) => void;
   handleAllAgree: (checked: boolean) => void;
-  checkList: PayableState;
+  checkList: TermsState;
 }) => {
   const [details, setDetails] = useState<TermsState>({
     travel: false,
@@ -92,7 +96,7 @@ const Terms = ({
         </div>
         {details.refund && (
           <div className="my-[10px]">
-            <PrivacyStatement />
+            <CancellationAndRefund />
           </div>
         )}
         <div className="flex justify-between">
@@ -132,7 +136,7 @@ const Terms = ({
         </div>
         {details.identification && (
           <div className="my-[10px]">
-            <PrivacyStatement />
+            <IdentificationInfo />
           </div>
         )}
         <div className="flex justify-between">
@@ -153,7 +157,7 @@ const Terms = ({
         </div>
         {details.thirdperson && (
           <div className="my-[10px]">
-            <PrivacyStatement />
+            <ProvisionOfPersonalInfo />
           </div>
         )}
       </div>
@@ -173,8 +177,8 @@ const Terms = ({
         <button onClick={() => handleDetail("marketing")}>자세히보기</button>
       </div>
       {details.marketing && (
-        <div className="my-[10px]">
-          <PrivacyStatement />
+        <div className="my-[10px] px-[22px]">
+          <MarketingConsent />
         </div>
       )}
     </section>

@@ -1,130 +1,104 @@
-import { useEffect, useState } from "react";
 import { PriceInfoData, travelerInfo } from "../../types/reservation";
 import SectionTitle from "./SectionTitle";
 import TravelerInfoForm from "./TravelerInfoForm";
+import { User } from "../../types/user";
+import { useEffect, useState } from "react";
 
 const TravelerInfo = ({
   priceInfo,
-  handleInfoValid,
-  handleCheck,
+  handleTravelerInfo,
+  userInfo,
+  startDate,
+  handleChangeAge,
 }: {
   priceInfo: PriceInfoData;
-  handleInfoValid: (list: travelerInfo[]) => void;
-  handleCheck: (id: string) => void;
+  handleTravelerInfo: (
+    travelerId: string,
+    info: travelerInfo | string,
+    category?: keyof travelerInfo
+  ) => void;
+  userInfo: User;
+  startDate: string;
+  handleChangeAge: (pickedAge: string, realAge: string) => void;
 }) => {
-  const [travelerInfoList, setTravelerInfoList] = useState<travelerInfo[]>([]);
-  const [infoCount, setInfoCount] = useState(0);
-  const [isChecked, setIsChecked] = useState(false);
+  const [travelers, setTravelers] = useState<
+    { id: string; category: string }[] | []
+  >([]);
 
-  const travelerForms = [
-    ...Array.from(
-      { length: priceInfo["성인"].count - 1 },
-      (_, i) => `성인 ${i + 1}`
-    ),
-    ...Array.from(
-      { length: priceInfo["아동"].count },
-      (_, i) => `아동 ${i + 1}`
-    ),
-    ...Array.from(
-      { length: priceInfo["유아"].count },
-      (_, i) => `유아 ${i + 1}`
-    ),
-  ];
+  useEffect(() => {
+    setTravelers(() => {
+      const initialTravelers = [
+        ...Array.from({ length: priceInfo["성인"].count - 1 }, (_, index) => {
+          return {
+            id: `성인${index}`,
+            category: "성인",
+          };
+        }),
+        ...Array.from({ length: priceInfo["아동"].count }, (_, index) => {
+          return {
+            id: `아동${index}`,
+            category: "아동",
+          };
+        }),
+        ...Array.from({ length: priceInfo["유아"].count }, (_, index) => {
+          return {
+            id: `유아${index}`,
+            category: "유아",
+          };
+        }),
+      ];
 
-  const handleTravelerInfo = (index: number, info: travelerInfo) => {
-    setTravelerInfoList((prev) => {
-      const newList = [...prev];
-      if (!newList[index]) {
-        setInfoCount((prev) => prev + 1);
-      }
-      newList[index] = info;
-      return newList;
+      return initialTravelers;
     });
-  };
+  }, [priceInfo]);
 
-  const handleChecked = (checked: boolean, id: string) => {
-    console.log(checked);
-    const requiredData = [
-      "travelerName",
-      "enFirstName",
-      "enLastName",
-      "gender",
-      "birth",
-    ];
+  const handleChangeSort = (
+    id: string,
+    newCategory: string,
+    currentCategory: string
+  ) => {
+    // 카테고리 업데이트
+    const updatedTravelers = travelers.map((traveler) =>
+      traveler.id === id ? { ...traveler, category: newCategory } : traveler
+    );
 
-    // 기본적인 필수 정보 존재 여부 확인
-    const isAllValid = travelerInfoList.every((info) => {
-      return requiredData.every(
-        (field) => info[field as keyof travelerInfo] !== ""
+    // 카테고리 순으로 재정렬: 성인, 아동, 유아
+    const sortedTravelers = updatedTravelers.sort((a, b) => {
+      const order = { 성인: 1, 아동: 2, 유아: 3 };
+      return (
+        order[a.category as keyof typeof order] -
+        order[b.category as keyof typeof order]
       );
     });
 
-    // 대표 1인의 핸드폰 번호 존재 여부 확인
-    const isRepresenterValid =
-      !travelerInfoList[0] || travelerInfoList[0].phoneNumber !== "";
-    console.log(isAllValid);
-    console.log(isRepresenterValid);
-    console.log(priceInfo.totalCount);
-    console.log(priceInfo.totalCount === infoCount);
-
-    if (checked) {
-      if (
-        priceInfo.totalCount === infoCount &&
-        isAllValid &&
-        isRepresenterValid
-      ) {
-        handleInfoValid(travelerInfoList);
-        setIsChecked(true);
-        handleCheck(id);
-      } else if (
-        priceInfo.totalCount !== infoCount ||
-        !isAllValid ||
-        !isRepresenterValid
-      ) {
-        alert("필수 여행자정보를 모두 기입해주세요.");
-        setIsChecked(false);
-      }
-    }
-    if (!checked) {
-      setIsChecked(!isChecked);
-      handleCheck(id);
-    }
+    handleChangeAge(currentCategory, newCategory);
+    setTravelers(sortedTravelers);
   };
-
-  useEffect(() => {
-    console.log(travelerInfoList);
-  }, [travelerInfoList]);
 
   return (
     <section className="flex flex-col w-[664px]">
       <div className="flex justify-between">
         <SectionTitle title="여행자 정보" />
-        <div className="flex item-center">
-          <input
-            type="checkbox"
-            id="travelerInfo"
-            checked={isChecked}
-            onChange={(e) => handleChecked(e.target.checked, e.target.id)}
-          />
-          <label htmlFor="travelerInfo" className="text-[14px] pl-[4px]">
-            여행자 정보와 일치합니다.
-          </label>
-        </div>
       </div>
       <div className="p-[16px] flex flex-col gap-[40px]">
         <TravelerInfoForm
           role="대표1인"
+          travelerId={"대표1인"}
           isRepresentative={true}
           handleTravelerInfo={handleTravelerInfo}
-          listIndex={0}
+          userInfo={userInfo}
+          startDate={startDate}
+          handleChangeSort={handleChangeSort}
         />
-        {travelerForms.map((age, index) => (
+        {travelers.map((item) => (
           <TravelerInfoForm
-            key={`${age}`}
-            role={`${age}`}
+            key={item.id}
+            travelerId={item.id}
+            role={item.category}
             isRepresentative={false}
             handleTravelerInfo={handleTravelerInfo}
-            listIndex={index + 1}
+            startDate={startDate}
+            handleChangeSort={handleChangeSort}
           />
         ))}
       </div>

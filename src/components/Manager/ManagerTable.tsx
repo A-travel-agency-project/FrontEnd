@@ -1,4 +1,4 @@
-import SortIcon from "../../../public/하단세모.svg";
+import SortIcon from "../../../public/icon_down.svg";
 import { ManagerColumns, OrderList } from "../../types/manager";
 
 const ManagerTable = ({
