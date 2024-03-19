@@ -12,9 +12,13 @@ import ManagerTable from "../../components/Manager/ManagerTable";
 import useGetCountries from "../../queries/countries/useGetCountries";
 import FilterDropdown from "../../components/common/FilterDropdown";
 import PackageDropdown from "../../components/Manager/order/PackageDropdown";
+import useGetOrderList from "../../queries/orders/useGetOrderList";
+import ExcelDownload from "../../components/Manager/ExcelDownload";
+import { ORDER_EXCEL_HEADER } from "../../constants/managerdata";
 
 const OrderManager = () => {
   const navigate = useNavigate();
+  const { data: excelData } = useGetOrderList();
   const [orderList, setOrderList] = useState<OrderList[]>([]);
   const [orderReq, setOrderReq] = useState<OrderRequest>({
     orderDateMin: null,
@@ -38,6 +42,7 @@ const OrderManager = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
 
   const [countries, setCountries] = useState<string[]>(["전체"]);
+  const [selectedPackage, setSelectedPackage] = useState("전체");
 
   const [search, setSearch] = useState<{
     [key: string]: string | number | boolean | null;
@@ -57,9 +62,10 @@ const OrderManager = () => {
     if (
       (orderReq.orderDateMin && orderReq.orderDateMax) ||
       (!orderReq.orderDateMin && !orderReq.orderDateMax)
-    )
+    ) {
       console.log(orderReq);
-    mutate();
+      mutate();
+    }
   }, [orderReq, mutate]);
 
   useEffect(() => {
@@ -142,7 +148,13 @@ const OrderManager = () => {
     }));
   };
 
-  const handleDropdown = (value: string | number, id: string) => {
+  const handleDropdown = (
+    value: string | number,
+    id: string,
+    packageName?: string
+  ) => {
+    if (packageName) setSelectedPackage(packageName);
+    console.log(packageName);
     setOrderReq((prev) => ({
       ...prev,
       [id]: value === "전체" ? null : value,
@@ -157,6 +169,29 @@ const OrderManager = () => {
   const handleSearchBtn = (e: React.MouseEvent) => {
     e.preventDefault();
     setSearch((prev) => ({ ...prev, state: true }));
+  };
+
+  const handleResetBtn = () => {
+    setSearch({ type: "예약자명", target: "", state: false });
+    setSortState({
+      startDate: null,
+      orderDate: null,
+      reserveUser: null,
+    });
+    setOrderReq({
+      orderDateMin: null,
+      orderDateMax: null,
+      packageId: null, // 패키지명 드롭다운
+      country: null,
+      orderState: null,
+      userNameOrder: null, //
+      order: null, // 주문일시 오름차순 : 0 , 내림차순 : 1
+      start: null, // 출발일 오름차순 : 0 , 내림차순 : 1
+      type: "", // 검색어 타입
+      target: "", // 검색어
+      offset: 0,
+    });
+    setSelectedPackage("전체");
   };
 
   const columns: ManagerColumns<OrderList> = [
@@ -224,7 +259,12 @@ const OrderManager = () => {
 
   return (
     <div className="w-full flex flex-col gap-[27px] mr-20 items-center min-w-fit">
-      <ManagerTitle title="주문목록" />
+      <div className="flex self-start w-fit gap-[30px] ">
+        <ManagerTitle title="주문목록" />
+        {excelData && excelData.length > 0 && (
+          <ExcelDownload data={excelData} headers={ORDER_EXCEL_HEADER} />
+        )}
+      </div>
       <section className="w-full">
         <ManagerDateBtns title="주문 일시" handleDateBtns={handleDateBtns} />
         <div className="h-20 w-full flex items-center border-b border-black">
@@ -239,6 +279,7 @@ const OrderManager = () => {
               handleClick={handleDropdown}
               divStyle="flex p-[3px] gap-3"
               selectStyle="border border-sub-black"
+              selected={orderReq.orderState}
             />
             {countryIsPending ? (
               <div>로딩중</div>
@@ -252,12 +293,15 @@ const OrderManager = () => {
                 handleClick={handleDropdown}
                 divStyle="flex p-[3px] gap-3"
                 selectStyle="border border-sub-black"
+                selected={orderReq.country}
               />
             )}
             <PackageDropdown
               handleClick={handleDropdown}
               divStyle="flex p-[3px] gap-3"
               selectStyle="border border-sub-black"
+              label="패키지 검색 :"
+              selected={selectedPackage}
             />
             <FilterDropdown
               label="주문 검색 :"
@@ -266,6 +310,7 @@ const OrderManager = () => {
               handleClick={handleSearch}
               divStyle="flex p-[3px] gap-3 "
               selectStyle="border border-sub-black h-[24px]"
+              selected={search.type as typeof orderReq.target}
             />
             <input
               type="text"
@@ -280,6 +325,12 @@ const OrderManager = () => {
               onClick={(e) => handleSearchBtn(e)}
             >
               검색
+            </button>
+            <button
+              className="ml-1 border-sub-black border px-2 h-full bg-gray-200 active:bg-gray-400"
+              onClick={handleResetBtn}
+            >
+              필터초기화
             </button>
           </div>
         </div>

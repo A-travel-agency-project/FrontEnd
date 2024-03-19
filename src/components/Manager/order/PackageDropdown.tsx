@@ -30,6 +30,7 @@ const PackageDropdown = ({
       ]);
     }
   }, [data]);
+
   if (isPending) {
     <div>로딩중</div>;
   }
@@ -44,10 +45,11 @@ const PackageDropdown = ({
         onChange={(e) => handleClick(e.target.value, "packageId")}
         className={`${selectStyle ? selectStyle : ""}`}
       >
-        {packages?.map((data) => (
+        {packages.map((data, idx) => (
           <option
-            key={data.packageName}
+            key={`${data.packageName}_${idx}`}
             value={data.packageId ?? ""}
+            about={data.packageName}
             className={`${optionStyle ? optionStyle : ""}`}
           >
             {data.packageName}
