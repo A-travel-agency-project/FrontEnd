@@ -14,7 +14,6 @@ import TravelDetail from "./pages/TravelDetail";
 import TravelProduct from "./pages/TravelProduct";
 import Reservation from "./pages/Reservation";
 import Intro from "./pages/Intro";
-import MyPage from "./pages/MyPage";
 import NewRegistration from "./pages/manager/NewRegistration";
 import ProductDetail from "./pages/manager/ProductDetail";
 import OrderDetail from "./pages/manager/OrderDetail";
@@ -31,13 +30,22 @@ import MyPageOrderInfo from "./pages/MyPageOrderInfo";
 import { TopScroll } from "./hooks/TopScroll";
 import AuthenticationPage from "./pages/AuthenticationPage";
 import NewRegistrationEdit from "./pages/manager/NewRegistrationEdit";
+import FindEmail from "./pages/FindEmail";
+import ResetPassword from "./pages/ResetPassword";
+import EasySignUp from "./pages/EasySignUp";
+import KakaoOAuthCallback from "./components/Login/KakaoOAuthCallback";
+import NaverOAuthCallback from "./components/Login/NaverOAuthCallback";
+import OrderConfirm from "./pages/OrderConfirm";
 
 function App() {
+
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
       onError: (error) => console.log(`Something went wrong: ${error.message}`),
     }),
   });
+  const token = window.localStorage.getItem("token");
+  const refreshToken = window.localStorage.getItem("refreshToken");
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -46,11 +54,24 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/easysignup" element={<EasySignUp />} />
           <Route path="/test" element={<AuthenticationPage />} />
+          <Route path="/findemail" element={<FindEmail />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route path="/kakao/oauth" element={<KakaoOAuthCallback />} />
+          <Route path="/naver/oauth" element={<NaverOAuthCallback />} />
           <Route element={<MyPageNav />}>
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="/editmember" element={<EditMember />} />
-            <Route path="/mypageorderinfo" element={<MyPageOrderInfo />} />
+            <Route
+              path="/editmember"
+              element={<EditMember token={token} refreshToken={refreshToken} />}
+            />
+            <Route
+              path="/mypageorderinfo"
+              element={
+                <MyPageOrderInfo token={token} refreshToken={refreshToken} />
+              }
+            />
+            <Route path="/orderconfirm/:orderId" element={<OrderConfirm />} />
           </Route>
           {/* 본문 네비게이션바 */}
           <Route element={<Header />}>
@@ -78,10 +99,6 @@ function App() {
               element={<NewRegistrationEdit />}
             />
             <Route path="/productdetail/:edit" element={<ProductDetail />} />
-            <Route
-              path="/packagemanager/:id"
-              element={<NewRegistrationEdit />}
-            />
             <Route path="/productdetail" element={<ProductDetail />} />
             <Route path="/tagsmanager" element={<TagsManager />} />
           </Route>

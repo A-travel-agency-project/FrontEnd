@@ -96,6 +96,8 @@ const ProductDetail = () => {
     (packageItem) => packageItem.packageName === packageName
   );
 
+  console.log(selectedPackage?.packageId);
+
   // 패키지선택,항공사,인원onChange함수
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.currentTarget;

@@ -4,6 +4,7 @@ import { tagTitle } from "../../constants/data";
 import axios from "axios";
 import { MdOutlineCancel } from "react-icons/md";
 import { useGetTags } from "../../api/useGetTags";
+import { baseInstance } from "../../api/instance";
 
 type TagItem = {
   tagId: number;
@@ -34,10 +35,14 @@ const TagsManager = () => {
   ) => {
     if (e.code === "Enter") {
       try {
-        axios.post("http://13.124.147.192:8080/tags/create", {
+        baseInstance.post("/tags/create", {
           tagType: el.title,
           tagContent: tagInputs[el.title],
         });
+        setTagInputs((prevInputs) => ({
+          ...prevInputs,
+          [el.title]: "",
+        }));
         setFetchState(true);
       } catch (error) {
         console.error("에러 발생:", error);
@@ -46,7 +51,7 @@ const TagsManager = () => {
   };
   const handleDeleteClick = ({ itemId }: { itemId: number }) => {
     try {
-      axios.delete(`http://13.124.147.192:8080/tags/${itemId}`);
+      baseInstance.delete(`/tags/${itemId}`);
       setFetchState(true);
     } catch (error) {
       console.error("에러 발생:", error);
@@ -70,6 +75,7 @@ const TagsManager = () => {
                     onChange={handleInputChange}
                     onKeyPress={(e) => handleEnterKeyDown(e, el)}
                     className="w-full outline-none"
+                    value={tagInputs[el.title] || ""}
                     disabled={!tagLengths[el.category]}
                   />
                 </td>

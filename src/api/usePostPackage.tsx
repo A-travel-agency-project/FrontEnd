@@ -18,6 +18,7 @@ type UsePostPackageProps = {
   copyActive: boolean;
   packagePeriod: boolean;
   setCopyActive: Dispatch<SetStateAction<boolean>>;
+  offset: number;
 };
 
 type ResponseContent = {
@@ -38,13 +39,15 @@ export const usePostPackage = ({
   copyActive,
   setCopyActive,
   packagePeriod,
+  offset,
 }: UsePostPackageProps) => {
   const [packageList, setPackageList] = useState<ResponseContent[]>([]);
+  const [totalPage, setTotalPage] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await baseInstance.post(`/packages`, data);
-
+        setTotalPage(response.data.data.totalPages);
         setPackageList(response.data.data.content);
         setCopyActive(false);
       } catch (error) {
@@ -61,6 +64,7 @@ export const usePostPackage = ({
     changeActive,
     copyActive,
     packagePeriod,
+    offset,
   ]);
-  return { packageList, privacy };
+  return { packageList, privacy, totalPage };
 };

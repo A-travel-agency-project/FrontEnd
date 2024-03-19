@@ -3,6 +3,7 @@ import MainManagerBtn from "../../components/Manager/MainManagerBtn";
 import MainTitle from "../../components/Manager/ManagerTitle";
 import axios from "axios";
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
+import { baseInstance } from "../../api/instance";
 
 const MainManager = () => {
   const [myImage, setMyImage] = useState<string[]>([]);
@@ -16,8 +17,8 @@ const MainManager = () => {
       formData.append(`files`, file);
     });
     if (sendImg.length !== 0) {
-      axios
-        .post("http://13.124.147.192:8080/images/banners", formData, {
+      baseInstance
+        .post("/images/banners", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

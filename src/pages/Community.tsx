@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Table from "../components/common/Table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import Pagination from "../components/common/Pagination";
 import "../App.css";
 import { baseInstance } from "../api/instance";
 import CommunityEditor from "../components/Community/CommunityEditor";
 import CommunityDetail from "../components/Community/CommunityDetail";
 import SectionTitle from "../components/Main/SectionTitle";
+import CustomPagination from "../components/common/CustomPagination";
 
 type CommunityCloum = {
   title: string | JSX.Element;
@@ -32,6 +32,12 @@ const Community = () => {
   const [newData, setNewData] = useState<CommunityRow[]>([]);
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [deleteActive, setDeleteActive] = useState<boolean>(false);
+  const [offset, setOffset] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+
+  const handlePageChange = (selected: number) => {
+    setOffset(selected);
+  };
 
   // 받아온 데이터 형태 바꾸기
   const [tableData, setTableData] = useState<CommunityRow[]>([]);
@@ -59,9 +65,10 @@ const Community = () => {
   ];
   useEffect(() => {
     baseInstance
-      .get(`/posts/${active}/${0}`)
+      .get(`/posts/${active}/${offset}`)
       .then((res) => {
-        setTableData(res.data.data);
+        setTableData(res.data.data.content);
+        setTotalPage(res.data.data.totalPages);
         setDeleteActive(false);
       })
       .catch((err) => console.log(err));
@@ -96,7 +103,6 @@ const Community = () => {
     }
   }, [tableData, selectCommunity]);
 
-  console.log(newData, selectCommunity);
   const handleToggleAll = () => {
     if (selectCommunity.length === newData.length) {
       setSelectCommunity([]);
@@ -129,28 +135,6 @@ const Community = () => {
     }
   };
   // 등록/삭제 클릭
-  // const handleRegisterDeleteClick = (
-  //   e: React.MouseEvent<HTMLButtonElement>
-  // ) => {
-  //   const { name } = e.currentTarget;
-  //   if (name === "등록하기") {
-  //     setEditorActive(false);
-  //   } else if (name === "삭제하기") {
-  //     if (selectCommunity.length === 0) {
-  //       alert("하나 이상 삭제할 게시물을 체크해주세요");
-  //     } else if (confirm("삭제하시겠습니까?")) {
-  //       instance.delete(`/posts/${selectCommunity}`).then((res) => {
-  //         if (res.status === 200) {
-  //           alert("삭제가 완료됐습니다.");
-  //           setDeleteActive(true);
-  //         } else {
-  //           alert("오류가 발생했습니다.");
-  //         }
-  //       });
-  //     }
-  //     return;
-  //   }
-  // };
 
   const handleRegisterDeleteClick = async (
     e: React.MouseEvent<HTMLButtonElement>
@@ -244,7 +228,10 @@ const Community = () => {
                 <></>
               )}
               <div className="flex items-center w-full justify-center">
-                <Pagination />
+                <CustomPagination
+                  handlePageClick={handlePageChange}
+                  totalPage={totalPage}
+                />
               </div>
             </div>
           ) : (

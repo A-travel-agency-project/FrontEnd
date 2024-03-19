@@ -5,14 +5,15 @@ import "tui-color-picker/dist/tui-color-picker.css";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { baseInstance } from "../../api/instance";
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   editorRef?: React.MutableRefObject<any>;
   title?: string;
   index?: number;
-  onChange?: (e: React.ChangeEvent<HTMLElement>) => void;
+  onChange?: (htmlContent: string, markdownContent: string) => void;
   handleDayInputChange?: (
     value: { dayContentMd: string; dayContentHtml: string },
     name: string,
@@ -24,7 +25,6 @@ interface Props {
 type HookCallback = (url: string, text?: string) => void;
 
 const UiEditor = ({
-  editorRef,
   onChange,
   handleDayInputChange,
   name,
@@ -40,28 +40,39 @@ const UiEditor = ({
     ["code"],
     ["codeblock"],
   ];
+  const editorRef = useRef<Editor>(null);
+
   useEffect(() => {
-    if (initialValue !== undefined) {
-      const editorInstance = editorRef?.current.getInstance();
-      if (editorInstance) {
-        editorInstance.setMarkdown(initialValue);
+    if (editorRef.current) {
+      const instance = editorRef.current.getInstance();
+      if (instance) {
+        instance.setMarkdown(initialValue);
       }
     }
   }, [initialValue]);
-  const handleChange =
-    onChange ||
-    (() => {
-      if (handleDayInputChange && name !== undefined && index !== undefined) {
-        const mdValue = editorRef?.current.getInstance().getMarkdown();
-        const htmlValue = editorRef?.current.getInstance().getHTML();
+  const handleChange = () => {
+    if (
+      handleDayInputChange &&
+      name !== undefined &&
+      index !== undefined &&
+      editorRef?.current
+    ) {
+      const mdValue = editorRef?.current.getInstance().getMarkdown();
+      const htmlValue = editorRef?.current.getInstance().getHTML();
 
-        handleDayInputChange(
-          { dayContentMd: mdValue, dayContentHtml: htmlValue },
-          name,
-          index
-        );
-      }
-    });
+      handleDayInputChange(
+        { dayContentMd: mdValue, dayContentHtml: htmlValue },
+        name,
+        index
+      );
+    }
+
+    if (onChange && editorRef.current) {
+      const mdValue = editorRef?.current.getInstance().getMarkdown();
+      const htmlValue = editorRef?.current.getInstance().getHTML();
+      onChange(htmlValue, mdValue);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -83,15 +94,11 @@ const UiEditor = ({
               const formData = new FormData();
               formData.append("file", blob);
 
-              const response = await axios.post(
-                "http://13.124.147.192:8080/images",
-                formData,
-                {
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                  },
-                }
-              );
+              const response = await baseInstance.post("/images", formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              });
 
               if (callback) {
                 callback(response.data.data.imageUrl);
