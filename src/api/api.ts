@@ -79,6 +79,10 @@ export const PostDeposit = (req: PaymentData) =>
 export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>
   baseInstance.post(`/orders`, req).then((res) => res.data.data);
 
+/* 관리자 주문 전체 조회 (엑셀용) */
+export const GetManagerOrders = (): Promise<OrdeInfoData[]> =>
+  baseInstance.get(`/orders/excel`).then((res) => res.data.data);
+
 /* 관리자 주문 정보 조회 */
 export const GetOrderDetail = (orderId: string): Promise<OrdeInfoData> =>
   baseInstance.get(`orders/detail/${orderId}`).then((res) => res.data.data);

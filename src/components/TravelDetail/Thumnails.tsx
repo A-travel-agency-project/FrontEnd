@@ -18,10 +18,9 @@ const Thumnails = ({ list }: { list: Img[] }) => {
       <div className="flex flex-col gap-[16px]">
         <img
           src={showImg}
-          className="w-[434px] h-[239px] rounded-[40px] object-cover "
+          className="w-[434px] h-[239px] rounded-[40px] object-cover"
           alt="여행지 이미지"
         />
-
         <div className="flex gap-[9px]">
           {list.map((item, idx) => (
             <button key={idx}>
