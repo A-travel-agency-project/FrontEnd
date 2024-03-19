@@ -23,13 +23,7 @@ const SpecialAmount = ({
     memo: "",
   });
 
-  console.log(orderId);
-
   const { mutate } = usePostSpecialAmount(amount);
-
-  useEffect(() => {
-    console.log(amount);
-  }, [amount]);
 
   useEffect(() => {
     if (orderId || additionalPrice || memo) {

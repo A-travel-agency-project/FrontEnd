@@ -60,7 +60,7 @@ const OrderedTravelerInfo = ({
             calculateAge(birth, startDate),
             calculateAge(data.birth, startDate)
           );
-        else {
+        if (data.birth === "") {
           handleEdit(id, travelerInfo, calculateAge(birth, startDate));
         }
       }

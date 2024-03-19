@@ -31,11 +31,11 @@ const OrderInfo = ({
     adultCount: 0,
     childCount: 0,
     infantCount: 0,
-    totalCount: 0,
   });
 
   const { mutate, isError, error } = usePostTravelerInfo({
     ...travelerCount,
+    totalCount: travelerInfoList.length,
     travelerInfoList: travelerInfoList,
   });
 
@@ -46,7 +46,6 @@ const OrderInfo = ({
       // 인원 변경
       setTravelerCount((prev) => ({
         ...prev,
-        totalCount: prev.totalCount - 1,
         [category]: +prev[category as keyof typeof travelerCount] - 1,
       }));
       // 리스트에서 정보 제거
@@ -70,10 +69,6 @@ const OrderInfo = ({
         representative: false,
       },
     ]);
-    setTravelerCount((prev) => ({
-      ...prev,
-      totalCount: prev.totalCount + 1,
-    }));
   };
 
   const handleEditTraveler = (
@@ -82,7 +77,9 @@ const OrderInfo = ({
     changedRole?: string, // 변경될 인원 카테고리
     orderedRole?: string // 유저가 주문한 인원 카테고리
   ) => {
-    if (changedRole && orderedRole) {
+    console.log(changedRole);
+    console.log(orderedRole);
+    if (changedRole && orderedRole && changedRole !== orderedRole) {
       // 추가될 인원 카테고리
       const plusCategory =
         COUNT_CATEGORIES[changedRole as keyof typeof COUNT_CATEGORIES];
@@ -133,7 +130,6 @@ const OrderInfo = ({
       adultCount: data.adultCount,
       childCount: data.childCount,
       infantCount: data.infantCount,
-      totalCount: data.totalCount,
     });
   }, [data]);
 
@@ -173,7 +169,7 @@ const OrderInfo = ({
                 <TravelerCountBox
                   role={"총"}
                   count={data.totalCount}
-                  style="bg-[#F5F5F4] "
+                  style="bg-[#F5F5F4]"
                 />
                 <TravelerCountBox role={"성인"} count={data.adultCount} />
                 <TravelerCountBox role={"아동"} count={data.childCount} />
