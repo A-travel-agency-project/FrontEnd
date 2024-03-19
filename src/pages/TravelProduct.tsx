@@ -14,19 +14,20 @@ const TravelProduct = () => {
     seasonList: [],
   });
 
+  console.log(location.state);
+
   const [tagSubmit, setTagSubmit] = useState<boolean>(false);
 
   const [countryClick, setCountryClick] = useState<string>("");
 
   useEffect(() => {
+    setCountryClick("");
+    if (location.state !== "여행상품") {
+      setCountryClick(location.state);
+    }
     if (location.state?.tagCheckList) {
       setTagCheckList(location.state.tagCheckList);
       setTagSubmit(true);
-    }
-    if (location.state && !location.state.tagCheckList) {
-      location.state !== "여행상품"
-        ? setCountryClick(location.state)
-        : setCountryClick("");
     }
   }, [location.state]);
 

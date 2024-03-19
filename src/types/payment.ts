@@ -76,18 +76,20 @@ export interface OrderedPaymentData {
   cultureExpense: boolean; //문화비 지출 여부
   taxFreeAmount: number; // 면세 금액
   taxExemptionAmount: number; // 과세 제외 결제금액
-  cancels: {
-    // 취소시
-    cancelAmount: number; // 결제 취소 금액
-    cancelReason: string; // 결제 취소 이유
-    taxFreeAmount: number; // 취소된 금액 중 면세 금액
-    taxExemptionAmount: number; // 취소된 금액 중 과세 제외 금액
-    refundableAmount: number; // 결제 취소후 환불 가능한 잔액
-    easyPayDiscountAmount: number; // 적립식 결제수단에서 취소된 금액
-    canceledAt: string; // 결제 취소 일시
-    transactionKey: string; // 취소 건의 키값
-    receiptKey: string | null; // 취소 건의 현금영수증 키값
-  } | null;
+  cancels:
+    | {
+        // 취소시
+        cancelAmount: number; // 결제 취소 금액
+        cancelReason: string; // 결제 취소 이유
+        taxFreeAmount: number; // 취소된 금액 중 면세 금액
+        taxExemptionAmount: number; // 취소된 금액 중 과세 제외 금액
+        refundableAmount: number; // 결제 취소후 환불 가능한 잔액
+        easyPayDiscountAmount: number; // 적립식 결제수단에서 취소된 금액
+        canceledAt: string; // 결제 취소 일시
+        transactionKey: string; // 취소 건의 키값
+        receiptKey: string | null; // 취소 건의 현금영수증 키값
+      }[]
+    | null;
   isPartialCancelable: boolean; // 부분취소 가능 금액
   card: {
     // 카드로 결제시

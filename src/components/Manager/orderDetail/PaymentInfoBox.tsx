@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  CANCEL_CATEGORIES,
   CASHRECEIPTS_CATEGORIES,
   DETAIL_CATEGORIES,
   METHOD_CATEGORIES,
@@ -132,6 +133,33 @@ const PaymentInfoBox = ({
                       <span>{value}</span>
                     </div>
                   )
+              )}
+            </div>
+          )}
+          {info.cancels && (
+            <div>
+              <h3 className="pb-[12px]">
+                <strong>결제 취소 정보</strong>
+              </h3>
+              {info.cancels.map((cancelInfo) =>
+                Object.entries(cancelInfo).map(
+                  ([key, value]) =>
+                    CANCEL_CATEGORIES[
+                      key as keyof typeof CANCEL_CATEGORIES
+                    ] && (
+                      <div key={key} className="flex flex-shrink-0 gap-[8px]">
+                        <span>
+                          {
+                            CANCEL_CATEGORIES[
+                              key as keyof typeof CANCEL_CATEGORIES
+                            ]
+                          }
+                        </span>
+                        <span>:</span>
+                        <span>{value}</span>
+                      </div>
+                    )
+                )
               )}
             </div>
           )}

@@ -45,6 +45,7 @@ const PackageBoxGroup = ({
       console.log(`country`, countryData);
       setPackageData(countryData);
     }
+    console.log(countryClick);
   }, [countryData, countryClick, tagSubmit]);
 
   useEffect(() => {

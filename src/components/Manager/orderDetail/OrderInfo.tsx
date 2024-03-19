@@ -34,11 +34,9 @@ const OrderInfo = ({
     totalCount: 0,
   });
 
-  // const [mutateTraveler, setMutateTraveler] = useState(false);
-
   const { mutate, isError, error } = usePostTravelerInfo({
     ...travelerCount,
-    travelerInfos: travelerInfoList,
+    travelerInfoList: travelerInfoList,
   });
 
   const handleDeleteTraveler = (id: number, name: string, role: string) => {
@@ -139,14 +137,6 @@ const OrderInfo = ({
     });
   }, [data]);
 
-  // useEffect(() => {
-  //   if (mutateTraveler) {
-  //     mutate();
-  //     setMutateTraveler(false);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [mutateTraveler]);
-
   return (
     <div className="text-sub-black flex flex-col gap-[32px] text-[14px]">
       <div>
@@ -182,21 +172,12 @@ const OrderInfo = ({
                 <TableHeader header={true} category={`총인원`} />
                 <TravelerCountBox
                   role={"총"}
-                  count={travelerCount.totalCount}
+                  count={data.totalCount}
                   style="bg-[#F5F5F4] "
                 />
-                <TravelerCountBox
-                  role={"성인"}
-                  count={travelerCount.adultCount}
-                />
-                <TravelerCountBox
-                  role={"아동"}
-                  count={travelerCount.childCount}
-                />
-                <TravelerCountBox
-                  role={"유아"}
-                  count={travelerCount.infantCount}
-                />
+                <TravelerCountBox role={"성인"} count={data.adultCount} />
+                <TravelerCountBox role={"아동"} count={data.childCount} />
+                <TravelerCountBox role={"유아"} count={data.infantCount} />
               </div>
             ) : item.category === "여행대표자" &&
               Array.isArray(data.travelerInfos) ? (

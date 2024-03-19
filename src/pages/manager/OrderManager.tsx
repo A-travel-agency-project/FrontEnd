@@ -223,7 +223,7 @@ const OrderManager = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col gap-[27px] mr-20 items-center min-w-[1390px]">
+    <div className="w-full flex flex-col gap-[27px] mr-20 items-center min-w-fit">
       <ManagerTitle title="주문목록" />
       <section className="w-full">
         <ManagerDateBtns title="주문 일시" handleDateBtns={handleDateBtns} />

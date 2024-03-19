@@ -43,7 +43,7 @@ export type ManagerColumns<T> = {
   onClick?: () => void;
 }[];
 
-export interface OrdeInfoData extends UpdateTravelerReq {
+export interface OrdeInfoData extends OrderCount {
   additionalPrice: number;
   memo: string;
   balance: number;
@@ -61,6 +61,7 @@ export interface OrdeInfoData extends UpdateTravelerReq {
   reserveUser: string;
   startDate: string;
   totalPrice: number;
+  travelerInfos: TravelerInfoData[];
 }
 
 export interface TravelerInfoData {
@@ -79,11 +80,14 @@ export interface SpecialAmountData {
   memo: string;
 }
 
-export interface UpdateTravelerReq {
+export interface OrderCount {
   imomOrderId: string;
   adultCount: number;
   childCount: number;
   infantCount: number;
   totalCount: number;
-  travelerInfos: TravelerInfoData[];
+}
+
+export interface UpdateTravelerReq extends OrderCount {
+  travelerInfoList: TravelerInfoData[];
 }

@@ -19,3 +19,17 @@ export const PACKAGE_ICON_CATEGORIES = {
     1: flagCarrierExist,
   },
 };
+
+export const EMPTY_TABLE_DATA = {
+  startDate: "",
+  endDate: "",
+  id: null,
+  detail: null,
+  productId: null,
+  productCode: "",
+  maxCount: null,
+  nowCount: null,
+  airline: "",
+  price: null,
+  productState: "",
+};
