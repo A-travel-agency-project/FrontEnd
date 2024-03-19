@@ -2,13 +2,12 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { baseInstance } from "../../api/instance";
 import { useSetRecoilState } from "recoil";
-import { kakaoData, loginCheck } from "../../atom/atom";
+import { socialData } from "../../atom/atom";
 
 const KakaoOAuthCallback = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const setKaKaoData = useSetRecoilState(kakaoData);
-  const setLoginCheck = useSetRecoilState(loginCheck);
+  const setKaKaoData = useSetRecoilState(socialData);
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
@@ -20,7 +19,6 @@ const KakaoOAuthCallback = () => {
         if (res.status === 200) {
           console.log(res);
           if (res.data.data.accessToken) {
-            setLoginCheck(true);
             window.localStorage.setItem("token", res.data.data.accessToken);
             window.localStorage.setItem(
               "refreshToken",

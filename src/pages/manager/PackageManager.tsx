@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { country, packageHeaders, packageItems } from "../../constants/data";
-import Pagination from "../../components/common/Pagination";
 import { useNavigate } from "react-router-dom";
 import ManagerTitle from "../../components/Manager/ManagerTitle";
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
@@ -9,6 +8,7 @@ import { useDeletePackage } from "../../api/useDeletePackage";
 import PackageSelect from "../../components/Manager/package/PackageSelect";
 import { useChangePackage } from "../../api/useChangePackage";
 import { baseInstance } from "../../api/instance";
+import CustomPagination from "../../components/common/CustomPagination";
 interface CountryData {
   key: string;
   value: string;
@@ -37,6 +37,11 @@ const PackageManager = () => {
   const [changeActive, setChangeActive] = useState<boolean>(false);
   // 복사 active
   const [copyActive, setCopyActive] = useState<boolean>(false);
+  const [offset, setOffset] = useState(0);
+
+  const handlePageChange = (selected: number) => {
+    setOffset(selected);
+  };
 
   console.log(privacyState);
   // 공개 변경
@@ -55,13 +60,13 @@ const PackageManager = () => {
     setDeleteActive,
   });
   // 패키지 여행 리스트
-  const { packageList } = usePostPackage({
+  const { packageList, totalPage } = usePostPackage({
     data: {
       countryName: countrySelect === "전체 여행지" ? null : countrySelect,
       privacy: privacy === "공개 상태" ? null : privacy,
       saveState: save === "저장 상태" ? null : save,
       periodOrder: packagePeriod ? 0 : 1,
-      offset: 0,
+      offset: offset,
       limit: 10,
     },
     countrySelect,
@@ -72,7 +77,9 @@ const PackageManager = () => {
     copyActive,
     setCopyActive,
     packagePeriod,
+    offset,
   });
+  console.log(packageList);
 
   // 체크 삭제
   const handlePackageDelete = () => {
@@ -238,7 +245,10 @@ const PackageManager = () => {
         </button>
       </div>
       <div className="flex justify-center items-center w-full">
-        <Pagination items={10} count={10} />
+        <CustomPagination
+          totalPage={totalPage}
+          handlePageClick={handlePageChange}
+        />
       </div>
     </div>
   );

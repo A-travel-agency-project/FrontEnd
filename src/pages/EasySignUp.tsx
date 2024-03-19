@@ -7,12 +7,12 @@ import { useDebounce } from "../hooks/useDebounce";
 import { baseInstance } from "../api/instance";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { kakaoData } from "../atom/atom";
+import { socialData } from "../atom/atom";
 import SignUpTerms from "../components/SignUp/\bSignUpTerms";
 
 const EasySignUp = () => {
   const navigation = useNavigate();
-  const userData = useRecoilValue(kakaoData);
+  const userData = useRecoilValue(socialData);
   // 입력정보
   const [name, setName] = useState("");
   const [englishName, setEnglishName] = useState("");

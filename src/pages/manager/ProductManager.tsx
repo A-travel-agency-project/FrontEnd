@@ -8,6 +8,7 @@ import PackageSelect from "../../components/Manager/package/PackageSelect";
 import { useGetPackage } from "../../api/useGetPackage";
 import { useSetRecoilState } from "recoil";
 import { saveState } from "../../atom/atom";
+import CustomPagination from "../../components/common/CustomPagination";
 
 interface ProductItem {
   packageId: number;
@@ -66,6 +67,13 @@ const ProductManager = () => {
     arrivalTime: false,
     departureTime: false,
   });
+  // 페이지 네이션 페이지갯수
+  const [totalPage, setTotalPage] = useState(0);
+  const [offset, setOffset] = useState(0);
+  // 페이징 함수
+  const handlePageChange = (selected: number) => {
+    setOffset(selected);
+  };
   // 임시수정 acitve
   const setTemporaryActive = useSetRecoilState(saveState);
   const handleToggleAll = () => {
@@ -182,11 +190,12 @@ const ProductManager = () => {
           : endDate,
         startDateOrder: arrowState.departureTime ? 1 : 0,
         endDateOrder: arrowState.arrivalTime ? 1 : 0,
-        offset: 0,
+        offset: offset,
         limit: 10,
       })
       .then((res) => {
         setProductsData(res.data.data.content);
+        setTotalPage(res.data.data.totalPages);
         setDeleteActive(false);
         setCopyActive(false);
       })
@@ -203,6 +212,7 @@ const ProductManager = () => {
     copyActive,
     arrowState.departureTime,
     arrowState.arrivalTime,
+    offset,
   ]);
   const handleDateFilter = (e: React.MouseEvent<HTMLButtonElement>) => {
     const packageValue = e.currentTarget.dataset
@@ -395,7 +405,6 @@ const ProductManager = () => {
             ))}
           </tbody>
         </table>
-        {/* <Pagination /> */}
         <div className="flex justify-end w-full">
           <button
             className="border border-black px-5 py-2 ml-2 mt-2"
@@ -404,6 +413,12 @@ const ProductManager = () => {
           >
             신규등록
           </button>
+        </div>
+        <div className="w-full flex justify-center mt-2">
+          <CustomPagination
+            totalPage={totalPage}
+            handlePageClick={handlePageChange}
+          />
         </div>
       </>
     </div>

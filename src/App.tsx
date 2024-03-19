@@ -32,6 +32,7 @@ import ResetPassword from "./pages/ResetPassword";
 import EasySignUp from "./pages/EasySignUp";
 import KakaoOAuthCallback from "./components/Login/KakaoOAuthCallback";
 import NaverOAuthCallback from "./components/Login/NaverOAuthCallback";
+import OrderConfirm from "./pages/OrderConfirm";
 
 function App() {
   const token = window.localStorage.getItem("token");
@@ -43,7 +44,6 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-
           <Route path="/easysignup" element={<EasySignUp />} />
           <Route path="/test" element={<AuthenticationPage />} />
           <Route path="/findemail" element={<FindEmail />} />
@@ -55,7 +55,13 @@ function App() {
               path="/editmember"
               element={<EditMember token={token} refreshToken={refreshToken} />}
             />
-            <Route path="/mypageorderinfo" element={<MyPageOrderInfo />} />
+            <Route
+              path="/mypageorderinfo"
+              element={
+                <MyPageOrderInfo token={token} refreshToken={refreshToken} />
+              }
+            />
+            <Route path="/orderconfirm/:orderId" element={<OrderConfirm />} />
           </Route>
 
           {/* 본문 네비게이션바 */}

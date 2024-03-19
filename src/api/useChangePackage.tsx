@@ -20,13 +20,10 @@ export const useChangePackage = ({
   if (changeActive && ids.length !== 0) {
     const fetchData = async () => {
       try {
-        const response = await baseInstance.post(
-          `http://13.124.147.192:8080/${params}/batch-update`,
-          {
-            operation: operation,
-            ids: ids,
-          }
-        );
+        const response = await baseInstance.post(`/${params}/batch-update`, {
+          operation: operation,
+          ids: ids,
+        });
         setPackageUpdate(response.data.code);
         setChangeActive(false);
       } catch (error) {

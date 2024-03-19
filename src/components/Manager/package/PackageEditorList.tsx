@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import UiEditor from "../../common/UiEditor";
-import { Editor } from "@toast-ui/react-editor";
 
 interface PackageEditorProps {
   title: string;
@@ -27,12 +26,7 @@ const PackageEditorList = ({
   regionInfo,
   terms,
 }: PackageEditorProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const ref = useRef<Editor | null>(null);
-  const handleEditorChange = () => {
-    const htmlContent = ref.current?.getInstance().getHTML();
-    const markdownContent = ref.current?.getInstance().getMarkdown();
-
+  const handleEditorChange = (htmlContent: string, markdownContent: string) => {
     if (title === "호텔안내") {
       setHotelInfoHtml(htmlContent);
       setHotelInfoMd(markdownContent);
@@ -52,7 +46,6 @@ const PackageEditorList = ({
       <div className="flex w-full">
         <div className="flex flex-col w-full">
           <UiEditor
-            editorRef={ref}
             title={title}
             onChange={handleEditorChange}
             initialValue={

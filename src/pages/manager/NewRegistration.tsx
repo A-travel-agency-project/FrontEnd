@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { packageTitle, registSubTitle } from "../../constants/data";
 import UiEditor from "../../components/common/UiEditor";
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
@@ -6,9 +6,7 @@ import MainManagerBtn from "../../components/Manager/MainManagerBtn";
 import TagInput from "../../components/Manager/TagInput";
 import PackageEditorList from "../../components/Manager/package/PackageEditorList";
 import RegistSubInput from "../../components/Manager/RegistSubInput";
-import axios from "axios";
 import { useGetTags } from "../../api/useGetTags";
-import { Editor } from "@toast-ui/react-editor";
 import { useGetContries } from "../../api/useGetContries";
 import { useNavigate } from "react-router-dom";
 import { baseInstance } from "../../api/instance";
@@ -25,7 +23,6 @@ interface DateProps {
 }
 const NewRegistration = () => {
   const navigate = useNavigate();
-  const ref = useRef<Editor | null>(null);
   // 패키지 이름
   const [packageName, setPackageName] = useState<string>("");
   // 패키지 요약
@@ -257,6 +254,7 @@ const NewRegistration = () => {
     });
     const dayEmptyContent = days.some((el) => el.dayContent);
     if (
+      packageName !== "" &&
       selectCountry !== "" &&
       privacy !== "" &&
       dayEmptyContent &&
@@ -273,7 +271,7 @@ const NewRegistration = () => {
           }
         });
     } else {
-      alert("여행지,공개여부,일정안내는 필수 입력값 입니다.");
+      alert("여행지,패키지이름,공개여부,일정안내는 필수 입력값 입니다.");
     }
   };
 
@@ -455,7 +453,6 @@ const NewRegistration = () => {
               </div>
               <div className=" w-full">
                 <UiEditor
-                  editorRef={ref}
                   name={Object.keys(day)[1]}
                   index={index}
                   handleDayInputChange={handleDayInputChange}

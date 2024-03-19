@@ -21,10 +21,13 @@ export const saveState = atom({
 
 export const loginCheck = atom({
   key: "loginCheck",
-  default: false,
+  default: () => {
+    const storedToken = window.localStorage.getItem("token");
+    return storedToken ? true : false;
+  },
 });
 
-export const kakaoData = atom<SocialType | null>({
-  key: "kakaoData",
+export const socialData = atom<SocialType | null>({
+  key: "socialData",
   default: null,
 });

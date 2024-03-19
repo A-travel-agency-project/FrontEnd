@@ -14,6 +14,7 @@ const Login = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const setLoginCheck = useSetRecoilState(loginCheck);
+  console.log(setLoginCheck);
 
   const handleLoginClick = () => {
     if (id !== "" && password !== "") {
@@ -24,7 +25,6 @@ const Login = () => {
         })
         .then((res) => {
           if (res.status === 200) {
-            setLoginCheck(true);
             window.localStorage.setItem("token", res.data.data.accessToken);
             window.localStorage.setItem(
               "refreshToken",

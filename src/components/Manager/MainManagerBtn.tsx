@@ -41,6 +41,7 @@ const MainManagerBtn = ({
     setMyImage((prevMyImage) => prevMyImage.filter((_, i) => i !== idx));
     setSendImg((prevMyImage) => prevMyImage.filter((_, i) => i !== idx));
   };
+  console.log(myImage);
 
   return (
     <div className="flex flex-col items-center w-full m-1">

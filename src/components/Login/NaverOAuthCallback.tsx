@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { baseInstance } from "../../api/instance";
 import { useSetRecoilState } from "recoil";
-import { kakaoData, loginCheck } from "../../atom/atom";
+import { socialData, loginCheck } from "../../atom/atom";
 
 const NaverOAuthCallback = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const setKaKaoData = useSetRecoilState(kakaoData);
+  const setNaverData = useSetRecoilState(socialData);
   const setLoginCheck = useSetRecoilState(loginCheck);
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -20,7 +20,6 @@ const NaverOAuthCallback = () => {
         if (res.status === 200) {
           console.log(res);
           if (res.data.data.accessToken) {
-            setLoginCheck(true);
             window.localStorage.setItem("token", res.data.data.accessToken);
             window.localStorage.setItem(
               "refreshToken",
@@ -30,7 +29,7 @@ const NaverOAuthCallback = () => {
             navigate("/");
           } else {
             navigate("/easysignup");
-            setKaKaoData(res.data.data);
+            setNaverData(res.data.data);
           }
         }
       });

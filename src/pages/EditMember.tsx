@@ -85,9 +85,9 @@ const EditMember = ({ refreshToken, token }: EditType) => {
       case "userName":
         return "사용자이름";
       case "enLastName":
-        return "영문성";
-      case "enFirstName":
         return "영문이름";
+      case "enFirstName":
+        return "영문성";
       default:
         return key;
     }
@@ -212,7 +212,7 @@ const EditMember = ({ refreshToken, token }: EditType) => {
         }
         break;
       case "headCount":
-        setHeadCount(Number(value));
+        setHeadCount(parseInt(value));
         break;
       case "childName":
         if (value.length <= 2) {
