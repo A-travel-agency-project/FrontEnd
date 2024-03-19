@@ -22,7 +22,7 @@ const PackageBox = ({ packageData }: { packageData: Package }) => {
         {packageData.thumbnailList && (
           <img
             src={packageData.thumbnailList[0]?.imageUrl}
-            alt={packageData.thumbnailList[0]?.originalImageName}
+            alt="여행지 이미지"
             className="w-full h-full object-cover"
           />
         )}
