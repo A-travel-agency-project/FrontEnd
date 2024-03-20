@@ -42,7 +42,7 @@ export interface ProductList {
   maxCount: number;
   nowCount: number;
   airline: string;
-  price: number;
+  price: number | string;
   productState: string;
 }
 
@@ -61,7 +61,7 @@ export type ProductListInfo = {
   startDate: string;
   endDate: string;
   airline: string;
-  price: number;
+  price: number | string;
   productState: string;
   detail: string | JSX.Element;
 };

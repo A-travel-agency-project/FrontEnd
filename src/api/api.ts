@@ -75,6 +75,10 @@ export const GetUserInfo = (): Promise<User> =>
 export const PostDeposit = (req: PaymentData) =>
   baseInstance.post(`/payments/confirm`, req).then((res) => res.data);
 
+/* 유저 주문 정보 조회 */
+export const GetUserOrderDetail = (id: string) =>
+  baseInstance.get(`/orders/myinfo/${id}`).then((res) => res.data);
+
 /* 관리자 주문 목록 조회 */
 export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>
   baseInstance.post(`/orders`, req).then((res) => res.data.data);

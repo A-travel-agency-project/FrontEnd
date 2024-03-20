@@ -7,6 +7,7 @@ import OrderInfo from "../../components/Manager/orderDetail/OrderInfo";
 import PaymentInfo from "../../components/Manager/orderDetail/PaymentInfo";
 import useGetOrderCancel from "../../queries/orders/useGetOrderCancel";
 import { useQueryClient } from "@tanstack/react-query";
+import OrderedAmount from "../../components/common/Order/OrderedAmount";
 
 const OrderDetail = () => {
   const { id } = useParams();
@@ -67,6 +68,11 @@ const OrderDetail = () => {
         handleClick={handleShowInfo}
         active={showInfo}
         divStyle="!justify-start gap-[40px] w-full"
+      />
+      <OrderedAmount
+        totalPrice={data?.totalPrice}
+        payedPrice={data?.payedPrice}
+        balance={data?.balance}
       />
       {showInfo === "orderInfo" && data ? (
         <OrderInfo data={data} handleCancel={handleOrderCancel} />

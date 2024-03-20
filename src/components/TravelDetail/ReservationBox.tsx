@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import CountBtn from "./CountBtn";
 import { useState } from "react";
 import { ReservationBoxProps } from "../../types/reservation";
+import { amountFormat } from "../../utils/amountFormat";
 
 const ReservationBox = ({
   prices,
@@ -72,7 +73,7 @@ const ReservationBox = ({
         <CountBtn
           key={item.age}
           age={item.age}
-          price={item.price}
+          price={item.price + item.surcharge}
           remainCount={maxCount - nowCount - counts.totalCount}
           onCountChange={handleCountChange}
           productState={productState}
@@ -83,7 +84,7 @@ const ReservationBox = ({
       border-main-color w-full text-[20px] py-[15px] items-center"
       >
         <span className="font-bold text-main-color">총계</span>
-        <span>{counts.totalPay}</span>
+        <span>{amountFormat(counts.totalPay)}원</span>
       </div>
       <button
         className="bg-main-color w-[198px] h-[59px] rounded-[19px] text-white

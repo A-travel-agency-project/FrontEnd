@@ -34,8 +34,8 @@ const ProductDetail = ({
                 <PriceInfo
                   key={item.age}
                   age={item.age}
-                  price={item.price}
-                  surcharge={item.surcharge + item.price}
+                  price={item.surcharge + item.price}
+                  surcharge={item.surcharge}
                 />
               ))}
           </div>
