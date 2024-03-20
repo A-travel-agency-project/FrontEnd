@@ -24,6 +24,7 @@ const OrderedTravelerInfo = ({
   handleEdit,
   startDate,
   page,
+  orderState,
 }: {
   startDate?: string;
   data: TravelerInfoData;
@@ -37,6 +38,7 @@ const OrderedTravelerInfo = ({
     orderdRole?: string
   ) => void;
   page?: string;
+  orderState?: string;
 }) => {
   const [travelerInfo, setTravlerInfo] = useState<TravelerInfoData>({
     travelerName: "",
@@ -123,6 +125,8 @@ const OrderedTravelerInfo = ({
           const changeAge = confirm(WRONG_AGE_MESSAGES[changedRole]);
           if (changeAge) {
             setTravlerInfo((prev) => ({ ...prev, birth: birth }));
+          } else if (!changeAge) {
+            return;
           }
         } else if (orderedRole === changedRole) {
           setTravlerInfo((prev) => ({ ...prev, birth: birth }));
@@ -133,7 +137,8 @@ const OrderedTravelerInfo = ({
         setBrith(birth.slice(0, -1));
       }
     }
-  }, [birth, startDate, id, data.birth]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [birth, startDate, id]);
 
   useEffect(() => {
     setTravlerInfo((prev) => ({ ...prev, ...data }));
@@ -150,7 +155,7 @@ const OrderedTravelerInfo = ({
 
   return (
     <div className={`flex flex-col items-end w-full min-w-max`}>
-      {!representative && page === "admin" && (
+      {!representative && page === "admin" && orderState !== "취소" && (
         <div className="flex gap-[12px] mb-[4px]">
           {id != null && !editable ? (
             <OrderDetailBtn handleClick={handleEditable} label="수정하기" />

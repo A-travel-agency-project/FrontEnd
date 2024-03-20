@@ -13,14 +13,9 @@ import { orderDateFormat } from "../../../utils/orderDateFormat";
 import OrderDetailBtn from "./OrderDetailBtn";
 import SpecialAmount from "./SpecialAmount";
 import usePostTravelerInfo from "../../../queries/orders/usePostTravelerInfo";
+import useGetOrderCancel from "../../../queries/orders/useGetOrderCancel";
 
-const OrderInfo = ({
-  data,
-  handleCancel,
-}: {
-  data: OrdeInfoData;
-  handleCancel: () => void;
-}) => {
+const OrderInfo = ({ data }: { data: OrdeInfoData }) => {
   const [travelerInfoList, setTravelerInfoList] = useState<TravelerInfoData[]>(
     data.travelerInfos
   );
@@ -37,6 +32,8 @@ const OrderInfo = ({
     totalCount: travelerInfoList.length,
     travelerInfoList: travelerInfoList,
   });
+
+  const { mutate: cancelMutate } = useGetOrderCancel(data.imomOrderId);
 
   const handleDeleteTraveler = (id: number, name: string, role: string) => {
     const check = confirm(`${name}님의 정보를 삭제하시겠습니까?`);
@@ -110,6 +107,15 @@ const OrderInfo = ({
     mutate();
   };
 
+  const handleOrderCancel = () => {
+    const check = confirm(
+      `여행자 ${data?.reserveUser}님의 주문을 취소하시겠습니까?`
+    );
+    if (check) {
+      cancelMutate();
+    }
+  };
+
   useEffect(() => {
     if (isError && error) {
       alert("여행자 정보 수정에 실패하였습니다.");
@@ -137,6 +143,7 @@ const OrderInfo = ({
           orderId={data.imomOrderId}
           additionalPrice={data.additionalPrice}
           memo={data.memo}
+          orderState={data.orderState}
         />
       </div>
       <div>
@@ -183,7 +190,10 @@ const OrderInfo = ({
                 <TableHeader category={"주문상태"} header={true} />
                 <div className="px-[24px] flex shrink-0">{data.orderState}</div>
                 {data.orderState !== "취소" && (
-                  <OrderDetailBtn label="주문취소" handleClick={handleCancel} />
+                  <OrderDetailBtn
+                    label="주문취소"
+                    handleClick={handleOrderCancel}
+                  />
                 )}
               </div>
             ) : (
@@ -214,14 +224,17 @@ const OrderInfo = ({
               handleEdit={handleEditTraveler}
               startDate={data.startDate}
               page="admin"
+              orderState={data.orderState}
             />
           ))}
         </div>
-        <OrderDetailBtn
-          label="+"
-          style="px-[80px] py-[px] text-[24px] w-fit self-center mt-[12px]"
-          handleClick={handleAddTraveler}
-        />
+        {data.orderState !== "취소" && (
+          <OrderDetailBtn
+            label="+"
+            style="px-[80px] py-[px] text-[24px] w-fit self-center mt-[12px]"
+            handleClick={handleAddTraveler}
+          />
+        )}
       </div>
     </div>
   );

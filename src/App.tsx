@@ -40,7 +40,7 @@ import OrderConfirm from "./pages/OrderConfirm";
 function App() {
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
-      onError: (error) => console.log(`Something went wrong: ${error.message}`),
+      onError: (error) => console.log(`${error.message}`),
     }),
   });
   const token = window.localStorage.getItem("token");

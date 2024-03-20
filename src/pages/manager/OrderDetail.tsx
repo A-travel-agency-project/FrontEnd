@@ -5,24 +5,12 @@ import { ORDER_DETAIL_CATEGORIES } from "../../constants/managerdata";
 import { useEffect, useState } from "react";
 import OrderInfo from "../../components/Manager/orderDetail/OrderInfo";
 import PaymentInfo from "../../components/Manager/orderDetail/PaymentInfo";
-import useGetOrderCancel from "../../queries/orders/useGetOrderCancel";
-import { useQueryClient } from "@tanstack/react-query";
 import OrderedAmount from "../../components/common/Order/OrderedAmount";
 
 const OrderDetail = () => {
   const { id } = useParams();
 
-  const queryClient = useQueryClient();
-
-  const { data, isError, error } = useGetOrderDetail(id ?? "");
-
-  const [isCancel, setIsCancel] = useState(false);
-
-  const {
-    data: cancelData,
-    isError: cancelIsError,
-    error: cancelError,
-  } = useGetOrderCancel(data?.imomOrderId ?? "", isCancel);
+  const { data, isError } = useGetOrderDetail(id ?? "");
 
   const [showInfo, setShowInfo] = useState("orderInfo");
 
@@ -32,15 +20,6 @@ const OrderDetail = () => {
     setShowInfo(id);
   };
 
-  const handleOrderCancel = () => {
-    const check = confirm(
-      `여행자 ${data?.reserveUser}님의 주문을 취소하시겠습니까?`
-    );
-    if (check) {
-      setIsCancel(true);
-    }
-  };
-
   useEffect(() => {
     if (data) {
       console.log(data);
@@ -48,19 +27,9 @@ const OrderDetail = () => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (cancelError && cancelError) {
-      alert("주문취소에 실패하였습니다.");
-    }
-    if (cancelData) {
-      setIsCancel(false);
-      alert("주문이 취소되었습니다.");
-      queryClient.invalidateQueries({ queryKey: ["getOrderDetail"] });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cancelError, cancelIsError, cancelData]);
-
-  if (isError) console.log(error?.message);
+  if (isError) {
+    return <div>정보를 불러올 수 없습니다.</div>;
+  }
   return (
     <div className="flex flex-col gap-10 w-full mr-20 mb-50 mt-[60px]">
       <CategoryBtns
@@ -75,7 +44,7 @@ const OrderDetail = () => {
         balance={data?.balance}
       />
       {showInfo === "orderInfo" && data ? (
-        <OrderInfo data={data} handleCancel={handleOrderCancel} />
+        <OrderInfo data={data} />
       ) : (
         <PaymentInfo idList={idList} />
       )}
