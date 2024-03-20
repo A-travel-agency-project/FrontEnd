@@ -4,12 +4,17 @@ import { TravelerInfoData } from "../../../types/manager";
 import {
   birthFormat,
   checkValidDate,
+  onlyEnglish,
+  onlyKorean,
   phoneNumberFormat,
 } from "../../../utils/validationUtils";
 import CustomRadioBtn from "../../Reservation/CustomRadionbtn";
 import OrderDetailBtn from "./OrderDetailBtn";
 import { calculateAge } from "../../../utils/calculateAge";
-import { WRONG_AGE_MESSAGES } from "../../../constants/travelerdata";
+import {
+  REQUIRED_TRAVELER_DATA,
+  WRONG_AGE_MESSAGES,
+} from "../../../constants/travelerdata";
 
 const OrderedTravelerInfo = ({
   data,
@@ -18,6 +23,7 @@ const OrderedTravelerInfo = ({
   handleDelete,
   handleEdit,
   startDate,
+  page,
 }: {
   startDate?: string;
   data: TravelerInfoData;
@@ -30,6 +36,7 @@ const OrderedTravelerInfo = ({
     changedRole?: string,
     orderdRole?: string
   ) => void;
+  page?: string;
 }) => {
   const [travelerInfo, setTravlerInfo] = useState<TravelerInfoData>({
     travelerName: "",
@@ -49,20 +56,38 @@ const OrderedTravelerInfo = ({
   };
 
   const handleEditable = (role?: string) => {
-    if (editable) {
-      if (role === "cancel") {
-        setTravlerInfo(() => ({ ...data }));
-      } else if (role === "submit" && id && handleEdit && startDate) {
-        if (data.birth !== "")
-          handleEdit(
-            id,
-            travelerInfo,
-            calculateAge(birth, startDate),
-            calculateAge(data.birth, startDate)
-          );
-        if (data.birth === "") {
-          handleEdit(id, travelerInfo, calculateAge(birth, startDate));
-        }
+    if (!editable) {
+      setEditable(true);
+      return;
+    }
+
+    if (role === "cancel") {
+      setTravlerInfo(() => ({ ...data }));
+    } else if (birth.length < 10) {
+      alert("필수 여행자정보를 모두 기입해주세요.");
+      return;
+    } else if (role === "submit" && id && handleEdit && startDate) {
+      // 기본적인 필수 정보 존재 여부 확인
+      const isAllValid = REQUIRED_TRAVELER_DATA.every(
+        (field) => travelerInfo[field as keyof typeof travelerInfo] !== ""
+      );
+
+      // 대표 1인의 핸드폰 번호 존재 여부 확인
+      const isRepresenterValid =
+        !travelerInfo.representative || travelerInfo.phoneNumber !== "";
+
+      if (isRepresenterValid && isAllValid) {
+        data.birth !== ""
+          ? handleEdit(
+              id,
+              travelerInfo,
+              calculateAge(birth, startDate),
+              calculateAge(data.birth, startDate)
+            )
+          : handleEdit(id, travelerInfo, calculateAge(birth, startDate));
+      } else {
+        alert("필수 여행자정보를 모두 기입해주세요.");
+        return;
       }
     }
     setEditable(!editable);
@@ -83,6 +108,12 @@ const OrderedTravelerInfo = ({
   };
 
   useEffect(() => {
+    if (data) {
+      setTravlerInfo(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
     if (data.birth !== birth && birth.length === 10) {
       if (checkValidDate(birth) && startDate) {
         const changedRole = calculateAge(birth, startDate); // 바뀌는 나이 카테고리
@@ -99,6 +130,7 @@ const OrderedTravelerInfo = ({
       }
       if (!checkValidDate(birth)) {
         alert("유효한 생년월일이 아닙니다.");
+        setBrith(birth.slice(0, -1));
       }
     }
   }, [birth, startDate, id, data.birth]);
@@ -118,7 +150,7 @@ const OrderedTravelerInfo = ({
 
   return (
     <div className={`flex flex-col items-end w-full min-w-max`}>
-      {!representative && (
+      {!representative && page === "admin" && (
         <div className="flex gap-[12px] mb-[4px]">
           {id != null && !editable ? (
             <OrderDetailBtn handleClick={handleEditable} label="수정하기" />
@@ -129,11 +161,13 @@ const OrderedTravelerInfo = ({
                 role="submit"
                 label="작성완료"
               />
-              <OrderDetailBtn
-                handleClick={handleEditable}
-                role="cancel"
-                label="작성취소"
-              />
+              {data.travelerName && (
+                <OrderDetailBtn
+                  handleClick={handleEditable}
+                  role="cancel"
+                  label="작성취소"
+                />
+              )}
             </>
           )}
           {!travelerInfo.representative && handleDelete && !editable && (
@@ -153,7 +187,9 @@ const OrderedTravelerInfo = ({
               className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
               id="travelerName"
               value={travelerInfo.travelerName}
-              onChange={(e) => handleInput(e.target.id, e.target.value)}
+              onChange={(e) =>
+                handleInput(e.target.id, onlyKorean(e.target.value))
+              }
               disabled={!editable}
             />
           </div>
@@ -163,7 +199,9 @@ const OrderedTravelerInfo = ({
               className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
               id="enFirstName"
               value={travelerInfo.enFirstName}
-              onChange={(e) => handleInput(e.target.id, e.target.value)}
+              onChange={(e) =>
+                handleInput(e.target.id, onlyEnglish(e.target.value))
+              }
               disabled={!editable}
             />
           </div>
@@ -173,7 +211,9 @@ const OrderedTravelerInfo = ({
               className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
               id="enLastName"
               value={travelerInfo.enLastName}
-              onChange={(e) => handleInput(e.target.id, e.target.value)}
+              onChange={(e) =>
+                handleInput(e.target.id, onlyEnglish(e.target.value))
+              }
               disabled={!editable}
             />
           </div>

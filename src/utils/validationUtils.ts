@@ -43,7 +43,8 @@ export const birthFormat = (num: string): string => {
 
 export const checkValidDate = (dateOfBirth: string): boolean => {
   const dateRegex = /^\d{4}-\d{2}-\d{2}$/; //? YYYY-MM-DD 형식의 정규식
-  const dateRegex4 = /^(19|20)\d{2}-(0[1-9]|1[0-2])-([0-2][1-9]|3[01])$/; //? 230613 kty YYYY-MM-DD 각 자리에 유효한 생년월일인지 확인
+  const dateRegex4 =
+    /^(19|20)\d{2}-(0[1-9]|1[0-2])-((0[1-9])|([1-2][0-9])|(3[0-1]))$/; //? YYYY-MM-DD 각 자리에 유효한 생년월일인지 확인
 
   if (dateRegex.test(dateOfBirth)) {
     if (dateRegex4.test(dateOfBirth)) return true;

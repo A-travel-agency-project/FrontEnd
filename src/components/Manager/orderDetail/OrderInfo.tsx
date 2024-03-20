@@ -62,7 +62,7 @@ const OrderInfo = ({
         travelerName: "",
         enFirstName: "",
         enLastName: "",
-        gender: "",
+        gender: "남",
         birth: "",
         phoneNumber: null,
         representative: false,
@@ -107,7 +107,6 @@ const OrderInfo = ({
       newList[id] = info;
       return newList;
     });
-    console.log(travelerInfoList.length);
     mutate();
   };
 
@@ -214,6 +213,7 @@ const OrderInfo = ({
               handleDelete={handleDeleteTraveler}
               handleEdit={handleEditTraveler}
               startDate={data.startDate}
+              page="admin"
             />
           ))}
         </div>
