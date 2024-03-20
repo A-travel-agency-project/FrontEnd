@@ -1,16 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import useGetCountries from "../../queries/countries/useGetCountries";
-import "./TravelPlaceBtns.css";
+import "./CountryBtns.css";
 
-const TravelPlaceBtns = ({
-  handleCountry,
-  countryClick,
-}: {
-  handleCountry: (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    country: string
-  ) => void;
-  countryClick: string;
-}) => {
+const CountryBtns = ({ countryClick }: { countryClick: string }) => {
+  const navigate = useNavigate();
   const { data, isPending, isError, error } = useGetCountries();
   const fillEmptySpace = (data: string[]) => {
     // grid 빈자리 채우기용 요소 추가
@@ -20,6 +13,10 @@ const TravelPlaceBtns = ({
       }
     }
     return data;
+  };
+
+  const handleCountryClick = (country: string) => {
+    navigate(`/travelproduct/${country}`);
   };
 
   if (isPending) {
@@ -52,7 +49,7 @@ const TravelPlaceBtns = ({
               : "bg-transparent text-gray-500 pointer-events-none"
           }`}
           disabled={!item}
-          onClick={(e) => handleCountry(e, item)}
+          onClick={() => handleCountryClick(item)}
         >
           {item}
         </button>
@@ -60,4 +57,4 @@ const TravelPlaceBtns = ({
     </div>
   );
 };
-export default TravelPlaceBtns;
+export default CountryBtns;

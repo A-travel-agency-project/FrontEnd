@@ -38,7 +38,6 @@ import NaverOAuthCallback from "./components/Login/NaverOAuthCallback";
 import OrderConfirm from "./pages/OrderConfirm";
 
 function App() {
-
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
       onError: (error) => console.log(`Something went wrong: ${error.message}`),
@@ -81,6 +80,10 @@ function App() {
             <Route path="/community/:postId" element={<Community />} />
             <Route path="/traveldetail/:id" element={<TravelDetail />} />
             <Route path="/travelproduct" element={<TravelProduct />} />
+            <Route
+              path="/travelproduct/:category"
+              element={<TravelProduct />}
+            />
             <Route path="/reservation" element={<Reservation />} />
             <Route path="/reservation/success" element={<PaymentSuccess />} />
           </Route>

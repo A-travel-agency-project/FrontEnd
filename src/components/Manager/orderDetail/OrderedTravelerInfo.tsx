@@ -122,21 +122,19 @@ const OrderedTravelerInfo = ({
         <div className="flex gap-[12px] mb-[4px]">
           {id != null && !editable ? (
             <OrderDetailBtn handleClick={handleEditable} label="수정하기" />
-          ) : travelerInfo.travelerName !== "" ? (
+          ) : (
             <>
               <OrderDetailBtn
                 handleClick={handleEditable}
                 role="submit"
-                label="수정완료"
+                label="작성완료"
               />
               <OrderDetailBtn
                 handleClick={handleEditable}
                 role="cancel"
-                label="수정취소"
+                label="작성취소"
               />
             </>
-          ) : (
-            <OrderDetailBtn handleClick={handleEditable} label="작성완료" />
           )}
           {!travelerInfo.representative && handleDelete && !editable && (
             <OrderDetailBtn handleClick={handleDeleteClick} label="삭제하기" />

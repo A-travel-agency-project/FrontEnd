@@ -1,8 +1,5 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import IconUser from "/public/icon_user.svg";
-
-const UserMenu = () => {
 import { useRecoilValue } from "recoil";
 import { loginCheck } from "../../../atom/atom";
 

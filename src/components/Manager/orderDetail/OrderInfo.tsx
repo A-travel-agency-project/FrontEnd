@@ -11,7 +11,6 @@ import TravelerCountBox from "./TravelerCountBox";
 import OrderedTravelerInfo from "./OrderedTravelerInfo";
 import { orderDateFormat } from "../../../utils/orderDateFormat";
 import OrderDetailBtn from "./OrderDetailBtn";
-import { amountFormat } from "../../../utils/amountFormat";
 import SpecialAmount from "./SpecialAmount";
 import usePostTravelerInfo from "../../../queries/orders/usePostTravelerInfo";
 
@@ -77,8 +76,6 @@ const OrderInfo = ({
     changedRole?: string, // 변경될 인원 카테고리
     orderedRole?: string // 유저가 주문한 인원 카테고리
   ) => {
-    console.log(changedRole);
-    console.log(orderedRole);
     if (changedRole && orderedRole && changedRole !== orderedRole) {
       // 추가될 인원 카테고리
       const plusCategory =
@@ -94,7 +91,7 @@ const OrderInfo = ({
         [plusCategory]: +prev[plusCategory as keyof typeof travelerCount] + 1,
         [minusCategory]: +prev[minusCategory as keyof typeof travelerCount] - 1,
       }));
-    } else if (changedRole) {
+    } else if (changedRole && !orderedRole) {
       // 추가될 인원 카테고리
       const plusCategory =
         COUNT_CATEGORIES[changedRole as keyof typeof COUNT_CATEGORIES];
@@ -110,6 +107,7 @@ const OrderInfo = ({
       newList[id] = info;
       return newList;
     });
+    console.log(travelerInfoList.length);
     mutate();
   };
 
@@ -135,23 +133,6 @@ const OrderInfo = ({
 
   return (
     <div className="text-sub-black flex flex-col gap-[32px] text-[14px]">
-      <div>
-        <ManagerTitle title="예약금/잔금" style="mb-[12px]" />
-        <div className="flex justify-between border-y border-sub-black">
-          <TableRow
-            category="총 금액"
-            header={true}
-            content={`${amountFormat(data.totalPrice)} 원`}
-          />
-          <TableRow
-            category="예약금 / 잔금"
-            header={false}
-            content={`${amountFormat(data.payedPrice)} 원 / ${amountFormat(
-              data.balance
-            )} 원`}
-          />
-        </div>
-      </div>
       <div>
         <SpecialAmount
           orderId={data.imomOrderId}

@@ -11,7 +11,7 @@ const NavDropdown = ({ handleMenuClose }: NavDropdownProps) => {
 
   const travelProductList = data?.reduce<{ [key: string]: string }>(
     (acc, countryName) => {
-      acc[countryName] = "/travelproduct";
+      acc[countryName] = `/travelproduct/${countryName}`;
       return acc;
     },
     {}

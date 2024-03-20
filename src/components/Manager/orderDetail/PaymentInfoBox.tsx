@@ -9,6 +9,7 @@ import {
 } from "../../../constants/paymentdata";
 import { OrderedPaymentData } from "../../../types/payment";
 import TableRow from "./TableRow";
+import { amountFormat } from "../../../utils/amountFormat";
 
 const PaymentInfoBox = ({
   info,
@@ -105,7 +106,17 @@ const PaymentInfoBox = ({
                         }
                       </span>
                       <span>:</span>
-                      <span>{value}</span>
+                      <span>
+                        {value &&
+                        (DETAIL_CATEGORIES[
+                          key as keyof typeof DETAIL_CATEGORIES
+                        ] === "결제금액" ||
+                          DETAIL_CATEGORIES[
+                            key as keyof typeof DETAIL_CATEGORIES
+                          ] === "간편결제사 할인금액")
+                          ? amountFormat(+value)
+                          : value}
+                      </span>
                     </div>
                   )
               )}

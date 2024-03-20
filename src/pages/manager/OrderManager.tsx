@@ -256,6 +256,7 @@ const OrderManager = () => {
       sortable: false,
     },
   ];
+  console.log(excelData);
 
   return (
     <div className="w-full flex flex-col gap-[27px] mr-20 items-center min-w-fit">
