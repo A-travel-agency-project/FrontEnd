@@ -5,7 +5,7 @@ import { baseInstance } from "../api/instance";
 import SignUpInput from "../components/SignUp/SignUpInput";
 import { useDebounce } from "../hooks/useDebounce";
 import userInstance from "../api/userInstance";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { userChildName } from "../atom/atom";
 
 type EditType = {
@@ -42,7 +42,8 @@ const EditMember = ({ refreshToken, token }: EditType) => {
   const isValidBirth = birthRegex.test(debounceBirth);
   const isValidPhone = phoneNumberRegex.test(debouncePhone);
 
-  const [_, setUserChild] = useRecoilState(userChildName);
+  //리코일 아이 이름 교체
+  const setUserChild = useSetRecoilState(userChildName);
 
   const handlePasswordModalClick = () => {
     setModalActive(true);
@@ -252,7 +253,7 @@ const EditMember = ({ refreshToken, token }: EditType) => {
         .then((res) => {
           if (res.status === 200) {
             alert("수정완료!");
-            setUserChild(childName); // 성공시 전역변수의 아이 이름 수정
+            setUserChild(childName); // 성공시 리코일 아이 이름 수정
           }
         });
     } else {

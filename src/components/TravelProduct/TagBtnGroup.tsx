@@ -3,8 +3,8 @@ import { TAG_TITLE } from "../../constants/tagdata";
 import useGetTags from "../../queries/tags/useGetTags";
 import { FormEvent } from "react";
 import { TagBtnGroupProps, TagCheckList, TagData } from "../../types/tag";
-import { useRecoilState } from "recoil";
 import { userChildName } from "../../atom/atom";
+import { useRecoilValue } from "recoil";
 
 const TagBtnGroup = ({
   handleCheck,
@@ -13,7 +13,7 @@ const TagBtnGroup = ({
   handleResetTags,
 }: TagBtnGroupProps) => {
   const { data, isPending, isError, error } = useGetTags();
-  const [userChild] = useRecoilState(userChildName);
+  const name = useRecoilValue(userChildName);
 
   if (isPending) {
     return <div>로딩 중...</div>;
@@ -29,7 +29,7 @@ const TagBtnGroup = ({
       className="my-[66px] min-w-[200px] text-main-color"
       onSubmit={(e: FormEvent) => handleSubmit(e)}
     >
-      <h1 className="text-[20px] font-bold">{userChild}(이)와 함께</h1>
+      <h1 className="text-[20px] font-bold">{name}(이)와 함께</h1>
       {data &&
         Object.entries(data).map(([key, value]) => (
           <div id={key} key={key} className="flex flex-col mb-[48px]">
