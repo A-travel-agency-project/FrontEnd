@@ -73,6 +73,7 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
     changedRole?: string, // 변경될 인원 카테고리
     orderedRole?: string // 유저가 주문한 인원 카테고리
   ) => {
+    console.log(id);
     if (changedRole && orderedRole && changedRole !== orderedRole) {
       // 추가될 인원 카테고리
       const plusCategory =
@@ -138,7 +139,7 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
 
   return (
     <div className="text-sub-black flex flex-col gap-[32px] text-[14px]">
-      {data.additionalPrice && data.memo && data.orderState && (
+      {data.additionalPrice && data.memo && data.orderState ? (
         <div>
           <SpecialAmount
             orderId={data.imomOrderId}
@@ -147,9 +148,11 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
             orderState={data.orderState}
           />
         </div>
+      ) : (
+        <></>
       )}
       <div>
-        <ManagerTitle title="주문확인" style="mb-[12px] " />
+        <ManagerTitle title="주문확인" style="mb-[12px]" />
         <div className="flex justify-between flex-col border-y-[2px] border-sub-black min-w-fit">
           {ORDER_INFO_CATEGORIES.map((item) =>
             item.category === "총인원" ? (
