@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { CSVLink } from "react-csv";
-import { OrdeInfoData } from "../../types/manager";
+import { OrderInfoData } from "../../types/manager";
 
 const ExcelDownload = ({
   data,
@@ -9,7 +9,7 @@ const ExcelDownload = ({
   className,
   fileName,
 }: {
-  data: OrdeInfoData[];
+  data: OrderInfoData[];
   headers: { label: string; key: string }[];
   title: string;
   className?: string;
@@ -31,6 +31,7 @@ const ExcelDownload = ({
       }`}
       ref={csvLink}
       target="_blank"
+      onClick={() => console.log("click")}
     >
       {title}
     </CSVLink>

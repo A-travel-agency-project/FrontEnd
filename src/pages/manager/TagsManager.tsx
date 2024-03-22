@@ -24,7 +24,7 @@ const TagsManager = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const truncatedValue = value.slice(0, 20);
+    const truncatedValue = value.slice(0, 14);
 
     setTagInputs((prevInputs) => ({
       ...prevInputs,
