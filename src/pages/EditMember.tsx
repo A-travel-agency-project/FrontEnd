@@ -2,7 +2,6 @@ import ManagerTitle from "../components/Manager/ManagerTitle";
 import { useEffect, useState } from "react";
 import PasswordEditModal from "../components/MyPage/PasswordEditModal";
 import { baseInstance } from "../api/instance";
-import SignUpPopup from "../components/SignUp/SignUpPopup";
 import SignUpInput from "../components/SignUp/SignUpInput";
 import { useDebounce } from "../hooks/useDebounce";
 import userInstance from "../api/userInstance";

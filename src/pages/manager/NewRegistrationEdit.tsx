@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { packageTitle, registSubTitle } from "../../constants/data";
 import UiEditor from "../../components/common/UiEditor";
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";

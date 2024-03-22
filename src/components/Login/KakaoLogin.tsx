@@ -6,7 +6,6 @@ const KakaoLogin = () => {
 
   const handleLogin = () => {
     window.location.href = kakaoURL;
-    const params = new URLSearchParams(window.location.search);
   };
 
   return (

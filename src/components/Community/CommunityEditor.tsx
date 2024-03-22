@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import UiEditor from "../common/UiEditor";
-import { Editor } from "@toast-ui/react-editor";
 import { baseInstance } from "../../api/instance";
 import { useLocation, useNavigate } from "react-router-dom";
 

@@ -28,7 +28,7 @@ const ResetPassword = () => {
             setResetDate(false);
           }
         })
-        .catch((error) => setResetDate(false));
+        .catch(() => setResetDate(false));
     } else {
       alert("이메일과 휴대폰번호를 입력해주세요!");
     }

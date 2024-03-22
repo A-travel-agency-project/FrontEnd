@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import IconUser from "/public/icon_user.svg";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { loginCheck } from "../../../atom/atom";
 import userInstance from "../../../api/userInstance";
 

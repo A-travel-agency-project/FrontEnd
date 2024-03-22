@@ -2,7 +2,7 @@ import React from "react";
 import { myPageNavTitle } from "../../constants/data";
 import { Outlet, useNavigate } from "react-router-dom";
 import userInstance from "../../api/userInstance";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { loginCheck } from "../../atom/atom";
 
 const MyPageNav = () => {

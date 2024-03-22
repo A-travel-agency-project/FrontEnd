@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ManagerTitle from "../components/Manager/ManagerTitle";
 import { baseInstance } from "../api/instance";
 import CustomPagination from "../components/common/CustomPagination";

@@ -1,5 +1,3 @@
-import React from "react";
-
 const SignUpCheck = () => {
   return (
     <div className="flex justify-center items-center absolute -right-7">

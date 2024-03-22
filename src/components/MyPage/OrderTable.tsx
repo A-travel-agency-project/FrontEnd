@@ -1,5 +1,3 @@
-import React from "react";
-
 type orderTable = {
   title: string;
   content: string;

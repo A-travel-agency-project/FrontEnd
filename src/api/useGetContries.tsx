@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import { baseInstance } from "./instance";
 
-type UseGetProps = {
-  params: string;
-};
-type TagItem = {
-  tagId: number;
-  tagContent: string;
-};
 export const useGetContries = () => {
   const [countrys, setCountrys] = useState<string[]>([]);
 

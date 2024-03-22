@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import NavMenu from "./NavMenu";
 import UserMenu from "./UserMenu";
 import AskBtn from "../AskBtn";
-import Logo from "/public/logo.svg";
 
 const Header = () => {
   return (
