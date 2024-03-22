@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Header from "./components/common/Header/Header";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import SideNav from "./components/common/SideNav";
@@ -37,6 +36,7 @@ import KakaoOAuthCallback from "./components/Login/KakaoOAuthCallback";
 import NaverOAuthCallback from "./components/Login/NaverOAuthCallback";
 import OrderConfirm from "./pages/OrderConfirm";
 import PaymentCheckout from "./pages/PaymentCheckout";
+import MainLayout from "./components/common/MainLayout";
 
 function App() {
   const queryClient = new QueryClient({
@@ -74,7 +74,7 @@ function App() {
             <Route path="/orderconfirm/:orderId" element={<OrderConfirm />} />
           </Route>
           {/* 본문 네비게이션바 */}
-          <Route element={<Header />}>
+          <Route element={<MainLayout />}>
             <Route path="/" element={<Main />} />
             <Route path="/intro" element={<Intro />} />
             <Route path="/community" element={<Community />} />
