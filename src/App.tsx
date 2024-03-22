@@ -27,7 +27,6 @@ import MyPageNav from "./components/MyPage/MyPageNav";
 import EditMember from "./pages/EditMember";
 import MyPageOrderInfo from "./pages/MyPageOrderInfo";
 import { TopScroll } from "./hooks/TopScroll";
-import AuthenticationPage from "./pages/AuthenticationPage";
 import NewRegistrationEdit from "./pages/manager/NewRegistrationEdit";
 import FindEmail from "./pages/FindEmail";
 import ResetPassword from "./pages/ResetPassword";
@@ -59,7 +58,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/easysignup" element={<EasySignUp />} />
-          <Route path="/test" element={<AuthenticationPage />} />
           <Route path="/findemail" element={<FindEmail />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/kakao/oauth" element={<KakaoOAuthCallback />} />
