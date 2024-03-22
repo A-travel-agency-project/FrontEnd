@@ -163,7 +163,7 @@ const Reservation = () => {
     ) {
       navigate("/paymentcheckout", {
         state: {
-          ordereId: "",
+          orderId: "",
           paymentKey: "",
           productId: `${productInfo.productId}`,
           adultCount: finalPriceInfo["성인"].count,
@@ -194,7 +194,7 @@ const Reservation = () => {
   }, [travelerInfoList]);
 
   return (
-    <div className="flex flex-col items-center gap-[80px] py-[216px] ">
+    <div className="flex flex-col items-center gap-[80px] w-full">
       <h1 className="text-main-color text-[20px] font-bold mt-[38px]">
         예약하기
       </h1>

@@ -1,7 +1,7 @@
 import { travelerInfo } from "./reservation";
 
 export interface PaymentData {
-  ordereId: string;
+  orderId: string;
   amount: string | number;
   paymentKey: string;
   productId: string;
@@ -15,7 +15,7 @@ export interface PaymentData {
 }
 
 export interface BalanceRequset {
-  ordereId: string;
+  orderId: string;
   amount: string;
   paymentKey: string;
   imomOrderId: string;

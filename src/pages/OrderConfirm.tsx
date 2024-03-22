@@ -82,7 +82,7 @@ const OrderConfirm = () => {
   const handlePayment = () => {
     navigate("/paymentcheckout", {
       state: {
-        ordereId: "",
+        orderId: "",
         amount: data.balance,
         paymentKey: "",
         imomOrderId: data.imomOrderId,
