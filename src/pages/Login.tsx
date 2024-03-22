@@ -44,7 +44,7 @@ const Login = () => {
     }
   };
   return (
-    <>
+    <div className="flex items-center justify-center h-screen">
       <div className="flex flex-col justify-center h-full items-center lg:w-[500px]">
         <img src="/subLogo.svg" />
         <LoginInput
@@ -78,7 +78,7 @@ const Login = () => {
         </div>
       </div>
       <Button label={"홈으로 가기"} loc="" />
-    </>
+    </div>
   );
 };
 export default Login;
