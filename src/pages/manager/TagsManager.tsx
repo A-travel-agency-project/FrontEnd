@@ -24,9 +24,11 @@ const TagsManager = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const truncatedValue = value.slice(0, 20);
+
     setTagInputs((prevInputs) => ({
       ...prevInputs,
-      [name]: value,
+      [name]: truncatedValue,
     }));
   };
   const handleEnterKeyDown = async (
@@ -92,11 +94,11 @@ const TagsManager = () => {
                   <div className="max-w-full overflow-hidden">
                     {item.tagContent}
                   </div>
-                  {/* <MdOutlineCancel
+                  <MdOutlineCancel
                     className="cursor-pointer hover:text-red-400"
                     key={item.tagId}
                     onClick={() => handleDeleteClick({ itemId: item.tagId })}
-                  /> */}
+                  />
                 </div>
               ))}
           </div>

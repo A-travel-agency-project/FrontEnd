@@ -41,7 +41,6 @@ const NewRegistration = () => {
   // 썸네일 이미지
   const [myImage, setMyImage] = useState<string[]>([]);
   const [sendImg, setSendImg] = useState<File[]>([]);
-  console.log(sendImg);
   // 에디터 및 input 형식
   const [days, setDays] = useState<DateProps[]>([
     {
@@ -157,7 +156,6 @@ const NewRegistration = () => {
       alert("값을 전부 채워주세요");
     }
   };
-  console.log(days);
   // 날짜추가
   const addDay = () => {
     const newDay = days.length + 1;

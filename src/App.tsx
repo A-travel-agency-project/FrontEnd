@@ -36,9 +36,10 @@ import EasySignUp from "./pages/EasySignUp";
 import KakaoOAuthCallback from "./components/Login/KakaoOAuthCallback";
 import NaverOAuthCallback from "./components/Login/NaverOAuthCallback";
 import OrderConfirm from "./pages/OrderConfirm";
+import { loginCheck } from "./atom/atom";
+import { useRecoilValue } from "recoil";
 
 function App() {
-
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
       onError: (error) => console.log(`Something went wrong: ${error.message}`),
@@ -46,6 +47,8 @@ function App() {
   });
   const token = window.localStorage.getItem("token");
   const refreshToken = window.localStorage.getItem("refreshToken");
+  const isLoggedIn = useRecoilValue(loginCheck);
+  console.log(isLoggedIn);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -60,21 +63,23 @@ function App() {
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/kakao/oauth" element={<KakaoOAuthCallback />} />
           <Route path="/naver/oauth" element={<NaverOAuthCallback />} />
-          <Route element={<MyPageNav />}>
-            <Route
-              path="/editmember"
-              element={<EditMember token={token} refreshToken={refreshToken} />}
-            />
-            <Route
-              path="/mypageorderinfo"
-              element={
-                <MyPageOrderInfo token={token} refreshToken={refreshToken} />
-              }
-            />
-            <Route path="/orderconfirm/:orderId" element={<OrderConfirm />} />
-          </Route>
           {/* 본문 네비게이션바 */}
           <Route element={<Header />}>
+            <Route element={<MyPageNav />}>
+              <Route
+                path="/editmember"
+                element={
+                  <EditMember token={token} refreshToken={refreshToken} />
+                }
+              />
+              <Route
+                path="/mypageorderinfo"
+                element={
+                  <MyPageOrderInfo token={token} refreshToken={refreshToken} />
+                }
+              />
+              <Route path="/orderconfirm/:orderId" element={<OrderConfirm />} />
+            </Route>
             <Route path="/" element={<Main />} />
             <Route path="/intro" element={<Intro />} />
             <Route path="/community" element={<Community />} />
