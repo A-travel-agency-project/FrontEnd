@@ -23,7 +23,7 @@ const UserMenu = () => {
   return (
     <>
       {!isLogin ? (
-        <div className="flex gap-[12px] justify-between text-[10px] mb-[18px] text-sub-black">
+        <div className="flex gap-[12px] justify-between text-[10px] text-sub-black">
           <Link to={"/login"}>
             <img src="/login.svg" alt="login" className="w-[30px] h-[30px]" />
             <button type="button">로그인</button>

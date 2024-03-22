@@ -5,6 +5,8 @@ import { baseInstance } from "../api/instance";
 import SignUpInput from "../components/SignUp/SignUpInput";
 import { useDebounce } from "../hooks/useDebounce";
 import userInstance from "../api/userInstance";
+import { useRecoilState } from "recoil";
+import { userChildName } from "../atom/atom";
 
 type EditType = {
   token: string | null;
@@ -39,6 +41,8 @@ const EditMember = ({ refreshToken, token }: EditType) => {
   const isValidEnglishLastName = englishNameRegex.test(debounceEnglishLastName);
   const isValidBirth = birthRegex.test(debounceBirth);
   const isValidPhone = phoneNumberRegex.test(debouncePhone);
+
+  const [_, setUserChild] = useRecoilState(userChildName);
 
   const handlePasswordModalClick = () => {
     setModalActive(true);
@@ -248,12 +252,14 @@ const EditMember = ({ refreshToken, token }: EditType) => {
         .then((res) => {
           if (res.status === 200) {
             alert("수정완료!");
+            setUserChild(childName); // 성공시 전역변수의 아이 이름 수정
           }
         });
     } else {
       alert("*의 내용과 형식을 맞춰주세요.");
     }
   };
+
   return (
     <div className="w-full relative">
       <ManagerTitle title="회원 정보 수정" />

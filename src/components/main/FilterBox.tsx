@@ -3,9 +3,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useGetTags from "../../queries/tags/useGetTags";
 import { TagCheckList } from "../../types/tag";
+import useGetUserChildName from "../../queries/users/useGetUserChildName";
+import { useRecoilState } from "recoil";
+import { userChildName } from "../../atom/atom";
 
-const FilterBox = ({ name = "우리" }) => {
+const FilterBox = () => {
+  const [userChild, setUserChild] = useRecoilState(userChildName);
   const { data, isPending, isError, error } = useGetTags();
+  const { data: childNameData } = useGetUserChildName();
   const navigate = useNavigate();
 
   const [tagCheckList, setTagCheckList] = useState<TagCheckList>({
@@ -34,6 +39,10 @@ const FilterBox = ({ name = "우리" }) => {
     console.log(tagCheckList);
   }, [tagCheckList]);
 
+  useEffect(() => {
+    if (childNameData) setUserChild(childNameData?.childName);
+  }, [childNameData, setUserChild]);
+
   if (isPending) {
     return <div>로딩 중...</div>;
   }
@@ -52,7 +61,7 @@ const FilterBox = ({ name = "우리" }) => {
         >
           <div className="flex flex-col gap-[20px]">
             <div className="flex flex-row">
-              <span>{name}(이)네는</span>
+              <span>{userChild}(이)네는</span>
               <TagDropdown
                 list={data.familyList}
                 id={"familyList"}
@@ -79,7 +88,7 @@ const FilterBox = ({ name = "우리" }) => {
               />
             </div>
             <div className="flex flex-row">
-              <span>{name}(이)하고</span>
+              <span>{userChild}(이)하고</span>
               <TagDropdown
                 list={data.themeList}
                 id={"themeList"}
@@ -89,7 +98,7 @@ const FilterBox = ({ name = "우리" }) => {
             </div>
             <div className="flex flex-col gap-[12px] items-center">
               <span>
-                오랫동안 추억에 남을 {name}(이)네 가족여행을 추천해 주세요!
+                오랫동안 추억에 남을 {userChild}(이)네 가족여행을 추천해 주세요!
               </span>
               <button
                 className="rounded-[20px] bg-main-color text-white text-[18px] py-[8px] px-[36px] w-fit "
