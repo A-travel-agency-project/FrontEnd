@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { baseInstance } from "./instance";
 
 type UsePostPackageProps = {
@@ -22,7 +22,6 @@ export const useDeletePackage = ({
           operation: operation,
           ids: ids,
         });
-        console.log(response);
         setPackageDelete(response.data.code);
         setDeleteActive(false);
       } catch (error) {

@@ -18,7 +18,6 @@ const PackageManager = () => {
   const navagation = useNavigate();
   // 여행 체크
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
-  console.log(selectedItems);
   /* 필터링 */
 
   const [packagePeriod, setPackagePeriod] = useState<boolean>(false);
@@ -43,7 +42,6 @@ const PackageManager = () => {
     setOffset(selected);
   };
 
-  console.log(privacyState);
   // 공개 변경
   const { packageUpdate } = useChangePackage({
     operation: privacyState,
@@ -79,7 +77,6 @@ const PackageManager = () => {
     packagePeriod,
     offset,
   });
-  console.log(packageList);
 
   // 체크 삭제
   const handlePackageDelete = () => {

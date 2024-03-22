@@ -11,12 +11,7 @@ const Header = () => {
         <div className="justify-center flex top-0 h-[179px] items-end pb-[10px] w-full">
           <div className="flex gap-[30px] flex-grow-[0.3] items-center">
             <Link to={"/"}>
-              <div
-                className="w-[224px] h-[70px] bg-center bg-cover"
-                style={{
-                  backgroundImage: `url(${Logo})`,
-                }}
-              />
+              <img src="/subLogo.svg" className="w-[224px] h-[70px]" />
             </Link>
           </div>
           <UserMenu />

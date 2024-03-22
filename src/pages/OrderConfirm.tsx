@@ -11,6 +11,7 @@ const OrderConfirm = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [orderConfirm, setOrderConfirm] = useState([]);
+
   console.log(orderConfirm);
 
   // const { data, isPending, isError, error } = useGetUserOrderInfo(
