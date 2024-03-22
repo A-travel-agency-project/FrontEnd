@@ -120,14 +120,20 @@ const SignUp = () => {
         setFamily(Number(value));
         break;
       case "baby":
-        if (value.length <= 2) {
-          setBaby(value);
+        if (/^[ㄱ-ㅎ|가-힣]+$/.test(value)) {
+          setBaby(value.slice(0, 2));
+        } else if (value === "") {
+          setBaby("");
+        } else {
+          alert("한글 두글자만 입력가능합니다.");
         }
+
         break;
       default:
         break;
     }
   };
+  console.log(baby);
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGender(e.target.value);
@@ -167,6 +173,9 @@ const SignUp = () => {
                 navigation("/login");
                 alert("회원가입 완료!");
               }
+            })
+            .catch((err) => {
+              alert(err.response.data.message);
             });
         } else {
           alert("필수약관 동의를 해주세요");
@@ -184,7 +193,7 @@ const SignUp = () => {
       .post("/users/send-mail/certified", { email: email })
       .then((res) => {
         if (res.status === 200) {
-          alert("이메일 인증이 완료됐습니다.");
+          alert("이메일 인증을 발송하였습니다.");
           setEmailCheck(true);
         }
       });
@@ -194,8 +203,8 @@ const SignUp = () => {
     <>
       <div className="flex flex-col w-full h-full justify-center items-center ">
         <img src="/subLogo.svg" className="w-[20%] mb-10" />
-        <div className="w-full flex justify-center ">
-          <div className="flex w-1/3 flex-col justify-center items-center h-full rounded-3xl xl:px-64 sm:w-3/4 md:w-2/3 lg:w-1/2 lg:border lg:border-main-color">
+        <div className="w-full  border-y border-main-color py-10 flex justify-center ">
+          <div className="flex w-1/3 flex-col justify-center items-center h-full rounded-3xl  sm:w-3/4 md:w-2/3 lg:w-1/2 ">
             <h2 className="font-bold text-2xl text-main-color mb-10">
               필수항목입력
             </h2>
@@ -262,7 +271,7 @@ const SignUp = () => {
             />
             <div className="flex justify-between items-center w-full">
               <div className="">성별</div>
-              <div className="flex justify-between w-3/4 border border-main-color rounded-full py-3 pl-7 pr-16 mb-[5px]">
+              <div className="flex justify-between w-3/4 border border-main-color bg-white rounded-full py-3 pl-7 pr-16 mb-[5px]">
                 {["남", "여"].map((option) => (
                   <label key={option}>
                     <input
@@ -325,7 +334,7 @@ const SignUp = () => {
           </div>
         </div>
         <div className="w-full flex justify-center">
-          <div className="w-1/3 mt-10  rounded-3xl  flex flex-col items-center xl:px-64 sm:w-3/4 md:w-2/3 lg:w-1/2 lg:border lg:border-main-color">
+          <div className="w-1/3 mt-10  rounded-3xl  flex flex-col items-center  sm:w-3/4 md:w-2/3 lg:w-1/2">
             <h2 className="font-bold text-main-color my-10 text-2xl">
               선택입력항목
             </h2>
