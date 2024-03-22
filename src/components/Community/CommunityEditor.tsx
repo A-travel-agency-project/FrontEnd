@@ -114,7 +114,7 @@ const CommunityEditor = ({ active }: CommunityType) => {
           onChange={handleCommunityChange}
           value={selectCategory}
         >
-          <option selected disabled hidden>
+          <option disabled hidden>
             카테고리
           </option>
           {["카테고리", "공지사항", "여행이야기", "자주묻는질문"].map(

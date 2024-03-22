@@ -8,6 +8,8 @@ import CommunityEditor from "../components/Community/CommunityEditor";
 import CommunityDetail from "../components/Community/CommunityDetail";
 import SectionTitle from "../components/Main/SectionTitle";
 import CustomPagination from "../components/common/CustomPagination";
+import { useRecoilValue } from "recoil";
+import { loginCheck } from "../atom/atom";
 
 type CommunityCloum = {
   title: string | JSX.Element;
@@ -30,7 +32,7 @@ const Community = () => {
   const [editorActive, setEditorActive] = useState<boolean>(true);
   const [selectCommunity, setSelectCommunity] = useState<number[]>([]);
   const [newData, setNewData] = useState<CommunityRow[]>([]);
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const isLogin = useRecoilValue(loginCheck);
   const [deleteActive, setDeleteActive] = useState<boolean>(false);
   const [offset, setOffset] = useState(0);
   const [totalPage, setTotalPage] = useState(0);

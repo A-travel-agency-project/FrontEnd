@@ -43,7 +43,7 @@ const PackageManager = () => {
   };
 
   // 공개 변경
-  const { packageUpdate } = useChangePackage({
+  useChangePackage({
     operation: privacyState,
     ids: selectedItems,
     setChangeActive,
@@ -51,7 +51,7 @@ const PackageManager = () => {
     params: "packages",
   });
   // 패키지 삭제
-  const { packageDelete } = useDeletePackage({
+  useDeletePackage({
     operation: "",
     ids: selectedItems,
     deleteActive,

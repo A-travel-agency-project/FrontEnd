@@ -38,7 +38,11 @@ const Login = () => {
             alert(res.data.massage);
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          if (err.response.status === 401) {
+            alert("존재하지 않는 이메일 입니다.");
+          }
+        });
     } else {
       alert("이메일 비밀번호를 입력해주세요!");
     }
