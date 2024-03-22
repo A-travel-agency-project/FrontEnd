@@ -67,7 +67,7 @@ export type ProductListInfo = {
 };
 
 export type SummaryTableProps = {
-  productId: number;
+  productId: string;
   startDate: string;
   endDate: string;
   airline: string;
@@ -75,7 +75,7 @@ export type SummaryTableProps = {
 };
 
 export type SummaryTableInfo = {
-  id: number;
+  id: string;
   startDate: string;
   endDate: string;
   airline: string;
