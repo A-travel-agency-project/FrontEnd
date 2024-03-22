@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { country, packageHeaders, packageItems } from "../../constants/data";
+import React, { useState } from "react";
+import { country, packageHeaders } from "../../constants/data";
 import { useNavigate } from "react-router-dom";
 import ManagerTitle from "../../components/Manager/ManagerTitle";
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";

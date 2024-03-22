@@ -1,5 +1,3 @@
-import React, { Dispatch, SetStateAction } from "react";
-
 interface LoginInputProps {
   placeholder: string;
   setState: React.Dispatch<React.SetStateAction<string>>;

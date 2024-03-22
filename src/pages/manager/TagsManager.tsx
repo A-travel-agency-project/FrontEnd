@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ManagerTitle from "../../components/Manager/ManagerTitle";
 import { tagTitle } from "../../constants/data";
-import axios from "axios";
 import { MdOutlineCancel } from "react-icons/md";
 import { useGetTags } from "../../api/useGetTags";
 import { baseInstance } from "../../api/instance";

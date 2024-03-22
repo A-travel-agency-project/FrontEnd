@@ -1,4 +1,3 @@
-import React from "react";
 import "./signUpPopup.css";
 
 type SignUpPopUpType = {

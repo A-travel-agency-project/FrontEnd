@@ -7,7 +7,6 @@ const NaverLogin = () => {
 
   const handleLogin = () => {
     window.location.href = NAVER_AUTH_URL;
-    const params = new URLSearchParams(window.location.search);
   };
 
   return (

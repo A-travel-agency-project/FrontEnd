@@ -10,10 +10,6 @@ import { useSetRecoilState } from "recoil";
 import { saveState } from "../../atom/atom";
 import CustomPagination from "../../components/common/CustomPagination";
 
-interface ProductItem {
-  packageId: number;
-  packageName: string;
-}
 type ProductData = {
   endDate: string;
   maxCount: number;

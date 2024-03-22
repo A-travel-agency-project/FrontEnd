@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction } from "react";
 
 type FindEmailType = {
   setFindEmailActive: React.Dispatch<SetStateAction<boolean>>;

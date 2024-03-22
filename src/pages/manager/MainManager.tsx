@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MainManagerBtn from "../../components/Manager/MainManagerBtn";
 import MainTitle from "../../components/Manager/ManagerTitle";
-import axios from "axios";
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
 import { baseInstance } from "../../api/instance";
 import ExcelDownload from "../../components/Manager/ExcelDownload";

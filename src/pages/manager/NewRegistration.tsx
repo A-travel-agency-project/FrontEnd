@@ -149,8 +149,10 @@ const NewRegistration = () => {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
-          navigate("/packagemanager");
-          alert("등록이 완료됐습니다");
+          if (res.status === 2000) {
+            navigate("/packagemanager");
+            alert("등록이 완료됐습니다");
+          }
         });
     } else {
       alert("값을 전부 채워주세요");
@@ -222,7 +224,7 @@ const NewRegistration = () => {
     }
   };
   // 임시저장 함수
-  const handleTemporarySaveClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleTemporarySaveClick = () => {
     const jsonData = {
       packageName: packageName,
       summary: packageSummary,

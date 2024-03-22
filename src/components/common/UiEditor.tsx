@@ -4,8 +4,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { baseInstance } from "../../api/instance";
 
 interface Props {

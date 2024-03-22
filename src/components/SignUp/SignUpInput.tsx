@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 import SignUpCheck from "./\bSignUpCheck";
 import SignUpPopup from "./SignUpPopup";
 

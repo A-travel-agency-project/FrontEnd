@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const SideNav = () => {
   const navigation = useNavigate();

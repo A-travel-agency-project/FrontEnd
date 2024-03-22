@@ -1,14 +1,11 @@
 import LoginInput from "../components/Login/LoginInput";
 import LoginSignUpBtn from "../components/common/LoginSignUpBtn";
 import Button from "../components/common/Button";
-import KakaoLogin from "../components/Login/KakaoLogin";
-import { useNavigate } from "react-router-dom";
 import { baseInstance } from "../api/instance";
 import { useState } from "react";
 import FIndEmailPopUp from "../components/Login/FIndEmailPopUp";
 
 const FindEmail = () => {
-  const navigation = useNavigate();
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [findEmailActive, setFindEmailActive] = useState(false);
@@ -27,7 +24,7 @@ const FindEmail = () => {
             setSelectEmail(res.data.data.email);
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setSelectEmail("");
         });
     } else {

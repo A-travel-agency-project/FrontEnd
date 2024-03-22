@@ -1,7 +1,6 @@
 import React, { SetStateAction, useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { baseInstance } from "../../api/instance";
-import { Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import UiViewer from "../common/Editor/UiViewer";
 
