@@ -23,7 +23,7 @@ const OrderedTravelerInfo = ({
   handleDelete,
   handleEdit,
   startDate,
-  page,
+  role,
   orderState,
 }: {
   startDate?: string;
@@ -37,7 +37,7 @@ const OrderedTravelerInfo = ({
     changedRole?: string,
     orderdRole?: string
   ) => void;
-  page?: string;
+  role?: string;
   orderState?: string;
 }) => {
   const [travelerInfo, setTravlerInfo] = useState<TravelerInfoData>({
@@ -155,7 +155,7 @@ const OrderedTravelerInfo = ({
 
   return (
     <div className={`flex flex-col items-end w-full min-w-max`}>
-      {!representative && page === "admin" && orderState !== "취소" && (
+      {!representative && role === "admin" && orderState !== "취소" && (
         <div className="flex gap-[12px] mb-[4px]">
           {id != null && !editable ? (
             <OrderDetailBtn handleClick={handleEditable} label="수정하기" />
