@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import IconUser from "/public/icon_user.svg";
 import { useRecoilState, useRecoilValue } from "recoil";

@@ -171,7 +171,8 @@ const Community = () => {
   }, [location.state]);
 
   return (
-    <div className="w-[1280px] flex flex-col justify-center items-center">
+   <div className="w-full flex justify-center">
+    <div className="w-[1280px] flex flex-col items-center">
       <div className="h-[400px] w-full bg-main-color mb-8" />
       <div className="flex w-full  ">
         <div className="flex flex-col items-start mr-9">
@@ -231,9 +232,32 @@ const Community = () => {
                   handlePageClick={handlePageChange}
                   totalPage={totalPage}
                 />
+                {isLogin ? (
+                  <div className="flex justify-end w-[850px]">
+                    {["삭제하기", "등록하기"].map((el, idx) => (
+                      <button
+                        className={`border border-main-color  rounded-full px-3 mt-4 hover:bg-main-color hover:text-white ${
+                          idx === 0 ? "mr-2" : ""
+                        }`}
+                        key={idx}
+                        name={el}
+                        onClick={handleRegisterDeleteClick}
+                      >
+                        {el}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <></>
+                )}
+                <div className="flex items-center w-full justify-center">
+                  <CustomPagination
+                    handlePageClick={handlePageChange}
+                    totalPage={totalPage}
+                  />
+                </div>
               </div>
-            </div>
-          ) : (
+            ) : (
             <CommunityEditor active={active} />
           )
         ) : (

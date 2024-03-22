@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Header from "./components/common/Header/Header";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import SideNav from "./components/common/SideNav";
@@ -36,13 +35,15 @@ import EasySignUp from "./pages/EasySignUp";
 import KakaoOAuthCallback from "./components/Login/KakaoOAuthCallback";
 import NaverOAuthCallback from "./components/Login/NaverOAuthCallback";
 import OrderConfirm from "./pages/OrderConfirm";
+import PaymentCheckout from "./pages/PaymentCheckout";
+import MainLayout from "./components/common/MainLayout";
 import { loginCheck } from "./atom/atom";
 import { useRecoilValue } from "recoil";
 
 function App() {
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
-      onError: (error) => console.log(`Something went wrong: ${error.message}`),
+      onError: (error) => console.log(`${error.message}`),
     }),
   });
   const token = window.localStorage.getItem("token");
@@ -64,7 +65,7 @@ function App() {
           <Route path="/kakao/oauth" element={<KakaoOAuthCallback />} />
           <Route path="/naver/oauth" element={<NaverOAuthCallback />} />
           {/* 본문 네비게이션바 */}
-          <Route element={<Header />}>
+          <Route element={<MainLayout />}>
             <Route element={<MyPageNav />}>
               <Route
                 path="/editmember"
@@ -86,8 +87,11 @@ function App() {
             <Route path="/community/:postId" element={<Community />} />
             <Route path="/traveldetail/:id" element={<TravelDetail />} />
             <Route path="/travelproduct" element={<TravelProduct />} />
+            <Route
+              path="/travelproduct/:category"
+              element={<TravelProduct />}
+            />
             <Route path="/reservation" element={<Reservation />} />
-            <Route path="/reservation/success" element={<PaymentSuccess />} />
           </Route>
           {/* 관리자 네비게이션바 */}
           <Route element={<SideNav />}>
@@ -96,7 +100,6 @@ function App() {
             <Route path="/productmanager" element={<ProductManager />} />
             <Route path="/ordermanager" element={<OrderManager />} />
             {/* 임시: 페이지 띄우기*/}
-            <Route path="/orderdetail" element={<OrderDetail />} />
             <Route path="/orderdetail/:id" element={<OrderDetail />} />
             <Route path="/newregistration" element={<NewRegistration />} />
             <Route
@@ -107,6 +110,8 @@ function App() {
             <Route path="/productdetail" element={<ProductDetail />} />
             <Route path="/tagsmanager" element={<TagsManager />} />
           </Route>
+          <Route path="/paymentcheckout" element={<PaymentCheckout />} />
+          <Route path="/paymentcheckout/success" element={<PaymentSuccess />} />
         </Routes>
       </div>
     </QueryClientProvider>

@@ -10,10 +10,12 @@ const SpecialAmount = ({
   orderId,
   additionalPrice,
   memo,
+  orderState,
 }: {
   orderId: string;
   additionalPrice: number;
   memo: string;
+  orderState: string;
 }) => {
   const [editAmount, setEditAmount] = useState(false);
   const [amountType, setAmountType] = useState("추가금");
@@ -75,21 +77,25 @@ const SpecialAmount = ({
       <div className="flex items-center w-full justify-between">
         <ManagerTitle title="추가금 / 할인금" style="mb-[12px] flex w-fit" />
         <div className="flex gap-[12px]">
-          {editAmount ? (
+          {orderState !== "취소" && (
             <>
-              <OrderDetailBtn
-                label="변경완료"
-                role={"submit"}
-                handleClick={handleAmount}
-              />
-              <OrderDetailBtn
-                label="변경취소"
-                role={"cancel"}
-                handleClick={handleAmount}
-              />
+              {editAmount ? (
+                <>
+                  <OrderDetailBtn
+                    label="변경완료"
+                    role={"submit"}
+                    handleClick={handleAmount}
+                  />
+                  <OrderDetailBtn
+                    label="변경취소"
+                    role={"cancel"}
+                    handleClick={handleAmount}
+                  />
+                </>
+              ) : (
+                <OrderDetailBtn label="변경하기" handleClick={handleAmount} />
+              )}
             </>
-          ) : (
-            <OrderDetailBtn label="변경하기" handleClick={handleAmount} />
           )}
         </div>
       </div>
