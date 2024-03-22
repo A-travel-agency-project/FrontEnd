@@ -25,24 +25,32 @@ const UserMenu = () => {
       {!isLogin ? (
         <div className="flex gap-[12px] justify-between text-[10px] mb-[18px] text-sub-black">
           <Link to={"/login"}>
-            <img src="/login.svg" alt="" />
+            <img src="/login.svg" alt="login" className="w-[30px] h-[30px]" />
             <button type="button">로그인</button>
           </Link>
         </div>
       ) : (
-        <div className="flex items-center justify-center text-[10px] text-sub-black">
+        <div className="flex items-center justify-center text-[10px] text-sub-black gap-[12px]">
           <Link
             to={"/editmember"}
             className="flex justify-center flex-col items-center"
           >
-            <img src="/submypage.svg" />
+            <img
+              src="/submypage.svg"
+              alt="mypage"
+              className="w-[30px] h-[30px]"
+            />
             마이페이지
           </Link>
           <button
             className="flex justify-center flex-col items-center"
             onClick={handleLogoutClick}
           >
-            <img src="/sublogout.svg" />
+            <img
+              src="/sublogout.svg"
+              alt="logout"
+              className="w-[30px] h-[30px]"
+            />
             로그아웃
           </button>
         </div>

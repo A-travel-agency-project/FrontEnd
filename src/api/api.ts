@@ -5,7 +5,6 @@ import {
   OrderData,
   OrderInfoData,
   OrderRequest,
-  SimpleOrderInfo,
   SpecialAmountData,
   UpdateTravelerReq,
 } from "../types/manager";
@@ -88,8 +87,8 @@ export const PostDeposit = async (
 };
 
 /* 유저 주문 정보 조회 */
-export const GetUserOrderDetail = (id: string): Promise<SimpleOrderInfo> =>
-  userInstance.get(`/orders/myinfo/${id}`).then((res) => res.data);
+export const GetUserOrderDetail = (id: string): Promise<OrderInfoData> =>
+  baseInstance.get(`/orders/myinfo/${id}`).then((res) => res.data.data);
 
 /* 관리자 주문 목록 조회 */
 export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>
@@ -101,7 +100,7 @@ export const GetManagerOrders = (): Promise<OrderInfoData[]> =>
 
 /* 관리자 주문 정보 조회 */
 export const GetOrderDetail = (orderId: string): Promise<OrderInfoData> =>
-  baseInstance.get(`orders/detail/${orderId}`).then((res) => res.data.data);
+  userInstance.get(`orders/detail/${orderId}`).then((res) => res.data.data);
 
 /* 관리자 결제 정보 조회 */
 export const GetPaymentInfo = async (

@@ -43,9 +43,7 @@ export type ManagerColumns<T> = {
   onClick?: () => void;
 }[];
 
-export interface SimpleOrderInfo extends OrderCount {}
-
-export interface OrderInfoData extends SimpleOrderInfo {
+export interface OrderInfoData extends OrderCount {
   orderNumberList: string[];
   orderDate: string;
   reserveUser: string;

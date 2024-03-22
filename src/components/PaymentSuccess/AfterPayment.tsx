@@ -61,26 +61,26 @@ const AfterPayment = () => {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   history.pushState(null, "", "");
-  //   console.log("스택쌓음");
+  useEffect(() => {
+    history.pushState(null, "", "");
+    console.log("스택쌓음");
 
-  //   const handleClickBrowserBackBtn = () => {
-  //     console.log("popstate 실행");
-  //     if (progress >= 1) {
-  //       setProgress((prev) => prev - 1);
-  //     } else {
-  //       console.log("쌓인 스택만큼 제거 루프 실행");
-  //       navigate(-1);
-  //     }
-  //   };
+    const handleClickBrowserBackBtn = () => {
+      console.log("popstate 실행");
+      if (progress <= 1) {
+        setProgress((prev) => prev + 1);
+      } else {
+        console.log("쌓인 스택만큼 제거 루프 실행");
+        navigate(+1);
+      }
+    };
 
-  //   window.addEventListener("popstate", handleClickBrowserBackBtn);
+    window.addEventListener("popstate", handleClickBrowserBackBtn);
 
-  //   return () => {
-  //     window.removeEventListener("popstate", handleClickBrowserBackBtn);
-  //   };
-  // }, [progress, navigate]);
+    return () => {
+      window.removeEventListener("popstate", handleClickBrowserBackBtn);
+    };
+  }, [progress, navigate]);
 
   if (isPending) {
     return <div>로딩 중...</div>;
