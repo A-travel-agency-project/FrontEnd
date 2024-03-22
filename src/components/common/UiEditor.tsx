@@ -37,8 +37,6 @@ const UiEditor = ({
     ["ul", "ol"],
     ["table", "link"],
     ["image"],
-    ["code"],
-    ["codeblock"],
   ];
   const editorRef = useRef<Editor>(null);
 

@@ -120,7 +120,6 @@ const Community = () => {
       }
     });
   };
-
   // 사이드 네비게이션
   const handleNavClick = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -192,12 +191,12 @@ const Community = () => {
         </div>
         {!params.postId ? (
           editorActive ? (
-            <div>
+            <div className="w-full">
               <Table
                 columns={columns}
                 data={newData}
                 tableStyle={
-                  "text-center w-[750px] border-main-color border-t-[0.5px] border-b-[0.5px]"
+                  "text-center w-full border-main-color border-t-[0.5px] border-b-[0.5px]"
                 }
                 theadStyle={
                   "bg-main-color bg-opacity-10 h-[24px] mt-[1px] border-t-[0.5px] border-b-[0.5px] border-main-color"
@@ -235,7 +234,7 @@ const Community = () => {
               </div>
             </div>
           ) : (
-            <CommunityEditor />
+            <CommunityEditor active={active} />
           )
         ) : (
           <CommunityDetail setEditorActive={setEditorActive} />

@@ -11,10 +11,12 @@ type CommunityDataType = {
   content: string;
   bolgUrl: string;
 };
+type CommunityType = {
+  active: string;
+};
 
-const CommunityEditor = () => {
+const CommunityEditor = ({ active }: CommunityType) => {
   // 공지사항,자주묻는질문,여행이야기
-  const ref = useRef<Editor>(null);
   const navigation = useNavigate();
   const { state } = useLocation();
 
@@ -55,10 +57,7 @@ const CommunityEditor = () => {
   };
 
   // 에디터 값
-  const handleEditorChange = () => {
-    const htmlContent = ref.current?.getInstance().getHTML();
-    const markdownContent = ref.current?.getInstance().getMarkdown();
-
+  const handleEditorChange = (htmlContent: string, markdownContent: string) => {
     setCommunityHtml(htmlContent);
     setCommunityMd(markdownContent);
   };
@@ -84,7 +83,6 @@ const CommunityEditor = () => {
     }
   };
 
-  console.log(communityHtml);
   // 수정하기 클릭
   const handleEditClick = () => {
     if (selectCategory !== "" && title !== "" && communityHtml !== "") {
@@ -106,7 +104,6 @@ const CommunityEditor = () => {
       alert("*표시는 필수 입력해주세요.");
     }
   };
-  console.log(editData);
 
   return (
     <div className="w-full flex flex-col">
@@ -142,23 +139,23 @@ const CommunityEditor = () => {
       </div>
       <div className="flex w-full">
         <span className="text-red-500 mr-2">*</span>
-        <UiEditor
-          editorRef={ref}
-          onChange={handleEditorChange}
-          initialValue={communityMd}
-        />
+        <UiEditor onChange={handleEditorChange} initialValue={communityMd} />
       </div>
       <div className="flex w-full mt-2">
         <div className="w-full flex items-center">
-          <div className="whitespace-nowrap">네이버 블로그 링크 : </div>
-          <input
-            name="blog"
-            className="border w-full outline-none focus:border-main-color"
-            onChange={handleCommunityChange}
-            value={blogLink}
-          />
+          {(state === "여행이야기" || active === "여행이야기") && (
+            <>
+              <div className="whitespace-nowrap">네이버 블로그 링크 : </div>
+              <input
+                name="blog"
+                className="border w-full outline-none focus:border-main-color"
+                onChange={handleCommunityChange}
+                value={blogLink}
+              />
+            </>
+          )}
         </div>
-        {!state ? (
+        {typeof state === "string" || !state ? (
           <button
             onClick={handleRegisterClick}
             className="px-5 py-1 ml-5 bg-main-color whitespace-nowrap rounded-full text-white"

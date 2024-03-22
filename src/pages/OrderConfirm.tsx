@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 const OrderConfirm = () => {
   const { orderId } = useParams();
   const [orderConfirm, setOrderConfirm] = useState([]);
-  console.log(orderConfirm);
   useEffect(() => {
     if (orderId) {
       baseInstance

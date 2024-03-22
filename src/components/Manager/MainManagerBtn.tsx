@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../../App.css";
 
 interface BannerProps {
@@ -18,7 +18,6 @@ const MainManagerBtn = ({
 }: BannerProps) => {
   const addImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nowSelectImageList = e.target.files;
-    console.log(nowSelectImageList);
 
     const nowImgURLList = [...myImage];
     const nowFilesList = [...sendImg];
@@ -41,7 +40,6 @@ const MainManagerBtn = ({
     setMyImage((prevMyImage) => prevMyImage.filter((_, i) => i !== idx));
     setSendImg((prevMyImage) => prevMyImage.filter((_, i) => i !== idx));
   };
-  console.log(myImage);
 
   return (
     <div className="flex flex-col items-center w-full m-1">
@@ -76,15 +74,13 @@ const MainManagerBtn = ({
         {myImage &&
           myImage.map((src, idx) => {
             return (
-              <div key={idx} className="relative">
-                {idx === myImage.length - 1 && (
-                  <button
-                    className="absolute top-2 right-2 text-main-color"
-                    onClick={() => handleDeleteImage(idx)}
-                  >
-                    삭제
-                  </button>
-                )}
+              <div key={src} className="relative">
+                <button
+                  className="absolute top-2 right-2 text-main-color"
+                  onClick={() => handleDeleteImage(idx)}
+                >
+                  삭제
+                </button>
                 <img src={src} className="h-48 w-96 object-cover" />
               </div>
             );
