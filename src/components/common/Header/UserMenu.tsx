@@ -35,19 +35,7 @@ const UserMenu = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center text-[10px] text-sub-black gap-[12px]">
-          {!isAdmin ? (
-            <Link
-              to={"/editmember"}
-              className="flex justify-center flex-col items-center"
-            >
-              <img
-                src="/submypage.svg"
-                alt="mypage"
-                className="w-[30px] h-[30px]"
-              />
-              마이페이지
-            </Link>
-          ) : (
+          {isAdmin && (
             <Link
               to={"/mainmanager"}
               className="flex justify-center flex-col items-center"
@@ -60,6 +48,17 @@ const UserMenu = () => {
               관리자페이지
             </Link>
           )}
+          <Link
+            to={"/editmember"}
+            className="flex justify-center flex-col items-center"
+          >
+            <img
+              src="/submypage.svg"
+              alt="mypage"
+              className="w-[30px] h-[30px]"
+            />
+            마이페이지
+          </Link>
           <button
             className="flex justify-center flex-col items-center"
             onClick={handleLogoutClick}

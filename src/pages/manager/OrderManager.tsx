@@ -154,7 +154,6 @@ const OrderManager = () => {
     packageName?: string
   ) => {
     if (packageName) setSelectedPackage(packageName);
-    console.log(packageName);
     setOrderReq((prev) => ({
       ...prev,
       [id]: value === "전체" ? null : value,
