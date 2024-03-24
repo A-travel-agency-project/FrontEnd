@@ -9,16 +9,20 @@ import { useLocation } from "react-router-dom";
 
 const PaymentCheckout = () => {
   const location = useLocation();
-  const paymentInfo = location.state;
+  const paymentInfo = location.state.paymentInfo;
+  const tossPaymentInfo = location.state.tossPaymentInfo;
   const [paymentWidgetLoaded, setPaymentWidgetLoaded] = useState(false);
 
   const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
 
   const payFor = "productId" in paymentInfo ? "deposit" : "balance";
 
-  const orderId = `IMOM_PI${paymentInfo.productId}_DT${new Date().getTime()}`;
+  const orderId = paymentInfo.productId
+    ? `IMOM_PI${paymentInfo.productId}_DT${new Date().getTime()}`
+    : `IMOM_FULL${paymentInfo.amount}_DT${new Date().getTime()}`;
 
   console.log(paymentInfo);
+  console.log(tossPaymentInfo);
 
   useEffect(() => {
     (async () => {
@@ -57,9 +61,9 @@ const PaymentCheckout = () => {
             try {
               await paymentWidget?.requestPayment({
                 orderId: orderId,
-                orderName: "토스 티셔츠 외 2건",
-                customerName: "김토스",
-                customerEmail: "customer123@gmail.com",
+                orderName: tossPaymentInfo.packageName,
+                customerName: tossPaymentInfo.userName,
+                customerEmail: tossPaymentInfo.email,
                 successUrl: `${window.location.href}/success?payFor=${payFor}`,
                 failUrl: `${window.location.origin}/fail`,
               });

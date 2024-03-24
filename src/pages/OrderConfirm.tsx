@@ -35,10 +35,17 @@ const OrderConfirm = () => {
   const handlePayment = () => {
     navigate("/paymentcheckout", {
       state: {
-        orderId: "",
-        amount: data?.balance,
-        paymentKey: "",
-        imomOrderId: data?.imomOrderId,
+        PaymentInfo: {
+          orderId: "",
+          amount: data?.balance,
+          paymentKey: "",
+          imomOrderId: data?.imomOrderId,
+        },
+        tossPaymentInfo: {
+          email: "",
+          userName: data?.reserveUser,
+          packageName: data?.packageName,
+        },
       },
     });
   };

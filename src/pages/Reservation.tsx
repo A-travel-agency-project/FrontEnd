@@ -155,17 +155,24 @@ const Reservation = () => {
     ) {
       navigate("/paymentcheckout", {
         state: {
-          orderId: "",
-          paymentKey: "",
-          productId: `${productInfo.productId}`,
-          adultCount: finalPriceInfo["성인"].count,
-          childCount: finalPriceInfo["아동"].count,
-          infantCount: finalPriceInfo["유아"].count,
-          totalCount: finalPriceInfo.totalCount,
-          totalPrice: finalPriceInfo.totalPay,
-          travelerInfoList: Object.values(travelerInfoList),
-          amount: Math.floor(finalPriceInfo.totalPay / 10),
-          marketing: checkList.marketing,
+          paymentInfo: {
+            orderId: "",
+            paymentKey: "",
+            productId: `${productInfo.productId}`,
+            adultCount: finalPriceInfo["성인"].count,
+            childCount: finalPriceInfo["아동"].count,
+            infantCount: finalPriceInfo["유아"].count,
+            totalCount: finalPriceInfo.totalCount,
+            totalPrice: finalPriceInfo.totalPay,
+            travelerInfoList: Object.values(travelerInfoList),
+            amount: Math.floor(finalPriceInfo.totalPay / 10),
+            marketing: checkList.marketing,
+          },
+          tossPaymentInfo: {
+            email: userData?.email,
+            userName: userData?.userName,
+            packageName: productInfo.packageName,
+          },
         },
       });
     } else if (
