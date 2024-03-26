@@ -3,9 +3,16 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 import useGetBanners from "../../queries/imgs/useGetBanners";
+import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
+  const navigate = useNavigate();
   const { data, isPending, isError, error } = useGetBanners();
+
+  const handleBanner = (link: string) => {
+    console.log(link);
+    navigate(link);
+  };
   console.log(data);
 
   if (isPending) {
@@ -42,6 +49,7 @@ const Banner = () => {
             key={item.imageUrl}
             data-imageurl={item.imageUrl}
             style={{ backgroundImage: `url(${item.imageUrl})` }}
+            onClick={() => handleBanner(item.link)}
           ></SwiperSlide>
         ))}
       </Swiper>

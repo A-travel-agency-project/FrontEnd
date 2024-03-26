@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BlogPost } from "../types/community";
-import { Img } from "../types/img";
+import { BannerImg } from "../types/img";
 import {
   OrderData,
   OrderInfoData,
@@ -21,7 +21,7 @@ import { User, UserChildName } from "../types/user";
 import { baseInstance, userInstance } from "./instance";
 
 /* 배너 이미지 가져오기 */
-export const GetBanner = (): Promise<Img[]> =>
+export const GetBanner = (): Promise<BannerImg[]> =>
   baseInstance.get("/images/banners").then((res) => res.data.data);
 
 /* 태그 목록 가져오기 */

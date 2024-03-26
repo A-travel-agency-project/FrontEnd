@@ -91,6 +91,7 @@ const TravelerInfo = ({
       </div>
       <div className="p-[16px] flex flex-col gap-[40px]">
         <TravelerInfoForm
+          priceInfo={priceInfo}
           age={"adult"}
           role="대표1인"
           travelerId={"대표1인"}
@@ -102,6 +103,7 @@ const TravelerInfo = ({
         />
         {travelers.map((item) => (
           <TravelerInfoForm
+            priceInfo={priceInfo}
             key={item.id}
             travelerId={item.id}
             age={item.age as "adult" | "child" | "infant"}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { travelerInfo } from "../../types/reservation";
+import { PriceInfoData, travelerInfo } from "../../types/reservation";
 import { User } from "../../types/user";
 import {
   birthFormat,
@@ -14,6 +14,7 @@ import "./TravelerInfoForm.css";
 import { calculateAge } from "../../utils/calculateAge";
 
 const TravelerInfoForm = ({
+  priceInfo,
   age,
   role,
   travelerId,
@@ -23,6 +24,7 @@ const TravelerInfoForm = ({
   startDate,
   handleChangeSort,
 }: {
+  priceInfo: PriceInfoData;
   age: "adult" | "child" | "infant";
   role: string;
   travelerId: string;
@@ -112,7 +114,9 @@ const TravelerInfoForm = ({
     if (date.length < 10) return;
     if (checkValidDate(date)) {
       const realRole = calculateAge(date, startDate);
-      if (realRole[0] !== pickedRole) {
+      const isAbleToChange =
+        priceInfo[realRole[1] as keyof typeof priceInfo].price !== 0;
+      if (realRole[0] !== pickedRole && isAbleToChange) {
         if (role === "대표1인") {
           alert(WRONG_AGE_MESSAGES[role]);
           setInputBirth("");
@@ -142,7 +146,7 @@ const TravelerInfoForm = ({
             setInputBirth("");
           }
         }
-      } else if (realRole[0] === pickedRole) {
+      } else if (realRole[0] === pickedRole && isAbleToChange) {
         setInfo((prev) => {
           const updatedInfo = { ...prev, [id]: date };
           return updatedInfo;
