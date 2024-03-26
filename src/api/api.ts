@@ -91,19 +91,24 @@ export const GetUserOrderDetail = (id: string): Promise<OrderInfoData> =>
   userInstance.get(`/orders/myinfo/${id}`).then((res) => res.data.data);
 
 /* 관리자 주문 목록 조회 */
-export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>
+export const PostManagerOrders = (
+  req: OrderRequest
+): Promise<OrderData> => // 추후 헤더 토큰 넣어서 요청
   baseInstance.post(`/orders`, req).then((res) => res.data.data);
 
 /* 관리자 주문 전체 조회 (엑셀용) */
-export const GetManagerOrders = (): Promise<OrderInfoData[]> =>
+export const GetManagerOrders = (): Promise<OrderInfoData[]> => // 추후 헤더 토큰 넣어서 요청
   baseInstance.get(`/orders/excel`).then((res) => res.data.data);
 
 /* 관리자 주문 정보 조회 */
-export const GetOrderDetail = (orderId: string): Promise<OrderInfoData> =>
+export const GetOrderDetail = (
+  orderId: string
+): Promise<OrderInfoData> => // 추후 헤더 토큰 넣어서 요청
   userInstance.get(`orders/detail/${orderId}`).then((res) => res.data.data);
 
 /* 관리자 결제 정보 조회 */
 export const GetPaymentInfo = async (
+  // 추후 헤더 토큰 넣어서 요청
   orderId: string
 ): Promise<OrderedPaymentData> => {
   try {
@@ -125,13 +130,16 @@ export const GetPaymentInfo = async (
 };
 
 /* 관리자 추가금 변경 */
-export const PostSpecialAmount = (req: SpecialAmountData) =>
-  baseInstance.post("/orders/update/price", req).then((res) => res.data);
+export const PostSpecialAmount = (
+  req: SpecialAmountData // 추후 헤더 토큰 넣어서 요청
+) => baseInstance.post("/orders/update/price", req).then((res) => res.data);
 
 /* 관리자 여행자 정보 변경 */
-export const PostTravelerInfo = (req: UpdateTravelerReq) =>
-  baseInstance.post("/orders/update/travelers", req).then((res) => res.data);
+export const PostTravelerInfo = (
+  req: UpdateTravelerReq // 추후 헤더 토큰 넣어서 요청
+) => baseInstance.post("/orders/update/travelers", req).then((res) => res.data);
 
 /* 관리자 주문 취소 */
-export const GetOrderCancel = (id: string) =>
-  baseInstance.get(`/orders/cancel/${id}`).then((res) => res.data);
+export const GetOrderCancel = (
+  id: string // 추후 헤더 토큰 넣어서 요청
+) => baseInstance.get(`/orders/cancel/${id}`).then((res) => res.data);

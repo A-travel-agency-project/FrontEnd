@@ -176,15 +176,15 @@ const Reservation = () => {
           },
         },
       });
+    } else if (!isRequriedChecked) {
+      alert("필수 약관에 모두 동의해주세요.");
+      return;
     } else if (
       priceInfo.totalCount !== infoCount ||
       !isAllValid ||
       !isRepresenterValid
     ) {
       alert("필수 여행자정보를 모두 기입해주세요.");
-      return;
-    } else if (!isRequriedChecked) {
-      alert("필수 약관에 모두 동의해주세요.");
       return;
     }
   };
