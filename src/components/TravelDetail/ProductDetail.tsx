@@ -22,7 +22,7 @@ const ProductDetail = ({
         />
         <div className="w-full flex h-fit border border-main-color items-center">
           <span className="text-[12px] p-[6px] shrink-0">여행지역</span>
-          <span className="text-[10px] p-[6px] grow border-l border-main-color h-full">
+          <span className="text-[10px] p-[6px] grow border-l border-main-color h-full min-h-[30px]">
             {info.travelRegion}
           </span>
         </div>

@@ -1,4 +1,7 @@
 export const onlyKorean = (name: string): string => {
+  if (name && !/^[ㄱ-ㅣ가-힣]+$/.test(name)) {
+    alert("한글로 입력해주세요.");
+  }
   // travelerName 정규식 (한글만 가능)
   return name.replace(/[^ㄱ-ㅣ가-힣]/g, "");
 };

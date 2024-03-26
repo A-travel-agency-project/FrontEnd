@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { PriceInfoData, travelerInfo } from "../../types/reservation";
-import { User } from "../../types/user";
+import { TravelerInfoFormProps, travelerInfo } from "../../types/reservation";
 import {
   birthFormat,
   checkValidDate,
@@ -23,26 +22,7 @@ const TravelerInfoForm = ({
   userInfo,
   startDate,
   handleChangeSort,
-}: {
-  priceInfo: PriceInfoData;
-  age: "adult" | "child" | "infant";
-  role: string;
-  travelerId: string;
-  isRepresentative: boolean;
-  handleTravelerInfo: (
-    travelerId: string,
-    info: travelerInfo | string,
-    category?: keyof travelerInfo
-  ) => void;
-  startDate: string;
-  userInfo?: User;
-  handleChangeSort: (
-    id: string,
-    newCategory: string,
-    newAge: "adult" | "child" | "infant",
-    currentAge: "adult" | "child" | "infant"
-  ) => void;
-}) => {
+}: TravelerInfoFormProps) => {
   const [info, setInfo] = useState({
     travelerName: "",
     enFirstName: "",
@@ -111,11 +91,14 @@ const TravelerInfoForm = ({
 
   const handleBirth = (id: keyof travelerInfo, date: string) => {
     const pickedRole = role === "대표1인" ? "성인" : role;
+    setInputBirth(date);
     if (date.length < 10) return;
     if (checkValidDate(date)) {
       const realRole = calculateAge(date, startDate);
+      const priceValue = priceInfo[realRole[1] as keyof typeof priceInfo];
       const isAbleToChange =
-        priceInfo[realRole[1] as keyof typeof priceInfo].price !== 0;
+        typeof priceValue !== "number" && priceValue.price !== 0;
+      console.log(isAbleToChange);
       if (realRole[0] !== pickedRole && isAbleToChange) {
         if (role === "대표1인") {
           alert(WRONG_AGE_MESSAGES[role]);

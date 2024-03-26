@@ -4,6 +4,7 @@ import ManagerTitle from "../ManagerTitle";
 import PaymentInfoBox from "./PaymentInfoBox";
 import TableRow from "./TableRow";
 import { amountFormat } from "../../../utils/amountFormat";
+import SpecialAmountInfo from "./SpecialAmountInfo";
 
 const PaymentInfo = ({ idList }: { idList: string[] }) => {
   const { data, isError, errors } = useGetPaymentInfo(idList);
@@ -38,6 +39,7 @@ const PaymentInfo = ({ idList }: { idList: string[] }) => {
         content={`${amountFormat(totalAmount)} 원`}
         rowStyle="border-y border-sub-black"
       />
+      <SpecialAmountInfo />
     </div>
   );
 };

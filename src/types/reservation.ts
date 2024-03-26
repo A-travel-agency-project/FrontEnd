@@ -1,4 +1,5 @@
 import { Prices, ReservationInfo } from "./product";
+import { User } from "./user";
 
 export type PriceInfoData = {
   adult: {
@@ -45,4 +46,25 @@ export interface TermsState {
   identification: boolean;
   thirdperson: boolean;
   marketing: boolean;
+}
+
+export interface TravelerInfoFormProps {
+  priceInfo: PriceInfoData;
+  age: "adult" | "child" | "infant";
+  role: string;
+  travelerId: string;
+  isRepresentative: boolean;
+  handleTravelerInfo: (
+    travelerId: string,
+    info: travelerInfo | string,
+    category?: keyof travelerInfo
+  ) => void;
+  startDate: string;
+  userInfo?: User;
+  handleChangeSort: (
+    id: string,
+    newCategory: string,
+    newAge: "adult" | "child" | "infant",
+    currentAge: "adult" | "child" | "infant"
+  ) => void;
 }

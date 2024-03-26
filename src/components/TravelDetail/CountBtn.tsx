@@ -20,8 +20,12 @@ const CountBtn = ({
   };
 
   const handleIncrease = () => {
-    if (remainCount === 0 || productState === "예약 마감") {
+    if (productState === "예약 마감") {
       alert("예약 마감된 상품입니다.");
+      return;
+    }
+    if (remainCount === 0) {
+      alert("재고가 부족합니다.");
       return;
     }
     const newCount = count + 1;
