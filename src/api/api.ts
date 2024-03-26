@@ -9,11 +9,7 @@ import {
   UpdateTravelerReq,
 } from "../types/manager";
 import { Package, PackageName } from "../types/package";
-import {
-  BalanceRequset,
-  OrderedPaymentData,
-  PaymentData,
-} from "../types/payment";
+import { OrderedPaymentData, PaymentData } from "../types/payment";
 import {
   ProductDates,
   ProductDetialInfo,
@@ -81,7 +77,7 @@ export const GetUserInfo = (): Promise<User> =>
 
 /* 결제하기 */
 export const PostDeposit = async (
-  req: PaymentData | BalanceRequset | null,
+  req: PaymentData | null,
   payFor: string | null
 ) => {
   const url =

@@ -11,7 +11,7 @@ const ProductDetail = ({
 }) => {
   return (
     <div className="text-sub-black">
-      <div className="flex flex-col gap-[20px]">
+      <div className="flex flex-col gap-[20px] w-[490px]">
         <h2 className="font-bold text-main-color">여행개요</h2>
         <SummaryTable
           productId={info.productCode}
@@ -20,20 +20,20 @@ const ProductDetail = ({
           airline={info.airline}
           minCount={info.minCount}
         />
-        <div className="w-[460px] flex h-fit border border-main-color items-center">
-          <span className="text-[12px] p-[6px] shrink-0 h-full">여행지역</span>
-          <span className="text-[10px] p-[6px] grow border-l border-main-color ">
+        <div className="w-full flex h-fit border border-main-color items-center">
+          <span className="text-[12px] p-[6px] shrink-0">여행지역</span>
+          <span className="text-[10px] p-[6px] grow border-l border-main-color h-full">
             {info.travelRegion}
           </span>
         </div>
-        <div className="w-[460px]">
+        <div className="w-full">
           <h2 className="font-bold text-main-color flex">여행 요금 안내</h2>
           <div className="flex w-full">
             {prices &&
               prices.map((item) => (
                 <PriceInfo
                   key={item.age}
-                  age={item.age}
+                  age={item.label}
                   price={item.surcharge + item.price}
                   surcharge={item.surcharge}
                 />

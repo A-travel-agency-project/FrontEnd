@@ -1,6 +1,6 @@
 export const onlyKorean = (name: string): string => {
   // travelerName 정규식 (한글만 가능)
-  return name.replace(/[^a-zA-Zㄱ-ㅣ가-힣]/g, "");
+  return name.replace(/[^ㄱ-ㅣ가-힣]/g, "");
 };
 
 export const onlyEnglish = (name: string): string => {

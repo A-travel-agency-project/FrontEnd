@@ -30,17 +30,17 @@ const Reservation = () => {
   });
 
   const [finalPriceInfo, setFinalPriceInfo] = useState<PriceInfoData>({
-    성인: {
+    adult: {
       count: 0,
       price: 0,
       totalPrice: 0,
     },
-    아동: {
+    child: {
       count: 0,
       price: 0,
       totalPrice: 0,
     },
-    유아: {
+    infant: {
       count: 0,
       price: 0,
       totalPrice: 0,
@@ -103,29 +103,30 @@ const Reservation = () => {
     });
   };
 
-  const handleChangeAge = (pickedAge: string, realAge: string) => {
+  const handleChangeAge = (
+    pickedAge: "adult" | "child" | "infant",
+    realAge: "adult" | "child" | "infant"
+  ) => {
     setFinalPriceInfo((prev) => {
       const newPriceInfo = structuredClone(prev);
       return {
         ...newPriceInfo,
         [pickedAge]: {
-          ...newPriceInfo[pickedAge as "성인" | "아동" | "유아"],
-          count: newPriceInfo[pickedAge as "성인" | "아동" | "유아"].count - 1,
+          ...newPriceInfo[pickedAge],
+          count: newPriceInfo[pickedAge].count - 1,
           totalPrice:
-            newPriceInfo[pickedAge as "성인" | "아동" | "유아"].totalPrice -
-            newPriceInfo[pickedAge as "성인" | "아동" | "유아"].price,
+            newPriceInfo[pickedAge].totalPrice - newPriceInfo[pickedAge].price,
         },
         [realAge]: {
-          ...newPriceInfo[realAge as "성인" | "아동" | "유아"],
-          count: newPriceInfo[realAge as "성인" | "아동" | "유아"].count + 1,
+          ...newPriceInfo[realAge],
+          count: newPriceInfo[realAge].count + 1,
           totalPrice:
-            newPriceInfo[realAge as "성인" | "아동" | "유아"].totalPrice +
-            newPriceInfo[realAge as "성인" | "아동" | "유아"].price,
+            newPriceInfo[realAge].totalPrice + newPriceInfo[realAge].price,
         },
         totalPay:
           newPriceInfo.totalPay -
-          newPriceInfo[pickedAge as "성인" | "아동" | "유아"].price +
-          newPriceInfo[realAge as "성인" | "아동" | "유아"].price,
+          newPriceInfo[pickedAge].price +
+          newPriceInfo[realAge].price,
       };
     });
   };
@@ -159,9 +160,9 @@ const Reservation = () => {
             orderId: "",
             paymentKey: "",
             productId: `${productInfo.productId}`,
-            adultCount: finalPriceInfo["성인"].count,
-            childCount: finalPriceInfo["아동"].count,
-            infantCount: finalPriceInfo["유아"].count,
+            adultCount: finalPriceInfo["adult"].count,
+            childCount: finalPriceInfo["child"].count,
+            infantCount: finalPriceInfo["infant"].count,
             totalCount: finalPriceInfo.totalCount,
             totalPrice: finalPriceInfo.totalPay,
             travelerInfoList: Object.values(travelerInfoList),

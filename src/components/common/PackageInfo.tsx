@@ -36,7 +36,7 @@ const PackageInfo = ({
         </div>
       </div>
       <div
-        className={`flex gap-x-[10px] text-[12px] font-light flex-wrap h-fit mt-[13px] ${
+        className={`flex gap-x-[10px] text-[14px] font-light flex-wrap h-fit mt-[13px] ${
           page === "traveldetail" ? "justify-start" : "justify-end"
         } `}
       >

@@ -15,14 +15,16 @@ const PaymentCheckout = () => {
 
   const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
 
-  const payFor = "productId" in paymentInfo ? "deposit" : "balance";
+  const payFor = paymentInfo.productId !== undefined ? "deposit" : "balance";
 
-  const orderId = paymentInfo.productId
-    ? `IMOM_PI${paymentInfo.productId}_DT${new Date().getTime()}`
-    : `IMOM_FULL${paymentInfo.amount}_DT${new Date().getTime()}`;
+  const orderId =
+    paymentInfo.productId !== undefined
+      ? `IMOM_PI${paymentInfo.productId}_DT${new Date().getTime()}`
+      : `IMOM_FULL${paymentInfo.amount}_DT${new Date().getTime()}`;
 
   console.log(paymentInfo);
   console.log(tossPaymentInfo);
+  console.log(paymentInfo.prductId);
 
   useEffect(() => {
     (async () => {

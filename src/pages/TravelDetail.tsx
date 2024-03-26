@@ -54,41 +54,26 @@ const TravelDetail = () => {
     setShowProductInfo(() => id);
   };
 
-  const prices: Prices[] = detailData
-    ? [
-        {
-          age: "성인",
-          price: detailData?.productInfo?.adultPrice,
-          surcharge: detailData?.productInfo?.adultSurcharge,
-        },
-        {
-          age: "아동",
-          price: detailData?.productInfo?.childPrice,
-          surcharge: detailData?.productInfo?.childSurcharge,
-        },
-        {
-          age: "유아",
-          price: detailData?.productInfo?.infantPrice,
-          surcharge: detailData?.productInfo?.infantSurcharge,
-        },
-      ]
-    : [
-        {
-          age: "성인",
-          price: 0,
-          surcharge: 0,
-        },
-        {
-          age: "아동",
-          price: 0,
-          surcharge: 0,
-        },
-        {
-          age: "유아",
-          price: 0,
-          surcharge: 0,
-        },
-      ];
+  const prices: Prices[] = [
+    {
+      label: "성인",
+      age: "adult",
+      price: detailData?.productInfo?.adultPrice || 0,
+      surcharge: detailData?.productInfo?.adultSurcharge || 0,
+    },
+    {
+      label: "아동",
+      age: "child",
+      price: detailData?.productInfo?.childPrice || 0,
+      surcharge: detailData?.productInfo?.childSurcharge || 0,
+    },
+    {
+      label: "유아",
+      age: "infant",
+      price: detailData?.productInfo?.infantPrice || 0,
+      surcharge: detailData?.productInfo?.infantSurcharge || 0,
+    },
+  ];
 
   const reservationInfo = detailData
     ? {

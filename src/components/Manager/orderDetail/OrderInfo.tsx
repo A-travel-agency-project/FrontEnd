@@ -137,8 +137,6 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
     });
   }, [data]);
 
-  console.log(data.additionalPrice, data.memo, data.orderState);
-
   return (
     <div className="text-sub-black flex flex-col gap-[32px] text-[14px]">
       {role === "admin" && (

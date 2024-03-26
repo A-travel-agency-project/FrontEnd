@@ -1,17 +1,17 @@
-import { ReservationInfo } from "./product";
+import { Prices, ReservationInfo } from "./product";
 
 export type PriceInfoData = {
-  성인: {
+  adult: {
     count: number;
     price: number;
     totalPrice: number;
   };
-  아동: {
+  child: {
     count: number;
     price: number;
     totalPrice: number;
   };
-  유아: {
+  infant: {
     count: number;
     price: number;
     totalPrice: number;
@@ -21,11 +21,7 @@ export type PriceInfoData = {
 };
 
 export type ReservationBoxProps = {
-  prices: {
-    age: "성인" | "아동" | "유아";
-    price: number;
-    surcharge: number;
-  }[];
+  prices: Prices[];
   maxCount: number;
   nowCount: number;
   info: ReservationInfo;

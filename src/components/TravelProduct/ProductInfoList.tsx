@@ -22,7 +22,7 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
     offset: 0,
     limit: 5,
   });
-  const { mutate, data, isError, error } = usePostProducts(request);
+  const { mutate, data, isPending, isError, error } = usePostProducts(request);
   const [tableData, setTableData] = useState<ProductListInfo[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [hasSchedule, setHasSchedule] = useState(false);
@@ -81,6 +81,9 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
 
   if (isError) {
     return <div>에러 발생: {error?.message}</div>;
+  }
+  if (isPending) {
+    return;
   }
   if (!hasSchedule) {
     return <div>추후 일정 업데이트 예정입니다.</div>;

@@ -14,6 +14,7 @@ import "./TravelerInfoForm.css";
 import { calculateAge } from "../../utils/calculateAge";
 
 const TravelerInfoForm = ({
+  age,
   role,
   travelerId,
   isRepresentative,
@@ -22,6 +23,7 @@ const TravelerInfoForm = ({
   startDate,
   handleChangeSort,
 }: {
+  age: "adult" | "child" | "infant";
   role: string;
   travelerId: string;
   isRepresentative: boolean;
@@ -35,7 +37,8 @@ const TravelerInfoForm = ({
   handleChangeSort: (
     id: string,
     newCategory: string,
-    currentCategory: string
+    newAge: "adult" | "child" | "infant",
+    currentAge: "adult" | "child" | "infant"
   ) => void;
 }) => {
   const [info, setInfo] = useState({
@@ -57,7 +60,7 @@ const TravelerInfoForm = ({
   const handleSameAsUser = (checked: boolean) => {
     if (checked && userInfo) {
       // 성인 여부 확인
-      if (calculateAge(userInfo.birth, startDate) === "성인") {
+      if (calculateAge(userInfo.birth, startDate)[0] === "성인") {
         setSameAsUserInfo(true);
         const newInfo = {
           travelerName: userInfo.userName,
@@ -75,7 +78,7 @@ const TravelerInfoForm = ({
         const timeoutId = setTimeout(() => setAnimationTrigger(false), 1000);
         return () => clearTimeout(timeoutId);
       }
-      if (calculateAge(userInfo.birth, startDate) !== "성인") {
+      if (calculateAge(userInfo.birth, startDate)[0] !== "성인") {
         alert(WRONG_AGE_MESSAGES[role as keyof typeof WRONG_AGE_MESSAGES]);
         return;
       }
@@ -91,6 +94,7 @@ const TravelerInfoForm = ({
         phoneNumber: "",
         representative: isRepresentative,
       };
+      setInputBirth("");
       setInfo(() => ({ ...newInfo }));
       handleTravelerInfo(travelerId, newInfo);
     }
@@ -105,18 +109,24 @@ const TravelerInfoForm = ({
 
   const handleBirth = (id: keyof travelerInfo, date: string) => {
     const pickedRole = role === "대표1인" ? "성인" : role;
-    setInputBirth(date);
     if (date.length < 10) return;
     if (checkValidDate(date)) {
       const realRole = calculateAge(date, startDate);
-      if (realRole !== pickedRole) {
+      if (realRole[0] !== pickedRole) {
         if (role === "대표1인") {
           alert(WRONG_AGE_MESSAGES[role]);
           setInputBirth("");
         } else {
-          const changeAge = confirm(WRONG_AGE_MESSAGES[realRole]);
+          const changeAge = confirm(
+            WRONG_AGE_MESSAGES[realRole[0] as keyof typeof WRONG_AGE_MESSAGES]
+          );
           if (changeAge) {
-            handleChangeSort(travelerId, realRole, role);
+            handleChangeSort(
+              travelerId,
+              realRole[0],
+              age,
+              realRole[1] as "adult" | "child" | "infant"
+            );
             setInfo((prev) => {
               const updatedInfo = { ...prev, [id]: date };
               return updatedInfo;
@@ -132,7 +142,7 @@ const TravelerInfoForm = ({
             setInputBirth("");
           }
         }
-      } else if (realRole === pickedRole) {
+      } else if (realRole[0] === pickedRole) {
         setInfo((prev) => {
           const updatedInfo = { ...prev, [id]: date };
           return updatedInfo;
