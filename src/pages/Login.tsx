@@ -24,7 +24,9 @@ const Login = () => {
         })
         .then((res) => {
           if (res.status === 200) {
+            console.log(res.data);
             setLoginCheck(true);
+            window.localStorage.setItem("role", res.data.data.role);
             window.localStorage.setItem("token", res.data.data.accessToken);
             window.localStorage.setItem(
               "refreshToken",
