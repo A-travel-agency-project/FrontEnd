@@ -48,6 +48,10 @@ const PaymentInfoBox = ({
                       key as keyof typeof info
                     ] as keyof typeof PAYMENY_STATUS
                   ]
+                : key === "totalAmount"
+                ? `${amountFormat(
+                    Number(info[key as keyof typeof info] as string)
+                  )} 원`
                 : (info[key as keyof typeof info] as string)
             }
             rowStyle="min-w-fit border-b border-sub-black"
@@ -84,7 +88,11 @@ const PaymentInfoBox = ({
                         }
                       </span>
                       <span>:</span>
-                      <span>{value}</span>
+                      <span>
+                        {key === "amount" || key === "discountAmount"
+                          ? `${amountFormat(+value)} 원`
+                          : value}
+                      </span>
                     </div>
                   )
               )}
@@ -107,14 +115,8 @@ const PaymentInfoBox = ({
                       </span>
                       <span>:</span>
                       <span>
-                        {value &&
-                        (DETAIL_CATEGORIES[
-                          key as keyof typeof DETAIL_CATEGORIES
-                        ] === "결제금액" ||
-                          DETAIL_CATEGORIES[
-                            key as keyof typeof DETAIL_CATEGORIES
-                          ] === "간편결제사 할인금액")
-                          ? amountFormat(+value)
+                        {value && key === "amount"
+                          ? `${amountFormat(+value)} 원`
                           : value}
                       </span>
                     </div>
@@ -141,7 +143,11 @@ const PaymentInfoBox = ({
                         }
                       </span>
                       <span>:</span>
-                      <span>{value}</span>
+                      <span>
+                        {key === "amount" || key === "taxFreeAmount"
+                          ? `${amountFormat(+value)} 원`
+                          : value}
+                      </span>
                     </div>
                   )
               )}
@@ -167,7 +173,13 @@ const PaymentInfoBox = ({
                           }
                         </span>
                         <span>:</span>
-                        <span>{value}</span>
+                        <span>
+                          {key === "cancelAmount" || key === "refundableAmount"
+                            ? value
+                              ? `${amountFormat(+value)} 원`
+                              : `0 원`
+                            : value}
+                        </span>
                       </div>
                     )
                 )
