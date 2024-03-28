@@ -43,7 +43,7 @@ const Banner = () => {
             data-imageurl={item.imageUrl}
             style={{ backgroundImage: `url(${item.imageUrl})` }}
           >
-            <a href={item.link} target="_blank" className="h-full block" />
+            <a href={item.link} className="h-full block" />
           </SwiperSlide>
         ))}
       </Swiper>
