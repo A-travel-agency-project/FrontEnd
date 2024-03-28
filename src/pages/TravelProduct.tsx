@@ -1,5 +1,5 @@
 const TravelProduct = () => {
-  return <>여행상품페이지</>;
+  return <div>여행상품페이지</div>;
 };
 
 export default TravelProduct;
