@@ -51,8 +51,11 @@ const Login = () => {
   };
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="flex flex-col justify-center h-full items-center lg:w-[500px]">
-        <img src="/subLogo.svg" />
+      <div className="flex flex-col justify-center h-full items-center sm:w-[300px] md:w-[400px] lg:w-[500px]">
+        <img
+          src="/subLogo.svg"
+          className="sm:w-[200px] md:w-[300px] lg:w-[400px]"
+        />
         <LoginInput
           placeholder={"이메일 계정"}
           setState={setId}
