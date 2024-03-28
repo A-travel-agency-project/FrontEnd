@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import OrderDetailBtn from "./OrderDetailBtn";
 import TableHeader from "./TableHeader";
-import ManagerTitle from "../ManagerTitle";
-import CustomRadioBtn from "../../Reservation/CustomRadionbtn";
+import ManagerTitle from "../../Manager/ManagerTitle";
+import CustomRadioBtn from "../CustomRadionbtn";
 import usePostSpecialAmount from "../../../queries/orders/usePostSpecialAmount";
 import { onlyNumber } from "../../../utils/validationUtils";
 

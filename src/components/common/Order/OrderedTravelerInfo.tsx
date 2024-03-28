@@ -8,7 +8,7 @@ import {
   onlyKorean,
   phoneNumberFormat,
 } from "../../../utils/validationUtils";
-import CustomRadioBtn from "../../Reservation/CustomRadionbtn";
+import CustomRadioBtn from "../CustomRadionbtn";
 import OrderDetailBtn from "./OrderDetailBtn";
 import { calculateAge } from "../../../utils/calculateAge";
 import {
@@ -83,10 +83,10 @@ const OrderedTravelerInfo = ({
           ? handleEdit(
               id,
               travelerInfo,
-              calculateAge(birth, startDate),
-              calculateAge(data.birth, startDate)
+              calculateAge(birth, startDate)[0],
+              calculateAge(data.birth, startDate)[0]
             )
-          : handleEdit(id, travelerInfo, calculateAge(birth, startDate));
+          : handleEdit(id, travelerInfo, calculateAge(birth, startDate)[0]);
       } else {
         alert("필수 여행자정보를 모두 기입해주세요.");
         return;
@@ -100,7 +100,7 @@ const OrderedTravelerInfo = ({
       handleDelete(
         id,
         travelerInfo.travelerName,
-        calculateAge(data.birth, startDate)
+        calculateAge(data.birth, startDate)[0]
       );
     }
   };
@@ -118,11 +118,15 @@ const OrderedTravelerInfo = ({
   useEffect(() => {
     if (data.birth !== birth && birth.length === 10) {
       if (checkValidDate(birth) && startDate) {
-        const changedRole = calculateAge(birth, startDate); // 바뀌는 나이 카테고리
-        const orderedRole = calculateAge(data.birth, startDate);
+        const changedRole = calculateAge(birth, startDate)[0]; // 바뀌는 나이 카테고리
+        const orderedRole = calculateAge(data.birth, startDate)[0];
         if (orderedRole !== changedRole) {
           // 나이 카테고리가 변경되어야 할 시
-          const changeAge = confirm(WRONG_AGE_MESSAGES[changedRole]);
+          const changeAge = confirm(
+            WRONG_AGE_MESSAGES[
+              changedRole[0] as keyof typeof WRONG_AGE_MESSAGES
+            ]
+          );
           if (changeAge) {
             setTravlerInfo((prev) => ({ ...prev, birth: birth }));
           } else if (!changeAge) {

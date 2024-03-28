@@ -39,7 +39,6 @@ const PaymentCheckout = () => {
       );
 
       paymentWidgetRef.current = paymentWidget;
-      setPaymentWidgetLoaded(true);
       sessionStorage.setItem(
         "paymentInfo",
         CryptoJS.AES.encrypt(
@@ -47,6 +46,7 @@ const PaymentCheckout = () => {
           import.meta.env.VITE_TOSS_CLIENTKEY
         ).toString()
       ); // 세션스토리지에 여행자 정보를 암호화해서 저장
+      setPaymentWidgetLoaded(true);
     })();
   }, [paymentInfo]);
 
@@ -55,29 +55,30 @@ const PaymentCheckout = () => {
       <h1 className="text-center text-[20px] pb-[20px]">
         결제 금액 {amountFormat(+paymentInfo.amount)}원
       </h1>
-      <div id="payment-widget" />
-      {paymentWidgetLoaded && (
-        <button
-          onClick={async () => {
-            const paymentWidget = paymentWidgetRef.current;
-            try {
-              await paymentWidget?.requestPayment({
-                orderId: orderId,
-                orderName: tossPaymentInfo.packageName,
-                customerName: tossPaymentInfo.userName,
-                customerEmail: tossPaymentInfo.email,
-                successUrl: `${window.location.href}/success?payFor=${payFor}`,
-                failUrl: `${window.location.origin}/fail`,
-              });
-            } catch (err) {
-              console.log(err);
-            }
-          }}
-          className="px-[50px] py-[10px] bg-main-color rounded-[9px] text-white flex self-center"
-        >
-          결제하기
-        </button>
-      )}
+      <div id="payment-widget">
+        {paymentWidgetLoaded && (
+          <button
+            onClick={async () => {
+              const paymentWidget = paymentWidgetRef.current;
+              try {
+                await paymentWidget?.requestPayment({
+                  orderId: orderId,
+                  orderName: tossPaymentInfo.packageName,
+                  customerName: tossPaymentInfo.userName,
+                  customerEmail: tossPaymentInfo.email,
+                  successUrl: `${window.location.href}/after/success?payFor=${payFor}`,
+                  failUrl: `${window.location.href}/after/fail`,
+                });
+              } catch (err) {
+                console.log(err);
+              }
+            }}
+            className="px-[50px] py-[10px] bg-main-color rounded-[9px] text-white flex self-center"
+          >
+            결제하기
+          </button>
+        )}
+      </div>
     </div>
   );
 };

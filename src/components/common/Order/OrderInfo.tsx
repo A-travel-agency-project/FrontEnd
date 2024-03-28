@@ -4,7 +4,7 @@ import {
   ORDER_INFO_CATEGORIES,
 } from "../../../constants/managerdata";
 import { OrderInfoData, TravelerInfoData } from "../../../types/manager";
-import ManagerTitle from "../ManagerTitle";
+import ManagerTitle from "../../Manager/ManagerTitle";
 import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
 import TravelerCountBox from "./TravelerCountBox";

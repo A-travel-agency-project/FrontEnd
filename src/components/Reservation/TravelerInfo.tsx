@@ -70,7 +70,6 @@ const TravelerInfo = ({
         ? { ...traveler, category: newCategory, age: newAge }
         : traveler
     );
-
     // 카테고리 순으로 재정렬: 성인, 아동, 유아
     const sortedTravelers = updatedTravelers.sort((a, b) => {
       const order = { 성인: 1, 아동: 2, 유아: 3 };
@@ -79,8 +78,7 @@ const TravelerInfo = ({
         order[b.category as keyof typeof order]
       );
     });
-
-    handleChangeAge(newAge, currentAge);
+    handleChangeAge(currentAge, newAge);
     setTravelers(sortedTravelers);
   };
 

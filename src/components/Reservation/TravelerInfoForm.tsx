@@ -7,7 +7,7 @@ import {
   onlyKorean,
   phoneNumberFormat,
 } from "../../utils/validationUtils";
-import CustomRadioBtn from "./CustomRadionbtn";
+import CustomRadioBtn from "../common/CustomRadionbtn";
 import { WRONG_AGE_MESSAGES } from "../../constants/travelerdata";
 import "./TravelerInfoForm.css";
 import { calculateAge } from "../../utils/calculateAge";
@@ -98,7 +98,6 @@ const TravelerInfoForm = ({
       const priceValue = priceInfo[realRole[1] as keyof typeof priceInfo];
       const isAbleToChange =
         typeof priceValue !== "number" && priceValue.price !== 0;
-      console.log(isAbleToChange);
       if (realRole[0] !== pickedRole && isAbleToChange) {
         if (role === "대표1인") {
           alert(WRONG_AGE_MESSAGES[role]);
@@ -111,8 +110,8 @@ const TravelerInfoForm = ({
             handleChangeSort(
               travelerId,
               realRole[0],
-              age,
-              realRole[1] as "adult" | "child" | "infant"
+              realRole[1] as "adult" | "child" | "infant",
+              age
             );
             setInfo((prev) => {
               const updatedInfo = { ...prev, [id]: date };

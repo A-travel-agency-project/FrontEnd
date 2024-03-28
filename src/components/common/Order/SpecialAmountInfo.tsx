@@ -1,4 +1,4 @@
-import ManagerTitle from "../ManagerTitle";
+import ManagerTitle from "../../Manager/ManagerTitle";
 
 const SpecialAmountInfo = () => {
   return (

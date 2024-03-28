@@ -1,5 +1,5 @@
 import { travelerInfo } from "../../types/reservation";
-import "./TravelerInfoForm.css";
+import "../Reservation/TravelerInfoForm.css";
 
 const CustomRadioBtn = ({
   label,

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useGetPaymentInfo from "../../../queries/orders/useGetPaymentInfo";
-import ManagerTitle from "../ManagerTitle";
+import ManagerTitle from "../../Manager/ManagerTitle";
 import PaymentInfoBox from "./PaymentInfoBox";
 import TableRow from "./TableRow";
 import { amountFormat } from "../../../utils/amountFormat";

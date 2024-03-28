@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetUserOrderInfo from "../queries/orders/useGetUserOrderInfo";
-import CategoryBtns from "../components/TravelDetail/CategoryBtns";
+import CategoryBtns from "../components/common/CategoryBtns";
 import { ORDER_DETAIL_CATEGORIES } from "../constants/managerdata";
 import OrderedAmount from "../components/common/Order/OrderedAmount";
-import OrderInfo from "../components/Manager/orderDetail/OrderInfo";
-import PaymentInfo from "../components/Manager/orderDetail/PaymentInfo";
+import OrderInfo from "../components/common/Order/OrderInfo";
+import PaymentInfo from "../components/common/Order/PaymentInfo";
 
 const OrderConfirm = () => {
   const { orderId } = useParams();
@@ -42,7 +42,7 @@ const OrderConfirm = () => {
           imomOrderId: data?.imomOrderId,
         },
         tossPaymentInfo: {
-          email: "",
+          email: data?.email,
           userName: data?.reserveUser,
           packageName: data?.packageName,
         },

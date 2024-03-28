@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ScheduleList from "../components/TravelDetail/ScheduleList";
 import ScheduleInfo from "../components/TravelDetail/ScheduleInfo";
-import CategoryBtns from "../components/TravelDetail/CategoryBtns";
+import CategoryBtns from "../components/common/CategoryBtns";
 import ProductInfo from "../components/TravelDetail/ProductInfo";
 import PackageDetail from "../components/TravelDetail/PackageDetail";
 import ProductDetail from "../components/TravelDetail/ProductDetail";
