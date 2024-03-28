@@ -127,6 +127,7 @@ const OrderManager = () => {
   };
 
   const handlePageClick = (selected: number) => {
+    console.log(selected);
     setOrderReq((prev) => ({
       ...prev,
       offset: selected,
@@ -255,7 +256,6 @@ const OrderManager = () => {
       sortable: false,
     },
   ];
-  console.log(excelData);
 
   return (
     <div className="w-full flex flex-col gap-[27px] mr-20 items-center min-w-fit">
@@ -356,6 +356,7 @@ const OrderManager = () => {
           <CustomPagination
             totalPage={totalPages}
             handlePageClick={handlePageClick}
+            forcePage={orderReq.offset >= 0 ? orderReq.offset : 0}
           />
         </section>
       )}
