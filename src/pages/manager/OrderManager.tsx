@@ -183,7 +183,7 @@ const OrderManager = () => {
       packageId: null, // 패키지명 드롭다운
       country: null,
       orderState: null,
-      userNameOrder: null, //
+      userNameOrder: null,
       order: null, // 주문일시 오름차순 : 0 , 내림차순 : 1
       start: null, // 출발일 오름차순 : 0 , 내림차순 : 1
       type: "", // 검색어 타입

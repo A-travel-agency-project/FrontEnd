@@ -5,16 +5,15 @@ import ManagerTitle from "../../Manager/ManagerTitle";
 import CustomRadioBtn from "../CustomRadionbtn";
 import usePostSpecialAmount from "../../../queries/orders/usePostSpecialAmount";
 import { onlyNumber } from "../../../utils/validationUtils";
+import { FluctuationInfos } from "../../../types/manager";
 
 const SpecialAmount = ({
   orderId,
-  additionalPrice,
-  memo,
+  specialAmount,
   orderState,
 }: {
   orderId: string;
-  additionalPrice: number;
-  memo: string;
+  specialAmount: FluctuationInfos;
   orderState: string;
 }) => {
   const [editAmount, setEditAmount] = useState(false);
@@ -28,17 +27,17 @@ const SpecialAmount = ({
   const { mutate } = usePostSpecialAmount(amount);
 
   useEffect(() => {
-    if (orderId || additionalPrice || memo) {
+    if (orderId || specialAmount.changedPrice || specialAmount.memo) {
       setAmount({
         imomOrderId: orderId,
-        additionalPrice: additionalPrice,
-        memo: memo,
+        additionalPrice: specialAmount.changedPrice,
+        memo: specialAmount.memo,
       });
     }
-    if (additionalPrice < 0) {
+    if (specialAmount.changedPrice < 0) {
       setAmountType("할인금");
     }
-  }, [orderId, additionalPrice, memo]);
+  }, [orderId, specialAmount]);
 
   const handleAmount = (role?: string) => {
     if (role) {
@@ -46,10 +45,10 @@ const SpecialAmount = ({
         ? mutate()
         : setAmount({
             imomOrderId: orderId,
-            additionalPrice: additionalPrice,
-            memo: memo,
+            additionalPrice: specialAmount.changedPrice,
+            memo: specialAmount.memo,
           });
-      setAmountType(additionalPrice >= 0 ? "추가금" : "할인금");
+      setAmountType(specialAmount.changedPrice >= 0 ? "추가금" : "할인금");
     }
     setEditAmount(!editAmount);
   };

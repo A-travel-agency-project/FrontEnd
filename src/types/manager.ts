@@ -55,13 +55,19 @@ export interface OrderInfoData extends OrderCount {
   payedPrice: number;
   balance: number;
   travelerInfos: TravelerInfoData[];
-  additionalPrice?: number;
-  memo?: string;
   birth?: string;
   email?: string;
   gender?: string;
   orderState?: string;
   phoneNumber?: string;
+  fluctuationInfos?: FluctuationInfos[];
+}
+
+export interface FluctuationInfos {
+  changedPrice: number;
+  memo: string;
+  totalPriceSnapshot: number;
+  balanceSnapshot: number;
 }
 
 export interface TravelerInfoData {

@@ -1,3 +1,5 @@
+import { amountFormat } from "./amountFormat";
+
 export const onlyKorean = (name: string): string => {
   if (name && !/^[ㄱ-ㅣ가-힣]+$/.test(name)) {
     alert("한글로 입력해주세요.");
@@ -19,6 +21,13 @@ export const onlyNumber = (num: string): number => {
     alert("숫자로 입력해주세요.");
   }
   return Number(num.replace(/[^0-9]/g, ""));
+};
+
+export const onlyAmount = (num: string): string => {
+  if (num && !/^[0-9,]*$/.test(num)) {
+    alert("숫자로 입력해주세요.");
+  }
+  return amountFormat(Number(num.replace(/[^0-9]/g, "")));
 };
 
 export const phoneNumberFormat = (num: string): string => {

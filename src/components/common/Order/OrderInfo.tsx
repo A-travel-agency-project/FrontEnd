@@ -143,8 +143,16 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
         <div>
           <SpecialAmount
             orderId={data.imomOrderId}
-            additionalPrice={data.additionalPrice ?? 0}
-            memo={data.memo ?? ""}
+            specialAmount={
+              data.fluctuationInfos?.length
+                ? data.fluctuationInfos[data.fluctuationInfos.length - 1]
+                : {
+                    changedPrice: 0,
+                    memo: "",
+                    totalPriceSnapshot: 0,
+                    balanceSnapshot: 0,
+                  }
+            }
             orderState={data.orderState ?? ""}
           />
         </div>

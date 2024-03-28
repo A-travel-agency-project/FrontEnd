@@ -5,8 +5,17 @@ import PaymentInfoBox from "./PaymentInfoBox";
 import TableRow from "./TableRow";
 import { amountFormat } from "../../../utils/amountFormat";
 import SpecialAmountInfo from "./SpecialAmountInfo";
+import { FluctuationInfos } from "../../../types/manager";
 
-const PaymentInfo = ({ idList }: { idList: string[] }) => {
+const PaymentInfo = ({
+  idList,
+  role,
+  specialAmountInfo,
+}: {
+  idList: string[];
+  role: string;
+  specialAmountInfo: FluctuationInfos[];
+}) => {
   const { data, isError, errors } = useGetPaymentInfo(idList);
   const [totalAmount, setTotalAmount] = useState(0);
   console.log(data);
@@ -39,7 +48,9 @@ const PaymentInfo = ({ idList }: { idList: string[] }) => {
         content={`${amountFormat(totalAmount)} 원`}
         rowStyle="border-y border-sub-black"
       />
-      <SpecialAmountInfo />
+      {role === "admin" && (
+        <SpecialAmountInfo specialAmountInfo={specialAmountInfo} />
+      )}
     </div>
   );
 };
