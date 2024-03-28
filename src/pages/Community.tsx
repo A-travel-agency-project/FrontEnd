@@ -1,5 +1,3 @@
-import React from "react";
-
 const Community = () => {
   return <>커뮤니티페이지</>;
 };

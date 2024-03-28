@@ -1,5 +1,3 @@
-import React from "react";
-
 const OrderManager = () => {
   return <>주문관리페이지</>;
 };

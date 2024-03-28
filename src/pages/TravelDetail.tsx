@@ -1,5 +1,3 @@
-import React from "react";
-
 const TravelDetail = () => {
   return <>상품디테일페이지</>;
 };
