@@ -83,10 +83,10 @@ const OrderedTravelerInfo = ({
           ? handleEdit(
               id,
               travelerInfo,
-              calculateAge(birth, startDate)[0],
-              calculateAge(data.birth, startDate)[0]
+              calculateAge(birth, startDate)[1],
+              calculateAge(data.birth, startDate)[1]
             )
-          : handleEdit(id, travelerInfo, calculateAge(birth, startDate)[0]);
+          : handleEdit(id, travelerInfo, calculateAge(birth, startDate)[1]);
       } else {
         alert("필수 여행자정보를 모두 기입해주세요.");
         return;
@@ -123,13 +123,12 @@ const OrderedTravelerInfo = ({
         if (orderedRole !== changedRole) {
           // 나이 카테고리가 변경되어야 할 시
           const changeAge = confirm(
-            WRONG_AGE_MESSAGES[
-              changedRole[0] as keyof typeof WRONG_AGE_MESSAGES
-            ]
+            WRONG_AGE_MESSAGES[changedRole as keyof typeof WRONG_AGE_MESSAGES]
           );
           if (changeAge) {
             setTravlerInfo((prev) => ({ ...prev, birth: birth }));
           } else if (!changeAge) {
+            setBrith("");
             return;
           }
         } else if (orderedRole === changedRole) {

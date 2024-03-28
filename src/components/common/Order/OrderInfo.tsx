@@ -76,13 +76,10 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
     console.log(id);
     if (changedRole && orderedRole && changedRole !== orderedRole) {
       // 추가될 인원 카테고리
-      const plusCategory =
-        COUNT_CATEGORIES[changedRole as keyof typeof COUNT_CATEGORIES];
+      const plusCategory = changedRole + "Count";
 
       // 제거될 인원 카테고리
-      const minusCategory =
-        COUNT_CATEGORIES[orderedRole as keyof typeof COUNT_CATEGORIES];
-
+      const minusCategory = orderedRole + "Count";
       // 인원 변경
       setTravelerCount((prev) => ({
         ...prev,
@@ -91,8 +88,7 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
       }));
     } else if (changedRole && !orderedRole) {
       // 추가될 인원 카테고리
-      const plusCategory =
-        COUNT_CATEGORIES[changedRole as keyof typeof COUNT_CATEGORIES];
+      const plusCategory = changedRole + "Count";
 
       // 인원 변경
       setTravelerCount((prev) => ({
