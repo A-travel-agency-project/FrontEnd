@@ -8,15 +8,15 @@ const Main = () => {
   return (
     <div className="w-full h-auto flex flex-col items-center gap-[48px]">
       <Banner />
-      <section className="flex items-start w-[850px] gap-[24px] flex-col">
+      <section className="flex items-center max-w-[850px] gap-[24px] flex-col max-xsm:max-w-[375px] max-xsm:gap-[8px]">
         <SectionTitle title={"어디로 가볼까요?"} />
         <Map />
       </section>
-      <section className="flex items-start w-[850px] gap-[8px] flex-col">
+      <section className="flex items-center max-w-[850px] gap-[8px] flex-col max-xsm:max-w-[375px]">
         <SectionTitle title={"어떤 여행을 희망하세요?"} />
         <FilterBox />
       </section>
-      <section className="flex items-start w-[850px] gap-[20px] flex-col">
+      <section className="flex items-center max-w-[850px] gap-[20px] flex-col max-xsm:max-w-[375px] max-xsm:gap-[8px] max-xsm:pl-[20px]">
         <SectionTitle title={"여행박사의 mom편한 여행 꿀팁"} />
         <BlogBox />
       </section>

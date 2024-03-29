@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { GetBanner } from "../../api/api";
 
-const useGetBanners = () => {
+const useGetBanners = (view: string) => {
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["getBanners"],
-    queryFn: GetBanner,
+    queryKey: ["getBanners", view],
+    queryFn: () => GetBanner(view),
     refetchOnWindowFocus: false,
     retry: false,
   });
