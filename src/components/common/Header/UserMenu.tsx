@@ -4,7 +4,9 @@ import { loginCheck, userChildName } from "../../../atom/atom";
 import userInstance from "../../../api/userInstance";
 const UserMenu = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginCheck);
-  const isAdmin = window.localStorage.getItem("admin") ? true : false;
+  const isAdmin =
+    window.localStorage.getItem("role") === "ROLE_ADMIN" ? true : false;
+  console.log(window.localStorage.getItem("role"));
   const resetName = useResetRecoilState(userChildName);
 
   const handleLogoutClick = () => {
@@ -16,7 +18,7 @@ const UserMenu = () => {
             setIsLogin(false);
             window.localStorage.removeItem("token");
             window.localStorage.removeItem("refreshToken");
-            window.localStorage.removeItem("admin");
+            window.localStorage.removeItem("role");
             resetName();
             alert("로그아웃 완료!");
           }
@@ -35,7 +37,19 @@ const UserMenu = () => {
         </div>
       ) : (
         <div className="flex items-center justify-center text-[10px] text-sub-black gap-[12px]">
-          {isAdmin && (
+          {!isAdmin ? (
+            <Link
+              to={"/editmember"}
+              className="flex justify-center flex-col items-center"
+            >
+              <img
+                src="/submypage.svg"
+                alt="mypage"
+                className="w-[30px] h-[30px]"
+              />
+              마이페이지
+            </Link>
+          ) : (
             <Link
               to={"/mainmanager"}
               className="flex justify-center flex-col items-center"
@@ -48,17 +62,6 @@ const UserMenu = () => {
               관리자페이지
             </Link>
           )}
-          <Link
-            to={"/editmember"}
-            className="flex justify-center flex-col items-center"
-          >
-            <img
-              src="/submypage.svg"
-              alt="mypage"
-              className="w-[30px] h-[30px]"
-            />
-            마이페이지
-          </Link>
           <button
             className="flex justify-center flex-col items-center"
             onClick={handleLogoutClick}
