@@ -1,5 +1,5 @@
 import ManagerTitle from "../../Manager/ManagerTitle";
-import TableRow from "../../Manager/orderDetail/TableRow";
+import TableRow from "./TableRow";
 import { amountFormat } from "../../../utils/amountFormat";
 
 const OrderedAmount = ({

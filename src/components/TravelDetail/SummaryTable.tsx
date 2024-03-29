@@ -34,8 +34,8 @@ const SummaryTable = ({
     <Table
       data={data}
       columns={columns}
-      tableStyle={"w-[460px] text-[10px] text-sub-black"}
-      thStyle={"border-[1px] border-main-color p-[6px]"}
+      tableStyle={"w-[490px] text-[10px] text-sub-black"}
+      thStyle={"border-[1px] border-main-color p-[4px] shrink-0"}
       tbodyStyle={"text-center"}
       tdStyle={"border-[1px] border-main-color p-[6px]"}
     />

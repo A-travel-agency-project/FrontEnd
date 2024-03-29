@@ -26,6 +26,12 @@ const TravelProduct = () => {
     }
     if (category) {
       setCountryClick(category);
+      setTagCheckList({
+        priceList: [],
+        familyList: [],
+        themeList: [],
+        seasonList: [],
+      });
     }
     if (!category) {
       setCountryClick("");
@@ -75,6 +81,13 @@ const TravelProduct = () => {
       />
       <div className="flex flex-col grow max-w-[850px] mr-[12%] items-center">
         <CountryBtns countryClick={countryClick} />
+        <button
+          type="button"
+          className="w-[173px] h-[37px] border-[1px] border-main-color text-[14px] flex items-center justify-center gap-[4px]"
+          onClick={handleResetTags}
+        >
+          전체보기
+        </button>
         <PackageBoxGroup
           setTagSubmit={setTagSubmit}
           tagSubmit={tagSubmit}

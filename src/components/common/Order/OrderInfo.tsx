@@ -4,7 +4,7 @@ import {
   ORDER_INFO_CATEGORIES,
 } from "../../../constants/managerdata";
 import { OrderInfoData, TravelerInfoData } from "../../../types/manager";
-import ManagerTitle from "../ManagerTitle";
+import ManagerTitle from "../../Manager/ManagerTitle";
 import TableHeader from "./TableHeader";
 import TableRow from "./TableRow";
 import TravelerCountBox from "./TravelerCountBox";
@@ -76,13 +76,10 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
     console.log(id);
     if (changedRole && orderedRole && changedRole !== orderedRole) {
       // 추가될 인원 카테고리
-      const plusCategory =
-        COUNT_CATEGORIES[changedRole as keyof typeof COUNT_CATEGORIES];
+      const plusCategory = changedRole + "Count";
 
       // 제거될 인원 카테고리
-      const minusCategory =
-        COUNT_CATEGORIES[orderedRole as keyof typeof COUNT_CATEGORIES];
-
+      const minusCategory = orderedRole + "Count";
       // 인원 변경
       setTravelerCount((prev) => ({
         ...prev,
@@ -91,8 +88,7 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
       }));
     } else if (changedRole && !orderedRole) {
       // 추가될 인원 카테고리
-      const plusCategory =
-        COUNT_CATEGORIES[changedRole as keyof typeof COUNT_CATEGORIES];
+      const plusCategory = changedRole + "Count";
 
       // 인원 변경
       setTravelerCount((prev) => ({
@@ -139,17 +135,23 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
 
   return (
     <div className="text-sub-black flex flex-col gap-[32px] text-[14px]">
-      {data.additionalPrice && data.memo && data.orderState ? (
+      {role === "admin" && (
         <div>
           <SpecialAmount
             orderId={data.imomOrderId}
-            additionalPrice={data.additionalPrice}
-            memo={data.memo}
-            orderState={data.orderState}
+            specialAmount={
+              data.fluctuationInfos?.length
+                ? data.fluctuationInfos[data.fluctuationInfos.length - 1]
+                : {
+                    changedPrice: 0,
+                    memo: "",
+                    totalPriceSnapshot: 0,
+                    balanceSnapshot: 0,
+                  }
+            }
+            orderState={data.orderState ?? ""}
           />
         </div>
-      ) : (
-        <></>
       )}
       <div>
         <ManagerTitle title="주문확인" style="mb-[12px]" />

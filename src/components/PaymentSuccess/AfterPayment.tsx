@@ -2,7 +2,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import usePostDeposit from "../../queries/orders/usePostDeposit";
 import { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
-import { BalanceRequset, PaymentData } from "../../types/payment";
+import { PaymentData } from "../../types/payment";
 
 const AfterPayment = () => {
   const navigate = useNavigate();
@@ -22,9 +22,7 @@ const AfterPayment = () => {
       )
     : null;
 
-  const [requestData, setRequestData] = useState<
-    PaymentData | BalanceRequset | null
-  >(null);
+  const [requestData, setRequestData] = useState<PaymentData | null>(null);
 
   const [progress, setProgress] = useState(1);
 
@@ -63,14 +61,12 @@ const AfterPayment = () => {
 
   useEffect(() => {
     history.pushState(null, "", "");
-    console.log("스택쌓음");
 
     const handleClickBrowserBackBtn = () => {
       console.log("popstate 실행");
       if (progress <= 1) {
         setProgress((prev) => prev + 1);
       } else {
-        console.log("쌓인 스택만큼 제거 루프 실행");
         navigate(+1);
       }
     };

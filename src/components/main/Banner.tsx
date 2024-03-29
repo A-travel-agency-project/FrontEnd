@@ -38,11 +38,13 @@ const Banner = () => {
       >
         {data.map((item) => (
           <SwiperSlide
-            className={`overflow-hiddenw w-full h-[400px] bg-cover bg-no-repeat`}
+            className={`overflow-hiddenw w-full h-[400px] bg-cover bg-no-repeat cursor-pointer bg-center`}
             key={item.imageUrl}
             data-imageurl={item.imageUrl}
             style={{ backgroundImage: `url(${item.imageUrl})` }}
-          ></SwiperSlide>
+          >
+            <a href={item.link} className="h-full block" />
+          </SwiperSlide>
         ))}
       </Swiper>
     </div>

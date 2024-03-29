@@ -109,7 +109,10 @@ function App() {
             <Route path="/tagsmanager" element={<TagsManager />} />
           </Route>
           <Route path="/paymentcheckout" element={<PaymentCheckout />} />
-          <Route path="/paymentcheckout/success" element={<PaymentSuccess />} />
+          <Route
+            path="/paymentcheckout/after/:id"
+            element={<PaymentSuccess />}
+          />
         </Routes>
       </div>
     </QueryClientProvider>

@@ -107,7 +107,7 @@ const Terms = ({
               onChange={(e) => handleCheckClick(e.target.id)}
               checked={checkList.privacy}
             />
-            <label htmlFor="travel" className="pl-[7px]">
+            <label htmlFor="privacy" className="pl-[7px]">
               개인정보 수집 및 이용
             </label>
           </div>

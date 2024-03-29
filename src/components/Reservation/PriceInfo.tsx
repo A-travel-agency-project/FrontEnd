@@ -1,3 +1,4 @@
+import { AGE_CATEGORY } from "../../constants/travelerdata";
 import { PriceInfoData } from "../../types/reservation";
 import SectionTitle from "./SectionTitle";
 
@@ -25,7 +26,8 @@ const PriceInfo = ({
                   className="text-[14px] text-sub-black flex justify-between items-center"
                 >
                   <span>
-                    {key} X {value.count}
+                    {AGE_CATEGORY[key as keyof typeof AGE_CATEGORY]} X{" "}
+                    {value.count}
                   </span>
                   <span className="text-[20px] flex gap-[4px]">
                     {priceFormat(value.totalPrice)}

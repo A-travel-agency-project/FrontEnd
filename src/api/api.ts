@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BlogPost } from "../types/community";
-import { Img } from "../types/img";
+import { BannerImg } from "../types/img";
 import {
   OrderData,
   OrderInfoData,
@@ -9,11 +9,7 @@ import {
   UpdateTravelerReq,
 } from "../types/manager";
 import { Package, PackageName } from "../types/package";
-import {
-  BalanceRequset,
-  OrderedPaymentData,
-  PaymentData,
-} from "../types/payment";
+import { OrderedPaymentData, PaymentData } from "../types/payment";
 import {
   ProductDates,
   ProductDetialInfo,
@@ -21,11 +17,11 @@ import {
   Products,
 } from "../types/product";
 import { TagCheckList, TagDatas } from "../types/tag";
-import { User } from "../types/user";
+import { User, UserChildName } from "../types/user";
 import { baseInstance, userInstance } from "./instance";
 
 /* 배너 이미지 가져오기 */
-export const GetBanner = (): Promise<Img[]> =>
+export const GetBanner = (): Promise<BannerImg[]> =>
   baseInstance.get("/images/banners").then((res) => res.data.data);
 
 /* 태그 목록 가져오기 */
@@ -71,13 +67,17 @@ export const GetTagPackages = (req: TagCheckList): Promise<Package[]> =>
 export const GetCountryPackages = (country: string): Promise<Package[]> =>
   baseInstance.get(`/countries/${country}`).then((res) => res.data.data);
 
+/* 유저 자녀 이름 조회 */
+export const GetUserChildName = (): Promise<UserChildName> =>
+  userInstance.get(`/users/child`).then((res) => res.data.data);
+
 /* 유저 정보 조회 */
 export const GetUserInfo = (): Promise<User> =>
   userInstance.get(`users/mypage`).then((res) => res.data.data);
 
 /* 결제하기 */
 export const PostDeposit = async (
-  req: PaymentData | BalanceRequset | null,
+  req: PaymentData | null,
   payFor: string | null
 ) => {
   const url =
@@ -88,22 +88,27 @@ export const PostDeposit = async (
 
 /* 유저 주문 정보 조회 */
 export const GetUserOrderDetail = (id: string): Promise<OrderInfoData> =>
-  baseInstance.get(`/orders/myinfo/${id}`).then((res) => res.data.data);
+  userInstance.get(`/orders/myinfo/${id}`).then((res) => res.data.data);
 
 /* 관리자 주문 목록 조회 */
-export const PostManagerOrders = (req: OrderRequest): Promise<OrderData> =>
-  baseInstance.post(`/orders`, req).then((res) => res.data.data);
+export const PostManagerOrders = (
+  req: OrderRequest
+): Promise<OrderData> => // 추후 헤더 토큰 넣어서 요청
+  userInstance.post(`/orders`, req).then((res) => res.data.data);
 
 /* 관리자 주문 전체 조회 (엑셀용) */
-export const GetManagerOrders = (): Promise<OrderInfoData[]> =>
-  baseInstance.get(`/orders/excel`).then((res) => res.data.data);
+export const GetManagerOrders = (): Promise<OrderInfoData[]> => // 추후 헤더 토큰 넣어서 요청
+  userInstance.get(`/orders/excel`).then((res) => res.data.data);
 
 /* 관리자 주문 정보 조회 */
-export const GetOrderDetail = (orderId: string): Promise<OrderInfoData> =>
+export const GetOrderDetail = (
+  orderId: string
+): Promise<OrderInfoData> => // 추후 헤더 토큰 넣어서 요청
   userInstance.get(`orders/detail/${orderId}`).then((res) => res.data.data);
 
 /* 관리자 결제 정보 조회 */
 export const GetPaymentInfo = async (
+  // 추후 헤더 토큰 넣어서 요청
   orderId: string
 ): Promise<OrderedPaymentData> => {
   try {
@@ -125,13 +130,16 @@ export const GetPaymentInfo = async (
 };
 
 /* 관리자 추가금 변경 */
-export const PostSpecialAmount = (req: SpecialAmountData) =>
-  baseInstance.post("/orders/update/price", req).then((res) => res.data);
+export const PostSpecialAmount = (
+  req: SpecialAmountData // 추후 헤더 토큰 넣어서 요청
+) => userInstance.post("/orders/update/price", req).then((res) => res.data);
 
 /* 관리자 여행자 정보 변경 */
-export const PostTravelerInfo = (req: UpdateTravelerReq) =>
-  baseInstance.post("/orders/update/travelers", req).then((res) => res.data);
+export const PostTravelerInfo = (
+  req: UpdateTravelerReq // 추후 헤더 토큰 넣어서 요청
+) => userInstance.post("/orders/update/travelers", req).then((res) => res.data);
 
 /* 관리자 주문 취소 */
-export const GetOrderCancel = (id: string) =>
-  baseInstance.get(`/orders/cancel/${id}`).then((res) => res.data);
+export const GetOrderCancel = (
+  id: string // 추후 헤더 토큰 넣어서 요청
+) => userInstance.get(`/orders/cancel/${id}`).then((res) => res.data);

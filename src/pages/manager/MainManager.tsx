@@ -103,7 +103,7 @@ const MainManager = () => {
   };
 
   return (
-    <div className="flex flex-col items-center pl-36 h-full">
+    <div className="flex flex-col items-center pl-36 h-full w-fit">
       <MainTitle title={"메인관리-배너수정"} />
       <ManagerTitleBox name="배너 등록" className="mb-2" />
 

@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { loginCheck } from "../../../atom/atom";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { loginCheck, userChildName } from "../../../atom/atom";
 import userInstance from "../../../api/userInstance";
 const UserMenu = () => {
   const [isLogin, setIsLogin] = useRecoilState(loginCheck);
   const isAdmin =
     window.localStorage.getItem("role") === "ROLE_ADMIN" ? true : false;
   console.log(window.localStorage.getItem("role"));
+  const resetName = useResetRecoilState(userChildName);
 
   const handleLogoutClick = () => {
     if (confirm("로그아웃 하시겠습니까?")) {
@@ -18,6 +19,7 @@ const UserMenu = () => {
             window.localStorage.removeItem("token");
             window.localStorage.removeItem("refreshToken");
             window.localStorage.removeItem("role");
+            resetName();
             alert("로그아웃 완료!");
           }
         })
