@@ -31,7 +31,7 @@ const CountryBtns = ({ countryClick }: { countryClick: string }) => {
   }
   return (
     <div
-      className=" w-full overflow-hidden grid grid-cols-5
+      className="w-full overflow-hidden grid grid-cols-5
     box-border border-[1px] border-main-color rounded-[25px] my-[33px]"
     >
       {fillEmptySpace(data).map((item, idx) => (
