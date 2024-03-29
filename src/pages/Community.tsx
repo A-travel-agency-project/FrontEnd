@@ -36,6 +36,8 @@ const Community = () => {
   const [deleteActive, setDeleteActive] = useState<boolean>(false);
   const [offset, setOffset] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
+  const isAdmin =
+    window.localStorage.getItem("role") === "ROLE_ADMIN" ? true : false;
 
   const handlePageChange = (selected: number) => {
     setOffset(selected);
@@ -211,7 +213,7 @@ const Community = () => {
                   }
                   tdStyle={"py-[14px]"}
                 />
-                {isLogin ? (
+                {isAdmin ? (
                   <div className="flex justify-end w-full">
                     {["삭제하기", "등록하기"].map((el, idx) => (
                       <button
