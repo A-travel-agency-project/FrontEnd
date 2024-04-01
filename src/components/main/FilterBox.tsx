@@ -61,7 +61,8 @@ const FilterBox = () => {
         <div
           className="w-[850px] justify-between h-fit rounded-[40px] flex px-[35px] py-[35px] items-center
         text-sub-black text-[18px] border-main-color border-[2px] tracking-[-0.9px] max-xsm:max-w-[342px] 
-        max-xsm:h-[217px] max-xsm:text-[12px] max-xsm:py-[24px] max-xsm:px-[16px] max-xsm:justify-center max-xsm:rounded-[20px]"
+        max-xsm:h-[217px] max-xsm:text-[12px] max-xsm:py-[24px] max-xsm:px-[16px] max-xsm:justify-center max-xsm:rounded-[20px]
+        max-xsm:w-full"
         >
           <div className="flex flex-col gap-[20px] max-xsm:gap-1 max-xsm:w-full">
             <div className="flex flex-row max-xsm:flex-col max-xsm:gap-[6px]">

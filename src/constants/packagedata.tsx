@@ -39,3 +39,18 @@ export const EMPTY_TABLE_DATA = {
   price: null,
   productState: "",
 };
+
+export const EMPTY_MOBILE_TABLE_DATA = {
+  price: "",
+  dates: null,
+  id: null,
+  detail: null,
+  productId: null,
+  productCode: "",
+  startDate: "",
+  endDate: "",
+  maxCount: null,
+  nowCount: null,
+  airline: "",
+  productState: "",
+};

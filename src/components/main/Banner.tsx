@@ -3,34 +3,12 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 import useGetBanners from "../../queries/imgs/useGetBanners";
-import { useEffect, useState } from "react";
+import { viewSize } from "../../atom/atom";
+import { useRecoilValue } from "recoil";
 
 const Banner = () => {
-  const [viewCategory, setViewCategory] = useState(
-    window.innerWidth <= 375 ? "mobile" : "web"
-  );
-  const { data, isPending, isError, error } = useGetBanners(viewCategory);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 375) {
-        setViewCategory("mobile");
-      } else {
-        setViewCategory("web");
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // 이벤트 리스너 제거
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log(viewCategory);
-  }, [viewCategory]);
+  const viewSizeState = useRecoilValue(viewSize);
+  const { data, isPending, isError, error } = useGetBanners(viewSizeState);
 
   console.log(data);
 

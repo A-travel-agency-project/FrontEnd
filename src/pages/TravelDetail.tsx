@@ -112,7 +112,7 @@ const TravelDetail = () => {
         packageInfo={detailData.packageInfo}
         productInfo={detailData.productInfo}
       />
-      <div className="flex justify-between w-[765px]">
+      <div className="flex justify-between w-[765px] max-xsm:w-full">
         <ProductDetail info={detailData.productInfo} prices={prices} />
         <ReservationBox
           prices={prices}

@@ -10,7 +10,7 @@ const ProductDetail = ({
   prices: Prices[];
 }) => {
   return (
-    <div className="text-sub-black">
+    <div className="text-sub-black max-xsm:w-full">
       <div className="flex flex-col gap-[20px] w-[490px]">
         <h2 className="font-bold text-main-color">여행개요</h2>
         <SummaryTable

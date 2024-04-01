@@ -14,7 +14,10 @@ const PackageDetail = ({
 }) => {
   return (
     <>
-      <div className="w-[750px] flex gap-[33px] mt-[38px]  border-b-[1px] border-main-color pb-[12px]">
+      <div
+        className="w-[750px] flex gap-[33px] mt-[38px]  border-b-[1px] border-main-color pb-[12px]
+      max-xsm:flex-col max-xsm:w-full max-xsm:mx-[16px]"
+      >
         <Thumnails list={packageInfo.thumbnailList ?? []} />
         <div className="flex flex-col mt-[8px]">
           <PackageInfo
