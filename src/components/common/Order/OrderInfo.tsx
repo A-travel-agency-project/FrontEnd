@@ -145,8 +145,10 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
                 : {
                     changedPrice: 0,
                     memo: "",
+                    payedPrice: 0,
                     totalPriceSnapshot: 0,
                     balanceSnapshot: 0,
+                    updateDate: "",
                   }
             }
             orderState={data.orderState ?? ""}

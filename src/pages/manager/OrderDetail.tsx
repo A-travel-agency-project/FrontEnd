@@ -16,12 +16,14 @@ const OrderDetail = () => {
 
   const [idList, setIdList] = useState<string[] | []>([]);
 
-  const [specialAmountInfo, setSpecialAmountInfo] = useState([
+  const [changeHistory, setChangeHistory] = useState([
     {
       changedPrice: 0,
       memo: "",
+      payedPrice: 0,
       totalPriceSnapshot: 0,
       balanceSnapshot: 0,
+      updateDate: "",
     },
   ]);
 
@@ -33,7 +35,7 @@ const OrderDetail = () => {
     if (data) {
       console.log(data);
       setIdList(data.orderNumberList);
-      if (data.fluctuationInfos) setSpecialAmountInfo(data.fluctuationInfos);
+      if (data.fluctuationInfos) setChangeHistory(data.fluctuationInfos);
     }
   }, [data]);
 
@@ -60,7 +62,7 @@ const OrderDetail = () => {
         <PaymentInfo
           idList={idList}
           role={"admin"}
-          specialAmountInfo={specialAmountInfo}
+          changeHistory={changeHistory}
         />
       )}
 

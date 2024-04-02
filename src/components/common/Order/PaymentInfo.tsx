@@ -4,17 +4,17 @@ import ManagerTitle from "../../Manager/ManagerTitle";
 import PaymentInfoBox from "./PaymentInfoBox";
 import TableRow from "./TableRow";
 import { amountFormat } from "../../../utils/amountFormat";
-import SpecialAmountInfo from "./SpecialAmountInfo";
+import AmountChangeHistory from "./AmountChangeHistory";
 import { FluctuationInfos } from "../../../types/manager";
 
 const PaymentInfo = ({
   idList,
   role,
-  specialAmountInfo,
+  changeHistory,
 }: {
   idList: string[];
   role: string;
-  specialAmountInfo: FluctuationInfos[];
+  changeHistory: FluctuationInfos[];
 }) => {
   const { data, isError, errors } = useGetPaymentInfo(idList);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -49,7 +49,7 @@ const PaymentInfo = ({
         rowStyle="border-y border-sub-black"
       />
       {role === "admin" && (
-        <SpecialAmountInfo specialAmountInfo={specialAmountInfo} />
+        <AmountChangeHistory changeHistory={changeHistory} />
       )}
     </div>
   );
