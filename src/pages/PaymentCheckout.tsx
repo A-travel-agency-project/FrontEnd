@@ -59,7 +59,7 @@ const PaymentCheckout = () => {
   }, [paymentInfo]);
 
   return (
-    <div className="w-[650px] h-full py-[100px] flex flex-col justify-center text-sub-black">
+    <div className="w-[650px] h-full py-[100px] flex flex-col justify-center text-sub-black max-xsm:w-full max-xms:h-fit max-xsm:py-[50px]">
       <h1 className="text-center text-[20px] pb-[20px]">
         결제 금액 {amountFormat(+paymentInfo.amount)}원
       </h1>

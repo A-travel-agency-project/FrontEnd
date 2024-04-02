@@ -32,13 +32,15 @@ const CustomRadioBtn = ({
       <div
         className={`border-[1px] border-sub-black rounded-[9999px] 
                 w-[13px] h-[13px] flex justify-center items-center
-                 ${checked && "border-[#007aff]"}`}
+                 ${
+                   checked && "border-[#007aff]"
+                 } max-xsm:w-[10px] max-xsm:h-[10px]`}
       >
         {checked && (
-          <div className="rounded-[9999px] w-[8px] h-[8px] bg-[#007aff]" />
+          <div className="rounded-[9999px] w-[8px] h-[8px] bg-[#007aff] max-xsm:w-[6px] max-xsm:h-[6px]" />
         )}
       </div>
-      <span className={`pl-[5px]`}>{label}</span>
+      <span className={`pl-[5px] max-xsm:text-[10px]`}>{label}</span>
     </div>
   );
 };
