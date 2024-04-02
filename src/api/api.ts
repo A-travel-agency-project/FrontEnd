@@ -67,6 +67,10 @@ export const GetTagPackages = (req: TagCheckList): Promise<Package[]> =>
 export const GetCountryPackages = (country: string): Promise<Package[]> =>
   baseInstance.get(`/countries/${country}`).then((res) => res.data.data);
 
+/* 나라별 소개이미지 가져오기 */
+export const GetCountryImg = (country: string): Promise<string> =>
+  baseInstance.get(`/countries/${country}`).then((res) => res.data.data);
+
 /* 유저 자녀 이름 조회 */
 export const GetUserChildName = (): Promise<UserChildName> =>
   userInstance.get(`/users/child`).then((res) => res.data.data);

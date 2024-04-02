@@ -85,12 +85,13 @@ const TravelProduct = () => {
         <CountryBtns countryClick={countryClick} />
         <button
           type="button"
-          className="w-[173px] h-[37px] border-[1px] border-main-color text-[14px] flex items-center justify-center gap-[4px]"
+          className=" bg-main-color text-[16px] flex gap-[4px]
+          text-[#FFF4E3] px-[22px] py-[4px] rounded-[12px] tracking-[-0.8px]"
           onClick={handleResetTags}
         >
-          전체보기
+          여행지역 초기화
         </button>
-        <CountryInfo />
+        {countryClick !== "" && <CountryInfo country={countryClick} />}
         <PackageBoxGroup
           setTagSubmit={setTagSubmit}
           tagSubmit={tagSubmit}
