@@ -1,6 +1,9 @@
 import MapPin from "/public/map_pin.svg";
 import { COUNTRY_IMG_DATA, COUNTRY_NAME } from "../../constants/mapdata";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { viewSize } from "../../atom/atom";
 
 const CountryImgs = ({
   handleMouseOver,
@@ -21,7 +24,26 @@ const CountryImgs = ({
   islabelFirst?: boolean;
   showImg: string | null;
 }) => {
+  const viewSizeState = useRecoilValue(viewSize);
   const navigate = useNavigate();
+  const [mbLabelWidth, setMbLabelWidth] = useState(0);
+  const [mbSignatureWidth, setMbSignatureWidth] = useState(0);
+
+  useEffect(() => {
+    const labelImg = new Image();
+    labelImg.onload = () => {
+      setMbLabelWidth(labelImg.width * 0.7); // label 이미지의 모바일너비 저장
+    };
+    labelImg.src =
+      COUNTRY_IMG_DATA[country as keyof typeof COUNTRY_IMG_DATA].label;
+    const signatureImg = new Image();
+    signatureImg.onload = () => {
+      setMbSignatureWidth(signatureImg.width * 0.7); // signature 이미지의 모바일너비 저장
+    };
+    signatureImg.src =
+      COUNTRY_IMG_DATA[country as keyof typeof COUNTRY_IMG_DATA].signature;
+  }, [country]);
+
   const handleCountryClick = () => {
     navigate(
       `/travelproduct/${COUNTRY_NAME[country as keyof typeof COUNTRY_NAME]}`
@@ -43,9 +65,16 @@ const CountryImgs = ({
             }
             alt={`${country}Label`}
             className={`${labelStyle}`}
+            style={{
+              width: viewSizeState === "mobile" ? `${mbLabelWidth}px` : "auto",
+            }}
           />
         )}
-        <img src={MapPin} alt={`${country} map pin`} className="w-fit h-fit" />
+        <img
+          src={MapPin}
+          alt={`${country} map pin`}
+          className="max-xsm:w-[8px]"
+        />
         {!islabelFirst && (
           <img
             src={
@@ -53,6 +82,9 @@ const CountryImgs = ({
             }
             alt={`${country}Label`}
             className={`${labelStyle}`}
+            style={{
+              width: viewSizeState === "mobile" ? `${mbLabelWidth}px` : "auto",
+            }}
           />
         )}
       </div>
@@ -63,7 +95,10 @@ const CountryImgs = ({
         alt={`${country}Signature`}
         className={`absolute ${signatureStyle} ${
           showImg !== country && "hidden"
-        }`}
+        } `}
+        style={{
+          width: viewSizeState === "mobile" ? `${mbSignatureWidth}px` : "auto",
+        }}
       />
     </>
   );
