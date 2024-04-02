@@ -17,6 +17,8 @@ import {
   EMPTY_TABLE_DATA,
 } from "../../constants/packagedata";
 import { amountFormat } from "../../utils/amountFormat";
+import { useRecoilValue } from "recoil";
+import { viewSize } from "../../atom/atom";
 
 const ProductInfoList = ({ packageId }: { packageId: number }) => {
   const [request, setRequest] = useState<ProductListRequest>({
@@ -28,26 +30,8 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
   const [tableData, setTableData] = useState<ProductListInfo[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [hasSchedule, setHasSchedule] = useState(false);
-  const [viewCategory, setViewCategory] = useState(
-    window.innerWidth <= 375 ? "mobile" : "web"
-  );
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 375) {
-        setViewCategory("mobile");
-      } else {
-        setViewCategory("web");
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // 이벤트 리스너 제거
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const viewSizeState = useRecoilValue(viewSize);
 
   const columnHelper = createColumnHelper<ProductListInfo>();
   const columns = [
@@ -64,10 +48,13 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
   ];
 
   const mobileColumns = [
-    columnHelper.accessor("productId", { header: "상품번호" }),
-    columnHelper.accessor("dates", {
-      header: "출발~도착일시",
-      cell: ({ row }) => row.original.dates,
+    columnHelper.accessor("startDate", {
+      header: "출발일시",
+      cell: ({ row }) => row.original.startDate,
+    }),
+    columnHelper.accessor("endDate", {
+      header: "도착일시",
+      cell: ({ row }) => row.original.endDate,
     }),
     columnHelper.accessor("airline", { header: "항공" }),
     columnHelper.accessor("price", { header: "가격" }),
@@ -90,17 +77,16 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
   }, [request, mutate]);
 
   useEffect(() => {
-    console.log(viewCategory);
     if (data && data.content.length > 0) {
       setHasSchedule(true);
       setTotalPages(data.totalPages);
-      if (viewCategory === "web") {
+      if (viewSizeState === "web") {
         setTableData(() => {
           const newTableData = data.content.map((item: ProductList) => ({
             ...item,
             price: `${amountFormat(+item.price)}원`,
-            startDate: dateFormat(item.startDate),
-            endDate: dateFormat(item.endDate),
+            startDate: `${dateFormat(item.startDate)}`,
+            endDate: `${dateFormat(item.endDate)}`,
             id: item.productId,
             detail: (
               <button
@@ -114,22 +100,28 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
           return fillData(newTableData, 5, EMPTY_TABLE_DATA);
         });
       }
-      if (viewCategory === "mobile") {
+      if (viewSizeState === "mobile") {
         setTableData(() => {
           const newTableData = data.content.map((item: ProductList) => ({
             ...item,
             price: `${amountFormat(+item.price)}원`,
-            dates: (
+            startDate: (
               <>
-                <div>{dateFormat(item.startDate)}</div>
-                <div>{dateFormat(item.endDate)}</div>
+                <strong>{`${dateFormat(item.startDate, "split")[0]}`}</strong>
+                <span>{`${dateFormat(item.startDate, "split")[1]}`}</span>
+              </>
+            ),
+            endDate: (
+              <>
+                <strong>{`${dateFormat(item.endDate, "split")[0]}`}</strong>
+                <span>{`${dateFormat(item.endDate, "split")[1]}`}</span>
               </>
             ),
             id: item.productId,
             detail: (
               <button
                 type="button"
-                className="bg-main-color py-[2px] px-[20px] rounded-[12px] text-white"
+                className="bg-main-color py-[2px] px-[6px] rounded-[12px] text-white"
               >
                 <Link to={`/traveldetail/${item.productId}`}>확인하기</Link>
               </button>
@@ -141,7 +133,7 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
     } else if (data && data.content.length === 0) {
       setHasSchedule(false);
     }
-  }, [data, viewCategory]);
+  }, [data, viewSizeState]);
 
   if (isError) {
     return <div>에러 발생: {error?.message}</div>;
@@ -159,7 +151,7 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
       <ProductCalendar packageId={packageId} />
       <Table
         data={tableData}
-        columns={viewCategory === "web" ? columns : mobileColumns}
+        columns={viewSizeState === "web" ? columns : mobileColumns}
         tableStyle={
           "text-center w-[750px] border-main-color border-t-[0.5px] border-b-[0.5px] max-xsm:max-w-[375px] max-xsm:w-full"
         }

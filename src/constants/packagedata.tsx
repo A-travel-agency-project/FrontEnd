@@ -45,16 +45,15 @@ export const EMPTY_TABLE_DATA = {
 };
 
 export const EMPTY_MOBILE_TABLE_DATA = {
-  price: "",
-  dates: null,
+  startDate: null,
+  endDate: null,
   id: null,
   detail: null,
   productId: null,
   productCode: "",
-  startDate: "",
-  endDate: "",
   maxCount: null,
   nowCount: null,
   airline: "",
+  price: null,
   productState: "",
 };

@@ -178,7 +178,7 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
                   category={`총인원`}
                 />
                 <div className="flex max-xsm:flex-col">
-                  <div className="flex">
+                  <div className="flex max-xsm:border-b-[0.5px] max-xsm:border-main-color max-xsm:w-fit">
                     <TravelerCountBox
                       role={"총"}
                       count={data.totalCount}

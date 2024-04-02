@@ -10,6 +10,8 @@ import {
 import { OrderedPaymentData } from "../../../types/payment";
 import TableRow from "./TableRow";
 import { amountFormat } from "../../../utils/amountFormat";
+import { useRecoilValue } from "recoil";
+import { viewSize } from "../../../atom/atom";
 
 const PaymentInfoBox = ({
   info,
@@ -21,6 +23,7 @@ const PaymentInfoBox = ({
   handleAmount: (amount: number) => void;
 }) => {
   const [showDetail, setShowDetail] = useState(false);
+  const viewSizeState = useRecoilValue(viewSize);
 
   const handleClick = () => {
     setShowDetail(!showDetail);
@@ -33,14 +36,15 @@ const PaymentInfoBox = ({
 
   return (
     <section
-      className="flex flex-col border-t border-sub-black cursor-pointer"
+      className="flex flex-col border-t border-sub-black cursor-pointer
+      max-xsm:border-main-color max-xsm:border-t-[0.5px] max-xsm:pb-[20px]"
       key={`short_info_${idx}`}
     >
       <div onClick={handleClick}>
         {Object.entries(PAYMENY_CATEGORIES).map(([key, value]) => (
           <TableRow
             category={value}
-            header={true}
+            header={viewSizeState === "web"}
             content={
               key === "status"
                 ? PAYMENY_STATUS[
@@ -54,13 +58,14 @@ const PaymentInfoBox = ({
                   )} 원`
                 : (info[key as keyof typeof info] as string)
             }
-            rowStyle="min-w-fit border-b border-sub-black"
+            rowStyle="min-w-fit border-b border-sub-black max-xsm:border-main-color max-xsm:border-b-[0.5px] max-xsm:border-x-0"
+            headerStyle="max-xsm:max-w-[100px]"
             key={`${key}_${idx}`}
           />
         ))}
       </div>
       {showDetail && (
-        <div className="border border-sub-black w-full p-[24px] cursor-auto">
+        <div className="border border-sub-black w-full p-[24px] cursor-auto max-xsm:text-[12px]">
           <div className="pb-[12px]">
             <h3 className="pb-[12px]">
               <strong>{info.method} 결제 정보</strong>

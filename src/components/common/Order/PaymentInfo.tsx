@@ -31,9 +31,14 @@ const PaymentInfo = ({
     errors?.map((error) => console.log(error?.message));
   }
   return (
-    <div className="text-sub-black flex flex-col gap-[32px] text-[14px] ">
+    <div className="text-sub-black flex flex-col gap-[32px] text-[14px] max-xsm:gap-[4px]">
       {viewSizeState === "web" && (
         <ManagerTitle title="결제정보" style="mb-[12px]" />
+      )}
+      {viewSizeState === "mobile" && (
+        <div className="text-[8px] tracking-[-0.4px] text-end">
+          *해당 결제 정보를 클릭 하시면 상세정보를 보실 수 있습니다.
+        </div>
       )}
       {data !== undefined &&
         data.map(

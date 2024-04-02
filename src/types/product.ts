@@ -58,13 +58,12 @@ export type ProductListRequest = {
 
 export type ProductListInfo = {
   productId: number;
-  startDate?: string;
-  endDate?: string;
+  startDate: string | JSX.Element;
+  endDate: string | JSX.Element;
   airline: string;
   price: number | string;
   productState: string;
   detail: string | JSX.Element;
-  dates?: string | JSX.Element;
 };
 
 export type SummaryTableProps = {
