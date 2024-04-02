@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import IconHamburger from "/public/icon_mb_hamburger.svg";
-import IconCommunity from "/public/icon_mb_community.png";
-import IconProduct from "/public/icon_mb_product.png";
-import IconMyPage from "/public/icon_mb_mypage.png";
-import IconMain from "/public/icon_mb_main.png";
+// import IconCommunity from "/public/icon_mb_community.svg";
+import IconProduct from "/public/icon_mb_product.svg";
+import IconMyPage from "/public/icon_mb_mypage.svg";
+import IconMain from "/public/icon_mb_main.svg";
 import { useState } from "react";
 import NavDropdown from "./Header/NavDropdown";
 import { useRecoilValue } from "recoil";
@@ -19,7 +19,7 @@ const MbNav = () => {
   };
 
   const handleMenuClose = () => {
-    console.log(close);
+    setShowMenu(false);
   };
 
   return (
@@ -60,11 +60,7 @@ const MbNav = () => {
           className="flex flex-col justify-center items-center shrink-0 gap-[6px]"
           onClick={() => navigate("/community")}
         >
-          <img
-            src={IconCommunity}
-            alt="askicon"
-            className="w-[32px] h-[30px]"
-          />
+          <img src={IconProduct} alt="askicon" className="w-[32px] h-[30px]" />
           <span className="text-[9px] text-sub-black">커뮤니티</span>
         </button>
 

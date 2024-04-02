@@ -78,7 +78,7 @@ const ReservationBox = ({
   return (
     <div
       className="flex flex-col items-center w-[250px] px-[18px] py-[22px] gap-[20px] 
-    border-[1px] border-main-color rounded-[17px] text-sub-black h-fit"
+    border-[1px] border-main-color rounded-[17px] text-sub-black h-fit max-xsm:gap-[8px]"
     >
       {prices.map((item) => (
         <CountBtn
@@ -104,7 +104,7 @@ const ReservationBox = ({
         disabled={counts["adult"].count < 1}
         onClick={handleReserve}
       >
-        {productState === "예약가능" ? "예약하기" : productState}
+        {productState === "예약 가능" ? "예약하기" : productState}
       </button>
       {counts["adult"].count < 1 && (
         <span className="text-red-700 text-[10px]">

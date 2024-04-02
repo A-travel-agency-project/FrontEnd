@@ -15,13 +15,13 @@ const Thumnails = ({ list }: { list: Img[] }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-[16px]">
+      <div className="flex flex-col gap-[16px] items-center">
         <img
           src={showImg}
           className="w-[434px] h-[239px] rounded-[40px] object-cover max-xsm:max-w-[342px] max-xsm:max-h-[217] max-xsm:w-full"
           alt="여행지 이미지"
         />
-        <div className="flex gap-[9px]">
+        <div className="flex gap-[9px] flex-wrap max-xsm:mx-[16px] max-xsm:gap-[6px]">
           {list.map((item, idx) => (
             <button key={idx}>
               <img

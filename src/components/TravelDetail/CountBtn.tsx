@@ -35,7 +35,7 @@ const CountBtn = ({
 
   if (price === 0) return;
   return (
-    <div>
+    <div className="flex flex-col">
       <div className="flex justify-between w-[198px]">
         <div className="flex flex-col text-[14px] text-sub-black">
           <span className="text-main-color font-bold">{label}</span>

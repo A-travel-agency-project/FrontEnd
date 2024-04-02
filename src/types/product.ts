@@ -68,7 +68,7 @@ export type ProductListInfo = {
 };
 
 export type SummaryTableProps = {
-  productId: string;
+  productCode: string;
   startDate: string;
   endDate: string;
   airline: string;
@@ -99,6 +99,7 @@ export type ScheduleListProps = {
 export type ScheduleItemProps = {
   title?: string;
   content: string;
+  viewSize?: string;
 };
 
 export type Prices = {

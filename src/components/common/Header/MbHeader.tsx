@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "/public/sublogo.svg";
-import IconAsk from "/public/icon_mb_ask.png";
+import IconAsk from "/public/icon_mb_ask.svg";
 declare global {
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

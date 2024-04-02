@@ -4,30 +4,12 @@ import "swiper/css/navigation";
 import { Navigation, FreeMode } from "swiper/modules";
 import "./BlogBox.css";
 import useGetMainPosts from "../../queries/posts/useGetMainPosts";
-import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { viewSize } from "../../atom/atom";
 
 const BlogBox = () => {
   const { data, isPending, isError, error } = useGetMainPosts();
-  const [viewCategory, setViewCategory] = useState(
-    window.innerWidth <= 375 ? "mobile" : "web"
-  );
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 375) {
-        setViewCategory("mobile");
-      } else {
-        setViewCategory("web");
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // 이벤트 리스너 제거
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const viewSizeState = useRecoilValue(viewSize);
 
   if (isPending) {
     return <div>로딩 중...</div>;
@@ -41,10 +23,10 @@ const BlogBox = () => {
   }
   return (
     <Swiper
-      slidesPerView={viewCategory === "web" ? 4 : "auto"}
-      spaceBetween={viewCategory === "web" ? 30 : 13}
-      navigation={viewCategory === "web" ? true : false}
-      freeMode={viewCategory === "web" ? false : true}
+      slidesPerView={viewSizeState === "web" ? 4 : "auto"}
+      spaceBetween={viewSizeState === "web" ? 30 : 13}
+      navigation={viewSizeState === "web" ? true : false}
+      freeMode={viewSizeState === "web" ? false : true}
       modules={[Navigation, FreeMode]}
       className="overflow-hidden w-[850px] px-[20px] py-[16px] h-[196px] bg-[#F5F5F5] 
       max-xsm:bg-transparent max-xsm:max-w-[355px] max-xsm:h-fit max-xsm:p-0 max-xsm:w-full"

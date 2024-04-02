@@ -46,7 +46,7 @@ const NavDropdown = ({ handleMenuClose }: { handleMenuClose: () => void }) => {
       max-xsm:h-fit  max-xsm:px-[50px] max-xsm:pb-[99px]
       max-xsm:rounded-t-[20px] max-xsm:py-0"
     >
-      <div className="w-[50px] h-[3px] rounded-[10px] bg-main-color  self-center mb-[12px] mt-[12px] hidden max-xsm:flex" />
+      <div className="w-[50px] h-[3px] rounded-[10px] bg-main-color  self-center mb-[12px] mt-[12px] hidden max-xsm:block" />
       <div className="flex justify-between items-start">
         <div className="flex justify-between items-start gap-[20px] max-xsm:flex-col max-xsm:gap-[10px]">
           {FULL_MENU_LIST.map((menu) => (
