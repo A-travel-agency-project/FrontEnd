@@ -15,6 +15,9 @@ import {
   REQUIRED_TRAVELER_DATA,
   WRONG_AGE_MESSAGES,
 } from "../../../constants/travelerdata";
+import { useRecoilValue } from "recoil";
+import { viewSize } from "../../../atom/atom";
+import TableRow from "./TableRow";
 
 const OrderedTravelerInfo = ({
   data,
@@ -52,6 +55,8 @@ const OrderedTravelerInfo = ({
   const [editable, setEditable] = useState(false);
 
   const [birth, setBrith] = useState("");
+
+  const viewSizeState = useRecoilValue(viewSize);
 
   const handleInput = (id: string, value: string) => {
     setTravlerInfo((prev) => ({ ...prev, [id]: value }));
@@ -183,96 +188,156 @@ const OrderedTravelerInfo = ({
           )}
         </div>
       )}
-      <div
-        className={`w-full min-w-max ${
-          !representative && !editable ? "border-y border-black" : ""
-        } ${editable ? "border-[2px] border-main-color" : ""}`}
-      >
-        <div className="flex items-center border-b border-sub-black w-ful min-w-max">
-          <div className="flex items-center w-[33.3%] min-w-max">
-            <TableHeader smallHeader={true} category="이름" />
-            <input
-              className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
-              id="travelerName"
-              value={travelerInfo.travelerName}
-              onChange={(e) =>
-                handleInput(e.target.id, onlyKorean(e.target.value))
-              }
-              disabled={!editable}
-            />
-          </div>
-          <div className="flex items-center w-[33.3%] min-w-max">
-            <TableHeader smallHeader={true} category="영문 이름" />
-            <input
-              className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
-              id="enFirstName"
-              value={travelerInfo.enFirstName}
-              onChange={(e) =>
-                handleInput(e.target.id, onlyEnglish(e.target.value))
-              }
-              disabled={!editable}
-            />
-          </div>
-          <div className="flex items-center w-[33.3%] min-w-max">
-            <TableHeader smallHeader={true} category="영문 성" />
-            <input
-              className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
-              id="enLastName"
-              value={travelerInfo.enLastName}
-              onChange={(e) =>
-                handleInput(e.target.id, onlyEnglish(e.target.value))
-              }
-              disabled={!editable}
-            />
-          </div>
-        </div>
-        <div className="flex items-center w-full min-w-max">
-          <div className="flex items-center  w-[33.3%] min-w-max">
-            <TableHeader smallHeader={true} category="성별" />
-            <div className="flex gap-[20px] px-[24px] w-full">
-              <CustomRadioBtn
-                label="남"
-                id="gender"
-                checked={travelerInfo.gender === "남"}
-                handleInput={handleInput}
+      {viewSizeState === "web" && (
+        <div
+          className={`w-full min-w-max ${
+            !representative && !editable ? "border-y border-black" : ""
+          } ${editable ? "border-[2px] border-main-color" : ""}`}
+        >
+          <div className="flex items-center border-b border-sub-black w-ful min-w-max">
+            <div className="flex items-center w-[33.3%] min-w-max">
+              <TableHeader smallHeader={true} category="이름" />
+              <input
+                className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
+                id="travelerName"
+                value={travelerInfo.travelerName}
+                onChange={(e) =>
+                  handleInput(e.target.id, onlyKorean(e.target.value))
+                }
                 disabled={!editable}
               />
-              <CustomRadioBtn
-                label="여"
-                id="gender"
-                checked={travelerInfo.gender === "여"}
-                handleInput={handleInput}
+            </div>
+            <div className="flex items-center w-[33.3%] min-w-max">
+              <TableHeader smallHeader={true} category="영문 이름" />
+              <input
+                className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
+                id="enFirstName"
+                value={travelerInfo.enFirstName}
+                onChange={(e) =>
+                  handleInput(e.target.id, onlyEnglish(e.target.value))
+                }
+                disabled={!editable}
+              />
+            </div>
+            <div className="flex items-center w-[33.3%] min-w-max">
+              <TableHeader smallHeader={true} category="영문 성" />
+              <input
+                className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
+                id="enLastName"
+                value={travelerInfo.enLastName}
+                onChange={(e) =>
+                  handleInput(e.target.id, onlyEnglish(e.target.value))
+                }
                 disabled={!editable}
               />
             </div>
           </div>
-          <div className="flex items-center w-[33.3%] min-w-max">
-            <TableHeader smallHeader={true} category="생년월일" />
-            <input
-              className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
-              type="text"
-              id="birth"
-              value={birth}
-              onChange={(e) => handleBirth(birthFormat(e.target.value))}
-              disabled={!editable}
-            />
+          <div className="flex items-center w-full min-w-max">
+            <div className="flex items-center  w-[33.3%] min-w-max">
+              <TableHeader smallHeader={true} category="성별" />
+              <div className="flex gap-[20px] px-[24px] w-full">
+                <CustomRadioBtn
+                  label="남"
+                  id="gender"
+                  checked={travelerInfo.gender === "남"}
+                  handleInput={handleInput}
+                  disabled={!editable}
+                />
+                <CustomRadioBtn
+                  label="여"
+                  id="gender"
+                  checked={travelerInfo.gender === "여"}
+                  handleInput={handleInput}
+                  disabled={!editable}
+                />
+              </div>
+            </div>
+            <div className="flex items-center w-[33.3%] min-w-max">
+              <TableHeader smallHeader={true} category="생년월일" />
+              <input
+                className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
+                type="text"
+                id="birth"
+                value={birth}
+                onChange={(e) => handleBirth(birthFormat(e.target.value))}
+                disabled={!editable}
+              />
+            </div>
+            <div className="flex items-center w-[33.3%] min-w-max ">
+              <TableHeader smallHeader={true} category="휴대폰" />
+              <input
+                className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
+                maxLength={13}
+                type="tell"
+                id="phoneNumber"
+                value={travelerInfo.phoneNumber ?? ""}
+                onChange={(e) =>
+                  handleInput(e.target.id, phoneNumberFormat(e.target.value))
+                }
+                disabled={!editable}
+              />
+            </div>
           </div>
-          <div className="flex items-center w-[33.3%] min-w-max ">
-            <TableHeader smallHeader={true} category="휴대폰" />
-            <input
-              className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
-              maxLength={13}
-              type="tell"
-              id="phoneNumber"
-              value={travelerInfo.phoneNumber ?? ""}
-              onChange={(e) =>
-                handleInput(e.target.id, phoneNumberFormat(e.target.value))
+        </div>
+      )}
+      {viewSizeState === "mobile" && role === "user" && (
+        <div
+          className={`w-full flex ${
+            !representative && `border-y-[0.5px] border-main-color`
+          }`}
+        >
+          {!representative && <TableHeader category="여행자" />}
+          <div className="w-full flex flex-col">
+            <div className="flex">
+              <TableRow
+                category="이름"
+                content={travelerInfo.travelerName}
+                headerStyle={
+                  "tracking-[-0.5px] !text-[10px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+                }
+              />
+              <TableRow
+                category="영문 이름"
+                content={travelerInfo.enLastName}
+                headerStyle={
+                  "tracking-[-0.5px] !text-[10px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+                }
+              />
+            </div>
+            <div className="flex border-t-[0.5px] border-main-color">
+              <TableRow
+                category="영문성"
+                content={travelerInfo.enFirstName}
+                headerStyle={
+                  "tracking-[-0.5px] !text-[10px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+                }
+              />
+              <TableRow
+                category="성별"
+                content={travelerInfo.gender}
+                headerStyle={
+                  "tracking-[-0.5px] !text-[10px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+                }
+              />
+            </div>
+            <TableRow
+              category="휴대폰"
+              content={travelerInfo.phoneNumber ? travelerInfo.phoneNumber : ""}
+              rowStyle={"border-y-[0.5px] border-main-color"}
+              headerStyle={
+                "tracking-[-0.5px] !text-[10px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
               }
-              disabled={!editable}
+            />
+            <TableRow
+              category="생년월일"
+              content={travelerInfo.enFirstName}
+              headerStyle={
+                "!text-[10px] tracking-[-0.5px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+              }
             />
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

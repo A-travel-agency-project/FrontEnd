@@ -2,7 +2,7 @@ import Banner from "../components/Main/Banner";
 import BlogBox from "../components/Main/BlogBox";
 import FilterBox from "../components/Main/FilterBox";
 import Map from "../components/Main/Map";
-import SectionTitle from "../components/Main/SectionTitle";
+import SectionTitle from "../components/common/SectionTitle";
 
 const Main = () => {
   return (

@@ -12,19 +12,27 @@ const PaymentCheckout = () => {
   const paymentInfo = location.state.paymentInfo;
   const tossPaymentInfo = location.state.tossPaymentInfo;
   const [paymentWidgetLoaded, setPaymentWidgetLoaded] = useState(false);
+  const [payfor, setPayfor] = useState("");
+  const [orderId, setOrderId] = useState("");
 
   const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
 
-  const payFor = paymentInfo.productId !== undefined ? "deposit" : "balance";
-
-  const orderId =
-    paymentInfo.productId !== undefined
-      ? `IMOM_PI${paymentInfo.productId}_DT${new Date().getTime()}`
-      : `IMOM_FULL${paymentInfo.amount}_DT${new Date().getTime()}`;
-
   console.log(paymentInfo);
   console.log(tossPaymentInfo);
-  console.log(paymentInfo.prductId);
+
+  useEffect(() => {
+    if (paymentInfo) {
+      const orderId = paymentInfo.productId
+        ? `IMOM_PI${paymentInfo.productId}_DT${new Date().getTime()}`
+        : `IMOM_FULL${paymentInfo.amount}_DT${new Date().getTime()}`;
+
+      setOrderId(orderId);
+
+      const payFor = paymentInfo.productId ? "deposit" : "balance";
+
+      setPayfor(payFor);
+    }
+  }, [paymentInfo]);
 
   useEffect(() => {
     (async () => {
@@ -66,7 +74,7 @@ const PaymentCheckout = () => {
                 orderName: tossPaymentInfo.packageName,
                 customerName: tossPaymentInfo.userName,
                 customerEmail: tossPaymentInfo.email,
-                successUrl: `${window.location.href}/after/success?payFor=${payFor}`,
+                successUrl: `${window.location.href}/after/success?payFor=${payfor}`,
                 failUrl: `${window.location.href}/after/fail`,
               });
             } catch (err) {

@@ -6,6 +6,8 @@ import TableRow from "./TableRow";
 import { amountFormat } from "../../../utils/amountFormat";
 import AmountChangeHistory from "./AmountChangeHistory";
 import { FluctuationInfos } from "../../../types/manager";
+import { useRecoilValue } from "recoil";
+import { viewSize } from "../../../atom/atom";
 
 const PaymentInfo = ({
   idList,
@@ -14,8 +16,9 @@ const PaymentInfo = ({
 }: {
   idList: string[];
   role: string;
-  changeHistory: FluctuationInfos[];
+  changeHistory?: FluctuationInfos[];
 }) => {
+  const viewSizeState = useRecoilValue(viewSize);
   const { data, isError, errors } = useGetPaymentInfo(idList);
   const [totalAmount, setTotalAmount] = useState(0);
   console.log(data);
@@ -29,7 +32,9 @@ const PaymentInfo = ({
   }
   return (
     <div className="text-sub-black flex flex-col gap-[32px] text-[14px] ">
-      <ManagerTitle title="결제정보" style="mb-[12px]" />
+      {viewSizeState === "web" && (
+        <ManagerTitle title="결제정보" style="mb-[12px]" />
+      )}
       {data !== undefined &&
         data.map(
           (info, idx) =>
@@ -42,12 +47,14 @@ const PaymentInfo = ({
               />
             )
         )}
-      <TableRow
-        category="총 결제 금액"
-        header={true}
-        content={`${amountFormat(totalAmount)} 원`}
-        rowStyle="border-y border-sub-black"
-      />
+      {viewSizeState === "web" && (
+        <TableRow
+          category="총 결제 금액"
+          header={true}
+          content={`${amountFormat(totalAmount)} 원`}
+          rowStyle="border-y border-sub-black"
+        />
+      )}
       {role === "admin" && (
         <AmountChangeHistory changeHistory={changeHistory} />
       )}

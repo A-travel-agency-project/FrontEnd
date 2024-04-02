@@ -128,15 +128,14 @@ const TravelDetail = () => {
       />
       <div className="flex justify-between w-[765px] max-xsm:w-full">
         <ProductDetail info={detailData.productInfo} prices={prices} />
-        {viewSizeState === "web" && (
-          <ReservationBox
-            prices={prices}
-            maxCount={detailData.productInfo.maxCount}
-            nowCount={detailData.productInfo.nowCount}
-            info={reservationInfo}
-            productState={detailData.productInfo.productState}
-          />
-        )}
+        <ReservationBox
+          prices={prices}
+          maxCount={detailData.productInfo.maxCount}
+          nowCount={detailData.productInfo.nowCount}
+          info={reservationInfo}
+          productState={detailData.productInfo.productState}
+          viewSize={viewSizeState}
+        />
       </div>
       <section
         className="flex flex-col items-center gap-[16px] 

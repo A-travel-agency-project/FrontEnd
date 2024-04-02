@@ -118,7 +118,6 @@ function App() {
             <Route path="/packagemanager" element={<PackageManager />} />
             <Route path="/productmanager" element={<ProductManager />} />
             <Route path="/ordermanager" element={<OrderManager />} />
-            {/* 임시: 페이지 띄우기*/}
             <Route path="/orderdetail/:id" element={<OrderDetail />} />
             <Route path="/newregistration" element={<NewRegistration />} />
             <Route

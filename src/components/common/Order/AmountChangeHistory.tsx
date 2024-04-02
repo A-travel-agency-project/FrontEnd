@@ -6,7 +6,7 @@ import TableRow from "./TableRow";
 const AmountChangeHistory = ({
   changeHistory,
 }: {
-  changeHistory: FluctuationInfos[];
+  changeHistory?: FluctuationInfos[];
 }) => {
   return (
     <div>
@@ -14,8 +14,11 @@ const AmountChangeHistory = ({
         title="금액/잔금 변경 히스토리"
         style="mb-[12px] flex w-fit"
       />
-      {changeHistory.map((info) => (
-        <div className="mt-[30px] border-y-[2px] border-sub-black">
+      {changeHistory?.map((info) => (
+        <div
+          className="mt-[30px] border-y-[2px] border-sub-black"
+          key={info.updateDate}
+        >
           <div className="flex">
             <TableRow
               category={`변경일시`}

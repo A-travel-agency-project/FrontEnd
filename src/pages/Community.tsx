@@ -6,7 +6,7 @@ import "../App.css";
 import { baseInstance } from "../api/instance";
 import CommunityEditor from "../components/Community/CommunityEditor";
 import CommunityDetail from "../components/Community/CommunityDetail";
-import SectionTitle from "../components/Main/SectionTitle";
+import SectionTitle from "../components/common/SectionTitle";
 import CustomPagination from "../components/common/CustomPagination";
 import { useRecoilValue } from "recoil";
 import { loginCheck } from "../atom/atom";
