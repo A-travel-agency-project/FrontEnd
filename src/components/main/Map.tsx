@@ -15,7 +15,7 @@ const Map = () => {
     setShowImg(() => ariaLabel);
   };
   const handleMouseOut = () => {
-    setShowImg(null);
+    // setShowImg(null);
   };
 
   return (
@@ -117,7 +117,7 @@ const Map = () => {
                 ]?.mobile
           }
           alt="country info"
-          className="absolute z-20 bottom-[0%] max-xsm:z-[1]"
+          className="absolute z-20 bottom-[1%] right-[18%] max-xsm:bottom-0 max-xsm:right-[0%]"
         />
       )}
     </div>
