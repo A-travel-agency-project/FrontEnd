@@ -28,7 +28,7 @@ const AfterPayment = () => {
 
   console.log(encryptedData);
 
-  const { mutate, data, isPending, isError, error } = usePostDeposit(
+  const { mutate, data, isPending, isError, errorReason } = usePostDeposit(
     requestData,
     payFor
   );
@@ -54,10 +54,18 @@ const AfterPayment = () => {
   }, [requestData, mutate, payFor]);
 
   useEffect(() => {
+    sessionStorage.removeItem("paymentInfo"); // 결제 후 유저 정보 지우기
     if (data) {
-      sessionStorage.removeItem("paymentInfo"); // 결제 후 유저 정보 지우기
+      alert(
+        "예약해주셔서 감사합니다. 담당자가 영업일 기준 1일 이내로 연락드리겠습니다."
+      );
+      navigate("/");
     }
-  }, [data]);
+    if (isError) {
+      alert(errorReason !== null ? errorReason : "결제에 실패했습니다.");
+      navigate("/");
+    }
+  }, [data, isError, errorReason, navigate]);
 
   useEffect(() => {
     history.pushState(null, "", "");
@@ -78,11 +86,15 @@ const AfterPayment = () => {
     };
   }, [progress, navigate]);
 
+  // useEffect(() => {
+  //   if (isError) {
+  //     alert(errorReason !== null ? errorReason : "결제에 실패했습니다.");
+  //     navigate("/");
+  //   }
+  // }, [isError, errorReason, navigate]);
+
   if (isPending) {
-    return <div>로딩 중...</div>;
-  }
-  if (isError) {
-    return <div>에러 발생: {error?.message} </div>;
+    return <div>예약 처리중...</div>;
   }
   if (!data) {
     return <div>데이터가 없습니다.</div>;
