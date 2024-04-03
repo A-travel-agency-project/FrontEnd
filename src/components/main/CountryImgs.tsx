@@ -52,7 +52,7 @@ const CountryImgs = ({
   return (
     <>
       <div
-        className={`${containerStyle} flex items-center gap-[2px] absolute z-10 cursor-pointer p-[4px]`}
+        className={`${containerStyle} flex items-center gap-[2px] absolute z-10 cursor-pointer p-[4px] select-none`}
         aria-label={country}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
@@ -64,7 +64,7 @@ const CountryImgs = ({
               COUNTRY_IMG_DATA[country as keyof typeof COUNTRY_IMG_DATA].label
             }
             alt={`${country}Label`}
-            className={`${labelStyle}`}
+            className={`${labelStyle} select-none`}
             style={{
               width: viewSizeState === "mobile" ? `${mbLabelWidth}px` : "auto",
             }}
@@ -73,7 +73,7 @@ const CountryImgs = ({
         <img
           src={MapPin}
           alt={`${country} map pin`}
-          className="max-xsm:w-[8px]"
+          className="max-xsm:w-[8px] select-none"
         />
         {!islabelFirst && (
           <img
@@ -81,7 +81,7 @@ const CountryImgs = ({
               COUNTRY_IMG_DATA[country as keyof typeof COUNTRY_IMG_DATA].label
             }
             alt={`${country}Label`}
-            className={`${labelStyle}`}
+            className={`${labelStyle} select-none`}
             style={{
               width: viewSizeState === "mobile" ? `${mbLabelWidth}px` : "auto",
             }}
@@ -95,7 +95,7 @@ const CountryImgs = ({
         alt={`${country}Signature`}
         className={`absolute ${signatureStyle} ${
           showImg !== country && "hidden"
-        } `}
+        } select-none`}
         style={{
           width: viewSizeState === "mobile" ? `${mbSignatureWidth}px` : "auto",
         }}

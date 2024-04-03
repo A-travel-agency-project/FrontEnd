@@ -215,7 +215,7 @@ const OrderManager = () => {
       key: "orderDate",
       label: "주문일시",
       sortable: true,
-      render: (value) => (value ? dateFormat(`${value}`) : ""),
+      render: (value) => (value ? `${dateFormat(`${value}`)}` : ""),
       onClick: () => handleSortOrder("orderDate"),
     },
     {
@@ -232,7 +232,7 @@ const OrderManager = () => {
       key: "startDate",
       label: "출발일",
       sortable: true,
-      render: (value) => (value ? dateFormat(`${value}`) : ""),
+      render: (value) => (value ? `${dateFormat(`${value}`)}` : ""),
       onClick: () => handleSortOrder("startDate"),
     },
     {

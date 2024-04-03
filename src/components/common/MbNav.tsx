@@ -13,7 +13,6 @@ const MbNav = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const viewSizeState = useRecoilValue(viewSize);
-
   const handleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -27,7 +26,7 @@ const MbNav = () => {
       {showMenu && viewSizeState === "mobile" && (
         <NavDropdown handleMenuClose={handleMenuClose} />
       )}
-      <div className="z-50 fixed bottom-0 w-full h-[75px] hidden max-xsm:flex bg-main-color justify-between px-[32px] rounded-t-[20px]">
+      <div className="z-[999] fixed bottom-0 w-full h-[75px] hidden max-xsm:flex bg-main-color justify-between px-[32px] rounded-t-[20px]">
         <button
           id="menu"
           className="flex flex-col justify-center items-center shrink-0 gap-[6px]"

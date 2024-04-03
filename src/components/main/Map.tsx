@@ -15,19 +15,19 @@ const Map = () => {
     setShowImg(() => ariaLabel);
   };
   const handleMouseOut = () => {
-    // setShowImg(null);
+    setShowImg(null);
   };
 
   return (
     <div className="relative max-xsm:pb-[50px]">
       <div
         className="w-[850px] h-[425px] bg-[#FFE2B4] rounded-[40px] border border-dashed border-main-color
-    max-xsm:max-w-[342px] max-xsm:h-[217px] flex justify-center items-center relative"
+    max-xsm:max-w-[342px] max-xsm:h-[217px] flex justify-center items-center relative select-none"
       >
         <img
           src={viewSizeState === "web" ? WorldMap : WorldMapMb}
           alt="worldmap"
-          className="pb-[28px] max-xsm:pb-0"
+          className="pb-[28px] max-xsm:pb-0 select-none"
         />
         <CountryImgs
           showImg={showImg}

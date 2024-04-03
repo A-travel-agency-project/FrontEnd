@@ -14,8 +14,8 @@ const SummaryTable = ({
   const [data] = useState([
     {
       id: productCode,
-      startDate: dateFormat(startDate),
-      endDate: dateFormat(endDate),
+      startDate: `${dateFormat(startDate)}`,
+      endDate: `${dateFormat(endDate)}`,
       airline: airline,
       minCount: minCount,
     },

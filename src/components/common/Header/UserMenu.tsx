@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { loginCheck, userChildName } from "../../../atom/atom";
 import userInstance from "../../../api/userInstance";
-const UserMenu = () => {
+const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
   const [isLogin, setIsLogin] = useRecoilState(loginCheck);
   const isAdmin =
     window.localStorage.getItem("role") === "ROLE_ADMIN" ? true : false;
@@ -21,6 +21,9 @@ const UserMenu = () => {
             window.localStorage.removeItem("role");
             resetName();
             alert("로그아웃 완료!");
+            if (handleMenuClose) {
+              handleMenuClose();
+            }
           }
         })
         .catch((err) => console.error(err));
