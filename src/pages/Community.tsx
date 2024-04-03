@@ -185,13 +185,13 @@ const Community = () => {
         <div className="flex w-full max-xsm:flex-col">
           <div className="flex flex-col items-start mr-9">
             <SectionTitle title="커뮤니티" padding={true} />
-            <div className="flex flex-col max-xsm:flex-row">
+            <div className="w-full flex flex-col max-xsm:flex-row max-xsm:justify-center ">
               {["공지사항", "자주묻는질문", "여행이야기"].map((el, idx) => (
                 <button
                   key={idx}
                   name={el}
                   onClick={(e) => handleNavClick(e, el)}
-                  className={`border border-main-color w-44 h-9 font-bold hover:bg-main-color hover:text-white ${
+                  className={`border flex justify-center items-center max-xsm:rounded-lg max-xsm:mr-2 border-main-color w-full whitespace-nowrap px-2 h-9 font-bold hover:bg-main-color hover:text-white ${
                     active === el && "bg-main-color text-white"
                   } ${idx === 0 || idx === 1 ? "mb-2" : ""}`}
                 >
