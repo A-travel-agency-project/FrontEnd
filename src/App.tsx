@@ -38,6 +38,7 @@ import PaymentCheckout from "./pages/PaymentCheckout";
 import MainLayout from "./components/common/MainLayout";
 import { loginCheck } from "./atom/atom";
 import { useRecoilValue } from "recoil";
+import MbMainManager from "./pages/manager/MbMainManager";
 
 function App() {
   const queryClient = new QueryClient({
@@ -94,6 +95,7 @@ function App() {
           {/* 관리자 네비게이션바 */}
           <Route element={<SideNav />}>
             <Route path="/mainmanager" element={<MainManager />} />
+            <Route path="/mbmainmanager" element={<MbMainManager />} />
             <Route path="/packagemanager" element={<PackageManager />} />
             <Route path="/productmanager" element={<ProductManager />} />
             <Route path="/ordermanager" element={<OrderManager />} />
