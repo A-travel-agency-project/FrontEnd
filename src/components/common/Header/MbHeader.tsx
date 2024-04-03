@@ -33,6 +33,7 @@ const MbHeader = () => {
         <img src={IconAsk} alt="askicon" className="w-[32px] h-[30px]" />
         <span className="text-[9px] text-sub-black">문의하기</span>
       </button>
+    </div>
   );
 };
 
