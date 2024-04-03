@@ -31,7 +31,7 @@ const MyPageNav = () => {
   };
   return (
     <div className="w-full flex h-full">
-      <div className="h-full flex flex-col p-10 border-r border-main-color mr-20">
+      <div className="h-full flex flex-col p-10 border-r border-main-color mr-20 max-xsm:hidden">
         {myPageNavTitle.map((el, index) => {
           return (
             <button

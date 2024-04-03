@@ -8,10 +8,14 @@ import { PriceInfoData, TermsState, travelerInfo } from "../types/reservation";
 import Terms from "../components/Reservation/Terms";
 import { REQUIRED_TRAVELER_DATA } from "../constants/travelerdata";
 import useGetUserInfo from "../queries/users/useGetUserInfo";
+import { useRecoilValue } from "recoil";
+import { viewSize } from "../atom/atom";
 
 const Reservation = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const viewSizeState = useRecoilValue(viewSize);
 
   const { data: userData } = useGetUserInfo();
 
@@ -194,10 +198,12 @@ const Reservation = () => {
   }, [travelerInfoList]);
 
   return (
-    <div className="flex flex-col items-center gap-[80px] w-full">
-      <h1 className="text-main-color text-[20px] font-bold mt-[38px]">
-        예약하기
-      </h1>
+    <div className="flex flex-col items-center gap-[80px] w-full max-xsm:px-[16px] max-xsm:gap-[24px]">
+      {viewSizeState === "web" && (
+        <h1 className="text-main-color text-[20px] font-bold mt-[38px]">
+          예약하기
+        </h1>
+      )}
       <ProductInfo info={productInfo} />
       <UserInfo userdata={userData} />
       <TravelerInfo

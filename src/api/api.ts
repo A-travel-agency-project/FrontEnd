@@ -21,8 +21,8 @@ import { User, UserChildName } from "../types/user";
 import { baseInstance, userInstance } from "./instance";
 
 /* 배너 이미지 가져오기 */
-export const GetBanner = (): Promise<BannerImg[]> =>
-  baseInstance.get("/images/banners").then((res) => res.data.data);
+export const GetBanner = (viewSize: string): Promise<BannerImg[]> =>
+  baseInstance.get(`/images/banners/${viewSize}`).then((res) => res.data.data);
 
 /* 태그 목록 가져오기 */
 export const GetTags = (): Promise<TagDatas> =>
@@ -65,6 +65,10 @@ export const GetTagPackages = (req: TagCheckList): Promise<Package[]> =>
 
 /* 나라 검색 */
 export const GetCountryPackages = (country: string): Promise<Package[]> =>
+  baseInstance.get(`/countries/${country}`).then((res) => res.data.data);
+
+/* 나라별 소개이미지 가져오기 */
+export const GetCountryImg = (country: string): Promise<string> =>
   baseInstance.get(`/countries/${country}`).then((res) => res.data.data);
 
 /* 유저 자녀 이름 조회 */

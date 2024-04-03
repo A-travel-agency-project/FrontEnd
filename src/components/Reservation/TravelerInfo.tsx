@@ -83,11 +83,11 @@ const TravelerInfo = ({
   };
 
   return (
-    <section className="flex flex-col w-[664px]">
+    <section className="flex flex-col w-[664px] max-xsm:w-full">
       <div className="flex justify-between">
         <SectionTitle title="여행자 정보" />
       </div>
-      <div className="p-[16px] flex flex-col gap-[40px]">
+      <div className="p-[16px] flex flex-col gap-[40px] max-xsm:p-0 max-xsm:gap-[24px]">
         <TravelerInfoForm
           priceInfo={priceInfo}
           age={"adult"}

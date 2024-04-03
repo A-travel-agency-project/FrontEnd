@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import CountBtn from "./CountBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReservationBoxProps } from "../../types/reservation";
 import { amountFormat } from "../../utils/amountFormat";
 import { useRecoilValue } from "recoil";
@@ -12,6 +12,7 @@ const ReservationBox = ({
   nowCount,
   info,
   productState,
+  viewSize,
 }: ReservationBoxProps) => {
   const navigate = useNavigate();
   const isLogin = useRecoilValue(loginCheck);
@@ -34,6 +35,10 @@ const ReservationBox = ({
     totalPay: 0,
     totalCount: 0,
   });
+
+  useEffect(() => {
+    sessionStorage.setItem("counts", JSON.stringify(counts));
+  }, [counts]);
 
   const handleCountChange = (
     age: "adult" | "child" | "infant",
@@ -66,6 +71,7 @@ const ReservationBox = ({
       navigate("/reservation", {
         state: { productInfo: info, priceInfo: counts },
       });
+      sessionStorage.removeItem("counts");
     }
   };
 
@@ -77,8 +83,9 @@ const ReservationBox = ({
 
   return (
     <div
-      className="flex flex-col items-center w-[250px] px-[18px] py-[22px] gap-[20px] 
-    border-[1px] border-main-color rounded-[17px] text-sub-black h-fit"
+      className={`flex flex-col items-center w-[250px] px-[18px] py-[22px] gap-[20px] 
+    border-[1px] border-main-color rounded-[17px] text-sub-black h-fit max-xsm:gap-[8px] 
+    ${viewSize === "mobile" ? "max-xsm:hidden" : ""} select-none `}
     >
       {prices.map((item) => (
         <CountBtn
@@ -103,8 +110,9 @@ const ReservationBox = ({
         disabled:bg-sub-black disabled:bg-opacity-[0.3]"
         disabled={counts["adult"].count < 1}
         onClick={handleReserve}
+        onTouchStart={handleReserve}
       >
-        {productState === "예약가능" ? "예약하기" : productState}
+        {productState === "예약 가능" ? "예약하기" : productState}
       </button>
       {counts["adult"].count < 1 && (
         <span className="text-red-700 text-[10px]">

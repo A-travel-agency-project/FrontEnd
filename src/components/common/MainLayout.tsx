@@ -3,7 +3,6 @@ import Header from "../common/Header/Header";
 import Footer from "../common/Footer";
 import MbNav from "./MbNav";
 import MbHeader from "./Header/MbHeader";
-
 function MainLayout() {
   return (
     <>

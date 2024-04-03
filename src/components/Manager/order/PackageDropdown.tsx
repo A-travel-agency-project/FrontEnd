@@ -32,9 +32,10 @@ const PackageDropdown = ({
   }, [data]);
 
   const handleSelect = (value: string, id: string) => {
-    const packageId = packages.find(
-      (packages) => packages.packageName === value
-    );
+    const packageId =
+      value === "전체"
+        ? { packageId: "" }
+        : packages.find((packages) => packages.packageName === value);
     if (packageId && packageId.packageId !== null)
       handleClick(packageId.packageId, id, value);
   };

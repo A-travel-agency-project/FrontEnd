@@ -58,8 +58,8 @@ export type ProductListRequest = {
 
 export type ProductListInfo = {
   productId: number;
-  startDate: string;
-  endDate: string;
+  startDate: string | JSX.Element;
+  endDate: string | JSX.Element;
   airline: string;
   price: number | string;
   productState: string;
@@ -67,7 +67,7 @@ export type ProductListInfo = {
 };
 
 export type SummaryTableProps = {
-  productId: string;
+  productCode: string;
   startDate: string;
   endDate: string;
   airline: string;
@@ -98,6 +98,7 @@ export type ScheduleListProps = {
 export type ScheduleItemProps = {
   title?: string;
   content: string;
+  viewSize?: string;
 };
 
 export type Prices = {

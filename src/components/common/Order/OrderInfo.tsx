@@ -14,8 +14,12 @@ import OrderDetailBtn from "./OrderDetailBtn";
 import SpecialAmount from "./SpecialAmount";
 import usePostTravelerInfo from "../../../queries/orders/usePostTravelerInfo";
 import useGetOrderCancel from "../../../queries/orders/useGetOrderCancel";
+import { useRecoilValue } from "recoil";
+import { viewSize } from "../../../atom/atom";
+import SectionTitle from "../SectionTitle";
 
 const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
+  const viewSizeState = useRecoilValue(viewSize);
   const [travelerInfoList, setTravelerInfoList] = useState<TravelerInfoData[]>(
     data.travelerInfos
   );
@@ -134,7 +138,10 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
   }, [data]);
 
   return (
-    <div className="text-sub-black flex flex-col gap-[32px] text-[14px]">
+    <div
+      className="text-sub-black flex flex-col gap-[32px] text-[14px] 
+    max-xsm:w-full max-xsm:gap-[20px]"
+    >
       {role === "admin" && (
         <div>
           <SpecialAmount
@@ -145,8 +152,10 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
                 : {
                     changedPrice: 0,
                     memo: "",
+                    payedPrice: 0,
                     totalPriceSnapshot: 0,
                     balanceSnapshot: 0,
+                    updateDate: "",
                   }
             }
             orderState={data.orderState ?? ""}
@@ -154,29 +163,44 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
         </div>
       )}
       <div>
-        <ManagerTitle title="주문확인" style="mb-[12px]" />
-        <div className="flex justify-between flex-col border-y-[2px] border-sub-black min-w-fit">
+        {viewSizeState === "web" && (
+          <ManagerTitle title="주문확인" style="mb-[12px]" />
+        )}
+        <div
+          className="flex justify-between flex-col border-y-[2px] border-sub-black min-w-fit 
+        max-xsm:w-full max-xsm:border-y-[0.5px] max-xsm:border-main-color"
+        >
           {ORDER_INFO_CATEGORIES.map((item) =>
             item.category === "총인원" ? (
-              <div className="flex" key={item.category}>
-                <TableHeader header={true} category={`총인원`} />
-                <TravelerCountBox
-                  role={"총"}
-                  count={data.totalCount}
-                  style="bg-[#F5F5F4]"
+              <div className="flex " key={item.category}>
+                <TableHeader
+                  header={viewSizeState === "web"}
+                  category={`총인원`}
                 />
-                <TravelerCountBox role={"성인"} count={data.adultCount} />
-                <TravelerCountBox role={"아동"} count={data.childCount} />
-                <TravelerCountBox role={"유아"} count={data.infantCount} />
+                <div className="flex max-xsm:flex-col">
+                  <div className="flex max-xsm:border-b-[0.5px] max-xsm:border-main-color max-xsm:w-fit">
+                    <TravelerCountBox
+                      role={"총"}
+                      count={data.totalCount}
+                      style="bg-[#F5F5F4]"
+                    />
+                    <TravelerCountBox role={"성인"} count={data.adultCount} />
+                  </div>
+                  <div className="flex">
+                    <TravelerCountBox role={"아동"} count={data.childCount} />
+                    <TravelerCountBox role={"유아"} count={data.infantCount} />
+                  </div>
+                </div>
               </div>
             ) : item.category === "여행대표자" &&
               Array.isArray(data.travelerInfos) ? (
               <div
-                className="flex border-b border-sub-black min-w-fit"
+                className="flex border-b border-sub-black min-w-fit 
+                max-xsm:border-b-[0.5px] max-xsm:border-main-color"
                 key={item.category}
               >
                 <TableHeader
-                  header={true}
+                  header={viewSizeState === "web"}
                   category={item.category}
                   cellStyle="h-auto"
                 />
@@ -187,14 +211,19 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
                     )[0]
                   }
                   representative={true}
+                  role={role}
                 />
               </div>
             ) : item.category === "주문상태" && "orderState" in data ? (
               <div
                 key={item.category}
-                className={`flex w-full items-center border-b border-sub-black`}
+                className={`flex w-full items-center border-b border-sub-black
+                max-xsm:border-b-[0.5px] max-xsm:border-main-color`}
               >
-                <TableHeader category={"주문상태"} header={true} />
+                <TableHeader
+                  category={"주문상태"}
+                  header={viewSizeState === "web"}
+                />
                 <div className="px-[24px] flex shrink-0">{data.orderState}</div>
                 {data.orderState !== "취소" && (
                   <OrderDetailBtn
@@ -208,13 +237,15 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
                 <TableRow
                   key={item.category}
                   category={item.category}
-                  header={true}
+                  header={viewSizeState === "web"}
                   content={
                     item.category === "주문일시"
                       ? orderDateFormat(data.orderDate)
                       : `${data[item.content as keyof typeof data]}`
                   }
-                  rowStyle={"border-b border-sub-black"}
+                  rowStyle={
+                    "border-b border-sub-black max-xsm:border-b-[0.5px] max-xsm:border-main-color"
+                  }
                 />
               )
             )
@@ -222,8 +253,12 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
         </div>
       </div>
       <div className="flex flex-col">
-        <ManagerTitle title="여행자 정보" style="mb-[12px]" />
-        <div className="flex flex-col gap-[48px]">
+        {viewSizeState === "web" ? (
+          <ManagerTitle title="여행자 정보" style="mb-[12px]" />
+        ) : (
+          <SectionTitle title="여행자 정보" titleStyle="max-xsm:text-[16px]" />
+        )}
+        <div className="flex flex-col gap-[48px] max-xsm:pt-[6px]">
           {travelerInfoList.map((info, index) => (
             <OrderedTravelerInfo
               data={info}

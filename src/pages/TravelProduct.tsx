@@ -4,6 +4,7 @@ import CountryBtns from "../components/TravelProduct/CountryBtns";
 import { useLocation, useParams } from "react-router-dom";
 import PackageBoxGroup from "../components/TravelProduct/PackageBoxGroup";
 import { TagCheckList } from "../types/tag";
+import CountryInfo from "../components/TravelProduct/CountryInfo";
 
 const TravelProduct = () => {
   const location = useLocation();
@@ -71,7 +72,7 @@ const TravelProduct = () => {
   };
 
   return (
-    <div className="w-full h-auto flex flex-row gap-[1%] justify-center">
+    <div className="w-full h-auto flex flex-row gap-[1%] justify-center max-xsm:mb-[50px]">
       <TagBtnGroup
         name="우리"
         handleCheck={handelCheck}
@@ -79,15 +80,18 @@ const TravelProduct = () => {
         tagCheckList={tagCheckList}
         handleResetTags={handleResetTags}
       />
-      <div className="flex flex-col grow max-w-[850px] mr-[12%] items-center">
+      <div className="flex flex-col grow max-w-[850px] mr-[12%] items-center gap-[16px] max-xsm:mr-0">
+        <div className="bg-main-color h-[90px] rounded-b-[20px] absolute z-[-999] w-full hidden max-xsm:block" />
         <CountryBtns countryClick={countryClick} />
         <button
           type="button"
-          className="w-[173px] h-[37px] border-[1px] border-main-color text-[14px] flex items-center justify-center gap-[4px]"
+          className=" bg-main-color text-[16px] flex gap-[4px]
+          text-[#FFF4E3] px-[22px] py-[4px] rounded-[12px] tracking-[-0.8px]"
           onClick={handleResetTags}
         >
-          전체보기
+          여행지역 초기화
         </button>
+        {countryClick !== "" && <CountryInfo country={countryClick} />}
         <PackageBoxGroup
           setTagSubmit={setTagSubmit}
           tagSubmit={tagSubmit}

@@ -215,7 +215,7 @@ const OrderManager = () => {
       key: "orderDate",
       label: "주문일시",
       sortable: true,
-      render: (value) => (value ? dateFormat(`${value}`) : ""),
+      render: (value) => (value ? `${dateFormat(`${value}`)}` : ""),
       onClick: () => handleSortOrder("orderDate"),
     },
     {
@@ -232,7 +232,7 @@ const OrderManager = () => {
       key: "startDate",
       label: "출발일",
       sortable: true,
-      render: (value) => (value ? dateFormat(`${value}`) : ""),
+      render: (value) => (value ? `${dateFormat(`${value}`)}` : ""),
       onClick: () => handleSortOrder("startDate"),
     },
     {
@@ -258,7 +258,7 @@ const OrderManager = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col gap-[27px] mr-20 items-center min-w-fit">
+    <div className="w-full flex flex-col gap-[27px] mr-20 items-center min-w-fit pr-10">
       <div className="flex self-start w-fit gap-[30px] ">
         <ManagerTitle title="주문목록" />
         {excelData && excelData.length > 0 && (
