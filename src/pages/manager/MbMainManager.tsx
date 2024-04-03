@@ -1,29 +1,18 @@
-import React, { useEffect, useState } from "react";
-import MainManagerBtn from "../../components/Manager/MainManagerBtn";
-import MainTitle from "../../components/Manager/ManagerTitle";
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
+import MainManagerBtn from "../../components/Manager/MainManagerBtn";
+import { useEffect, useState } from "react";
 import { baseInstance } from "../../api/instance";
-import ExcelDownload from "../../components/Manager/ExcelDownload";
-import { USER_EXCEL_HEADER } from "../../constants/managerdata";
 
-const MainManager = () => {
+const MbMainManager = () => {
   const [myImage, setMyImage] = useState<string[]>([]);
   const [sendImg, setSendImg] = useState<File[]>([]);
-  const [userExcelData, setUserExcelData] = useState([]);
   const [banner1, setBanner1] = useState("");
   const [banner2, setBanner2] = useState("");
   const [banner3, setBanner3] = useState("");
 
   useEffect(() => {
-    baseInstance.get("/users/excel").then((res) => {
-      if (res.status === 200) {
-        setUserExcelData(res.data.data);
-      }
-    });
-  }, []);
-  useEffect(() => {
-    baseInstance.get("/images/banners/web").then((res) => {
-      if (res.status === 200) {
+    baseInstance.get("/images/banners/mobile").then((res) => {
+      if (res.status === 200 && res.data.data) {
         const imageData = res.data.data;
         setBanner1(imageData[0].link);
         setBanner2(imageData[1].link);
@@ -75,7 +64,7 @@ const MainManager = () => {
     }
 
     baseInstance
-      .post("/images/banners/web", formData, {
+      .post("/images/banners/mobile", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -101,14 +90,12 @@ const MainManager = () => {
       setBanner3(value);
     }
   };
-
   return (
-    <div className="flex flex-col items-center pl-36 h-full w-fit">
-      <MainTitle title={"메인관리-배너수정"} />
-      <ManagerTitleBox name="배너 등록" className="mb-2" />
+    <div className="flex flex-col items-center">
+      <ManagerTitleBox name="모바일 배너 등록" className="mb-2" />
 
-      <form className="mb-5">
-        <div className="flex justify-center items-center border p-2 w-[600px]">
+      <form>
+        <div className="flex justify-center items-center border p-2 w-[600px] ">
           <MainManagerBtn
             limitLength={3}
             myImage={myImage}
@@ -139,17 +126,8 @@ const MainManager = () => {
           </button>
         </div>
       </form>
-      {userExcelData && (
-        <ExcelDownload
-          data={userExcelData}
-          headers={USER_EXCEL_HEADER}
-          title="유저목록.csv"
-          fileName="아이맘_유저목록.csv"
-          className="mt-10 text-white bg-main-color px-10 py-4 hover:bg-opacity-50"
-        />
-      )}
     </div>
   );
 };
 
-export default MainManager;
+export default MbMainManager;

@@ -177,26 +177,28 @@ const Community = () => {
 
   return (
     <div className="w-full flex justify-center">
-      <div className="w-[1280px] flex flex-col items-center">
+      <div className="w-[1280px] flex flex-col items-center max-xsm:w-full">
         <div
           className="h-[400px] w-full mb-8 bg-cover bg-center"
           style={{ backgroundImage: `url(${CommunityImg})` }}
         />
-        <div className="flex w-full  ">
+        <div className="flex w-full max-xsm:flex-col">
           <div className="flex flex-col items-start mr-9">
             <SectionTitle title="커뮤니티" padding={true} />
-            {["공지사항", "자주묻는질문", "여행이야기"].map((el, idx) => (
-              <button
-                key={idx}
-                name={el}
-                onClick={(e) => handleNavClick(e, el)}
-                className={`border border-main-color w-44 h-9 font-bold hover:bg-main-color hover:text-white ${
-                  active === el && "bg-main-color text-white"
-                } ${idx === 0 || idx === 1 ? "mb-2" : ""}`}
-              >
-                {el}
-              </button>
-            ))}
+            <div className="flex flex-col max-xsm:flex-row">
+              {["공지사항", "자주묻는질문", "여행이야기"].map((el, idx) => (
+                <button
+                  key={idx}
+                  name={el}
+                  onClick={(e) => handleNavClick(e, el)}
+                  className={`border border-main-color w-44 h-9 font-bold hover:bg-main-color hover:text-white ${
+                    active === el && "bg-main-color text-white"
+                  } ${idx === 0 || idx === 1 ? "mb-2" : ""}`}
+                >
+                  {el}
+                </button>
+              ))}
+            </div>
           </div>
           {!params.postId ? (
             editorActive ? (
