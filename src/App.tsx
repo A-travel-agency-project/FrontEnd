@@ -42,7 +42,6 @@ import MbMainManager from "./pages/manager/MbMainManager";
 import { useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 
-
 function App() {
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
@@ -89,15 +88,15 @@ function App() {
           <Route element={<MainLayout />}>
             <Route element={<MyPageNav />}>
               <Route
-                path="/editmember"
-                element={
-                  <EditMember token={token} refreshToken={refreshToken} />
-                }
-              />
-              <Route
                 path="/mypageorderinfo"
                 element={
                   <MyPageOrderInfo token={token} refreshToken={refreshToken} />
+                }
+              />
+              <Route
+                path="/editmember"
+                element={
+                  <EditMember token={token} refreshToken={refreshToken} />
                 }
               />
               <Route path="/orderconfirm/:orderId" element={<OrderConfirm />} />
