@@ -122,7 +122,7 @@ const NavDropdown = ({ handleMenuClose }: { handleMenuClose: () => void }) => {
                       key={key}
                       onClick={() => handleMenu(value, key)}
                       onTouchStart={() => handleMenu(value, key)}
-                      className="mr-[30px]"
+                      className="mr-[30px] cursor-pointer"
                     >
                       {key}
                     </li>

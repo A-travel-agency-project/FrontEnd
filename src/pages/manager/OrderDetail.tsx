@@ -43,7 +43,7 @@ const OrderDetail = () => {
     return <div>정보를 불러올 수 없습니다.</div>;
   }
   return (
-    <div className="flex flex-col gap-10 w-full mr-20 mb-50 mt-[60px]">
+    <div className="flex flex-col gap-10 w-full mr-20 mb-50 mt-[60px] pr-10">
       <CategoryBtns
         category={ORDER_DETAIL_CATEGORIES}
         handleClick={handleShowInfo}
