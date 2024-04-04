@@ -154,9 +154,7 @@ const TravelDetail = () => {
     return <div className="w-full text-center">잘못된 상품경로입니다.</div>;
   }
   if (isError) {
-    return (
-      <div className="w-full text-center">에러 발생: {error?.message}</div>
-    );
+    return <div className="w-full text-center">상품을 찾을 수 없습니다.</div>;
   }
   if (!detailData) {
     return <div className="w-full text-center">데이터가 없습니다.</div>;

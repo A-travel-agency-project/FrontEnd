@@ -40,6 +40,7 @@ import { useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import AfterPayment from "./pages/AfterPayment";
 import MyPageOrderDetail from "./pages/MyPageOrderDetail";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   const queryClient = new QueryClient({
@@ -132,6 +133,7 @@ function App() {
           </Route>
           <Route path="/paymentcheckout" element={<PaymentCheckout />} />
           <Route path="/paymentcheckout/after/:id" element={<AfterPayment />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </QueryClientProvider>
