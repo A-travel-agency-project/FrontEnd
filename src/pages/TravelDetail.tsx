@@ -32,7 +32,7 @@ const TravelDetail = () => {
   >("scheduleList");
   const [showProductInfo, setShowProductInfo] = useState<string>("keyPoint");
   const [detailData, setDetailData] = useState<ProductDetialInfo>();
-  const { data, isError, error } = useGetProduct(id ? +id : 0);
+  const { data, isError } = useGetProduct(id ? +id : 0);
 
   const [scheduleInfo, setScheuleInfo] = useState<string>("");
 
