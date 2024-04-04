@@ -178,7 +178,7 @@ const MyPageOrderInfo = ({ refreshToken, token }: EditType) => {
               </td>
               <td className="border border-main-color p-2 ">
                 <button
-                  onClick={() => navigation(`/orderconfirm/${el.imomOrderId}`)}
+                  onClick={() => navigation(`/myorderdetail/${el.imomOrderId}`)}
                 >
                   {el.packageName}
                 </button>

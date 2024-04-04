@@ -32,7 +32,6 @@ import ResetPassword from "./pages/ResetPassword";
 import EasySignUp from "./pages/EasySignUp";
 import KakaoOAuthCallback from "./components/Login/KakaoOAuthCallback";
 import NaverOAuthCallback from "./components/Login/NaverOAuthCallback";
-import OrderConfirm from "./pages/OrderConfirm";
 import PaymentCheckout from "./pages/PaymentCheckout";
 import MainLayout from "./components/common/MainLayout";
 import { viewSize } from "./atom/atom";
@@ -40,6 +39,7 @@ import MbMainManager from "./pages/manager/MbMainManager";
 import { useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import AfterPayment from "./pages/AfterPayment";
+import MyPageOrderDetail from "./pages/MyPageOrderDetail";
 
 function App() {
   const queryClient = new QueryClient({
@@ -96,7 +96,10 @@ function App() {
                   <EditMember token={token} refreshToken={refreshToken} />
                 }
               />
-              <Route path="/orderconfirm/:orderId" element={<OrderConfirm />} />
+              <Route
+                path="/myorderdetail/:orderId"
+                element={<MyPageOrderDetail />}
+              />
             </Route>
             <Route path="/" element={<Main />} />
             <Route path="/intro" element={<Intro />} />

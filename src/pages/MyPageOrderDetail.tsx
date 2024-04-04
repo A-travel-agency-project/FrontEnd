@@ -9,7 +9,7 @@ import PaymentInfo from "../components/common/Order/PaymentInfo";
 import { useRecoilValue } from "recoil";
 import { viewSize } from "../atom/atom";
 
-const OrderConfirm = () => {
+const MyPageOrderDetail = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const viewSizeState = useRecoilValue(viewSize);
@@ -87,4 +87,4 @@ const OrderConfirm = () => {
   );
 };
 
-export default OrderConfirm;
+export default MyPageOrderDetail;

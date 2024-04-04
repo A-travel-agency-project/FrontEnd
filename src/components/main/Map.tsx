@@ -11,7 +11,6 @@ const Map = () => {
   const [showImg, setShowImg] = useState<string | null>(null);
   const handleMouseOver = (event: React.MouseEvent<HTMLDivElement>) => {
     const ariaLabel = event.currentTarget.getAttribute("aria-label");
-    console.log("aria-label:", ariaLabel);
     setShowImg(() => ariaLabel);
   };
   const handleMouseOut = () => {
