@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import CryptoJS from "crypto-js";
 import { PaymentData } from "../../types/payment";
 
-const AfterPayment = () => {
+const PaymentSuccess = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const orderId = searchParams.get("orderId");
@@ -82,13 +82,6 @@ const AfterPayment = () => {
     };
   }, [progress, navigate]);
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     alert(errorReason !== null ? errorReason : "결제에 실패했습니다.");
-  //     navigate("/");
-  //   }
-  // }, [isError, errorReason, navigate]);
-
   if (isPending) {
     return <div>예약 처리중...</div>;
   }
@@ -99,4 +92,4 @@ const AfterPayment = () => {
     return <div>결제성공</div>;
   }
 };
-export default AfterPayment;
+export default PaymentSuccess;

@@ -21,7 +21,6 @@ import {
   QueryClient,
   QueryCache,
 } from "@tanstack/react-query";
-import PaymentSuccess from "./pages/PaymentSuccess";
 import TagsManager from "./pages/manager/TagsManager";
 import MyPageNav from "./components/MyPage/MyPageNav";
 import EditMember from "./pages/EditMember";
@@ -40,6 +39,7 @@ import { viewSize } from "./atom/atom";
 import MbMainManager from "./pages/manager/MbMainManager";
 import { useSetRecoilState } from "recoil";
 import { useEffect } from "react";
+import AfterPayment from "./pages/AfterPayment";
 
 function App() {
   const queryClient = new QueryClient({
@@ -128,10 +128,7 @@ function App() {
             <Route path="/tagsmanager" element={<TagsManager />} />
           </Route>
           <Route path="/paymentcheckout" element={<PaymentCheckout />} />
-          <Route
-            path="/paymentcheckout/after/:id"
-            element={<PaymentSuccess />}
-          />
+          <Route path="/paymentcheckout/after/:id" element={<AfterPayment />} />
         </Routes>
       </div>
     </QueryClientProvider>
