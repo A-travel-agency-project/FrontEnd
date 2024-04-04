@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { loginCheck, userChildName } from "../../../atom/atom";
 import userInstance from "../../../api/userInstance";
 const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(loginCheck);
   const isAdmin =
     window.localStorage.getItem("role") === "ROLE_ADMIN" ? true : false;
@@ -33,23 +34,29 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
     <>
       {!isLogin ? (
         <div className="flex gap-[12px] justify-between text-[10px] text-sub-black max-xsm:items-center max-xsm:text-[11px]">
-          <Link to={"/login"} className="max-xsm:flex max-xsm:gap-[5px]">
+          <button
+            onClick={() => navigate("/login")}
+            className="max-xsm:flex-row max-xsm:gap-[5px] flex items-center flex-col"
+          >
             <img
               src="/login.svg"
               alt="login"
-              className="w-[30px] h-[30px] max-xsm:w-[18px] max-xsm:h-[21px]"
+              className="w-[30px] h-[30px] max-xsm:w-[18px] max-xsm:h-[21px] "
             />
             <button type="button">로그인</button>
-          </Link>
-          <Link to={"/signup"} className="hidden max-xsm:inline">
+          </button>
+          <button
+            onClick={() => navigate("/signup")}
+            className="hidden max-xsm:inline"
+          >
             <button type="button">회원가입</button>
-          </Link>
+          </button>
         </div>
       ) : (
         <div className="flex items-center justify-center text-[10px] text-sub-black gap-[12px]">
           {!isAdmin ? (
-            <Link
-              to={"/editmember"}
+            <button
+              onClick={() => navigate("/editmember")}
               className="flex justify-center flex-col items-center max-xsm:hidden"
             >
               <img
@@ -58,10 +65,10 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
                 className="w-[30px] h-[30px]"
               />
               마이페이지
-            </Link>
+            </button>
           ) : (
-            <Link
-              to={"/mainmanager"}
+            <button
+              onClick={() => navigate("/mainmanager")}
               className="flex justify-center flex-col items-center max-xsm:hidden"
             >
               <img
@@ -70,7 +77,7 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
                 className="w-[30px] h-[30px]"
               />
               관리자페이지
-            </Link>
+            </button>
           )}
           <button
             className="flex justify-center flex-col items-center max-xsm:flex-row max-xsm:gap-[5px]"
