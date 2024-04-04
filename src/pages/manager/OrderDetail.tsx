@@ -33,7 +33,6 @@ const OrderDetail = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setIdList(data.orderNumberList);
       if (data.fluctuationInfos) setChangeHistory(data.fluctuationInfos);
     }

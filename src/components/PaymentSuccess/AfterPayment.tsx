@@ -26,8 +26,6 @@ const AfterPayment = () => {
 
   const [progress, setProgress] = useState(1);
 
-  console.log(encryptedData);
-
   const { mutate, data, isPending, isError, errorReason } = usePostDeposit(
     requestData,
     payFor
@@ -48,7 +46,6 @@ const AfterPayment = () => {
 
   useEffect(() => {
     if (requestData && payFor) {
-      console.log(requestData);
       mutate();
     }
   }, [requestData, mutate, payFor]);
@@ -71,7 +68,6 @@ const AfterPayment = () => {
     history.pushState(null, "", "");
 
     const handleClickBrowserBackBtn = () => {
-      console.log("popstate 실행");
       if (progress <= 1) {
         setProgress((prev) => prev + 1);
       } else {

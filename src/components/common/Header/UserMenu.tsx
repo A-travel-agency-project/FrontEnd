@@ -7,7 +7,6 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
   const [isLogin, setIsLogin] = useRecoilState(loginCheck);
   const isAdmin =
     window.localStorage.getItem("role") === "ROLE_ADMIN" ? true : false;
-  console.log(window.localStorage.getItem("role"));
   const resetName = useResetRecoilState(userChildName);
 
   const handleLogoutClick = () => {
@@ -21,6 +20,7 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
             window.localStorage.removeItem("refreshToken");
             window.localStorage.removeItem("role");
             resetName();
+            navigate("/");
             alert("로그아웃 완료!");
             if (handleMenuClose) {
               handleMenuClose();
@@ -36,6 +36,7 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
         <div className="flex gap-[12px] justify-between text-[10px] text-sub-black max-xsm:items-center max-xsm:text-[11px]">
           <button
             onClick={() => navigate("/login")}
+            onTouchStart={() => navigate("/login")}
             className="max-xsm:flex-row max-xsm:gap-[5px] flex items-center flex-col"
           >
             <img
@@ -47,6 +48,7 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
           </button>
           <button
             onClick={() => navigate("/signup")}
+            onTouchStart={() => navigate("/signup")}
             className="hidden max-xsm:inline"
           >
             <button type="button">회원가입</button>
@@ -56,7 +58,8 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
         <div className="flex items-center justify-center text-[10px] text-sub-black gap-[12px]">
           {!isAdmin ? (
             <button
-              onClick={() => navigate("/editmember")}
+              onClick={() => navigate("/mypageorderinfo")}
+              onTouchStart={() => navigate("/mypageorderinfo")}
               className="flex justify-center flex-col items-center max-xsm:hidden"
             >
               <img
@@ -82,6 +85,7 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
           <button
             className="flex justify-center flex-col items-center max-xsm:flex-row max-xsm:gap-[5px]"
             onClick={handleLogoutClick}
+            onTouchStart={handleLogoutClick}
           >
             <img
               src="/sublogout.svg"

@@ -11,13 +11,10 @@ import { viewSize } from "../atom/atom";
 
 const OrderConfirm = () => {
   const { orderId } = useParams();
-  console.log(orderId);
   const navigate = useNavigate();
   const viewSizeState = useRecoilValue(viewSize);
 
   const { data, isError } = useGetUserOrderInfo(orderId ?? "");
-
-  console.log(data);
 
   const [showInfo, setShowInfo] = useState("orderInfo");
 
@@ -29,9 +26,7 @@ const OrderConfirm = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       setIdList(data.orderNumberList);
-      console.log(data.orderNumberList);
     }
   }, [data]);
 

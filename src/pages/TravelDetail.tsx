@@ -42,11 +42,9 @@ const TravelDetail = () => {
     if (data) {
       setDetailData(data);
     }
-    console.log(data);
   }, [data]);
 
   const handleScheduleInfo = (id: string) => {
-    console.log(id);
     if (detailData) {
       setShowScheduleInfo(
         () => id as "hotelInfo" | "scheduleList" | "regionInfo" | "terms"
@@ -67,7 +65,6 @@ const TravelDetail = () => {
   };
 
   const handleReserve = () => {
-    console.log("click");
     setShowReserveBox(true);
   };
 
@@ -112,18 +109,14 @@ const TravelDetail = () => {
 
   useEffect(() => {
     const handleDragStart = (event: MouseEvent | TouchEvent) => {
-      console.log("start");
       const clientY =
         event instanceof TouchEvent ? event.touches[0].clientY : event.clientY;
 
-      console.log(clientY);
       startYRef.current = clientY;
       event.preventDefault();
     };
 
     const handleDragEnd = (event: MouseEvent | TouchEvent) => {
-      console.log("end");
-
       const clientY =
         event instanceof TouchEvent
           ? event.changedTouches[0].clientY
@@ -136,7 +129,6 @@ const TravelDetail = () => {
     };
 
     const element = dropdownRef.current;
-    console.log(element);
     if (viewSizeState === "mobile" && element) {
       element.addEventListener("touchstart", handleDragStart, {
         passive: false,

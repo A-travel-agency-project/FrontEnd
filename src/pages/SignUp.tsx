@@ -133,7 +133,6 @@ const SignUp = () => {
         break;
     }
   };
-  console.log(baby);
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGender(e.target.value);

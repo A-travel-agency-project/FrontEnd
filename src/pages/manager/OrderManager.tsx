@@ -63,7 +63,6 @@ const OrderManager = () => {
       (orderReq.orderDateMin && orderReq.orderDateMax) ||
       (!orderReq.orderDateMin && !orderReq.orderDateMax)
     ) {
-      console.log(orderReq);
       mutate();
     }
   }, [orderReq, mutate]);
@@ -72,7 +71,6 @@ const OrderManager = () => {
     if (data) {
       setOrderList(() => fillData(data.content, 10, ORDER_EMPTYDATA));
       setTotalPages(data.totalPages);
-      console.log(data);
     }
     return;
   }, [data]);
@@ -117,7 +115,6 @@ const OrderManager = () => {
       }
       return el.replace("Date", "");
     });
-    console.log(otherCategoriesReqName);
     setOrderReq((prev) => ({
       ...prev,
       [reqCategory]: prev[reqCategory as keyof OrderRequest] === 0 ? 1 : 0,
@@ -127,7 +124,6 @@ const OrderManager = () => {
   };
 
   const handlePageClick = (selected: number) => {
-    console.log(selected);
     setOrderReq((prev) => ({
       ...prev,
       offset: selected,

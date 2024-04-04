@@ -28,18 +28,14 @@ const NavDropdown = ({ handleMenuClose }: { handleMenuClose: () => void }) => {
   };
 
   const handleDragStart = (event: MouseEvent | TouchEvent) => {
-    console.log("start");
     const clientY =
       event instanceof TouchEvent ? event.touches[0].clientY : event.clientY;
 
-    console.log(clientY);
     startYRef.current = clientY;
     event.preventDefault();
   };
 
   const handleDragEnd = (event: MouseEvent | TouchEvent) => {
-    console.log("end");
-
     const clientY =
       event instanceof TouchEvent
         ? event.changedTouches[0].clientY

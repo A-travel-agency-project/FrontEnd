@@ -165,7 +165,6 @@ const Community = () => {
           alert("오류가 발생했습니다.");
         }
       } catch (error) {
-        console.error("API 호출 오류:", error);
         alert("오류가 발생했습니다.");
       }
     }

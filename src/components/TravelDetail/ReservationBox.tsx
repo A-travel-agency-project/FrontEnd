@@ -77,7 +77,6 @@ const ReservationBox = ({
 
   const getPrice = (age: string, newCount: number) => {
     const priceInfo = prices.filter((item) => item.age === age);
-    console.log(priceInfo);
     return newCount * (priceInfo[0].surcharge + priceInfo[0].price);
   };
 

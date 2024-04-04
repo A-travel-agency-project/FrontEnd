@@ -36,8 +36,7 @@ import NaverOAuthCallback from "./components/Login/NaverOAuthCallback";
 import OrderConfirm from "./pages/OrderConfirm";
 import PaymentCheckout from "./pages/PaymentCheckout";
 import MainLayout from "./components/common/MainLayout";
-import { loginCheck, viewSize } from "./atom/atom";
-import { useRecoilValue } from "recoil";
+import { viewSize } from "./atom/atom";
 import MbMainManager from "./pages/manager/MbMainManager";
 import { useSetRecoilState } from "recoil";
 import { useEffect } from "react";
@@ -50,8 +49,6 @@ function App() {
   });
   const token = window.localStorage.getItem("token");
   const refreshToken = window.localStorage.getItem("refreshToken");
-  const isLoggedIn = useRecoilValue(loginCheck);
-  console.log(isLoggedIn);
 
   const setViewSize = useSetRecoilState(viewSize);
 

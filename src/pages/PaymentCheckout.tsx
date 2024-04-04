@@ -17,9 +17,6 @@ const PaymentCheckout = () => {
 
   const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
 
-  console.log(paymentInfo);
-  console.log(tossPaymentInfo);
-
   useEffect(() => {
     if (paymentInfo) {
       const orderId = paymentInfo.productId

@@ -87,7 +87,6 @@ const TravelerInfoForm = ({
   };
 
   const handleInput = (id: keyof travelerInfo, value: string) => {
-    console.log(value);
     const updatedInfo = { ...info, [id]: value };
     setInfo(() => updatedInfo);
     handleTravelerInfo(travelerId, updatedInfo);
