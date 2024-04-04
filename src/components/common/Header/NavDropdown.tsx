@@ -34,6 +34,7 @@ const NavDropdown = ({ handleMenuClose }: { handleMenuClose: () => void }) => {
 
     console.log(clientY);
     startYRef.current = clientY;
+    event.preventDefault();
   };
 
   const handleDragEnd = (event: MouseEvent | TouchEvent) => {
@@ -140,89 +141,3 @@ const NavDropdown = ({ handleMenuClose }: { handleMenuClose: () => void }) => {
   );
 };
 export default NavDropdown;
-// const handleTouchStart = (event: TouchEvent | MouseEvent) => {
-//   const startY =
-//     event instanceof TouchEvent ? event.touches[0].clientY : event.clientY;
-//   setStartY(startY);
-//   event.preventDefault();
-// };
-
-// const handleTouchMove = (event: TouchEvent | MouseEvent) => {
-//   if (!dropdownRef.current) return;
-//   const moveY =
-//     event instanceof TouchEvent ? event.touches[0].clientY : event.clientY;
-
-//   if (moveY - startY > 200) {
-//     setIsVisible(false);
-//     handleMenuClose();
-//     event.preventDefault();
-//   }
-// };
-
-// useEffect(() => {
-//   const element = dropdownRef.current;
-//   if (viewSizeState === "mobile" && element) {
-//     element.addEventListener("touchstart", handleTouchStart, {
-//       passive: false,
-//     });
-//     element.addEventListener("touchmove", handleTouchMove, {
-//       passive: false,
-//     });
-//     element.addEventListener("mousedown", handleTouchStart, {
-//       passive: false,
-//     });
-//     element.addEventListener("mousemove", handleTouchMove, {
-//       passive: false,
-//     });
-//   }
-
-//   return () => {
-//     if (element) {
-//       element.removeEventListener("touchstart", handleTouchStart);
-//       element.removeEventListener("touchmove", handleTouchMove);
-//       element.removeEventListener("mousedown", handleTouchStart);
-//       element.removeEventListener("mousemove", handleTouchMove);
-//     }
-//   };
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, [viewSizeState]);
-
-// const handleStart = (event: TouchEvent | MouseEvent) => {
-//   console.log("start");
-//   const clientY =
-//     event instanceof TouchEvent ? event.touches[0].clientY : event.clientY;
-//   setStartY(clientY);
-//   event.preventDefault();
-// };
-
-// const handleEnd = (event: TouchEvent | MouseEvent) => {
-//   console.log("end");
-//   const clientY =
-//     event instanceof TouchEvent
-//       ? event.changedTouches[0].clientY
-//       : event.clientY;
-//   if (clientY - startY > 200) {
-//     // 드래그 거리가 200px 이상이면
-//     setIsVisible(false);
-//     handleMenuClose();
-//     event.preventDefault();
-//   }
-// };
-
-// useEffect(() => {
-//   const element = dropdownRef.current;
-//   if (element && viewSizeState === "mobile") {
-//     element.addEventListener("touchstart", handleStart, { passive: false });
-//     element.addEventListener("touchend", handleEnd, { passive: false });
-//     element.addEventListener("mousedown", handleStart, { passive: false });
-//     window.addEventListener("mouseup", handleEnd, { passive: false });
-
-//     return () => {
-//       element.removeEventListener("touchstart", handleStart);
-//       element.removeEventListener("touchend", handleEnd);
-//       element.removeEventListener("mousedown", handleStart);
-//       window.removeEventListener("mouseup", handleEnd);
-//     };
-//   }
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, [viewSizeState]);
