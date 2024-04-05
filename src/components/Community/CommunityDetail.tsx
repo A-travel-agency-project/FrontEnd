@@ -34,9 +34,9 @@ const CommunityDetail = ({ setEditorActive }: DetailState) => {
     <div className="w-full flex flex-col">
       <div className="w-full h-[1px]  bg-[#FBB03C]  mb-1" />
       <div className="w-full px-10 mb-2 flex justify-between border-y border-main-color bg-main-color bg-opacity-10">
-        <div>{detailData?.title}</div>
+        <div className="whitespace-nowrap">{detailData?.title}</div>
         <div className="flex">
-          <div className="mr-20">관리자</div>
+          <div className="mr-20 max-xsm:hidden">관리자</div>
           <div>{detailData?.createdDate}</div>
         </div>
       </div>
