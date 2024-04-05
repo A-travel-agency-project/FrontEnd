@@ -11,6 +11,8 @@ const BlogBox = () => {
   const { data, isPending, isError, error } = useGetMainPosts();
   const viewSizeState = useRecoilValue(viewSize);
 
+  console.log(viewSizeState);
+
   if (isPending) {
     return <div>로딩 중...</div>;
   }
@@ -23,7 +25,7 @@ const BlogBox = () => {
   }
   return (
     <Swiper
-      slidesPerView={viewSizeState === "web" ? 4 : "auto"}
+      slidesPerView={"auto"}
       spaceBetween={viewSizeState === "web" ? 30 : 13}
       navigation={viewSizeState === "web" ? true : false}
       freeMode={viewSizeState === "web" ? false : true}
@@ -37,7 +39,7 @@ const BlogBox = () => {
             <li key={item.title}>
               <SwiperSlide
                 key={`${item.title}_${idx}`}
-                className={`bg-white border-sub-gray border-[1px] 
+                className={`bg-white border-sub-gray border-[1px] w-[180px]
                 max-xsm:w-[150px] max-xsm:h-[150px] max-xsm:border-main-color max-xsm:rounded-[20px]`}
               >
                 <a

@@ -40,5 +40,5 @@ export const userChildName = atom({
 
 export const viewSize = atom({
   key: "viewSize",
-  default: window.innerWidth <= 375 ? "mobile" : "web",
+  default: window.innerWidth <= 380 ? "mobile" : "web",
 });
