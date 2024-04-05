@@ -93,7 +93,7 @@ const PaymentInfoBox = ({
                         }
                       </span>
                       <span>:</span>
-                      <span>
+                      <span className="max-xsm:max-w-[250px]">
                         {key === "amount" || key === "discountAmount"
                           ? `${amountFormat(+value)} 원`
                           : value}
@@ -119,7 +119,7 @@ const PaymentInfoBox = ({
                         }
                       </span>
                       <span>:</span>
-                      <span>
+                      <span className="max-xsm:max-w-[250px]">
                         {value && key === "amount"
                           ? `${amountFormat(+value)} 원`
                           : value}
@@ -148,7 +148,7 @@ const PaymentInfoBox = ({
                         }
                       </span>
                       <span>:</span>
-                      <span>
+                      <span className="max-xsm:max-w-[250px]">
                         {key === "amount" || key === "taxFreeAmount"
                           ? `${amountFormat(+value)} 원`
                           : value}
@@ -178,7 +178,7 @@ const PaymentInfoBox = ({
                           }
                         </span>
                         <span>:</span>
-                        <span>
+                        <span className="max-xsm:max-w-[250px]">
                           {key === "cancelAmount" || key === "refundableAmount"
                             ? value
                               ? `${amountFormat(+value)} 원`
