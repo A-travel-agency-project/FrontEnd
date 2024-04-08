@@ -55,7 +55,7 @@ function App() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 375) {
+      if (window.innerWidth <= 430) {
         setViewSize("mobile");
       } else {
         setViewSize("web");

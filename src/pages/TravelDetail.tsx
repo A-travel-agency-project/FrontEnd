@@ -44,6 +44,9 @@ const TravelDetail = () => {
     }
   }, [data]);
 
+  console.log(viewSizeState);
+  console.log(window.innerWidth);
+
   const handleScheduleInfo = (id: string) => {
     if (detailData) {
       setShowScheduleInfo(
@@ -224,36 +227,38 @@ const TravelDetail = () => {
             <ScheduleInfo info={scheduleInfo} key={showScheduleInfo} />
           )}
         </div>
-        <div
-          className="dropdown bg-white z-50 fixed w-full flex-col
+        {viewSizeState === "mobile" && (
+          <div
+            className="dropdown bg-white z-50 fixed w-full flex-col
             h-fit px-[50px] pb-[99px] rounded-t-[20px] py-0 items-center hidden max-xsm:flex"
-          ref={dropdownRef}
-        >
-          <div className="w-[50px] h-[3px] rounded-[10px] bg-main-color mb-[12px] mt-[12px] flex self-center" />
-          {!showReserveBox && (
-            <button
-              className="bg-main-color rounded-[20px] text-white text-[12px] tracking-[-0.6px]
+            ref={dropdownRef}
+          >
+            <div className="w-[50px] h-[3px] rounded-[10px] bg-main-color mb-[12px] mt-[12px] flex self-center" />
+            {!showReserveBox && (
+              <button
+                className="bg-main-color rounded-[20px] text-white text-[12px] tracking-[-0.6px]
             disabled:bg-sub-black disabled:bg-opacity-[0.3] px-[77px] py-[12px] "
-              onClick={handleReserve}
-              onTouchStart={handleReserve}
-              disabled={detailData.productInfo.productState !== "예약 가능"}
-            >
-              {detailData.productInfo.productState === "예약 가능"
-                ? "예약하기"
-                : detailData.productInfo.productState}
-            </button>
-          )}
-          <div className={`${showReserveBox ? "block" : "hidden"}`}>
-            <ReservationBox
-              prices={prices}
-              maxCount={detailData.productInfo.maxCount}
-              nowCount={detailData.productInfo.nowCount}
-              info={reservationInfo}
-              productState={detailData.productInfo.productState}
-              position="mobile"
-            />
+                onClick={handleReserve}
+                onTouchStart={handleReserve}
+                disabled={detailData.productInfo.productState !== "예약 가능"}
+              >
+                {detailData.productInfo.productState === "예약 가능"
+                  ? "예약하기"
+                  : detailData.productInfo.productState}
+              </button>
+            )}
+            <div className={`${showReserveBox ? "block" : "hidden"}`}>
+              <ReservationBox
+                prices={prices}
+                maxCount={detailData.productInfo.maxCount}
+                nowCount={detailData.productInfo.nowCount}
+                info={reservationInfo}
+                productState={detailData.productInfo.productState}
+                position="mobile"
+              />
+            </div>
           </div>
-        </div>
+        )}
       </section>
     </div>
   );
