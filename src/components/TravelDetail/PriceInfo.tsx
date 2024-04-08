@@ -13,7 +13,7 @@ const PriceInfo = ({
   return price === 0 ? (
     <div
       className="flex flex-col items-center justify-center border-main-color border-[1px] first:border-r-0 last:border-l-0 w-full py-[16px] px-[12px]
-    max-xsm:border-[0.5px] max-xsm:border-r-0 max-xsm:p-0 max-xsm:justify-start"
+    max-xsm:border-[0.5px] max-xsm:border-r-0 max-xsm:p-0 max-xsm:justify-start border-r-0"
     >
       <div className="flex flex-col w-full text-center max-xsm:bg-main-color max-xsm:bg-opacity-[0.1] max-xsm:pt-[6px] max-xsm:pb-[2px]">
         <span className="text-[12px]">{age}</span>

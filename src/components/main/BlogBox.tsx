@@ -11,8 +11,6 @@ const BlogBox = () => {
   const { data, isPending, isError, error } = useGetMainPosts();
   const viewSizeState = useRecoilValue(viewSize);
 
-  console.log(viewSizeState);
-
   if (isPending) {
     return <div>로딩 중...</div>;
   }
@@ -31,7 +29,7 @@ const BlogBox = () => {
       freeMode={viewSizeState === "web" ? false : true}
       modules={[Navigation, FreeMode]}
       className="overflow-hidden w-[850px] px-[20px] py-[16px] h-[196px] bg-[#F5F5F5] 
-      max-xsm:bg-transparent max-xsm:max-w-[355px] max-xsm:h-fit max-xsm:p-0 max-xsm:w-full"
+      max-xsm:bg-transparent max-xsm:max-w-[398px] max-xsm:h-fit max-xsm:p-0 max-xsm:w-full"
     >
       {data && (
         <ul>

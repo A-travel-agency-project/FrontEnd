@@ -31,7 +31,7 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
     infantCount: 0,
   });
 
-  const { mutate, isError, error } = usePostTravelerInfo({
+  const { mutate, isError, error, errorReason } = usePostTravelerInfo({
     ...travelerCount,
     totalCount: travelerInfoList.length,
     travelerInfoList: travelerInfoList,
@@ -117,10 +117,19 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
   };
 
   useEffect(() => {
-    if (isError && error) {
-      alert("여행자 정보 수정에 실패하였습니다.");
+    if (isError && error && errorReason) {
+      alert(
+        errorReason !== null
+          ? `${errorReason}`
+          : "여행자 정보 수정에 실패하였습니다."
+      );
+      setTravelerInfoList((prev) => {
+        const newList = [...prev];
+        newList.pop;
+        return newList;
+      });
     }
-  }, [isError, error]);
+  }, [isError, error, errorReason]);
 
   useEffect(() => {
     setTravelerInfoList(data.travelerInfos);
@@ -141,19 +150,8 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
         <div>
           <SpecialAmount
             orderId={data.imomOrderId}
-            specialAmount={
-              data.fluctuationInfos?.length
-                ? data.fluctuationInfos[data.fluctuationInfos.length - 1]
-                : {
-                    changedPrice: 0,
-                    memo: "",
-                    payedPrice: 0,
-                    totalPriceSnapshot: 0,
-                    balanceSnapshot: 0,
-                    updateDate: "",
-                  }
-            }
             orderState={data.orderState ?? ""}
+            totalPrice={data.totalPrice}
           />
         </div>
       )}

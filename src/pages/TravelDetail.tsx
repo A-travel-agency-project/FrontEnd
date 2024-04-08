@@ -197,7 +197,7 @@ const TravelDetail = () => {
           />
         )}
       </section>
-      <section className="flex flex-col gap-[16px]">
+      <section className="flex flex-col gap-[16px] max-xsm:w-full mx-[16px]">
         {viewSizeState === "web" ? (
           <CategoryBtns
             category={SCHEDULE_INFO_CATEGORIES}

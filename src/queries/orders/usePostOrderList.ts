@@ -4,6 +4,7 @@ import { OrderRequest } from "../../types/manager";
 
 const usePostMangerOrders = (req: OrderRequest) => {
   const queryClient = useQueryClient();
+  console.log(req);
   const { mutate, data, isPending, isError, error } = useMutation({
     mutationKey: ["postManagerOrders"],
     mutationFn: () => PostManagerOrders(req),

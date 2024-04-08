@@ -153,7 +153,7 @@ const ProductInfoList = ({ packageId }: { packageId: number }) => {
         data={tableData}
         columns={viewSizeState === "web" ? columns : mobileColumns}
         tableStyle={
-          "text-center w-[750px] border-main-color border-t-[0.5px] border-b-[0.5px] max-xsm:max-w-[375px] max-xsm:w-full"
+          "text-center w-[750px] border-main-color border-t-[0.5px] border-b-[0.5px] max-xsm:w-full"
         }
         theadStyle={
           "bg-main-color bg-opacity-10 h-[24px] mt-[1px] border-t-[0.5px] border-b-[0.5px] border-main-color"

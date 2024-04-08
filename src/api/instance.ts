@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { loginCheck } from "../atom/atom";
 
 export const baseInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -28,16 +30,13 @@ userInstance.interceptors.request.use(
 );
 
 // 토큰 갱신 함수
-const getNewToken = async () => {
+const useGetNewToken = async () => {
+  const setIsLogin = useSetRecoilState(loginCheck);
   try {
     await userInstance
-      .patch(
-        "/auth/reissue",
-        {},
-        {
-          headers: { Refresh: window.localStorage.getItem("refreshToken") },
-        }
-      )
+      .get("/auth/reissue", {
+        headers: { Refresh: window.localStorage.getItem("refreshToken") },
+      })
       .then((res) => {
         console.log("refreshToken", res.headers.refreshToken);
         window.localStorage.setItem("refreshToken", res.headers.refreshToken); // 리프레시토큰도 재발급
@@ -48,6 +47,7 @@ const getNewToken = async () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("refreshToken");
     window.localStorage.removeItem("role");
+    setIsLogin(false);
     throw new Error("Token refresh failed");
   }
 };
@@ -68,7 +68,7 @@ userInstance.interceptors.response.use(
     }
 
     config.retry = true;
-    const newToken = await getNewToken();
+    const newToken = await useGetNewToken();
     if (newToken) {
       config.headers["Authorization"] = `Bearer ${newToken}`;
     }

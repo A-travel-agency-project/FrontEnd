@@ -120,9 +120,13 @@ const PaymentInfoBox = ({
                       </span>
                       <span>:</span>
                       <span className="max-xsm:max-w-[250px]">
-                        {value && key === "amount"
-                          ? `${amountFormat(+value)} 원`
-                          : value}
+                        {value && key === "amount" ? (
+                          `${amountFormat(+value)} 원`
+                        ) : key === "receiptUrl" ? (
+                          <a href={`${value}`} />
+                        ) : (
+                          value
+                        )}
                       </span>
                     </div>
                   )
@@ -149,9 +153,13 @@ const PaymentInfoBox = ({
                       </span>
                       <span>:</span>
                       <span className="max-xsm:max-w-[250px]">
-                        {key === "amount" || key === "taxFreeAmount"
-                          ? `${amountFormat(+value)} 원`
-                          : value}
+                        {key === "amount" || key === "taxFreeAmount" ? (
+                          `${amountFormat(+value)} 원`
+                        ) : key === "receiptUrl" ? (
+                          <a href={`${value}`} />
+                        ) : (
+                          value
+                        )}
                       </span>
                     </div>
                   )
@@ -160,7 +168,7 @@ const PaymentInfoBox = ({
           )}
           {info.cancels && (
             <div>
-              <h3 className="pb-[12px]">
+              <h3 className="py-[12px]">
                 <strong>결제 취소 정보</strong>
               </h3>
               {info.cancels.map((cancelInfo) =>

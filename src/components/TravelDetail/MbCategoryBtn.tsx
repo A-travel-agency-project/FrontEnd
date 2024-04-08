@@ -21,7 +21,7 @@ const MbCategoryBtns = ({
       spaceBetween={8}
       freeMode={true}
       modules={[FreeMode, Pagination]}
-      className="overflow-hidden bg-transparent max-w-[355px] h-fit w-full ml-[16px]"
+      className="overflow-hidden bg-transparent max-w-[398px] h-fit w-full ml-[16px]"
     >
       <div
         className={`${
