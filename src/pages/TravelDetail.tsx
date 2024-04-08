@@ -160,7 +160,7 @@ const TravelDetail = () => {
     return <div className="w-full text-center">데이터가 없습니다.</div>;
   }
   return (
-    <div className="w-full flex flex-col items-center gap-[46px] max-xsm:gap-[30px] max-xsm:pb-[120px]">
+    <div className="w-full flex flex-col items-center gap-[46px] max-xsm:gap-[30px] max-xsm:pb-[120px] max-xsm:overflow-hidden">
       <div className="bg-main-color h-[90px] rounded-b-[20px] absolute z-[-999] w-full hidden max-xsm:block" />
       <PackageDetail
         packageInfo={detailData.packageInfo}
@@ -174,7 +174,7 @@ const TravelDetail = () => {
           nowCount={detailData.productInfo.nowCount}
           info={reservationInfo}
           productState={detailData.productInfo.productState}
-          viewSize={viewSizeState}
+          position={"web"}
         />
       </div>
       <section
@@ -224,37 +224,36 @@ const TravelDetail = () => {
             <ScheduleInfo info={scheduleInfo} key={showScheduleInfo} />
           )}
         </div>
-        {viewSizeState === "mobile" && (
-          <div
-            className="dropdown bg-white z-50 fixed w-full flex-col
-            h-fit px-[50px] pb-[99px] rounded-t-[20px] py-0 flex items-center"
-            ref={dropdownRef}
-          >
-            <div className="w-[50px] h-[3px] rounded-[10px] bg-main-color mb-[12px] mt-[12px] flex self-center" />
-            {!showReserveBox && (
-              <button
-                className="bg-main-color rounded-[20px] text-white text-[12px] tracking-[-0.6px]
+        <div
+          className="dropdown bg-white z-50 fixed w-full flex-col
+            h-fit px-[50px] pb-[99px] rounded-t-[20px] py-0 items-center hidden max-xsm:flex"
+          ref={dropdownRef}
+        >
+          <div className="w-[50px] h-[3px] rounded-[10px] bg-main-color mb-[12px] mt-[12px] flex self-center" />
+          {!showReserveBox && (
+            <button
+              className="bg-main-color rounded-[20px] text-white text-[12px] tracking-[-0.6px]
             disabled:bg-sub-black disabled:bg-opacity-[0.3] px-[77px] py-[12px] "
-                onClick={handleReserve}
-                onTouchStart={handleReserve}
-                disabled={detailData.productInfo.productState !== "예약 가능"}
-              >
-                {detailData.productInfo.productState === "예약 가능"
-                  ? "예약하기"
-                  : detailData.productInfo.productState}
-              </button>
-            )}
-            <div className={`${showReserveBox ? "block" : "hidden"}`}>
-              <ReservationBox
-                prices={prices}
-                maxCount={detailData.productInfo.maxCount}
-                nowCount={detailData.productInfo.nowCount}
-                info={reservationInfo}
-                productState={detailData.productInfo.productState}
-              />
-            </div>
+              onClick={handleReserve}
+              onTouchStart={handleReserve}
+              disabled={detailData.productInfo.productState !== "예약 가능"}
+            >
+              {detailData.productInfo.productState === "예약 가능"
+                ? "예약하기"
+                : detailData.productInfo.productState}
+            </button>
+          )}
+          <div className={`${showReserveBox ? "block" : "hidden"}`}>
+            <ReservationBox
+              prices={prices}
+              maxCount={detailData.productInfo.maxCount}
+              nowCount={detailData.productInfo.nowCount}
+              info={reservationInfo}
+              productState={detailData.productInfo.productState}
+              position="mobile"
+            />
           </div>
-        )}
+        </div>
       </section>
     </div>
   );
