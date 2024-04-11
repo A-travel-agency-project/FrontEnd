@@ -31,6 +31,7 @@ export const ORDER_STATES = [
   "잔금 완료",
   "추가 결제 필요",
   "환불 필요",
+  "부분 취소",
   "취소",
 ];
 
@@ -79,8 +80,6 @@ export const ORDER_EXCEL_HEADER = [
   { label: "총 인원", key: "totalCount" },
   { label: "예약금", key: "payedPrice" },
   { label: "잔금", key: "balance" },
-  { label: "추가금", key: "additionalPrice" },
-  { label: "추가 사유", key: "memo" },
   { label: "총 금액", key: "totalPrice" },
   { label: "결제상태", key: "orderState" },
 ];

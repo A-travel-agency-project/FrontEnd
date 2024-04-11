@@ -51,6 +51,7 @@ const EditMember = ({ refreshToken, token }: EditType) => {
   useEffect(() => {
     userInstance.get("/users/mypage").then((res) => {
       if (res.status === 200) {
+        console.log(res.data);
         setUserData(res.data.data);
         setEmail(res.data.data.email);
         setGender(res.data.data.gender);
@@ -237,8 +238,8 @@ const EditMember = ({ refreshToken, token }: EditType) => {
       baseInstance
         .put("/users", {
           userName: name,
-          enFirstName: englishLastName,
-          enLastName: englishName,
+          enFirstName: englishName,
+          enLastName: englishLastName,
           gender: gender,
           birth: birth,
           email: email,

@@ -380,7 +380,7 @@ const NewRegistrationEdit = () => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full pr-10">
       {/* 이름 요약 여행지 */}
       <h2>패키지 수정</h2>
       <div className="flex flex-col w-full">

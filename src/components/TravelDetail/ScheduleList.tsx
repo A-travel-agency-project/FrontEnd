@@ -46,8 +46,8 @@ const ScheduleList = ({ scheduleListData }: ScheduleListProps) => {
         <div
           key={`${list.day}일차`}
           className="border-main-color rounded-[40px] border-[1px] w-[765px] min-h-[200px] py-[25px] px-[45px] 
-          max-xsm:w-full max-xsm:max-w-[343px] max-xsm:rounded-[22px] max-xsm:p-0 max-xsm:border-none max-xsm:gap-[10px]
-          max-xsm:flex max-xsm:flex-col max-xsm:min-h-fit"
+          max-xsm:w-full max-xsm:rounded-[22px] max-xsm:p-0 max-xsm:border-none max-xsm:gap-[10px]
+          max-xsm:flex max-xsm:flex-col max-xsm:min-h-fit max-xsm:px-[16px]"
         >
           {viewSizeState === "mobile" && (
             <div

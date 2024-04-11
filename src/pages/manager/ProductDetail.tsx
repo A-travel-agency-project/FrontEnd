@@ -219,6 +219,7 @@ const ProductDetail = () => {
           travelRegion: travelRegion,
         },
       }).then((res) => {
+        console.log(res);
         if (res.status === 200 && edit) {
           alert("수정이 완료됐습니다");
           navigation("/productmanager");
@@ -273,7 +274,7 @@ const ProductDetail = () => {
     });
   };
   return (
-    <form className="w-full">
+    <form className="w-full pr-10">
       <ManagerTitle title={`상품 ${edit ? "수정" : "등록"}`} />
       <div className="border-y mb-6 border-black">
         {/* 상품관리 */}

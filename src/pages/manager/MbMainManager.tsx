@@ -2,6 +2,7 @@ import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
 import MainManagerBtn from "../../components/Manager/MainManagerBtn";
 import { useEffect, useState } from "react";
 import { baseInstance } from "../../api/instance";
+import MainTitle from "../../components/Manager/ManagerTitle";
 
 const MbMainManager = () => {
   const [myImage, setMyImage] = useState<string[]>([]);
@@ -91,7 +92,8 @@ const MbMainManager = () => {
     }
   };
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center pl-36 h-full w-fit">
+      <MainTitle title={"모바일관리-배너수정"} />
       <ManagerTitleBox name="모바일 배너 등록" className="mb-2" />
 
       <form>

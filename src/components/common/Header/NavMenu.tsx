@@ -28,7 +28,7 @@ const NavMenu = () => {
   return (
     <ul
       className="flex border-y-[1px] border-main-color h-[37px]
-    items-center justify-center gap-[33px] text-[14px] w-full text-sub-black"
+    items-center justify-center gap-[33px] text-[14px] w-full text-sub-black select-none"
     >
       <li ref={dropdownRef}>
         <button

@@ -21,7 +21,7 @@ const SignUp = () => {
   const [phone, setPhone] = useState("");
   const [family, setFamily] = useState(0);
   const [baby, setBaby] = useState("");
-  const [gender, setGender] = useState(""); // 남녀 라디오버튼
+  const [gender, setGender] = useState("남"); // 남녀 라디오버튼
   const [marketCheck, setMarketCheck] = useState<number>(0);
   const [emailCheck, setEmailCheck] = useState(false);
 
@@ -246,18 +246,6 @@ const SignUp = () => {
               message="한글만 입력가능"
             />
             <SignUpInput
-              value={englishName}
-              name="englishName"
-              title="영문이름"
-              placeholder="여권에 표시된 영문 이름"
-              onChange={handleInputChange}
-              isValid={isValidEnglishName}
-              length={englishName.length}
-              type="text"
-              message="영어만 입력가능"
-            />
-
-            <SignUpInput
               value={englishLastName}
               name="englishLastName"
               title="영문 성"
@@ -265,6 +253,17 @@ const SignUp = () => {
               onChange={handleInputChange}
               isValid={isValidEnglishLastName}
               length={englishLastName.length}
+              type="text"
+              message="영어만 입력가능"
+            />
+            <SignUpInput
+              value={englishName}
+              name="englishName"
+              title="영문 이름"
+              placeholder="여권에 표시된 영문 이름"
+              onChange={handleInputChange}
+              isValid={isValidEnglishName}
+              length={englishName.length}
               type="text"
               message="영어만 입력가능"
             />
@@ -279,6 +278,7 @@ const SignUp = () => {
                       value={option}
                       onChange={handleRadioChange}
                       className="mr-4"
+                      checked={gender === option}
                     />
                     {option}
                   </label>

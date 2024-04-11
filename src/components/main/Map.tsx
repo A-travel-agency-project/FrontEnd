@@ -20,7 +20,7 @@ const Map = () => {
   return (
     <div className="relative max-xsm:pb-[50px]">
       <div
-        className="w-[850px] h-[425px] bg-[#FFE2B4] rounded-[40px] border border-dashed border-main-color
+        className="w-[850px] h-[425px] bg-[#FFE2B4] rounded-[40px] border border-dashed border-main-color overflow-hidden
     max-xsm:max-w-[342px] max-xsm:h-[217px] flex justify-center items-center relative select-none"
       >
         <img

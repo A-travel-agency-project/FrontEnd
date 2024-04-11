@@ -160,7 +160,7 @@ const TravelDetail = () => {
     return <div className="w-full text-center">데이터가 없습니다.</div>;
   }
   return (
-    <div className="w-full flex flex-col items-center gap-[46px] max-xsm:gap-[30px] max-xsm:pb-[120px]">
+    <div className="w-full flex flex-col items-center gap-[46px] max-xsm:gap-[30px] max-xsm:pb-[120px] max-xsm:overflow-hidden">
       <div className="bg-main-color h-[90px] rounded-b-[20px] absolute z-[-999] w-full hidden max-xsm:block" />
       <PackageDetail
         packageInfo={detailData.packageInfo}
@@ -174,7 +174,7 @@ const TravelDetail = () => {
           nowCount={detailData.productInfo.nowCount}
           info={reservationInfo}
           productState={detailData.productInfo.productState}
-          viewSize={viewSizeState}
+          position={"web"}
         />
       </div>
       <section
@@ -197,7 +197,7 @@ const TravelDetail = () => {
           />
         )}
       </section>
-      <section className="flex flex-col gap-[16px]">
+      <section className="flex flex-col gap-[16px] max-xsm:w-full mx-[16px]">
         {viewSizeState === "web" ? (
           <CategoryBtns
             category={SCHEDULE_INFO_CATEGORIES}
@@ -227,7 +227,7 @@ const TravelDetail = () => {
         {viewSizeState === "mobile" && (
           <div
             className="dropdown bg-white z-50 fixed w-full flex-col
-            h-fit px-[50px] pb-[99px] rounded-t-[20px] py-0 flex items-center"
+            h-fit px-[50px] pb-[99px] rounded-t-[20px] py-0 items-center hidden max-xsm:flex"
             ref={dropdownRef}
           >
             <div className="w-[50px] h-[3px] rounded-[10px] bg-main-color mb-[12px] mt-[12px] flex self-center" />
@@ -251,6 +251,7 @@ const TravelDetail = () => {
                 nowCount={detailData.productInfo.nowCount}
                 info={reservationInfo}
                 productState={detailData.productInfo.productState}
+                position="mobile"
               />
             </div>
           </div>

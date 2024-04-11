@@ -31,7 +31,7 @@
   color: #fff;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 431px) {
   .react-datepicker {
     max-width: 320px !important;
     margin-left: 25px !important;

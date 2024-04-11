@@ -34,9 +34,9 @@ import KakaoOAuthCallback from "./components/Login/KakaoOAuthCallback";
 import NaverOAuthCallback from "./components/Login/NaverOAuthCallback";
 import PaymentCheckout from "./pages/PaymentCheckout";
 import MainLayout from "./components/common/MainLayout";
-import { viewSize } from "./atom/atom";
+import { loginCheck, userChildName, viewSize } from "./atom/atom";
 import MbMainManager from "./pages/manager/MbMainManager";
-import { useSetRecoilState } from "recoil";
+import { useResetRecoilState, useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 import AfterPayment from "./pages/AfterPayment";
 import MyPageOrderDetail from "./pages/MyPageOrderDetail";
@@ -48,14 +48,17 @@ function App() {
       onError: (error) => console.log(`${error.message}`),
     }),
   });
+
   const token = window.localStorage.getItem("token");
   const refreshToken = window.localStorage.getItem("refreshToken");
 
   const setViewSize = useSetRecoilState(viewSize);
+  const resetName = useResetRecoilState(userChildName);
+  const resetLogin = useResetRecoilState(loginCheck);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 375) {
+      if (window.innerWidth <= 430) {
         setViewSize("mobile");
       } else {
         setViewSize("web");
@@ -69,6 +72,14 @@ function App() {
       window.removeEventListener("resize", handleResize);
     };
   }, [setViewSize]);
+
+  useEffect(() => {
+    console.log(refreshToken);
+    if (refreshToken === null && token === null) {
+      resetLogin();
+      resetName();
+    }
+  }, [refreshToken, token, resetLogin, resetName]);
 
   return (
     <QueryClientProvider client={queryClient}>

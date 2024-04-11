@@ -5,7 +5,7 @@ const useGetOrderDetail = (orderId: string) => {
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["getOrderDetail"],
     queryFn: () => GetOrderDetail(orderId),
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     retry: false,
     enabled: orderId !== "",
   });

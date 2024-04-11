@@ -93,7 +93,7 @@ const PaymentInfoBox = ({
                         }
                       </span>
                       <span>:</span>
-                      <span>
+                      <span className="max-xsm:max-w-[250px]">
                         {key === "amount" || key === "discountAmount"
                           ? `${amountFormat(+value)} 원`
                           : value}
@@ -119,10 +119,14 @@ const PaymentInfoBox = ({
                         }
                       </span>
                       <span>:</span>
-                      <span>
-                        {value && key === "amount"
-                          ? `${amountFormat(+value)} 원`
-                          : value}
+                      <span className="max-xsm:max-w-[250px]">
+                        {value && key === "amount" ? (
+                          `${amountFormat(+value)} 원`
+                        ) : key === "receiptUrl" ? (
+                          <a href={`${value}`} />
+                        ) : (
+                          value
+                        )}
                       </span>
                     </div>
                   )
@@ -148,10 +152,14 @@ const PaymentInfoBox = ({
                         }
                       </span>
                       <span>:</span>
-                      <span>
-                        {key === "amount" || key === "taxFreeAmount"
-                          ? `${amountFormat(+value)} 원`
-                          : value}
+                      <span className="max-xsm:max-w-[250px]">
+                        {key === "amount" || key === "taxFreeAmount" ? (
+                          `${amountFormat(+value)} 원`
+                        ) : key === "receiptUrl" ? (
+                          <a href={`${value}`} />
+                        ) : (
+                          value
+                        )}
                       </span>
                     </div>
                   )
@@ -160,7 +168,7 @@ const PaymentInfoBox = ({
           )}
           {info.cancels && (
             <div>
-              <h3 className="pb-[12px]">
+              <h3 className="py-[12px]">
                 <strong>결제 취소 정보</strong>
               </h3>
               {info.cancels.map((cancelInfo) =>
@@ -178,7 +186,7 @@ const PaymentInfoBox = ({
                           }
                         </span>
                         <span>:</span>
-                        <span>
+                        <span className="max-xsm:max-w-[250px]">
                           {key === "cancelAmount" || key === "refundableAmount"
                             ? value
                               ? `${amountFormat(+value)} 원`

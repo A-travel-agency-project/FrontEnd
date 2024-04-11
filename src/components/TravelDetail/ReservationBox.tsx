@@ -12,7 +12,7 @@ const ReservationBox = ({
   nowCount,
   info,
   productState,
-  viewSize,
+  position,
 }: ReservationBoxProps) => {
   const navigate = useNavigate();
   const isLogin = useRecoilValue(loginCheck);
@@ -79,12 +79,11 @@ const ReservationBox = ({
     const priceInfo = prices.filter((item) => item.age === age);
     return newCount * (priceInfo[0].surcharge + priceInfo[0].price);
   };
-
   return (
     <div
       className={`flex flex-col items-center w-[250px] px-[18px] py-[22px] gap-[20px] 
     border-[1px] border-main-color rounded-[17px] text-sub-black h-fit max-xsm:gap-[8px] 
-    ${viewSize === "mobile" ? "max-xsm:hidden" : ""} select-none `}
+    ${position === "web" && "max-xsm:hidden"} select-none `}
     >
       {prices.map((item) => (
         <CountBtn

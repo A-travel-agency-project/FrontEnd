@@ -149,7 +149,8 @@ const NewRegistration = () => {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
-          if (res.status === 2000) {
+          console.log(res);
+          if (res.status === 200) {
             navigate("/packagemanager");
             alert("등록이 완료됐습니다");
           }
@@ -276,7 +277,7 @@ const NewRegistration = () => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full pr-10">
       {/* 이름 요약 여행지 */}
       <h2>패키지 신규/수정 등록</h2>
       <div className="flex flex-col w-full">

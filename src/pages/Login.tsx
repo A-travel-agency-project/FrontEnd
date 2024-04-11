@@ -43,7 +43,7 @@ const Login = () => {
         })
         .catch((err) => {
           if (err.response.status === 401) {
-            alert("존재하지 않는 이메일 입니다.");
+            alert("이메일, 비밀번호가 올바르지 않습니다. 다시 확인해주세요");
           }
         });
     } else {
@@ -51,7 +51,7 @@ const Login = () => {
     }
   };
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen max-xsm: items-center">
       <div className="flex flex-col xsm:justify-center items-center h-full  sm:w-[300px] md:w-[400px] lg:w-[500px]">
         <img
           src="/subLogo.svg"

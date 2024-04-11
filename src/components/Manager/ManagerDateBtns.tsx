@@ -41,7 +41,7 @@ const ManagerDateBtns = ({
             )
               .toISOString()
               .split("T")[0] + "T00:00:00",
-          dateMax: new Date().toISOString().split("T")[0] + "T00:00:00",
+          dateMax: new Date().toISOString().split("T")[0] + "T23:59:00",
         }));
       }
       if (date === "전체") {

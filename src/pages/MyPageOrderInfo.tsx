@@ -135,7 +135,7 @@ const MyPageOrderInfo = ({ refreshToken, token }: EditType) => {
   return (
     <div className="w-full">
       <ManagerTitle title="마이 우리엘" />
-      <table className="table-auto w-full border-collapse border border-main-color mb-3">
+      <table className="table-auto w-full border-collapse border border-main-color mb-3 ">
         <thead className="bg-main-color text-white h-[45px] 2sm:h-[50px]">
           <tr>
             {orderHeaders.map((el, index) => (

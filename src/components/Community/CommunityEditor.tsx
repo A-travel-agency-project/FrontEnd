@@ -142,7 +142,9 @@ const CommunityEditor = ({ active }: CommunityType) => {
       </div>
       <div className="flex w-full mt-2">
         <div className="w-full flex items-center">
-          {(state === "여행이야기" || active === "여행이야기") && (
+          {(state === "여행이야기" ||
+            active === "여행이야기" ||
+            selectCategory === "여행이야기") && (
             <>
               <div className="whitespace-nowrap">네이버 블로그 링크 : </div>
               <input

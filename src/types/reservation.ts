@@ -27,7 +27,7 @@ export type ReservationBoxProps = {
   nowCount: number;
   info: ReservationInfo;
   productState: string;
-  viewSize?: string;
+  position?: string;
 };
 
 export interface travelerInfo {

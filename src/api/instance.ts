@@ -28,26 +28,24 @@ userInstance.interceptors.request.use(
 );
 
 // 토큰 갱신 함수
-const getNewToken = async () => {
+const useGetNewToken = async () => {
   try {
     await userInstance
-      .patch(
-        "/auth/reissue",
-        {},
-        {
-          headers: { Refresh: window.localStorage.getItem("refreshToken") },
-        }
-      )
+      .get("/auth/reissue", {
+        headers: { Refresh: window.localStorage.getItem("refreshToken") },
+      })
       .then((res) => {
-        console.log("refreshToken", res.headers.refreshToken);
-        window.localStorage.setItem("refreshToken", res.headers.refreshToken); // 리프레시토큰도 재발급
-        window.localStorage.setItem("token", res.headers.accessToken);
+        window.localStorage.setItem("refreshToken", res.data.data.refreshToken);
+        window.localStorage.setItem("token", res.data.data.accessToken);
       });
-    return window.localStorage.getItem("token");
+    return [
+      window.localStorage.getItem("token"),
+      window.localStorage.getItem("refreshToken"),
+    ];
   } catch (error) {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("refreshToken");
-    window.localStorage.removeItem("admin");
+    window.localStorage.removeItem("role");
     throw new Error("Token refresh failed");
   }
 };
@@ -68,9 +66,10 @@ userInstance.interceptors.response.use(
     }
 
     config.retry = true;
-    const newToken = await getNewToken();
+    const newToken = await useGetNewToken();
     if (newToken) {
-      config.headers["Authorization"] = `Bearer ${newToken}`;
+      config.headers["Authorization"] = `Bearer ${newToken[0]}`;
+      config.headers["Refresh"] = newToken[1];
     }
     return userInstance(config);
   }

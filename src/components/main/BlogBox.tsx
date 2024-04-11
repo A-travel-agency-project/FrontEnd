@@ -23,13 +23,13 @@ const BlogBox = () => {
   }
   return (
     <Swiper
-      slidesPerView={viewSizeState === "web" ? 4 : "auto"}
+      slidesPerView={"auto"}
       spaceBetween={viewSizeState === "web" ? 30 : 13}
       navigation={viewSizeState === "web" ? true : false}
       freeMode={viewSizeState === "web" ? false : true}
       modules={[Navigation, FreeMode]}
       className="overflow-hidden w-[850px] px-[20px] py-[16px] h-[196px] bg-[#F5F5F5] 
-      max-xsm:bg-transparent max-xsm:max-w-[355px] max-xsm:h-fit max-xsm:p-0 max-xsm:w-full"
+      max-xsm:bg-transparent max-xsm:max-w-[398px] max-xsm:h-fit max-xsm:p-0 max-xsm:w-full"
     >
       {data && (
         <ul>
@@ -37,7 +37,7 @@ const BlogBox = () => {
             <li key={item.title}>
               <SwiperSlide
                 key={`${item.title}_${idx}`}
-                className={`bg-white border-sub-gray border-[1px] 
+                className={`bg-white border-sub-gray border-[1px] w-[180px]
                 max-xsm:w-[150px] max-xsm:h-[150px] max-xsm:border-main-color max-xsm:rounded-[20px]`}
               >
                 <a
