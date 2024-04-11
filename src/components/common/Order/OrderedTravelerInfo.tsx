@@ -231,7 +231,7 @@ const OrderedTravelerInfo = ({
               />
             </div>
             <div className="flex items-center w-[33.3%] min-w-max">
-              <TableHeader smallHeader={true} category="영문 이름" />
+              <TableHeader smallHeader={true} category="영문 성" />
               <input
                 className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
                 id="enFirstName"
@@ -243,7 +243,7 @@ const OrderedTravelerInfo = ({
               />
             </div>
             <div className="flex items-center w-[33.3%] min-w-max">
-              <TableHeader smallHeader={true} category="영문 성" />
+              <TableHeader smallHeader={true} category="영문 이름" />
               <input
                 className={`disabled:bg-transparent px-[24px] w-full min-w-max`}
                 id="enLastName"

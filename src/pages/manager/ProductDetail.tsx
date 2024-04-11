@@ -219,6 +219,7 @@ const ProductDetail = () => {
           travelRegion: travelRegion,
         },
       }).then((res) => {
+        console.log(res);
         if (res.status === 200 && edit) {
           alert("수정이 완료됐습니다");
           navigation("/productmanager");

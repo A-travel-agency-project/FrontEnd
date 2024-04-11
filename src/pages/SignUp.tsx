@@ -246,24 +246,24 @@ const SignUp = () => {
               message="한글만 입력가능"
             />
             <SignUpInput
-              value={englishName}
-              name="englishName"
+              value={englishLastName}
+              name="englishLastName"
               title="영문 성"
               placeholder="여권에 표시된 영문 성"
               onChange={handleInputChange}
-              isValid={isValidEnglishName}
-              length={englishName.length}
+              isValid={isValidEnglishLastName}
+              length={englishLastName.length}
               type="text"
               message="영어만 입력가능"
             />
             <SignUpInput
-              value={englishLastName}
-              name="englishLastName"
+              value={englishName}
+              name="englishName"
               title="영문 이름"
               placeholder="여권에 표시된 영문 이름"
               onChange={handleInputChange}
-              isValid={isValidEnglishLastName}
-              length={englishLastName.length}
+              isValid={isValidEnglishName}
+              length={englishName.length}
               type="text"
               message="영어만 입력가능"
             />

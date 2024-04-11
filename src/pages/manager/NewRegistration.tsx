@@ -149,7 +149,8 @@ const NewRegistration = () => {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
-          if (res.status === 2000) {
+          console.log(res);
+          if (res.status === 200) {
             navigate("/packagemanager");
             alert("등록이 완료됐습니다");
           }
