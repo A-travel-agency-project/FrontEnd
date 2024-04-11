@@ -175,10 +175,10 @@ const Community = () => {
   }, [location.state]);
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center max-xsm:mb-[20px]">
       <div className="w-[1280px] flex flex-col items-center max-xsm:w-full">
         <div
-          className="h-[400px] w-full mb-8 bg-cover bg-center"
+          className="h-[400px] w-full mb-8 bg-cover bg-center max-xsm:h-[320px]"
           style={{ backgroundImage: `url(${CommunityImg})` }}
         />
         <div className="flex w-full max-xsm:flex-col">
