@@ -238,8 +238,8 @@ const EditMember = ({ refreshToken, token }: EditType) => {
       baseInstance
         .put("/users", {
           userName: name,
-          enFirstName: englishLastName,
-          enLastName: englishName,
+          enFirstName: englishName,
+          enLastName: englishLastName,
           gender: gender,
           birth: birth,
           email: email,
