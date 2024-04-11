@@ -105,7 +105,7 @@ const CommunityEditor = ({ active }: CommunityType) => {
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col max-xsm:pr-[16px] max-xsm:px-[8px]">
       <div className="flex">
         <span className="text-red-500 mr-2">*</span>
         <select
@@ -159,16 +159,20 @@ const CommunityEditor = ({ active }: CommunityType) => {
         {typeof state === "string" || !state ? (
           <button
             onClick={handleRegisterClick}
-            className="px-5 py-1 ml-5 bg-main-color whitespace-nowrap rounded-full text-white"
+            className="px-5 py-1 ml-5 bg-main-color whitespace-nowrap rounded-full text-white
+            max-xsm:text-[9px] max-xsm:bg-main-color max-xsm:text-white max-xsm:rounded-none max-xsm:mt-[4px] 
+            max-xsm:px-[31px] max-xsm:py-[4px]"
           >
-            등록하기
+            작성완료
           </button>
         ) : (
           <button
             onClick={handleEditClick}
-            className="px-5 py-1 ml-5 bg-main-color whitespace-nowrap rounded-full text-white"
+            className="px-5 py-1 ml-5 bg-main-color whitespace-nowrap rounded-full text-white
+            max-xsm:text-[9px] max-xsm:bg-main-color max-xsm:text-white max-xsm:rounded-none max-xsm:mt-[4px] 
+            max-xsm:px-[31px] max-xsm:py-[4px]"
           >
-            수정하기
+            수정완료
           </button>
         )}
       </div>
