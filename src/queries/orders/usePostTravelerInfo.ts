@@ -4,7 +4,6 @@ import { UpdateTravelerReq } from "../../types/manager";
 import { useState } from "react";
 
 const usePostTravelerInfo = (req: UpdateTravelerReq) => {
-  console.log(req);
   const [errorReason, setErrorReason] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const { mutate, isError, error } = useMutation({

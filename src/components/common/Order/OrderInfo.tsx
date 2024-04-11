@@ -144,7 +144,6 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
       childCount: data.childCount,
       infantCount: data.infantCount,
     });
-    console.log(data);
   }, [data]);
 
   return (

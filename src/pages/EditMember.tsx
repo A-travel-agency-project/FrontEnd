@@ -51,6 +51,7 @@ const EditMember = ({ refreshToken, token }: EditType) => {
   useEffect(() => {
     userInstance.get("/users/mypage").then((res) => {
       if (res.status === 200) {
+        console.log(res.data);
         setUserData(res.data.data);
         setEmail(res.data.data.email);
         setGender(res.data.data.gender);
@@ -82,9 +83,9 @@ const EditMember = ({ refreshToken, token }: EditType) => {
       case "userName":
         return "사용자이름";
       case "enLastName":
-        return "영문성";
-      case "enFirstName":
         return "영문이름";
+      case "enFirstName":
+        return "영문성";
       default:
         return key;
     }

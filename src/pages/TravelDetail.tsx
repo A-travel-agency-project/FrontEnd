@@ -44,9 +44,6 @@ const TravelDetail = () => {
     }
   }, [data]);
 
-  console.log(viewSizeState);
-  console.log(window.innerWidth);
-
   const handleScheduleInfo = (id: string) => {
     if (detailData) {
       setShowScheduleInfo(
