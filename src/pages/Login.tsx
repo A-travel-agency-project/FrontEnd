@@ -9,6 +9,7 @@ import { useSetRecoilState } from "recoil";
 import { loginCheck } from "../atom/atom";
 import NaverLogin from "../components/Login/NaverLogin";
 import MbHeader from "../components/common/Header/MbHeader";
+import MbNav from "../components/common/MbNav";
 
 const Login = () => {
   const navigation = useNavigate();
@@ -52,11 +53,11 @@ const Login = () => {
     }
   };
   return (
-    <div className="flex items-center justify-center h-screen max-xsm:">
+    <div className="flex items-center justify-center h-screen">
       <MbHeader hideAsk={true} />
       <div
         className="flex flex-col xsm:justify-center items-center h-full  sm:w-[300px] md:w-[400px] lg:w-[500px] 
-      max-xsm:py-[80px] max-xsm:px-[42px]"
+      max-xsm:pt-[80px] max-xsm:px-[42px]"
       >
         <img
           src="/subLogo.svg"
@@ -93,6 +94,7 @@ const Login = () => {
         </div>
       </div>
       <Button label={"홈으로 가기"} loc="" />
+      <MbNav />
     </div>
   );
 };

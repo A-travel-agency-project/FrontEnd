@@ -39,13 +39,16 @@ const SignUpInput = ({
     <div
       className={`flex justify-between w-full items-center relative ${
         padding ? className : ""
-      }`}
+      } max-xsm:w-[300px]`}
     >
-      {title && <div className="whitespace-nowrap">{title}</div>}
+      {title && (
+        <div className="whitespace-nowrap max-xsm:text-[13px]">{title}</div>
+      )}
       <input
         placeholder={placeholder}
         value={value}
-        className={`${inputClass} outline-none border font-medium border-main-color w-3/4 text-sm rounded-full py-3 pl-7 mb-[5px] `}
+        className={`${inputClass} outline-none border font-medium border-main-color w-3/4 text-sm rounded-full py-3 pl-7 mb-[5px] 
+        max-xsm:max-w-[204px] max-xsm:h-[36px] placeholder:max-xsm:text-[11px]`}
         onChange={onChange}
         name={name}
         type={type}
