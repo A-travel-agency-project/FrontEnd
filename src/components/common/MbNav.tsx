@@ -7,9 +7,10 @@ import IconMain from "/public/icon_mb_main.svg";
 import { useState } from "react";
 import NavDropdown from "./Header/NavDropdown";
 import { useRecoilValue } from "recoil";
-import { viewSize } from "../../atom/atom";
+import { loginCheck, viewSize } from "../../atom/atom";
 
 const MbNav = () => {
+  const isLogin = useRecoilValue(loginCheck);
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const viewSizeState = useRecoilValue(viewSize);
@@ -19,6 +20,15 @@ const MbNav = () => {
 
   const handleMenuClose = () => {
     setShowMenu(false);
+  };
+
+  const handleMypage = () => {
+    if (!isLogin) {
+      alert("로그인이 필요합니다.");
+    }
+    if (isLogin) {
+      navigate("/mypageorderinfo");
+    }
   };
 
   return (
@@ -66,7 +76,7 @@ const MbNav = () => {
         <button
           id="mypage"
           className="flex flex-col justify-center items-center shrink-0 gap-[6px]"
-          onClick={() => navigate("/mypageorderinfo")}
+          onClick={handleMypage}
         >
           <img src={IconMyPage} alt="askicon" className="w-[32px] h-[30px]" />
           <span className="text-[9px] text-sub-black">마이페이지</span>

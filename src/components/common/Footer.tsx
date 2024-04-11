@@ -47,6 +47,12 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      <a href="https://www.instagram.com/" target="_blank">
+        <img src="/icon_insta.svg" alt="insta logo" />
+      </a>
+      <a href="https://www.youtube.com/" target="_blank">
+        <img src="/icon_youtube.svg" alt="insta logo" />
+      </a>
     </footer>
   );
 };
