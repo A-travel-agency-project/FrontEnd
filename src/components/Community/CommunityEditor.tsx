@@ -32,7 +32,6 @@ const CommunityEditor = ({ active }: CommunityType) => {
         setEditData(res.data.data);
       });
     }
-    console.log(state);
   }, [state]);
   useEffect(() => {
     if (editData) {
@@ -41,7 +40,6 @@ const CommunityEditor = ({ active }: CommunityType) => {
       setTitle(editData.title);
       setBlogLink(editData.bolgUrl);
     }
-    console.log(editData);
   }, [editData]);
 
   const handleCommunityChange = ({
@@ -83,8 +81,6 @@ const CommunityEditor = ({ active }: CommunityType) => {
       alert("*표시는 필수 입력해주세요.");
     }
   };
-
-  console.log(selectCategory);
 
   // 수정하기 클릭
   const handleEditClick = () => {
