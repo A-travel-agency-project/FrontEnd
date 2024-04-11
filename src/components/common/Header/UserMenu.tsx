@@ -44,14 +44,14 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
               alt="login"
               className="w-[30px] h-[30px] max-xsm:w-[18px] max-xsm:h-[21px] "
             />
-            <button type="button">로그인</button>
+            로그인
           </button>
           <button
             onClick={() => navigate("/signup")}
             onTouchStart={() => navigate("/signup")}
             className="hidden max-xsm:inline"
           >
-            <button type="button">회원가입</button>
+            회원가입
           </button>
         </div>
       ) : (

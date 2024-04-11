@@ -28,6 +28,8 @@ const OrderedTravelerInfo = ({
   startDate,
   role,
   orderState,
+  editableInfo,
+  handleEditableInfo,
 }: {
   startDate?: string;
   data: TravelerInfoData;
@@ -42,6 +44,8 @@ const OrderedTravelerInfo = ({
   ) => void;
   role?: string;
   orderState?: string;
+  editableInfo?: number | null;
+  handleEditableInfo?: (id: number | null) => void;
 }) => {
   const [travelerInfo, setTravlerInfo] = useState<TravelerInfoData>({
     travelerName: "",
@@ -52,6 +56,7 @@ const OrderedTravelerInfo = ({
     phoneNumber: "",
     representative: false,
   });
+
   const [editable, setEditable] = useState(false);
 
   const [birth, setBrith] = useState("");
@@ -63,7 +68,8 @@ const OrderedTravelerInfo = ({
   };
 
   const handleEditable = (role?: string) => {
-    if (!editable) {
+    if (!editable && handleEditableInfo && (id === 0 || id)) {
+      handleEditableInfo(id);
       setEditable(true);
       return;
     }
@@ -98,6 +104,7 @@ const OrderedTravelerInfo = ({
       }
     }
     setEditable(!editable);
+    if (handleEditableInfo) handleEditableInfo(null);
   };
 
   const handleDeleteClick = () => {
@@ -150,8 +157,9 @@ const OrderedTravelerInfo = ({
 
   useEffect(() => {
     setTravlerInfo((prev) => ({ ...prev, ...data }));
-    if (!data.travelerName) {
+    if (!data.travelerName && handleEditableInfo && id) {
       setEditable(true);
+      handleEditableInfo(id);
     }
     if (data.travelerName && startDate) {
       setBrith(data.birth);
@@ -159,33 +167,48 @@ const OrderedTravelerInfo = ({
     if (representative) {
       setBrith(data.birth);
     }
-  }, [data, startDate, representative]);
+  }, [data, startDate, representative, handleEditableInfo, id]);
 
   return (
     <div className={`flex flex-col items-end w-full min-w-max`}>
       {!representative && role === "admin" && orderState !== "취소" && (
-        <div className="flex gap-[12px] mb-[4px]">
+        <div className={`flex gap-[12px] mb-[4px]`}>
           {id !== null && !editable ? (
-            <OrderDetailBtn handleClick={handleEditable} label="수정하기" />
+            <OrderDetailBtn
+              handleClick={handleEditable}
+              label="수정하기"
+              disabled={editableInfo !== null}
+            />
           ) : (
-            <>
-              <OrderDetailBtn
-                handleClick={handleEditable}
-                role="submit"
-                label="작성완료"
-              />
-              {data.travelerName && (
+            editableInfo === id && (
+              <>
                 <OrderDetailBtn
                   handleClick={handleEditable}
-                  role="cancel"
-                  label="작성취소"
+                  role="submit"
+                  label="작성완료"
+                  disabled={editableInfo !== id}
                 />
-              )}
-            </>
+                {data.travelerName && (
+                  <OrderDetailBtn
+                    handleClick={handleEditable}
+                    role="cancel"
+                    label="작성취소"
+                    disabled={editableInfo !== id}
+                  />
+                )}
+              </>
+            )
           )}
-          {!travelerInfo.representative && handleDelete && !editable && (
-            <OrderDetailBtn handleClick={handleDeleteClick} label="삭제하기" />
-          )}
+          {!travelerInfo.representative &&
+            handleDelete &&
+            !editable &&
+            editableInfo === null && (
+              <OrderDetailBtn
+                handleClick={handleDeleteClick}
+                label="삭제하기"
+                disabled={editableInfo !== null}
+              />
+            )}
         </div>
       )}
       {viewSizeState === "web" && (
@@ -293,14 +316,14 @@ const OrderedTravelerInfo = ({
                 category="이름"
                 content={travelerInfo.travelerName}
                 headerStyle={
-                  "tracking-[-0.5px] !text-[10px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+                  "tracking-[-0.5px] !text-[10px] max-xsm:!bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
                 }
               />
               <TableRow
                 category="영문 이름"
                 content={travelerInfo.enLastName}
                 headerStyle={
-                  "tracking-[-0.5px] !text-[10px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+                  "tracking-[-0.5px] !text-[10px] max-xsm:!bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
                 }
               />
             </div>
@@ -309,14 +332,14 @@ const OrderedTravelerInfo = ({
                 category="영문성"
                 content={travelerInfo.enFirstName}
                 headerStyle={
-                  "tracking-[-0.5px] !text-[10px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+                  "tracking-[-0.5px] !text-[10px] max-xsm:!bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
                 }
               />
               <TableRow
                 category="성별"
                 content={travelerInfo.gender}
                 headerStyle={
-                  "tracking-[-0.5px] !text-[10px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+                  "tracking-[-0.5px] !text-[10px] max-xsm:!bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
                 }
               />
             </div>
@@ -325,14 +348,14 @@ const OrderedTravelerInfo = ({
               content={travelerInfo.phoneNumber ? travelerInfo.phoneNumber : ""}
               rowStyle={"border-y-[0.5px] border-main-color"}
               headerStyle={
-                "tracking-[-0.5px] !text-[10px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+                "tracking-[-0.5px] !text-[10px] max-xsm:!bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
               }
             />
             <TableRow
               category="생년월일"
-              content={travelerInfo.enFirstName}
+              content={travelerInfo.birth}
               headerStyle={
-                "!text-[10px] tracking-[-0.5px] max-xsm:bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
+                "!text-[10px] tracking-[-0.5px] !bg-[#F5F5F4] max-xsm:h-fit max-xsm:py-[8px] max-xsm:w-full max-xsm:px-[10px] max-xsm:max-w-[68px]"
               }
             />
           </div>

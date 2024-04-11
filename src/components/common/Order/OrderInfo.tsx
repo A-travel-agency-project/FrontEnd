@@ -33,11 +33,20 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
 
   const { mutate, isError, error, errorReason } = usePostTravelerInfo({
     ...travelerCount,
-    totalCount: travelerInfoList.length,
+    totalCount:
+      travelerCount.adultCount +
+      travelerCount.childCount +
+      travelerCount.infantCount,
     travelerInfoList: travelerInfoList,
   });
 
+  const [editableInfo, setEditableInfo] = useState<number | null>(null);
+
   const { mutate: cancelMutate } = useGetOrderCancel(data.imomOrderId);
+
+  const handleEditableInfo = (id: number | null) => {
+    setEditableInfo(id);
+  };
 
   const handleDeleteTraveler = (id: number, name: string, role: string) => {
     const check = confirm(`${name}님의 정보를 삭제하시겠습니까?`);
@@ -123,13 +132,9 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
           ? `${errorReason}`
           : "여행자 정보 수정에 실패하였습니다."
       );
-      setTravelerInfoList((prev) => {
-        const newList = [...prev];
-        newList.pop;
-        return newList;
-      });
+      setTravelerInfoList(data.travelerInfos);
     }
-  }, [isError, error, errorReason]);
+  }, [isError, error, errorReason, data]);
 
   useEffect(() => {
     setTravelerInfoList(data.travelerInfos);
@@ -139,12 +144,13 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
       childCount: data.childCount,
       infantCount: data.infantCount,
     });
+    console.log(data);
   }, [data]);
 
   return (
     <div
       className="text-sub-black flex flex-col gap-[32px] text-[14px] 
-    max-xsm:w-full max-xsm:gap-[20px]"
+    max-xsm:w-full max-xsm:gap-[20px] max-xsm:!px-[16px]"
     >
       {role === "admin" && (
         <div>
@@ -170,8 +176,8 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
                   header={viewSizeState === "web"}
                   category={`총인원`}
                 />
-                <div className="flex max-xsm:flex-col">
-                  <div className="flex max-xsm:border-b-[0.5px] max-xsm:border-main-color max-xsm:w-fit">
+                <div className="flex max-xsm:flex-col max-xsm:w-full">
+                  <div className="flex max-xsm:border-b-[0.5px] max-xsm:border-main-color max-xsm:w-full">
                     <TravelerCountBox
                       role={"총"}
                       count={data.totalCount}
@@ -179,7 +185,7 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
                     />
                     <TravelerCountBox role={"성인"} count={data.adultCount} />
                   </div>
-                  <div className="flex">
+                  <div className="flex max-xsm:w-full">
                     <TravelerCountBox role={"아동"} count={data.childCount} />
                     <TravelerCountBox role={"유아"} count={data.infantCount} />
                   </div>
@@ -222,6 +228,7 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
                   <OrderDetailBtn
                     label="주문취소"
                     handleClick={handleOrderCancel}
+                    disabled={false}
                   />
                 )}
               </div>
@@ -262,14 +269,17 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
               startDate={data.startDate}
               role={role}
               orderState={"orderState" in data ? data.orderState : undefined}
+              editableInfo={editableInfo}
+              handleEditableInfo={handleEditableInfo}
             />
           ))}
         </div>
         {"orderState" in data && data.orderState !== "취소" && (
           <OrderDetailBtn
             label="+"
-            style="px-[80px] py-[px] text-[24px] w-fit self-center mt-[12px]"
+            style="px-[80px] py-[px] text-[24px] w-fit self-center mt-[12px] font-light"
             handleClick={handleAddTraveler}
+            disabled={editableInfo !== null}
           />
         )}
       </div>

@@ -1,6 +1,4 @@
 import axios from "axios";
-// import { useSetRecoilState } from "recoil";
-// import { loginCheck } from "../atom/atom";
 
 export const baseInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -10,10 +8,6 @@ export const baseInstance = axios.create({
 export const userInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 10000,
-});
-
-export const biztalkIncstance = axios.create({
-  baseURL: "https://www.biztalk-api.com",
 });
 
 userInstance.interceptors.request.use(
@@ -35,14 +29,12 @@ userInstance.interceptors.request.use(
 
 // 토큰 갱신 함수
 const useGetNewToken = async () => {
-  // const setIsLogin = useSetRecoilState(loginCheck);
   try {
     await userInstance
       .get("/auth/reissue", {
         headers: { Refresh: window.localStorage.getItem("refreshToken") },
       })
       .then((res) => {
-        console.log("refreshToken", res.data.data.refreshToken);
         window.localStorage.setItem("refreshToken", res.data.data.refreshToken);
         window.localStorage.setItem("token", res.data.data.accessToken);
       });
@@ -54,7 +46,6 @@ const useGetNewToken = async () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("refreshToken");
     window.localStorage.removeItem("role");
-    // setIsLogin(false);
     throw new Error("Token refresh failed");
   }
 };

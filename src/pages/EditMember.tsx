@@ -82,9 +82,9 @@ const EditMember = ({ refreshToken, token }: EditType) => {
       case "userName":
         return "사용자이름";
       case "enLastName":
-        return "영문이름";
-      case "enFirstName":
         return "영문성";
+      case "enFirstName":
+        return "영문이름";
       default:
         return key;
     }
