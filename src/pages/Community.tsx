@@ -134,7 +134,7 @@ const Community = () => {
     if (name === el) {
       setSelectCommunity([]);
       setActive(name);
-      navigate("/community");
+      navigate("/community", { state: name });
       setEditorActive(true);
     }
   };
@@ -175,24 +175,27 @@ const Community = () => {
   }, [location.state]);
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center max-xsm:mb-[20px]">
       <div className="w-[1280px] flex flex-col items-center max-xsm:w-full">
         <div
-          className="h-[400px] w-full mb-8 bg-cover bg-center"
+          className="h-[400px] w-full mb-8 bg-cover bg-center max-xsm:h-[320px]"
           style={{ backgroundImage: `url(${CommunityImg})` }}
         />
         <div className="flex w-full max-xsm:flex-col">
-          <div className="flex flex-col items-start mr-9">
+          <div className="flex flex-col items-start mr-9 max-xsm:mx-[16px]">
             <SectionTitle title="커뮤니티" padding={true} />
-            <div className="w-full flex flex-col max-xsm:flex-row max-xsm:justify-center ">
+            <div className="w-full flex flex-col max-xsm:flex-row max-xsm:mt-[4px]">
               {["공지사항", "자주묻는질문", "여행이야기"].map((el, idx) => (
                 <button
                   key={idx}
                   name={el}
                   onClick={(e) => handleNavClick(e, el)}
                   className={`border flex justify-center items-center max-xsm:rounded-lg max-xsm:mr-2 border-main-color w-full whitespace-nowrap px-2 h-9 font-bold hover:bg-main-color hover:text-white ${
-                    active === el && "bg-main-color text-white"
-                  } ${idx === 0 || idx === 1 ? "mb-2" : ""}`}
+                    active === el &&
+                    "bg-main-color text-white max-xsm:!font-bold max-xsm:!text-white"
+                  } ${
+                    idx === 0 || idx === 1 ? "mb-2" : ""
+                  } max-xsm:text-[10px] max-xsm:font-light max-xsm:py-[9px] max-xsm:px-[31px] max-xsm:h-fit max-xsm:w-fit max-xsm:text-[#606060] max-xsm:border-[0.5px]`}
                 >
                   {el}
                 </button>
@@ -201,7 +204,7 @@ const Community = () => {
           </div>
           {!params.postId ? (
             editorActive ? (
-              <div className="w-full">
+              <div className="w-full max-xsm:px-[16px]">
                 <Table
                   columns={columns}
                   data={newData}
@@ -211,7 +214,7 @@ const Community = () => {
                   theadStyle={
                     "bg-main-color bg-opacity-10 h-[24px] mt-[1px] border-t-[0.5px] border-b-[0.5px] border-main-color"
                   }
-                  thStyle={"text-[12px]"}
+                  thStyle={"text-[12px] max-xsm:font-medium"}
                   tbodyStyle={"text-[10px]"}
                   tbodyTrStyle={
                     "border-t-[0.5px] border-dashed border-main-color"
@@ -219,12 +222,13 @@ const Community = () => {
                   tdStyle={"py-[14px]"}
                 />
                 {isAdmin ? (
-                  <div className="flex justify-end w-full">
+                  <div className="flex justify-end w-full max-xsm:flex-col max-xsm:items-end">
                     {["삭제하기", "등록하기"].map((el, idx) => (
                       <button
-                        className={`border border-main-color  rounded-full px-3 mt-4 hover:bg-main-color hover:text-white ${
-                          idx === 0 ? "mr-2" : ""
-                        }`}
+                        className={`border border-main-color rounded-full px-3 mt-4 hover:bg-main-color hover:text-white ${
+                          idx === 0 ? "mr-2 max-xsm:mr-0" : ""
+                        } max-xsm:text-[9px] max-xsm:bg-main-color
+                        max-xsm:text-white max-xsm:rounded-none max-xsm:mt-[4px] max-xsm:px-[31px] max-xsm:py-[4px]`}
                         key={idx}
                         name={el}
                         onClick={handleRegisterDeleteClick}

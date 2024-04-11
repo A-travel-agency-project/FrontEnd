@@ -31,7 +31,7 @@ const CommunityDetail = ({ setEditorActive }: DetailState) => {
   }, [postId]);
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col max-xsm:px-[16px]">
       <div className="w-full h-[1px]  bg-[#FBB03C]  mb-1" />
       <div className="w-full px-10 mb-2 flex justify-between border-y border-main-color bg-main-color bg-opacity-10">
         <div className="whitespace-nowrap">{detailData?.title}</div>
@@ -49,9 +49,11 @@ const CommunityDetail = ({ setEditorActive }: DetailState) => {
             to={"/community"}
             state={state}
             onClick={() => setEditorActive(false)}
-            className="mt-5 border border-main-color rounded-full px-5 hover:text-white hover:bg-main-color"
+            className="mt-5 border border-main-color rounded-full px-5 hover:text-white hover:bg-main-color
+            max-xsm:text-[9px] max-xsm:bg-main-color max-xsm:text-white max-xsm:rounded-none max-xsm:mt-[4px] 
+            max-xsm:px-[31px] max-xsm:py-[4px]"
           >
-            수정
+            수정하기
           </Link>
         )}
       </div>

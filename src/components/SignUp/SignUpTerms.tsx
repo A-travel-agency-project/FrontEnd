@@ -51,8 +51,11 @@ const SignUpTerms = ({ setMarketCheck }: termType) => {
   };
 
   return (
-    <section className="w-full flex flex-col justify-center text-[14px] gap-[28px]  text-sub-black my-10">
-      <div className="px-[22px]">
+    <section
+      className="w-full flex flex-col justify-center text-[14px] gap-[28px] text-sub-black my-10
+    max-xsm:gap-[8px] max-xsm:my-[4px]"
+    >
+      <div className="px-[22px] max-xsm:flex">
         <input
           type="checkbox"
           id="allAgree"
@@ -61,10 +64,10 @@ const SignUpTerms = ({ setMarketCheck }: termType) => {
           checked={checkItems.length === data.length ? true : false}
         />
         <label htmlFor="allAgree" className="pl-[7px]">
-          전체 동의
+          약관 전체 동의
         </label>
       </div>
-      <div className="px-[22px] flex flex-col gap-[20px]">
+      <div className="px-[22px] flex flex-col gap-[20px] max-xsm:border-main-color max-xsm:border max-xsm:rounded-xl max-xsm:py-[8px]">
         {data.map((el) => (
           <div key={el.id}>
             <div className="flex justify-between">

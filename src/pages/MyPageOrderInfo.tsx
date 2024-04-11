@@ -134,9 +134,12 @@ const MyPageOrderInfo = ({ refreshToken, token }: EditType) => {
 
   return (
     <div className="w-full">
-      <ManagerTitle title="마이 우리엘" />
-      <table className="table-auto w-full border-collapse border border-main-color mb-3 ">
-        <thead className="bg-main-color text-white h-[45px] 2sm:h-[50px]">
+      <ManagerTitle title="마이 우리엘" style={"max-xsm:hidden"} />
+      <table
+        className="table-auto w-full border-collapse border border-main-color mb-3 
+      max-xsm:text-[10px] max-xsm:border-0"
+      >
+        <thead className="bg-main-color text-white h-[45px] 2sm:h-[50px] max-xsm:h-[28px]">
           <tr>
             {orderHeaders.map((el, index) => (
               <th
@@ -147,7 +150,7 @@ const MyPageOrderInfo = ({ refreshToken, token }: EditType) => {
                     el.key === 5 ||
                     el.key === 6) &&
                   "max-xsm:hidden"
-                }`}
+                } max-xsm:border-none max-xsm:font-medium`}
                 onClick={() => handleFilter(el.text)}
               >
                 <div className="flex justify-center">
@@ -169,28 +172,35 @@ const MyPageOrderInfo = ({ refreshToken, token }: EditType) => {
         </thead>
         <tbody>
           {orderInfoData.map((el, idx) => (
-            <tr className=" h-[45px] 2sm:h-[50px] text-center" key={idx}>
+            <tr
+              className=" h-[45px] 2sm:h-[50px] text-center max-xsm:border-b-[0.5px] max-xsm:border-main-color"
+              key={idx}
+            >
               <td className="border border-main-color p-2 max-xsm:hidden">
                 {el.imomOrderId}
               </td>
               <td className="border border-main-color p-2 max-xsm:hidden">
                 {el.orderDate}
               </td>
-              <td className="border border-main-color p-2 ">
+              <td className="border border-main-color p-2 max-xsm:border-none ">
                 <button
                   onClick={() => navigation(`/myorderdetail/${el.imomOrderId}`)}
                 >
                   {el.packageName}
                 </button>
               </td>
-              <td className="border border-main-color p-2">{el.startDate}</td>
+              <td className="border border-main-color p-2 max-xsm:border-none">
+                {el.startDate}
+              </td>
               <td className="border border-main-color p-2 max-xsm:hidden">
                 {el.totalCount}
               </td>
               <td className="border border-main-color p-2 max-xsm:hidden">
                 {el.productState}
               </td>
-              <td className="border border-main-color p-2">{el.orderState}</td>
+              <td className="border border-main-color p-2 max-xsm:border-none">
+                {el.orderState}
+              </td>
             </tr>
           ))}
         </tbody>

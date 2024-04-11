@@ -52,13 +52,15 @@ const MyPageNav = () => {
           );
         })}
       </div>
-      <SectionTitle title="마이페이지" divStyle="xsm:hidden" />
-      <div className="hidden w-full h-full mt-10 max-xsm:flex max-xsm:justify-start">
+      <SectionTitle title="마이페이지" divStyle="xsm:hidden max-xsm:pl-0" />
+      <div className="hidden w-full h-full my-[10px] max-xsm:flex max-xsm:justify-start gap-[8px]">
         {mbMyPageNavTitle.map((el, index) => {
           return (
             <button
-              className={`flex whitespace-nowrap p-2 mr-2 border border-main-color rounded-lg border-dotted ${
-                clickedButton === index ? "bg-main-color text-white" : ""
+              className={`flex whitespace-nowrap w-[98px] h-[28px] justify-center items-center text-[10px] font-light text-[#3C3A36] border-main-color rounded-lg border-[0.5px] ${
+                clickedButton === index
+                  ? "bg-main-color !text-white !font-bold"
+                  : ""
               }`}
               key={index}
               name={el.prams}

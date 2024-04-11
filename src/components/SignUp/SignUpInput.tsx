@@ -17,6 +17,8 @@ interface SignUpInputProps {
   readonly?: boolean;
   inputClass?: string;
   padding?: boolean;
+  checkIconStyle?: string;
+  cancelIconStyle?: string;
 }
 
 const SignUpInput = ({
@@ -34,18 +36,23 @@ const SignUpInput = ({
   readonly,
   inputClass,
   padding,
+  checkIconStyle,
+  cancelIconStyle,
 }: SignUpInputProps) => {
   return (
     <div
       className={`flex justify-between w-full items-center relative ${
         padding ? className : ""
-      }`}
+      } max-xsm:w-[300px]`}
     >
-      {title && <div className="whitespace-nowrap">{title}</div>}
+      {title && (
+        <div className="whitespace-nowrap max-xsm:text-[13px]">{title}</div>
+      )}
       <input
         placeholder={placeholder}
         value={value}
-        className={`${inputClass} outline-none border font-medium border-main-color w-3/4 text-sm rounded-full py-3 pl-7 mb-[5px] `}
+        className={`${inputClass} outline-none border font-medium border-main-color w-3/4 text-sm rounded-full py-3 pl-7 mb-[5px] 
+        max-xsm:max-w-[204px] max-xsm:h-[36px] placeholder:max-xsm:text-[11px]`}
         onChange={onChange}
         name={name}
         type={type}
@@ -53,9 +60,12 @@ const SignUpInput = ({
         readOnly={readonly ? true : false}
       />
       {isValid ? (
-        <SignUpCheck />
+        <SignUpCheck iconStyle={checkIconStyle} />
       ) : (
-        length !== undefined && length > 0 && <SignUpPopup message={message} />
+        length !== undefined &&
+        length > 0 && (
+          <SignUpPopup message={message} iconStyle={cancelIconStyle} />
+        )
       )}
     </div>
   );

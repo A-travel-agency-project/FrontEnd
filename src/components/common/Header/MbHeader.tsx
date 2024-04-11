@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-const MbHeader = () => {
+const MbHeader = ({ hideAsk }: { hideAsk?: boolean }) => {
   const openChatChannel = () => {
     if (window.Kakao) {
       window.Kakao.Channel.chat({
@@ -25,14 +25,16 @@ const MbHeader = () => {
           <img src={Logo} alt="logo" />
         </Link>
       </div>
-      <button
-        id="chat-channel-button"
-        onClick={openChatChannel}
-        className="flex flex-col justify-center items-center shrink-0"
-      >
-        <img src={IconAsk} alt="askicon" className="w-[32px] h-[30px]" />
-        <span className="text-[9px] text-sub-black">문의하기</span>
-      </button>
+      {!hideAsk && (
+        <button
+          id="chat-channel-button"
+          onClick={openChatChannel}
+          className="flex flex-col justify-center items-center shrink-0"
+        >
+          <img src={IconAsk} alt="askicon" className="w-[32px] h-[30px]" />
+          <span className="text-[9px] text-sub-black">문의하기</span>
+        </button>
+      )}
     </div>
   );
 };
