@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { loginCheck } from "../atom/atom";
 import NaverLogin from "../components/Login/NaverLogin";
+import MbHeader from "../components/common/Header/MbHeader";
 
 const Login = () => {
   const navigation = useNavigate();
@@ -51,11 +52,15 @@ const Login = () => {
     }
   };
   return (
-    <div className="flex items-center justify-center h-screen max-xsm: items-center">
-      <div className="flex flex-col xsm:justify-center items-center h-full  sm:w-[300px] md:w-[400px] lg:w-[500px]">
+    <div className="flex items-center justify-center h-screen max-xsm:">
+      <MbHeader hideAsk={true} />
+      <div
+        className="flex flex-col xsm:justify-center items-center h-full  sm:w-[300px] md:w-[400px] lg:w-[500px] 
+      max-xsm:py-[80px] max-xsm:px-[42px]"
+      >
         <img
           src="/subLogo.svg"
-          className="max-sm:w-[200px] max-md:w-[300px] max-lg:w-[400px]"
+          className="max-sm:w-[200px] max-md:w-[300px] max-lg:w-[400px] max-xsm:hidden"
         />
         <LoginInput
           placeholder={"이메일 계정"}
