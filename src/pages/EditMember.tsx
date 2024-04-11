@@ -263,9 +263,9 @@ const EditMember = ({ refreshToken, token }: EditType) => {
   };
 
   return (
-    <div className="w-full relative">
-      <ManagerTitle title="회원 정보 수정" />
-      <div className="border-t border-gray-200 max-xsm:border-none">
+    <div className="w-full relative max-xsm:flex max-xsm:flex-col max-xsm:items-center max-xsm:overflow-hidden">
+      <ManagerTitle title="회원 정보 수정" style={"max-xsm:hidden"} />
+      <div className="border-t border-gray-200 max-xsm:border-none max-xsm:w-fit max-xsm:ml-14">
         {Object.entries(userData)
           .filter(([key]) => keysToDisplay.includes(key))
           .map(([key, value]) => (
@@ -273,17 +273,24 @@ const EditMember = ({ refreshToken, token }: EditType) => {
               key={key}
               className="flex border-b border-gray-200 w-full max-xsm:border-none"
             >
-              <tbody>
+              <tbody className="max-xsm:mb-[14px]">
                 <tr className="flex items-center">
-                  <th className="border-r w-40 whitespace-nowrap border-gray-200 bg-main-color text-white py-3 max-xsm:bg-white max-xsm:text-black max-xsm:border-none">
+                  <th
+                    className="border-r w-40 whitespace-nowrap border-gray-200 bg-main-color text-white py-3
+                   max-xsm:bg-white max-xsm:text-black max-xsm:border-none max-xsm:text-[13px] max-xsm:text-left 
+                   max-xsm:font-medium max-xsm:w-[75px]"
+                  >
                     {keyToKorean(key)}
                   </th>
                   {key !== "email" ? (
-                    <td className="ml-4">
+                    <td className="ml-4 max-xsm:text-[13px]">
                       {key === "gender" ? (
-                        <div>
+                        <div
+                          className="max-xsm:border max-xsm:w-[204px] max-xsm:h-[36px] max-xsm:flex max-xsm:border-main-color
+                        max-xsm:rounded-full max-xsm:items-center max-xsm:pl-7 "
+                        >
                           {["남", "여"].map((option) => (
-                            <label className="mr-5" key={option}>
+                            <label className="mr-5 max-xsm:flex" key={option}>
                               <input
                                 className="mr-2"
                                 type="radio"
@@ -313,12 +320,21 @@ const EditMember = ({ refreshToken, token }: EditType) => {
                             message="형식을 맞춰주세요"
                             length={isValidLength(key)}
                             min={0}
+                            checkIconStyle="max-xsm:!right-16"
+                            cancelIconStyle="max-xsm:!right-16"
                           />
                         </div>
                       )}
                     </td>
                   ) : (
-                    <td className="ml-4">{value}</td>
+                    <td className="ml-4 max-xsm:text-[13px]">
+                      <span
+                        className="max-xsm:border max-xsm:border-main-color max-xsm:rounded-full 
+                      max-xsm:w-[204px] max-xsm:flex max-xsm:h-[36px] max-xsm:items-center max-xsm:justify-center"
+                      >
+                        {value}
+                      </span>
+                    </td>
                   )}
                 </tr>
               </tbody>
@@ -328,17 +344,24 @@ const EditMember = ({ refreshToken, token }: EditType) => {
 
       <div className="flex w-full justify-end items-center mt-3 max-xsm:justify-center">
         <button
-          className="px-14 border border-main-color mr-5 hover:bg-main-color hover:text-white whitespace-nowrap max-xsm:p-2 max-xsm:bg-main-color max-xsm:text-white max-xsm:rounded-full"
+          className="px-14 border border-main-color mr-5 hover:bg-main-color hover:text-white whitespace-nowrap 
+          max-xsm:p-2 max-xsm:bg-main-color max-xsm:text-white max-xsm:rounded-full max-xsm:text-[13px]
+          max-xsm:px-[27px] max-xsm:py-[8px]"
           onClick={handlePasswordModalClick}
         >
-          <span>비밀번호변경하기</span>
+          <span>비밀번호 변경하기</span>
         </button>
         <button
-          className="px-14 border border-main-color hover:bg-main-color hover:text-white whitespace-nowrap max-xsm:p-2 max-xsm:bg-main-color max-xsm:text-white max-xsm:rounded-full"
+          className="px-14 border border-main-color hover:bg-main-color hover:text-white whitespace-nowrap 
+          max-xsm:p-2 max-xsm:bg-main-color max-xsm:text-white max-xsm:rounded-full max-xsm:text-[13px]
+          max-xsm:px-[27px] max-xsm:py-[8px]"
           onClick={handleEditBtnClick}
         >
-          <span>수정하기</span>
+          <span>회원정보 수정하기</span>
         </button>
+      </div>
+      <div className="hidden max-xsm:block text-center w-full text-[10px] font-light trackgin-[-0.5px] text-sub-black py-[8px]">
+        회원탈퇴는 PC 버전 웹사이트에서만 가능합니다.
       </div>
       {modalActive && (
         <PasswordEditModal

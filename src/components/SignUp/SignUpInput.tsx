@@ -17,6 +17,8 @@ interface SignUpInputProps {
   readonly?: boolean;
   inputClass?: string;
   padding?: boolean;
+  checkIconStyle?: string;
+  cancelIconStyle?: string;
 }
 
 const SignUpInput = ({
@@ -34,6 +36,8 @@ const SignUpInput = ({
   readonly,
   inputClass,
   padding,
+  checkIconStyle,
+  cancelIconStyle,
 }: SignUpInputProps) => {
   return (
     <div
@@ -56,9 +60,12 @@ const SignUpInput = ({
         readOnly={readonly ? true : false}
       />
       {isValid ? (
-        <SignUpCheck />
+        <SignUpCheck iconStyle={checkIconStyle} />
       ) : (
-        length !== undefined && length > 0 && <SignUpPopup message={message} />
+        length !== undefined &&
+        length > 0 && (
+          <SignUpPopup message={message} iconStyle={cancelIconStyle} />
+        )
       )}
     </div>
   );
