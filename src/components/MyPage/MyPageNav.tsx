@@ -52,7 +52,10 @@ const MyPageNav = () => {
           );
         })}
       </div>
-      <SectionTitle title="마이페이지" divStyle="xsm:hidden max-xsm:pl-0" />
+      <SectionTitle
+        title="마이페이지"
+        divStyle="xsm:hidden max-xsm:pl-0 max-xsm:mt-[26px]"
+      />
       <div className="hidden w-full h-full my-[10px] max-xsm:flex max-xsm:justify-start gap-[8px]">
         {mbMyPageNavTitle.map((el, index) => {
           return (

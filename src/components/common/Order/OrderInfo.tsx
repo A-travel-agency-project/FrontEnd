@@ -149,7 +149,7 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
   return (
     <div
       className="text-sub-black flex flex-col gap-[32px] text-[14px] 
-    max-xsm:w-full max-xsm:gap-[20px] max-xsm:!px-[16px]"
+    max-xsm:w-full max-xsm:gap-[20px] "
     >
       {role === "admin" && (
         <div>
@@ -255,7 +255,11 @@ const OrderInfo = ({ data, role }: { data: OrderInfoData; role: string }) => {
         {viewSizeState === "web" ? (
           <ManagerTitle title="여행자 정보" style="mb-[12px]" />
         ) : (
-          <SectionTitle title="여행자 정보" titleStyle="max-xsm:text-[16px]" />
+          <SectionTitle
+            title="여행자 정보"
+            titleStyle="max-xsm:text-[16px]"
+            divStyle="max-xsm:pl-0"
+          />
         )}
         <div className="flex flex-col gap-[48px] max-xsm:pt-[6px]">
           {travelerInfoList.map((info, index) => (
