@@ -277,7 +277,7 @@ const NewRegistration = () => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full pr-10">
       {/* 이름 요약 여행지 */}
       <h2>패키지 신규/수정 등록</h2>
       <div className="flex flex-col w-full">

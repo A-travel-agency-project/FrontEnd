@@ -60,7 +60,7 @@ const TagsManager = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full pr-10">
       <ManagerTitle title="태그목록" />
       {tagTitle.map((el: TagTitle, idx) => (
         <div key={idx}>

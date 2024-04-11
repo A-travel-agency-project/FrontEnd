@@ -37,7 +37,7 @@ const MyPageNav = () => {
     navigation(params);
   };
   return (
-    <div className="w-full flex h-full max-xsm:flex-col">
+    <div className="w-full pr-[5rem] flex h-full max-xsm:flex-col max-xsm:pr-[16px] max-xsm:pl-[16px]">
       <div className="h-full flex flex-col p-10 border-r border-main-color mr-20 max-xsm:hidden">
         {myPageNavTitle.map((el, index) => {
           return (

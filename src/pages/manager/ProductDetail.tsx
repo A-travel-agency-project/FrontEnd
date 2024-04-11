@@ -274,7 +274,7 @@ const ProductDetail = () => {
     });
   };
   return (
-    <form className="w-full">
+    <form className="w-full pr-10">
       <ManagerTitle title={`상품 ${edit ? "수정" : "등록"}`} />
       <div className="border-y mb-6 border-black">
         {/* 상품관리 */}

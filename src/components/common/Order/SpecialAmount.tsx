@@ -93,17 +93,20 @@ const SpecialAmount = ({
                     label="작성완료"
                     role={"submit"}
                     handleClick={handleAmount}
+                    disabled={false}
                   />
                   <OrderDetailBtn
                     label="작성취소"
                     role={"cancel"}
                     handleClick={handleAmount}
+                    disabled={false}
                   />
                 </>
               ) : (
                 <OrderDetailBtn
                   label="추가금 / 할인금 작성하기"
                   handleClick={handleAmount}
+                  disabled={false}
                 />
               )}
             </>
