@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { loginCheck, userChildName } from "../../../atom/atom";
-import userInstance from "../../../api/userInstance";
+import { userInstance } from "../../../api/instance";
 
 const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
   const navigate = useNavigate();

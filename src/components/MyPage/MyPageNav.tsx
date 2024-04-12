@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { mbMyPageNavTitle, myPageNavTitle } from "../../constants/data";
 import { Outlet, useNavigate } from "react-router-dom";
-import userInstance from "../../api/userInstance";
 import { useResetRecoilState, useSetRecoilState } from "recoil";
 import { loginCheck, userChildName } from "../../atom/atom";
 import SectionTitle from "../common/SectionTitle";
+import { userInstance } from "../../api/instance";
 
 const MyPageNav = () => {
   const navigation = useNavigate();

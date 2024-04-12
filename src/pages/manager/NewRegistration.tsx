@@ -9,7 +9,7 @@ import RegistSubInput from "../../components/Manager/RegistSubInput";
 import { useGetTags } from "../../api/useGetTags";
 import { useGetContries } from "../../api/useGetContries";
 import { useNavigate } from "react-router-dom";
-import { baseInstance } from "../../api/instance";
+import { userInstance } from "../../api/instance";
 
 interface DateProps {
   day: number;
@@ -144,7 +144,7 @@ const NewRegistration = () => {
       hotelInfoMd !== "" &&
       regionInfoMd !== ""
     ) {
-      baseInstance
+      userInstance
         .post("/packages/create", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
@@ -261,7 +261,7 @@ const NewRegistration = () => {
       dayEmptyContent &&
       days.some((el) => el.dayContent?.dayContentMd !== "")
     ) {
-      baseInstance
+      userInstance
         .post("/packages/temp-create", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })

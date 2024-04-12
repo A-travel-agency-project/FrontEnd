@@ -46,6 +46,7 @@ export const getNewToken = async () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("refreshToken");
     window.localStorage.removeItem("role");
+    window.dispatchEvent(new CustomEvent("refreshFailed"));
     throw new Error("Token refresh failed");
   }
 };

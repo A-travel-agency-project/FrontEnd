@@ -3,7 +3,7 @@ import ManagerTitle from "../../components/Manager/ManagerTitle";
 import { tagTitle } from "../../constants/data";
 import { MdOutlineCancel } from "react-icons/md";
 import { useGetTags } from "../../api/useGetTags";
-import { baseInstance } from "../../api/instance";
+import { userInstance } from "../../api/instance";
 
 type TagItem = {
   tagId: number;
@@ -36,7 +36,7 @@ const TagsManager = () => {
   ) => {
     if (e.code === "Enter") {
       try {
-        baseInstance.post("/tags/create", {
+        userInstance.post("/tags/create", {
           tagType: el.title,
           tagContent: tagInputs[el.title],
         });
@@ -52,7 +52,7 @@ const TagsManager = () => {
   };
   const handleDeleteClick = ({ itemId }: { itemId: number }) => {
     try {
-      baseInstance.delete(`/tags/${itemId}`);
+      userInstance.delete(`/tags/${itemId}`);
       setFetchState(true);
     } catch (error) {
       console.error("에러 발생:", error);
