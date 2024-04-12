@@ -7,7 +7,7 @@ import { usePostPackage } from "../../api/usePostPackage";
 import { useDeletePackage } from "../../api/useDeletePackage";
 import PackageSelect from "../../components/Manager/package/PackageSelect";
 import { useChangePackage } from "../../api/useChangePackage";
-import { baseInstance } from "../../api/instance";
+import { userInstance } from "../../api/instance";
 import CustomPagination from "../../components/common/CustomPagination";
 interface CountryData {
   key: string;
@@ -111,7 +111,7 @@ const PackageManager = () => {
   // 복사
   const handleCopyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.currentTarget;
-    baseInstance
+    userInstance
       .get(`/packages/duplicate/${value}`)
       .then((res) => {
         if (res.status === 200) {

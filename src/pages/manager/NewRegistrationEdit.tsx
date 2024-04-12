@@ -9,7 +9,7 @@ import RegistSubInput from "../../components/Manager/RegistSubInput";
 import { useGetTags } from "../../api/useGetTags";
 import { useGetContries } from "../../api/useGetContries";
 import { useNavigate, useParams } from "react-router-dom";
-import { baseInstance } from "../../api/instance";
+import { userInstance } from "../../api/instance";
 
 interface DayContent {
   dayContentMd: string;
@@ -77,7 +77,7 @@ const NewRegistrationEdit = () => {
   });
 
   useEffect(() => {
-    baseInstance.get(`/packages/${id}`).then((res) => {
+    userInstance.get(`/packages/${id}`).then((res) => {
       if (res.status === 200) {
         const {
           countryName,
@@ -219,7 +219,7 @@ const NewRegistrationEdit = () => {
 
     const dayEmptyContent = days.some((el) => el.dayContent);
     if (packageName !== "" && dayEmptyContent) {
-      baseInstance
+      userInstance
         .put(`/packages/${id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
@@ -276,7 +276,7 @@ const NewRegistrationEdit = () => {
       hotelInfoMd !== "" &&
       regionInfoMd !== ""
     ) {
-      baseInstance
+      userInstance
         .put(`/packages/save/${id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MainManagerBtn from "../../components/Manager/MainManagerBtn";
 import MainTitle from "../../components/Manager/ManagerTitle";
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
-import { baseInstance } from "../../api/instance";
+import { userInstance } from "../../api/instance";
 import ExcelDownload from "../../components/Manager/ExcelDownload";
 import { USER_EXCEL_HEADER } from "../../constants/managerdata";
 
@@ -15,14 +15,14 @@ const MainManager = () => {
   const [banner3, setBanner3] = useState("");
 
   useEffect(() => {
-    baseInstance.get("/users/excel").then((res) => {
+    userInstance.get("/users/excel").then((res) => {
       if (res.status === 200) {
         setUserExcelData(res.data.data);
       }
     });
   }, []);
   useEffect(() => {
-    baseInstance.get("/images/banners/web").then((res) => {
+    userInstance.get("/images/banners/web").then((res) => {
       if (res.status === 200) {
         const imageData = res.data.data;
         setBanner1(imageData[0].link);
@@ -74,7 +74,7 @@ const MainManager = () => {
       return;
     }
 
-    baseInstance
+    userInstance
       .post("/images/banners/web", formData, {
         headers: {
           "Content-Type": "multipart/form-data",

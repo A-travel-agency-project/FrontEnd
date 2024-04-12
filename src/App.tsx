@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -49,12 +49,11 @@ function App() {
     }),
   });
 
-  const token = window.localStorage.getItem("token");
-  const refreshToken = window.localStorage.getItem("refreshToken");
+  const navigate = useNavigate();
 
   const setViewSize = useSetRecoilState(viewSize);
-  const resetName = useResetRecoilState(userChildName);
   const resetLogin = useResetRecoilState(loginCheck);
+  const resetName = useResetRecoilState(userChildName);
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,13 +73,19 @@ function App() {
   }, [setViewSize]);
 
   useEffect(() => {
-    console.log(refreshToken);
-    if (refreshToken === null && token === null) {
-      console.log(refreshToken);
+    const handleRefreshFailed = () => {
       resetLogin();
       resetName();
-    }
-  }, [refreshToken, token, resetLogin, resetName]);
+      alert("세션이 만료되었습니다. 재로그인이 필요합니다.");
+      navigate("/login");
+    };
+
+    window.addEventListener("refreshFailed", handleRefreshFailed);
+
+    return () => {
+      window.removeEventListener("refreshFailed", handleRefreshFailed);
+    };
+  }, [resetLogin, resetName, navigate]);
 
   return (
     <QueryClientProvider client={queryClient}>

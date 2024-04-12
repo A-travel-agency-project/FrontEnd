@@ -3,7 +3,7 @@ import { productHeaders } from "../../constants/data";
 // import Pagination from "../../components/common/Pagination";
 import CustomDatePicker from "../../components/common/CustomDatePicker";
 import { useNavigate } from "react-router-dom";
-import { baseInstance } from "../../api/instance";
+import { userInstance } from "../../api/instance";
 import PackageSelect from "../../components/Manager/package/PackageSelect";
 import { useGetPackage } from "../../api/useGetPackage";
 import { useSetRecoilState } from "recoil";
@@ -101,7 +101,7 @@ const ProductManager = () => {
     } else if (name === "선택삭제") {
       selectedItems.length === 0
         ? alert("하나이상 체크해주세요")
-        : baseInstance
+        : userInstance
             .post("/products/batch-delete", {
               operation: "삭제",
               ids: selectedItems,
@@ -117,7 +117,7 @@ const ProductManager = () => {
       navagation(`/productdetail/${value}`);
       setTemporaryActive(saveData);
     } else if (name === "복사") {
-      baseInstance
+      userInstance
         .get(`/products/duplicate/${value}`)
         .then((res) => {
           if (res.status === 200) {
@@ -153,7 +153,7 @@ const ProductManager = () => {
   useEffect(() => {
     if (changeActive) {
       if (selectedItems.length > 0) {
-        baseInstance
+        userInstance
           .post("/products/batch-update", {
             operation: privacyState,
             ids: selectedItems,
@@ -172,7 +172,7 @@ const ProductManager = () => {
 
   // 상품부르고 보내기
   useEffect(() => {
-    baseInstance
+    userInstance
       .post("/products", {
         packageId: packageId ? packageId : null,
         productState:

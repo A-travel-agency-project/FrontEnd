@@ -1,7 +1,7 @@
 import ManagerTitleBox from "../../components/Manager/ManagerTitleBox";
 import MainManagerBtn from "../../components/Manager/MainManagerBtn";
 import { useEffect, useState } from "react";
-import { baseInstance } from "../../api/instance";
+import { userInstance } from "../../api/instance";
 import MainTitle from "../../components/Manager/ManagerTitle";
 
 const MbMainManager = () => {
@@ -12,7 +12,7 @@ const MbMainManager = () => {
   const [banner3, setBanner3] = useState("");
 
   useEffect(() => {
-    baseInstance.get("/images/banners/mobile").then((res) => {
+    userInstance.get("/images/banners/mobile").then((res) => {
       if (res.status === 200 && res.data.data) {
         const imageData = res.data.data;
         setBanner1(imageData[0].link);
@@ -64,7 +64,7 @@ const MbMainManager = () => {
       return;
     }
 
-    baseInstance
+    userInstance
       .post("/images/banners/mobile", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
