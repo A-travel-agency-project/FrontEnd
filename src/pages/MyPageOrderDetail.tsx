@@ -52,7 +52,7 @@ const MyPageOrderDetail = () => {
     return <div>정보를 불러올 수 없습니다.</div>;
   }
   return (
-    <div className="flex flex-col gap-10 w-full mb-50 mt-[60px]">
+    <div className="flex flex-col gap-10 w-full mb-50 mt-[60px] max-xsm:mt-[26px]">
       {viewSizeState === "web" && (
         <CategoryBtns
           category={ORDER_DETAIL_CATEGORIES}
@@ -73,7 +73,7 @@ const MyPageOrderDetail = () => {
           category={ORDER_DETAIL_CATEGORIES}
           handleClick={handleShowInfo}
           active={showInfo}
-          divStyle="!justify-start gap-[40px] w-full"
+          divStyle="!justify-start gap-[40px] w-full max-xsm:!px-0"
         />
       )}
       {showInfo === "orderInfo" && data ? (

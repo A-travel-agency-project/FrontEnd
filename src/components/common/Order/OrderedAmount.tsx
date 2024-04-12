@@ -24,7 +24,11 @@ const OrderedAmount = ({
       {viewSizeState === "web" ? (
         <ManagerTitle title={`예약금 / 잔금`} style="mb-[12px]" />
       ) : (
-        <SectionTitle title={"결제예정금액"} titleStyle="max-xsm:text-[16px]" />
+        <SectionTitle
+          title={"결제예정금액"}
+          titleStyle="max-xsm:text-[16px]"
+          divStyle="max-xsm:pl-0"
+        />
       )}
       <div className="max-xsm:flex flex-col items-center">
         <div
