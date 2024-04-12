@@ -58,7 +58,7 @@ userInstance.interceptors.response.use(
     const { config, response } = error;
     if (
       config.url === "/auth/reissue" ||
-      response?.data?.code !== 40401 ||
+      response?.data?.code !== "토큰 유효 시간이 만료되었습니다." ||
       config.retry
     ) {
       console.log(response);

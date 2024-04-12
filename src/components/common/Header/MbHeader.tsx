@@ -12,7 +12,7 @@ const MbHeader = ({ hideAsk }: { hideAsk?: boolean }) => {
   const openChatChannel = () => {
     if (window.Kakao) {
       window.Kakao.Channel.chat({
-        channelPublicId: "_ZeUTxl",
+        channelPublicId: "_exgRnG",
       });
     } else {
       console.error("Kakao SDK가 로드되지 않았습니다.");
