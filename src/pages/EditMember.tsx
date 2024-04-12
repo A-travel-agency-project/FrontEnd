@@ -1,19 +1,13 @@
 import ManagerTitle from "../components/Manager/ManagerTitle";
 import { useEffect, useState } from "react";
 import PasswordEditModal from "../components/MyPage/PasswordEditModal";
-import { baseInstance } from "../api/instance";
+import { userInstance } from "../api/instance";
 import SignUpInput from "../components/SignUp/SignUpInput";
 import { useDebounce } from "../hooks/useDebounce";
-import userInstance from "../api/userInstance";
 import { useSetRecoilState } from "recoil";
 import { userChildName } from "../atom/atom";
 
-type EditType = {
-  token: string | null;
-  refreshToken: string | null;
-};
-
-const EditMember = ({ refreshToken, token }: EditType) => {
+const EditMember = () => {
   const [modalActive, setModalActive] = useState<boolean>(false);
   const [userData, setUserData] = useState("");
   const [birth, setBirth] = useState("");
@@ -235,7 +229,7 @@ const EditMember = ({ refreshToken, token }: EditType) => {
       isValidBirth &&
       isValidPhone
     ) {
-      baseInstance
+      userInstance
         .put("/users", {
           userName: name,
           enFirstName: englishName,
@@ -246,10 +240,6 @@ const EditMember = ({ refreshToken, token }: EditType) => {
           phoneNumber: phone,
           headCount: headCount,
           childName: childName,
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Refresh: `Bearer ${refreshToken}`,
-          },
         })
         .then((res) => {
           if (res.status === 200) {
@@ -364,12 +354,7 @@ const EditMember = ({ refreshToken, token }: EditType) => {
         회원탈퇴는 PC 버전 웹사이트에서만 가능합니다.
       </div>
       {modalActive && (
-        <PasswordEditModal
-          setModalActive={setModalActive}
-          token={token}
-          refreshToken={refreshToken}
-          email={email}
-        />
+        <PasswordEditModal setModalActive={setModalActive} email={email} />
       )}
     </div>
   );

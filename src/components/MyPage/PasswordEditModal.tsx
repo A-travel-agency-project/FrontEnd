@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
 import SignUpInput from "../SignUp/SignUpInput";
-import { baseInstance } from "../../api/instance";
+import { userInstance } from "../../api/instance";
 
 interface ModalProps {
   setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
-  refreshToken: string | null;
-  token: string | null;
   email: string | null;
 }
 
-const PasswordEditModal = ({
-  setModalActive,
-  refreshToken,
-  token,
-  email,
-}: ModalProps) => {
+const PasswordEditModal = ({ setModalActive, email }: ModalProps) => {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const debouncePassword = useDebounce(password, 300);
@@ -42,14 +35,10 @@ const PasswordEditModal = ({
   };
   const handlePasswordEditClick = () => {
     if (passwordConfirm !== "" && isValidPasswordConfirm) {
-      baseInstance
+      userInstance
         .put("/users/reset-pw", {
           email: email,
           password: passwordConfirm,
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Refresh: `Bearer ${refreshToken}`,
-          },
         })
         .then((res) => {
           if (res.status === 200) {

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { loginCheck, userChildName } from "../../../atom/atom";
 import userInstance from "../../../api/userInstance";
+
 const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(loginCheck);
@@ -30,6 +31,7 @@ const UserMenu = ({ handleMenuClose }: { handleMenuClose?: () => void }) => {
         .catch((err) => console.error(err));
     }
   };
+
   return (
     <>
       {!isLogin ? (

@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import ManagerTitle from "../components/Manager/ManagerTitle";
-import { baseInstance } from "../api/instance";
+import { userInstance } from "../api/instance";
 import CustomPagination from "../components/common/CustomPagination";
 import { useNavigate } from "react-router-dom";
 
-type EditType = {
-  token: string | null;
-  refreshToken: string | null;
-};
 type OrderInfoType = {
   imomOrderId: string;
   orderDate: string;
@@ -17,7 +13,7 @@ type OrderInfoType = {
   startDate: string;
   totalCount: number;
 };
-const MyPageOrderInfo = ({ refreshToken, token }: EditType) => {
+const MyPageOrderInfo = () => {
   const navigation = useNavigate();
   const [offset, setOffset] = useState(0);
   const [orderSort, setOrderSort] = useState<{
@@ -32,17 +28,11 @@ const MyPageOrderInfo = ({ refreshToken, token }: EditType) => {
   const [totalPage, setTotalPage] = useState(0);
 
   useEffect(() => {
-    baseInstance
+    userInstance
       .get(
         `/orders?offset=${offset}${
           orderSort.bool ? `&order=${orderSort.sort}` : ""
-        }${startSort.bool ? `&start=${startSort.sort}` : ""}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Refresh: `Bearer ${refreshToken}`,
-          },
-        }
+        }${startSort.bool ? `&start=${startSort.sort}` : ""}`
       )
       .then((res) => {
         setOrderInfoData(res.data.data.content);

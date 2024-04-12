@@ -28,7 +28,7 @@ userInstance.interceptors.request.use(
 );
 
 // 토큰 갱신 함수
-const useGetNewToken = async () => {
+export const getNewToken = async () => {
   try {
     await userInstance
       .get("/auth/reissue", {
@@ -58,19 +58,22 @@ userInstance.interceptors.response.use(
     const { config, response } = error;
     if (
       config.url === "/auth/reissue" ||
-      response?.data?.code !== "토큰 유효 시간이 만료되었습니다." ||
+      response?.data?.code !== 40101 ||
       config.retry
     ) {
       console.log(response);
       return Promise.reject(error);
     }
-
-    config.retry = true;
-    const newToken = await useGetNewToken();
-    if (newToken) {
-      config.headers["Authorization"] = `Bearer ${newToken[0]}`;
-      config.headers["Refresh"] = newToken[1];
+    try {
+      config.retry = true;
+      const newToken = await getNewToken();
+      if (newToken) {
+        config.headers["Authorization"] = `Bearer ${newToken[0]}`;
+        config.headers["Refresh"] = newToken[1];
+      }
+      return userInstance(config);
+    } catch (newError) {
+      return Promise.reject(newError);
     }
-    return userInstance(config);
   }
 );
