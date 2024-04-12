@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { baseInstance } from "./instance";
+import { userInstance } from "./instance";
 
 type UsePostPackageProps = {
   data?: {
@@ -46,7 +46,7 @@ export const usePostPackage = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await baseInstance.post(`/packages`, data);
+        const response = await userInstance.post(`/packages`, data);
         setTotalPage(response.data.data.totalPages);
         setPackageList(response.data.data.content);
         setCopyActive(false);
