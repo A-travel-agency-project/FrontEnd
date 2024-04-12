@@ -76,6 +76,7 @@ function App() {
   useEffect(() => {
     console.log(refreshToken);
     if (refreshToken === null && token === null) {
+      console.log(refreshToken);
       resetLogin();
       resetName();
     }
@@ -96,18 +97,8 @@ function App() {
           {/* 본문 네비게이션바 */}
           <Route element={<MainLayout />}>
             <Route element={<MyPageNav />}>
-              <Route
-                path="/mypageorderinfo"
-                element={
-                  <MyPageOrderInfo token={token} refreshToken={refreshToken} />
-                }
-              />
-              <Route
-                path="/editmember"
-                element={
-                  <EditMember token={token} refreshToken={refreshToken} />
-                }
-              />
+              <Route path="/mypageorderinfo" element={<MyPageOrderInfo />} />
+              <Route path="/editmember" element={<EditMember />} />
               <Route
                 path="/myorderdetail/:orderId"
                 element={<MyPageOrderDetail />}

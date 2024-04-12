@@ -140,10 +140,10 @@ const ProductManager = () => {
       if (value === "하루") {
         setEndQuarterDate(nowDate);
       } else if (value === "일주일") {
-        newStartDate.setDate(nowDate.getDate() - 7);
+        newStartDate.setDate(nowDate.getDate() + 7);
         setEndQuarterDate(newStartDate);
       } else if (value === "1달이내") {
-        newStartDate.setMonth(nowDate.getMonth() - 1);
+        newStartDate.setMonth(nowDate.getMonth() + 1);
         setEndQuarterDate(newStartDate);
       }
     }
