@@ -1,5 +1,5 @@
 const KakaoLogin = () => {
-  const redirectUri = "https://xn--xz2bx2s9ub.kr/kakao/oauth"; //Redirect URI
+  const redirectUri = "https://www.xn--xz2bx2s9ub.kr/kakao/oauth"; //Redirect URI
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${
     import.meta.env.VITE_KAKAO_CLIENT_ID
   }&redirect_uri=${redirectUri}&response_type=code`;
