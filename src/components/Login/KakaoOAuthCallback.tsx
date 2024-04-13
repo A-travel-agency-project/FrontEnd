@@ -37,7 +37,8 @@ const KakaoOAuthCallback = () => {
       });
   }, [location]);
 
-  return null;
+  // return null;
+  return <div>카카오 회원가입 처리중</div>;
 };
 
 export default KakaoOAuthCallback;
