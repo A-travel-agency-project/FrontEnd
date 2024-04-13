@@ -158,7 +158,7 @@ const EasySignUp = () => {
   };
   return (
     <div className="flex flex-col w-full justify-center items-center">
-      <div className="flex justify-between items-center w-1/3 mb-10">
+      <div className="flex justify-between items-center w-1/3 mb-10 max-xsm:hidden">
         <div className="flex items-center mt-10 justify-center opacity-40 ">
           <div className="border-[5px] mr-5  border-main-color flex text-main-color px-3 text-2xl font-bold">
             1
@@ -184,7 +184,10 @@ const EasySignUp = () => {
       </div>
 
       <div className="flex flex-col h-full justify-center items-center lg:w-[500px]">
-        <div className="w-[170px] h-[50px] bg-main-color mb-[24px]" />
+        <img
+          src="/subLogo.svg"
+          className="max-xsm:w-[170px] mb-20 max-xsm:mt-10"
+        />
         <div className="w-full">
           <h2>필수항목입력</h2>
           <SignUpInput
@@ -220,9 +223,11 @@ const EasySignUp = () => {
             length={englishLastName.length}
             type="text"
           />
-          <div className="flex justify-between items-center pl-16 w-full">
-            <div>성별</div>
-            <div className="flex justify-between w-3/4 border border-main-color bg-main-color text-white rounded-full py-3 pl-7 pr-16 mb-[5px]">
+          <div className="flex justify-between items-center w-full max-xsm:justify-start">
+            <div className="text-[16px] max-xsm:text-[13px] max-xsm:mr-[70px]">
+              성별
+            </div>
+            <div className="flex items-center justify-between w-3/4 border border-main-color bg-main-color text-white rounded-full py-3 pl-7 pr-16 mb-[5px]  max-xsm:h-[36px] max-xsm:w-[204px]">
               {["남", "여"].map((option) => (
                 <label key={option}>
                   <input
