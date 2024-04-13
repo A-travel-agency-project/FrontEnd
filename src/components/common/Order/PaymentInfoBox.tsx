@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import {
+  BANK_CODES,
   CANCEL_CATEGORIES,
+  CARD_CODES,
   CASHRECEIPTS_CATEGORIES,
   DETAIL_CATEGORIES,
   METHOD_CATEGORIES,
@@ -96,6 +98,10 @@ const PaymentInfoBox = ({
                       <span className="max-xsm:max-w-[250px]">
                         {key === "amount" || key === "discountAmount"
                           ? `${amountFormat(+value)} 원`
+                          : key === "bankCode"
+                          ? BANK_CODES[value as keyof typeof BANK_CODES]
+                          : key === "acquirerCode"
+                          ? CARD_CODES[value as keyof typeof CARD_CODES]
                           : value}
                       </span>
                     </div>
