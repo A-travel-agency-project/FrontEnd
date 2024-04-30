@@ -1,21 +1,28 @@
-🎈 **파일 이름**
-   - Pascal Case
+# I-mom tour
+---
+# 🚀 배포
 
-🎈 **변수명**
-   - Camel Case
+<img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=Amazon-AWS&logoColor=white">
 
-🎈 **커밋 컨벤션**
-   - [FEAT] 기능
-   - [FIX] 수정/리팩토링
-   - [STYLE] 스타일 수정
-   - [SETTING] 프로젝트 세팅
-   - [CHORE] 테스트 및 잡다한 커밋
+# 🗣 팀 구성(5명)
 
-🎈 **브랜치**
-   - feature/이름/페이지
+  <a href="https://github.com/leejh4197">
+    <img src="https://github.com/leejh4197.png" width="130">
+  </a>
+  <span style="color:red">이주형</span>
+  <a href="https://github.com/1abme">
+    <img src="https://github.com/1abme.png" width="130">
+  </a>
+  <span>김혜주</span>
 
-🎈 **const**
-   - Arrow Function
+# 🔧 기술 스택
 
-🎈 **핸들러**
-   - handle이름Click(Change)
+- React
+- Recoil
+- React-router-dom
+- Axios
+- tailwind
+
+# 💡 구현 내용
+![image](https://github.com/A-travel-agency-project/FrontEnd/assets/91236732/e4bfaee7-181d-4f02-a7ed-ec3ef2c07813)
+
